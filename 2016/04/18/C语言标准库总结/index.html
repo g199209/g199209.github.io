@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="高明飞">
+
+
+
+<meta name="description" content="标准库（Standard Library）是C语言重要的一部分，不过学习C语言这么长时间，都没有细致的了解过标准库到底中包含哪些内容，这几天打算来仔细看看这部分内容。 C语言标准库有各种不同的实现，比如最著名的glibc， 用于嵌入式Linux的uClibc，还有ARM公司的自己的C语言标准库及精简版的MicroLib等。不同标准库的实现并不相同，而且提供的函数也不完全相同，不过有一个它们都支持的">
+<meta name="keywords" content="Top,C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言标准库总结">
+<meta property="og:url" content="http://gaomf.cn/2016/04/18/C语言标准库总结/index.html">
+<meta property="og:site_name" content="高明飞的博客">
+<meta property="og:description" content="标准库（Standard Library）是C语言重要的一部分，不过学习C语言这么长时间，都没有细致的了解过标准库到底中包含哪些内容，这几天打算来仔细看看这部分内容。 C语言标准库有各种不同的实现，比如最著名的glibc， 用于嵌入式Linux的uClibc，还有ARM公司的自己的C语言标准库及精简版的MicroLib等。不同标准库的实现并不相同，而且提供的函数也不完全相同，不过有一个它们都支持的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-17T11:46:27.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言标准库总结">
+<meta name="twitter:description" content="标准库（Standard Library）是C语言重要的一部分，不过学习C语言这么长时间，都没有细致的了解过标准库到底中包含哪些内容，这几天打算来仔细看看这部分内容。 C语言标准库有各种不同的实现，比如最著名的glibc， 用于嵌入式Linux的uClibc，还有ARM公司的自己的C语言标准库及精简版的MicroLib等。不同标准库的实现并不相同，而且提供的函数也不完全相同，不过有一个它们都支持的">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="高明飞的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>C语言标准库总结 | 高明飞的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?023158b4c9d97942be746fc9f5fde1da";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+	
+	<script>
+	(function(){
+		var bp = document.createElement('script');
+		bp.src = '//push.zhanzhang.baidu.com/push.js';
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+  
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+
+	
+		<form id="search-form"  class="search">
+			<input type="text" id="st-search-input" name="q" results="0" class="st-default-search-input" maxlength="50" placeholder="Search..." autocomplete="off" autocorrect="off">
+			<i class="fa fa-times" onclick="resetSearch()"></i>
+		</form>
+	
+
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">高明飞</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">澹泊明志，宁静致远</p>
+        
+
+        
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+			<p class='loading-xml'>Loading XML File... <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/Top">精华文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/atom.xml">RSS</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARM/">ARM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/">Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootloader/">Bootloader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootrom/">Bootrom</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Compiler/">Compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrent/">Concurrent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DDR/">DDR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSP/">DSP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Struct/">Data Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/">Debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doxygen/">Doxygen</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EDA/">EDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Editor/">Editor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File-System/">File System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flash/">Flash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HW-Component/">HW Component</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JTAG/">JTAG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kernel/">Kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MCS-51/">MCS-51</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Matlab/">Matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Motor/">Motor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Number-Theory/">Number Theory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Online-Judge/">Online Judge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMP/">OpenMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PSpice/">PSpice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt/">Qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Raspberry-Pi/">Raspberry Pi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Regular-Expression/">Regular Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Runtime/">Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM8/">STM8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVN/">SVN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Small-Protocol/">Small Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Socket/">Socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spider/">Spider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Top/">Top</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/">Vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Virtualization/">Virtualization</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://caoyudong.com/">BAZINGA</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://lidewen.com/">李德文</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://jiaodi.tech/">焦迪</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.netcan666.com/">Netcan</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">三尺微命，一介书生。曾辗转求学于思源湖畔，老和山下，现栖身于魔都一隅。所学颇杂，对诸多方面均有涉猎，对各种技术充满热情~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">高明飞</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">高明飞</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">澹泊明志，宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/Top">精华文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/atom.xml">RSS</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-C语言标准库总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/18/C语言标准库总结/" class="article-date">
+      <time datetime="2016-04-18T04:52:05.000Z" itemprop="datePublished">2016-04-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C语言标准库总结
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/编程之法/">编程之法</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Top/">Top</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>标准库（Standard Library）是C语言重要的一部分，不过学习C语言这么长时间，都没有细致的了解过标准库到底中包含哪些内容，这几天打算来仔细看看这部分内容。</p>
+<p>C语言标准库有各种不同的实现，比如最著名的<a href="https://www.gnu.org/software/libc/" target="_blank" rel="noopener">glibc</a>， 用于嵌入式Linux的<a href="https://uclibc.org/" target="_blank" rel="noopener">uClibc</a>，还有ARM公司的自己的C语言标准库及精简版的MicroLib等。不同标准库的实现并不相同，而且提供的函数也不完全相同，不过有一个它们都支持的最小子集，这也就是最典型的C语言标准库。</p>
+<p>这个C语言标准库中一共包含15个头文件，粗略的按常用程度排序列举如下：</p>
+<a id="more"></a>
+
+<table>
+<thead>
+<tr>
+<th>Header File</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>**<a href="#stdio"><code>&lt;stdio.h&gt;</code></a> **</td>
+<td><strong>输入和输出</strong></td>
+</tr>
+<tr>
+<td><strong><a href="#stdlib"><code>&lt;stdlib.h&gt;</code></a></strong></td>
+<td><strong>最常用的一些系统函数</strong></td>
+</tr>
+<tr>
+<td><strong><a href="#string"><code>&lt;string.h&gt;</code></a></strong></td>
+<td><strong>字符串处理</strong></td>
+</tr>
+<tr>
+<td><strong><a href="#math"><code>&lt;math.h&gt;</code></a></strong></td>
+<td><strong>数学函数</strong></td>
+</tr>
+<tr>
+<td><strong><a href="#ctype"><code>&lt;ctype.h&gt;</code></a></strong></td>
+<td><strong>字符类测试</strong></td>
+</tr>
+<tr>
+<td><strong><a href="#time"><code>&lt;time.h&gt;</code></a></strong></td>
+<td><strong>时间和日期</strong></td>
+</tr>
+<tr>
+<td>**<a href="#stdarg"><code>&lt;stdarg.h&gt;</code></a> **</td>
+<td><strong>可变参数列表</strong></td>
+</tr>
+<tr>
+<td><strong><a href="#signal"><code>&lt;signal.h&gt;</code></a></strong></td>
+<td><strong>信号</strong></td>
+</tr>
+<tr>
+<td><strong><a href="#assert"><code>&lt;assert.h&gt;</code></a></strong></td>
+<td><strong>断言</strong></td>
+</tr>
+<tr>
+<td><a href="#setjmp"><code>&lt;setjmp.h&gt;</code></a></td>
+<td>非局部跳转</td>
+</tr>
+<tr>
+<td><a href="#errno"><code>&lt;errno.h&gt;</code></a></td>
+<td>定义错误代码</td>
+</tr>
+<tr>
+<td><a href="#stddef"><code>&lt;stddef.h&gt;</code></a></td>
+<td>一些常数、类型和变量</td>
+</tr>
+<tr>
+<td><a href="#locale"><code>&lt;locale.h&gt;</code></a></td>
+<td>本土化</td>
+</tr>
+<tr>
+<td><a href="#float"><code>&lt;float.h&gt;</code></a></td>
+<td>浮点数运算</td>
+</tr>
+<tr>
+<td><a href="#limits"><code>&lt;limits.h&gt;</code></a></td>
+<td>定义整数数据类型的取值范围</td>
+</tr>
+</tbody></table>
+<p>在这里不准备列举所有库函数的详细用法，如需查询具体的库函数用法，可以参考以下几个链接：</p>
+<blockquote>
+<p><a href="http://ganquan.info/standard-c/" target="_blank" rel="noopener">Standard C 语言标准函数库速查 (Cheat Sheet)</a><br><a href="http://wiki.jikexueyuan.com/project/c/c-standard-library.html" target="_blank" rel="noopener">C标准库参考手册</a><br><a href="http://www.tutorialspoint.com/c_standard_library/" target="_blank" rel="noopener">C Standard Library Reference Tutorial</a></p>
+</blockquote>
+<p>本文总结的是不完整的C标准库，仅列举一些常用且最重要的部分。</p>
+<p>关于C标准库本身的实现分析，可参考我的学习笔记：<br><a href="/2016/08/02/C%E6%A0%87%E5%87%86%E5%BA%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%281%29%E2%80%94%E2%80%94time%E3%80%81ctype%E3%80%81stdarg%E3%80%81assert/">C标准库学习笔记(1)——time、ctype、stdarg、assert</a></p>
+<p><span id="stdio"></span></p>
+<h2 id="stdio-h"><a href="#stdio-h" class="headerlink" title="stdio.h"></a><strong>stdio.h</strong></h2><p>输入和输出。</p>
+<p>在其中定义了以下一些常用的类型及常量：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FILE</code></td>
+<td>文件指针</td>
+</tr>
+<tr>
+<td><code>EOF</code></td>
+<td>End Of File，表示文件的结尾</td>
+</tr>
+<tr>
+<td><code>stderr</code></td>
+<td>标准错误流</td>
+</tr>
+<tr>
+<td><code>stdin</code></td>
+<td>标准输入流</td>
+</tr>
+<tr>
+<td><code>stdout</code></td>
+<td>标准输出流</td>
+</tr>
+</tbody></table>
+<p>其中<code>stderr</code>、<code>stdin</code>、<code>stdout</code>为宏定义，是指向<code>FILE</code>类型的指针。</p>
+<p><code>&lt;stdio.h&gt;</code>中的函数有很多，大致可分为对标准输入输出流的操作、对文件流的操作、对标准错误流的操作、对字符串的操作这几大类。</p>
+<h3 id="标准输入输出流"><a href="#标准输入输出流" class="headerlink" title="标准输入输出流"></a>标准输入输出流</h3><p>其实从<code>stdin</code>与<code>stdout</code>的定义中也可以看到，标准输入输出流也就是文件，只是一般情况下已经默认定义为键盘和屏幕。这与Linux中一切皆文件的思想一脉相承。</p>
+<p>常用的函数有以下这些：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int printf(const char * format, ...)</code></td>
+<td>格式化输出数据至<code>stdout</code></td>
+</tr>
+<tr>
+<td><code>int scanf(const char * format, ...)</code></td>
+<td>由<code>stdin</code>读取格式化输入数据</td>
+</tr>
+<tr>
+<td><code>int putchar(int c)</code></td>
+<td>向<code>stdout</code>输出一个字符</td>
+</tr>
+<tr>
+<td><code>int getchar(void)</code></td>
+<td>由<code>stdin</code>读入一个字符</td>
+</tr>
+<tr>
+<td><code>int puts(const char * s)</code></td>
+<td>向<code>stdout</code>输出一串字符串</td>
+</tr>
+<tr>
+<td><code>char * gets(char * s)</code></td>
+<td>由<code>stdin</code>读入一串字符串</td>
+</tr>
+</tbody></table>
+<p>另外，<code>vprintf()</code>函数主要用于需要自己实现一些类似<code>printf()</code>的函数时使用，关于这个函数的用处可参考<a href="http://stackoverflow.com/questions/1485805/whats-the-difference-between-the-printf-and-vprintf-function-families-and-when" target="_blank" rel="noopener">StackOverflow上的讨论</a>，用于文件流的<code>vfprintf()</code>与用于字符串的<code>vsprintf()</code>的用处也是相似的。</p>
+<h3 id="文件流"><a href="#文件流" class="headerlink" title="文件流"></a>文件流</h3><p>对文件的操作是<code>&lt;stdio.h&gt;</code>中的核心，其他函数均可视为对特定文件的操作，大部分函数均以<code>f****()</code>命名。</p>
+<p>最重要的函数是以下这几个：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FILE * fopen(const char * filename, const char * mode)</code></td>
+<td>打开文件，失败返回<code>NULL</code></td>
+</tr>
+<tr>
+<td><code>int fclose(FILE * stream)</code></td>
+<td>关闭文件，成功返回0，失败返回<code>EOF</code></td>
+</tr>
+<tr>
+<td><code>size_t fread(void * ptr, size_t size, size_t nmemb, FILE * stream)</code></td>
+<td>读取文件内容</td>
+</tr>
+<tr>
+<td><code>size_t fwrite(cosnt void * ptr, size_t size, size_t nmemb, FILE * stream)</code></td>
+<td>写入文件内容</td>
+</tr>
+</tbody></table>
+<p>只使用这4个函数就可以完成基本的文件读写操作了，其它函数可以视为是为了更方便的进行文件读写而引入的。在Linux中，文件不仅仅是指磁盘上的一个file，也有可能是一个设备等，不过都可以以统一的方式进行读写。常用的打开模式有<code>r</code>(读)、<code>w</code>(写)、<code>a</code>(附加)、<code>b</code>(二进制)等。</p>
+<hr>
+<p>与标准输入输出流的操作相同，对文件的操作也有以下这些函数：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int fprintf(FILE * stream, const char * format, ...)</code></td>
+<td>格式化输出数据至文件</td>
+</tr>
+<tr>
+<td><code>int fscanf(FILE * stream, cosnt char * format, ...)</code></td>
+<td>由文件读取格式化输入数据</td>
+</tr>
+<tr>
+<td><code>int putc(int c, FILE * stream)</code></td>
+<td>向文件输出一个字符</td>
+</tr>
+<tr>
+<td><code>int getc(FILE * stream)</code></td>
+<td>由文件读入一个字符</td>
+</tr>
+<tr>
+<td><code>int fputc(int c, FILE * stream)</code></td>
+<td>向文件输出一个字符</td>
+</tr>
+<tr>
+<td><code>int fgetc(FILE * stream)</code></td>
+<td>由文件读入一个字符</td>
+</tr>
+<tr>
+<td><code>int fputs(const char * s, FILE * stream)</code></td>
+<td>向文件输出一串字符串（或比特流）</td>
+</tr>
+<tr>
+<td><code>char * fgets(char * s, int n, FILE * stream)</code></td>
+<td>由文件读入一串字符串（或比特流）</td>
+</tr>
+</tbody></table>
+<p>其中<code>putc()</code>与<code>fputc()</code>、<code>getc()</code>与<code>fgetc()</code>的区别在于前者可能是使用宏定义实现的，而后者一定是函数，具体分析可以参考<a href="http://www.cnblogs.com/aqxin/archive/2011/05/20/2052069.html" target="_blank" rel="noopener">这篇文章</a>。</p>
+<hr>
+<p>用于对文件进行修改（如删除文件等）的函数有以下这些：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int remove(const char * filename)</code></td>
+<td>删除文件，成功返回0</td>
+</tr>
+<tr>
+<td><code>int rename(const char * old, const char * new)</code></td>
+<td>更改文件名称或位置，成功返回0</td>
+</tr>
+<tr>
+<td><code>FILE * tmpfile(void)</code></td>
+<td>以wb+形式创建一个临时二进制文件</td>
+</tr>
+</tbody></table>
+<p>其中<code>tmpfile()</code>创建的临时文件在调用<code>fclose()</code>关闭时会被自动删除。</p>
+<hr>
+<p>对文件流的定位通常使用以下这些函数：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int fseek(FILE * stream, long int offset, int fromwhere)</code></td>
+<td>移动文件流的读写位置，错误返回非0</td>
+</tr>
+<tr>
+<td><code>long int ftell(FILE * stream)</code></td>
+<td>取得文件流的读取位置</td>
+</tr>
+<tr>
+<td><code>void rewind(FILE * stream)</code></td>
+<td>重设读取目录的位置为开头位置</td>
+</tr>
+<tr>
+<td><code>int feof(FILE * stream)</code></td>
+<td>检测文件结束符</td>
+</tr>
+</tbody></table>
+<p><code>whence</code>可设置为<code>SEEK_SET</code>、<code>SEEK_END</code>或<code>SEEK_CUR</code>。</p>
+<hr>
+<p>使用这两个函数处理读写文件流操作中的错误：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int ferror(FILE * stream)</code></td>
+<td>检查流是否有错误</td>
+</tr>
+<tr>
+<td><code>void clearerr(FILE * stream)</code></td>
+<td>复位错误标志</td>
+</tr>
+</tbody></table>
+<hr>
+<p>与缓冲(Buffer)机制有关的函数常用的有以下这两个：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void setbuf(FILE * stream, char * buf)</code></td>
+<td>把缓冲区与流相联</td>
+</tr>
+<tr>
+<td><code>int fflush(FILE * stream)</code></td>
+<td>更新缓冲区，成功返回0，错误返回<code>EOF</code></td>
+</tr>
+</tbody></table>
+<h3 id="其他流操作"><a href="#其他流操作" class="headerlink" title="其他流操作"></a>其他流操作</h3><p>对<code>stderr</code>的操作通过以下函数完成：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void perror(const char * s)</code></td>
+<td>打印出错误原因信息字符串</td>
+</tr>
+</tbody></table>
+<p>此函数将上一个函数发生错误的原因输出到<code>stderr</code>，此错误原因依照全局变量<code>errno</code>的值来决定要输出的字符串，<code>errno</code>在<code>&lt;errno.h&gt;</code>中声明。</p>
+<hr>
+<p>对字符串也提供了格式化输入输出函数：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int sprintf(char * s, const char * format, ...)</code></td>
+<td>格式化字符串复制</td>
+</tr>
+<tr>
+<td><code>int sscanf(const char * s, const char * format, ...)</code></td>
+<td>格式化字符串输入</td>
+</tr>
+</tbody></table>
+<p><span id="stdlib"></span></p>
+<h2 id="stdlib-h"><a href="#stdlib-h" class="headerlink" title="stdlib.h"></a>stdlib.h</h2><p>最常用的一些系统函数。</p>
+<p>在其中定义了以下一些常用的类型及常量：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>size_t</code></td>
+<td><code>sizeof</code>运算符产生的数据类型，一般是一个无符号整数</td>
+</tr>
+<tr>
+<td><code>wchar_t</code></td>
+<td>一个宽字符的大小</td>
+</tr>
+<tr>
+<td><code>NULL</code></td>
+<td>空</td>
+</tr>
+<tr>
+<td><code>RANDMAX</code></td>
+<td><code>rand()</code>的最大返回值</td>
+</tr>
+</tbody></table>
+<p>下面分类整理一下其中的重要函数。</p>
+<h3 id="内存管理函数"><a href="#内存管理函数" class="headerlink" title="内存管理函数"></a>内存管理函数</h3><p>最常用的是以下两个函数：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void * malloc(size_t size)</code></td>
+<td>从堆上动态分配内存空间</td>
+</tr>
+<tr>
+<td><code>void free(void * ptr)</code></td>
+<td>释放之前分配的内存空间</td>
+</tr>
+</tbody></table>
+<p>还有一些常用的内存控制函数位于<code>&lt;string.h&gt;</code>中。</p>
+<h3 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h3><p>常用函数有：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int abs(int j)</code></td>
+<td>int类型数据绝对值</td>
+</tr>
+<tr>
+<td><code>long labs(long j)</code></td>
+<td>long类型数据绝对值</td>
+</tr>
+<tr>
+<td><code>int rand(void)</code></td>
+<td>产生一个随机数</td>
+</tr>
+<tr>
+<td><code>void srand(unsigned int seed)</code></td>
+<td>初始化随机数种子</td>
+</tr>
+</tbody></table>
+<p>关于<code>rand()</code>与<code>srand()</code>的用法，之前写的<a href="/2015/11/16/C%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/">这篇文章</a>中进行了总结。</p>
+<h3 id="字符串转换函数"><a href="#字符串转换函数" class="headerlink" title="字符串转换函数"></a>字符串转换函数</h3><p>常用的有以下这3个函数：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int atoi(const char * nptr)</code></td>
+<td>将字符串转换为整数（int）</td>
+</tr>
+<tr>
+<td><code>long atol(const char * nptr)</code></td>
+<td>将字符串转换为长整数（long）</td>
+</tr>
+<tr>
+<td><code>double atof(const char * nptr)</code></td>
+<td>将字符串转换为浮点型数（double）</td>
+</tr>
+</tbody></table>
+<h3 id="环境函数"><a href="#环境函数" class="headerlink" title="环境函数"></a>环境函数</h3><p>常用的函数有：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int system(const char * string)</code></td>
+<td>执行Shell（或命令行）命令</td>
+</tr>
+<tr>
+<td><code>char * getenv(const char * name)</code></td>
+<td>获取环境变量中的内容</td>
+</tr>
+<tr>
+<td><code>int exit(int stauts)</code></td>
+<td>结束进程</td>
+</tr>
+</tbody></table>
+<h3 id="搜索和排序函数"><a href="#搜索和排序函数" class="headerlink" title="搜索和排序函数"></a>搜索和排序函数</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void qsort(void * base, size_t nmemb, size_t size, int (* compar)(const void *, const void *))</code></td>
+<td>快速排序算法</td>
+</tr>
+<tr>
+<td><code>void * bsearch(const void * key, const void * base, size_t nmemb, size_t size, int (* compar)(const void *, const void *))</code></td>
+<td>在数组进行二分法查找某一元素，要求数组预先已排好序</td>
+</tr>
+</tbody></table>
+<hr>
+<p>在<code>&lt;stdlib.h&gt;</code>中还有一些用于进行多字节字符处理的函数，此处没有列出。</p>
+<p><span id="string"></span></p>
+<h2 id="string-h"><a href="#string-h" class="headerlink" title="string.h"></a>string.h</h2><p><code>&lt;string.h&gt;</code>中除了字符串处理函数，还有一些内存管理函数：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void * memset(void * dest, int c, size_t n)</code></td>
+<td>将一段内存空间填上某值</td>
+</tr>
+<tr>
+<td><code>void * memcpy(void * dest, const void * src, size_t n)</code></td>
+<td>复制一段内存内容</td>
+</tr>
+<tr>
+<td><code>int memcmp(const void * s1, const void * s2, size_t n)</code></td>
+<td>比较两段内存内容</td>
+</tr>
+<tr>
+<td><code>void * memchr(const void * s, int c, size_t n)</code></td>
+<td>在某一段内存范围中查找特定字节</td>
+</tr>
+</tbody></table>
+<hr>
+<p>常用的字符串操作函数有：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>char * strcat(char * deat, const char * src)</code></td>
+<td>连接两个字符串</td>
+</tr>
+<tr>
+<td><code>char * strcpy(char * dest, const char * src)</code></td>
+<td>复制字符串</td>
+</tr>
+<tr>
+<td><code>int strcmp(const char * s1, const char * s2)</code></td>
+<td>比较两个字符串</td>
+</tr>
+<tr>
+<td><code>size_t strlen(const char * s)</code></td>
+<td>获取一个字符串的长度</td>
+</tr>
+<tr>
+<td><code>char * strtok(char * s1, const char * s2)</code></td>
+<td>分割字符串</td>
+</tr>
+</tbody></table>
+<p>以下这些函数用于进行字符串查找：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>char * strchr(const char * s, int c)</code></td>
+<td>正向查找一个字符</td>
+</tr>
+<tr>
+<td><code>char * strrchr(const char * s, int c)</code></td>
+<td>反向查找一个字符</td>
+</tr>
+<tr>
+<td><code>char * strstr(const char * s1, const char * s2)</code></td>
+<td>查找一个字符串</td>
+</tr>
+<tr>
+<td><code>char * strpbrk(const char * s1, const char * s2)</code></td>
+<td>查找一个字符集合</td>
+</tr>
+</tbody></table>
+<p><span id="math"></span></p>
+<h2 id="math-h"><a href="#math-h" class="headerlink" title="math.h"></a>math.h</h2><p>标准数学库，常用函数如下：</p>
+<h3 id="三角函数"><a href="#三角函数" class="headerlink" title="三角函数"></a>三角函数</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>double sin(double x)</code></td>
+<td>正弦</td>
+</tr>
+<tr>
+<td><code>double cos(double x)</code></td>
+<td>余弦</td>
+</tr>
+<tr>
+<td><code>double tan(double x)</code></td>
+<td>正切</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>double asin(double x)</code></td>
+<td>反正弦</td>
+</tr>
+<tr>
+<td><code>double acos(double x)</code></td>
+<td>反余弦</td>
+</tr>
+<tr>
+<td><code>double atan(double x)</code></td>
+<td>反正切</td>
+</tr>
+<tr>
+<td><code>double atan2(double y, double x)</code></td>
+<td>计算y/x的反正切</td>
+</tr>
+</tbody></table>
+<h3 id="双曲三角函数"><a href="#双曲三角函数" class="headerlink" title="双曲三角函数"></a>双曲三角函数</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>double sinh(double x)</code></td>
+<td>双曲正弦</td>
+</tr>
+<tr>
+<td><code>double cosh(double x)</code></td>
+<td>双曲余弦</td>
+</tr>
+<tr>
+<td><code>double tanh(double x)</code></td>
+<td>双曲正切</td>
+</tr>
+</tbody></table>
+<h3 id="指数与对数"><a href="#指数与对数" class="headerlink" title="指数与对数"></a>指数与对数</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>double exp(double x)</code></td>
+<td>e的n次幂</td>
+</tr>
+<tr>
+<td><code>double pow(double x, double y)</code></td>
+<td>x的y次幂</td>
+</tr>
+<tr>
+<td><code>double sqrt(double x)</code></td>
+<td>开根号</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>double log(double x)</code></td>
+<td>e为底的对数</td>
+</tr>
+<tr>
+<td><code>double log10(double x)</code></td>
+<td>10为底的对数</td>
+</tr>
+</tbody></table>
+<h3 id="取整"><a href="#取整" class="headerlink" title="取整"></a>取整</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>double ceil(double x)</code></td>
+<td>向上取整</td>
+</tr>
+<tr>
+<td><code>double floor(double x)</code></td>
+<td>向下取整</td>
+</tr>
+</tbody></table>
+<h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>double fabs(double x)</code></td>
+<td>计算绝对值</td>
+</tr>
+</tbody></table>
+<p><span id="ctype"></span></p>
+<h2 id="ctype-h"><a href="#ctype-h" class="headerlink" title="ctype.h"></a>ctype.h</h2><p>包含字符测试及大小写转换函数。</p>
+<h3 id="字符测试"><a href="#字符测试" class="headerlink" title="字符测试"></a>字符测试</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>isalpha(c)</code></td>
+<td>是否为字母</td>
+</tr>
+<tr>
+<td><code>isupper(c)</code></td>
+<td>是否为大写字母</td>
+</tr>
+<tr>
+<td><code>islower(c)</code></td>
+<td>是否为小写字母</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>isdigit(c)</code></td>
+<td>是否为数字</td>
+</tr>
+<tr>
+<td><code>isxdigit(c)</code></td>
+<td>是否为16进制数字（数字 &amp; A<del>F &amp; a</del>f）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>isalnum(c)</code></td>
+<td>是否为字母及数字</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ispunct(c)</code></td>
+<td>是否为标点符号</td>
+</tr>
+<tr>
+<td><code>isspace(c)</code></td>
+<td>是否为空白字符（空格、\r(CR)、\n(LF)、\t(TAB)、\v(VT)、\f(FF)）</td>
+</tr>
+<tr>
+<td><code>iscntrl(c)</code></td>
+<td>是否为控制字符（ASCII 0 ~ 37(0x1F) &amp; 177(0x7F)）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>isgraph(c)</code></td>
+<td>是否为可显示字符（字母 &amp; 数字 &amp; 标点）</td>
+</tr>
+<tr>
+<td><code>isprint(c)</code></td>
+<td>是否为可打印字符（字母 &amp; 数字 &amp; 标点 &amp; 空白）</td>
+</tr>
+</tbody></table>
+<h3 id="大小写转换"><a href="#大小写转换" class="headerlink" title="大小写转换"></a>大小写转换</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tolower(c)</code></td>
+<td>转换为小写</td>
+</tr>
+<tr>
+<td><code>toupper(c)</code></td>
+<td>转换为大写</td>
+</tr>
+</tbody></table>
+<p><span id="time"></span></p>
+<h2 id="time-h"><a href="#time-h" class="headerlink" title="time.h"></a>time.h</h2><p>日期及时间操作。定义了<code>time_t</code>、<code>clock_t</code>及<code>tm</code>这几种类型，常用函数有：</p>
+<h3 id="获取时间及相关计算"><a href="#获取时间及相关计算" class="headerlink" title="获取时间及相关计算"></a>获取时间及相关计算</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>time_t time(time_t * timer)</code></td>
+<td>获取UNIX时间戳，一般传入<code>NULL</code></td>
+</tr>
+<tr>
+<td><code>clock_t clock(void)</code></td>
+<td>获取CPU时钟计数</td>
+</tr>
+<tr>
+<td><code>double difftime(time_t time1, time_t time0)</code></td>
+<td>计算时间差，<code>time1</code> - <code>time0</code></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>struct tm * gmtime(const time_t * timer)</code></td>
+<td>GMT时间</td>
+</tr>
+<tr>
+<td><code>struct tm * localtime(const time_t * timer)</code></td>
+<td>地方时时间</td>
+</tr>
+<tr>
+<td><code>time_t mktime(struct tm * timeptr)</code></td>
+<td>地方时时间</td>
+</tr>
+</tbody></table>
+<h3 id="转换为可阅读的字符串"><a href="#转换为可阅读的字符串" class="headerlink" title="转换为可阅读的字符串"></a>转换为可阅读的字符串</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>char * ctime(const time_t * timer)</code></td>
+<td>返回标准时间字符串，地方时时间，等价于<code>asctime(localtime())</code></td>
+</tr>
+<tr>
+<td><code>char * asctime(const struct tm * timeptr)</code></td>
+<td>返回标准时间字符串</td>
+</tr>
+<tr>
+<td><code>size_t strftime(char *s, size_t maxsize, const char *format, const struct tm *)</code></td>
+<td>返回自定义格式时间字符串</td>
+</tr>
+</tbody></table>
+<p><span id="stdarg"></span></p>
+<h2 id="stdarg-h"><a href="#stdarg-h" class="headerlink" title="stdarg.h"></a>stdarg.h</h2><p>用于支持可变参数，定义了<code>va_list</code>这个结构体，通过以下三个宏进行操作：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void va_start(va_list ap, parmN)</code></td>
+<td>初始化<code>va_list</code></td>
+</tr>
+<tr>
+<td><code>type va_arg(va_list ap, type)</code></td>
+<td>从<code>va_list</code>中获取一个<code>type</code>类型的参数</td>
+</tr>
+<tr>
+<td><code>void va_end(va_list ap)</code></td>
+<td>释放<code>va_list</code></td>
+</tr>
+</tbody></table>
+<p><span id="signal"></span></p>
+<h2 id="signal-h"><a href="#signal-h" class="headerlink" title="signal.h"></a>signal.h</h2><p>定义了信号(Signal)处理的相关宏及函数，这与Linux中的信号机制密切相关，包含下面两个函数：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>signal()</code></td>
+<td>设置处理特定Signal的Handler</td>
+</tr>
+<tr>
+<td><code>raise(int sig)</code></td>
+<td>产生一个Signal</td>
+</tr>
+</tbody></table>
+<p><code>signal()</code>函数原型如下：<br><code>void (* signal(int sig, void (* handler)(int)))(int);</code></p>
+<p><span id="assert"></span></p>
+<h2 id="assert-h"><a href="#assert-h" class="headerlink" title="assert.h"></a>assert.h</h2><p>此头文件的唯一目的是提供<code>assert(int x)</code>这个宏，如果断言非真，程序会在标准错误流输出错误信息，并调用<code>abort()</code>函数使程序异常终止。</p>
+<p><span id="setjmp"></span></p>
+<h2 id="setjmp-h"><a href="#setjmp-h" class="headerlink" title="setjmp.h"></a>setjmp.h</h2><p>非局部跳转，用于从一个深层次嵌套中直接返回至最外层，通过这两个宏完成：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int setjmp(jmp_buf env)</code></td>
+<td>设置跳转点</td>
+</tr>
+<tr>
+<td><code>void longjmp(jmp_buf env, int val)</code></td>
+<td>进行跳转</td>
+</tr>
+</tbody></table>
+<p><span id="errno"></span></p>
+<h2 id="errno-h"><a href="#errno-h" class="headerlink" title="errno.h"></a>errno.h</h2><p>声明了一个外部整形变量<code>errno</code>用于表示错误，可用<code>perror(const char * s)</code>输出错误原因，其中<code>s</code>是错误提示前缀。</p>
+<p>标准使用方法是：在一个库函数调用之前把它设为0，然后在下一个库函数调用前测试它，任何非零值均表示错误。示例代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//......</span></span><br><span class="line">    errno = <span class="number">0</span>;</span><br><span class="line">    y = <span class="built_in">sqrt</span>(x);</span><br><span class="line">    <span class="keyword">if</span> (errno != <span class="number">0</span>)</span><br><span class="line">        perror(<span class="string">"Error"</span>);</span><br></pre></td></tr></table></figure>
+
+<p><span id="stddef"></span></p>
+<h2 id="stddef-h"><a href="#stddef-h" class="headerlink" title="stddef.h"></a>stddef.h</h2><p>定义了一些标准定义，如<code>size_t</code>、<code>wchar_t</code>、<code>NULL</code>等，这些定义也会出现在其他的头文件里。还定义了以下这个宏：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>offsetof(type, member)</code></td>
+<td>返回结构体中某一成员相对于结构体起始地址的偏移量</td>
+</tr>
+</tbody></table>
+<p><span id="locale"></span></p>
+<h2 id="locale-h"><a href="#locale-h" class="headerlink" title="locale.h"></a>locale.h</h2><p>国家、文化和语言规则集称为区域设置，主要影响字符串格式，通过以下函数进行设置：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>setlocale()</code></td>
+<td>设置或恢复本地化信息</td>
+</tr>
+</tbody></table>
+<p><span id="float"></span></p>
+<h2 id="float-h"><a href="#float-h" class="headerlink" title="float.h"></a>float.h</h2><p>用宏定义的方式定义了浮点数的最大值、最小值等信息。</p>
+<p><span id="limits"></span></p>
+<h2 id="limits-h"><a href="#limits-h" class="headerlink" title="limits.h"></a>limits.h</h2><p>定义了基本数据类型（int、char、short等）的最大值及最小值。常用宏定义有：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CHAR_BIT</code></td>
+<td>一个字节的比特数</td>
+</tr>
+<tr>
+<td><code>SCHAR_MIN</code></td>
+<td>带符号字符最小值</td>
+</tr>
+<tr>
+<td><code>SCHAR_MAX</code></td>
+<td>带符号字符最大值</td>
+</tr>
+<tr>
+<td><code>UCHAR_MAX</code></td>
+<td>无符号字符最大值</td>
+</tr>
+<tr>
+<td><code>CHAR_MIN</code></td>
+<td><code>char</code>的最小值</td>
+</tr>
+<tr>
+<td><code>CHAR_MAX</code></td>
+<td><code>char</code>的最大值</td>
+</tr>
+<tr>
+<td><code>SHRT_MIN</code></td>
+<td>带符号短整型最小值</td>
+</tr>
+<tr>
+<td><code>SHRT_MAX</code></td>
+<td>带符号短整型最大值</td>
+</tr>
+<tr>
+<td><code>USHRT_MAX</code></td>
+<td>无符号短整型最大值</td>
+</tr>
+<tr>
+<td><code>INT_MIN</code></td>
+<td>带符号整形最小值</td>
+</tr>
+<tr>
+<td><code>INT_MAX</code></td>
+<td>带符号整形最大值</td>
+</tr>
+<tr>
+<td><code>UINT_MAX</code></td>
+<td>无符号整形最大值</td>
+</tr>
+<tr>
+<td><code>LONG_MIN</code></td>
+<td>带符号长整形最小值</td>
+</tr>
+<tr>
+<td><code>LONG_MAX</code></td>
+<td>带符号长整形最大值</td>
+</tr>
+<tr>
+<td><code>ULONG_MAX</code></td>
+<td>无符号长整形最大值</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/04/18/C语言标准库总结/">C语言标准库总结</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">高明飞</a></p>
+        <p><span>发布时间:</span>2016-04-18, 12:52:05</p>
+        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/04/18/C语言标准库总结/" title="C语言标准库总结">http://gaomf.cn/2016/04/18/C语言标准库总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaomf.cn/2016/04/18/C语言标准库总结/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/04/21/C语言中函数指针的声明及使用/">
+                    C语言中函数指针的声明及使用
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/04/14/HTTP中确定报文结束的方法/">
+                    HTTP中确定报文结束的方法
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#stdio-h"><span class="toc-number">1.</span> <span class="toc-text">stdio.h</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标准输入输出流"><span class="toc-number">1.1.</span> <span class="toc-text">标准输入输出流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件流"><span class="toc-number">1.2.</span> <span class="toc-text">文件流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他流操作"><span class="toc-number">1.3.</span> <span class="toc-text">其他流操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stdlib-h"><span class="toc-number">2.</span> <span class="toc-text">stdlib.h</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内存管理函数"><span class="toc-number">2.1.</span> <span class="toc-text">内存管理函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数学函数"><span class="toc-number">2.2.</span> <span class="toc-text">数学函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串转换函数"><span class="toc-number">2.3.</span> <span class="toc-text">字符串转换函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境函数"><span class="toc-number">2.4.</span> <span class="toc-text">环境函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索和排序函数"><span class="toc-number">2.5.</span> <span class="toc-text">搜索和排序函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#string-h"><span class="toc-number">3.</span> <span class="toc-text">string.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#math-h"><span class="toc-number">4.</span> <span class="toc-text">math.h</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#三角函数"><span class="toc-number">4.1.</span> <span class="toc-text">三角函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双曲三角函数"><span class="toc-number">4.2.</span> <span class="toc-text">双曲三角函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指数与对数"><span class="toc-number">4.3.</span> <span class="toc-text">指数与对数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取整"><span class="toc-number">4.4.</span> <span class="toc-text">取整</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其它"><span class="toc-number">4.5.</span> <span class="toc-text">其它</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ctype-h"><span class="toc-number">5.</span> <span class="toc-text">ctype.h</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符测试"><span class="toc-number">5.1.</span> <span class="toc-text">字符测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#大小写转换"><span class="toc-number">5.2.</span> <span class="toc-text">大小写转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#time-h"><span class="toc-number">6.</span> <span class="toc-text">time.h</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取时间及相关计算"><span class="toc-number">6.1.</span> <span class="toc-text">获取时间及相关计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#转换为可阅读的字符串"><span class="toc-number">6.2.</span> <span class="toc-text">转换为可阅读的字符串</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stdarg-h"><span class="toc-number">7.</span> <span class="toc-text">stdarg.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#signal-h"><span class="toc-number">8.</span> <span class="toc-text">signal.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#assert-h"><span class="toc-number">9.</span> <span class="toc-text">assert.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#setjmp-h"><span class="toc-number">10.</span> <span class="toc-text">setjmp.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#errno-h"><span class="toc-number">11.</span> <span class="toc-text">errno.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stddef-h"><span class="toc-number">12.</span> <span class="toc-text">stddef.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#locale-h"><span class="toc-number">13.</span> <span class="toc-text">locale.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#float-h"><span class="toc-number">14.</span> <span class="toc-text">float.h</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#limits-h"><span class="toc-number">15.</span> <span class="toc-text">limits.h</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+
+
+    
+	
+	<!-- Gitment评论插件通用代码 -->
+<!-- from: https://billts.site/extra_css/gitment.css -->
+<!-- from: https://billts.site/js/gitment.js -->
+
+<div id="gitment-ctn" style="margin: 50px"></div>
+<link rel="stylesheet" href="/css/extra_css/gitment.css">
+<script src="/js/gitment.js"></script>
+
+<script>
+var gitment = new Gitment({
+  id: "C语言标准库总结",
+  owner: 'g199209',
+  repo: 'g199209.github.io',
+  oauth: {
+    client_id: '813326c14fac583d3c91',
+    client_secret: 'f8dbfe0b2626fa098ec31a165f298a4af93c6535',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+<!-- Gitment代码结束 -->
+	
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/04/21/C语言中函数指针的声明及使用/" title="上一篇: C语言中函数指针的声明及使用">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/04/14/HTTP中确定报文结束的方法/" title="下一篇: HTTP中确定报文结束的方法">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/28/PVE_OpenWRT_Network_Broken/">PVE上部署OpenWRT发生网络中断的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/24/Thesis_of_Master/">用于嵌入式车载安全预警的交通标志检测若干关键技术研究与验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Deep_Into_Dokcer_Helloworld/">深入分析Docker hello-world镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/17/Sudo_No_Passwd/">sudo不需要输入密码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Hexo_Yelee_Gitment/">为Hexo博客Yelee主题添加Gitment评论系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/sizeof_extern_array/">sizeof 获取 extern 数组长度</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/The_Road/">多歧路，今安在？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/04/SSH_Forwarding/">SSH反向穿透访问内网主机</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/25/C_restrict/">C语言关键词restrict的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/Kernel_min_max_macro/">Linux kernel中的min和max宏</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/C_typeof/">C语言中typeof的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/05/string_literal_concatenate/">C语言中的字符串字面量连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/Detect_Stack_Direction/">用代码判断栈的增长方向</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/20/printf_format_string_attack/">printf格式化字符串漏洞攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/16/Atom_Configure/">Atom编辑器配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/Win10_Software_Font_Blur/">Win10下软件界面显示模糊问题解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/15/Memcpy_Optimization/">memcpy中的内存读写优化问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/31/Array_Find_Half/">寻找数组中出现次数超过一半的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/Cpp_string_COW_SSO/">C++中std::string的COW及SSO实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/12/LDO/">LDO应用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/TL431_Self_OScillation/">TL431自激振荡消除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/Sudoku/">数独求解程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/OpenCV_and_GTK/">OpenCV与GTK+结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/Allegro_Font/">Cadence Allegro 调整界面字体字号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/Discrete_Load_Switch/">带软启动的分立负载开关电路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Tutorial_Help/">PSpice教程及帮助文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Swt/">PSpice中的延时开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/Linux_SoftRouter_Basic/">Linux软路由——基础配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Relaxation_Oscillator/">松弛振荡器原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Capacity_Charge/">对电容充放电过程的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Button_Cell/">纽扣电池型号总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/SVN/">SVN常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/C++_Random/">C++生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/SSH_Authentication/">SSH证书登录总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/Ubuntu_Reduce_Swap/">Ubuntu减小swap分区大小的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/Future_Hesitate/">对于未来的迷茫</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/Minimum_Spanning_Tree/">最小生成树算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/Maximum_Flow_Algorithm/">最大流算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/12/BinaryTree_Traversal/">二叉树的遍历算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/03/Shortest_Path/">最短路径算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/02/Vim_Plugin/">Vim配置及插件总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Linux_Vim_Compile/">Linux下Vim的编译安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Hexo_Git_CRLF/">Hexo Git部署警告"warning： LF will be replaced by CRLF"的去除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Linux_Colourful_Man/">Linux彩色man page设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/Linux_Background_Run/">Linux下让进程在后台可靠运行的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/SSH_Broken_Pipe/">SSH连接自动断开的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/03/VMware_Shrink_Linux/">VMware中收缩Linux虚拟机体积</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/VMware_Internal_SD/">VMware虚拟机中使用电脑内置SD读卡器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/VMWare_Ubuntu_Terminal_Shadowsocks/">VMware Ubuntu虚拟机中为终端配置Shadowsocks代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/VS2015_Qt_UTF8/">VS2015 & Qt中文编码方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/10/OpenCV_and_Qt/">OpenCV与Qt结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/09/VS2015_Qt5_7/">VS2015搭建Qt 5.7开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/VS2015_OpenCV31/">VS2015下编译OpenCV 3.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Array_Shift/">数组循环移位算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/N_Queen_Problem/">N皇后问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/PMSM_Vector_Control/">PMSM矢量控制算法调试流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_014/">LeetCode 014. Longest Common Prefix (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_019/">LeetCode 019. Remove Nth Node From End of List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_083/">LeetCode 083. Remove Duplicates from Sorted List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Raspberry_Pi_Static_IP/">为树莓派设置静态IP地址的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/IP_Mask/">IP地址中子网掩码的表示方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Windows_Ping/">Windows防火墙允许ping请求设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/String_Fill/">一道字符串填充算法题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_319/">LeetCode 319. Bulb Switcher (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_292/">LeetCode 292. Nim Game (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/divide_conquer/">分治法算法复杂度</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_345/">LeetCode 345. Reverse Vowels of a String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_344/">LeetCode 344. Reverse String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_167/">LeetCode 167. Two Sum II - Input array is sorted (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_001/">LeetCode 001. Two Sum (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/apt_apt-get/">apt与apt-get命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_160/">LeetCode 160. Intersection of Two Linked Lists (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_141/">LeetCode 141. Linked List Cycle (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_415/">LeetCode 415. Add String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/20/ARM_Architecture_Core/">ARM架构及内核</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Diff_Patch/">diff及patch的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Blog_New_Theme_2016/">更换博客主题啦~</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Encoder_Velocity_Measure/">旋转编码器速度测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/为Hexo博客Yilia主题添加本地站内搜索功能/">为Hexo博客Yilia主题添加本地站内搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/关于科学与工程/">关于科学与工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/26/在Android Studio中使用Lambda表达式/">在Android Studio中使用Lambda表达式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/16/Java集合框架/">Java集合框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/最大公约数算法/">最大公约数算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/最大子序列和问题/">最大连续子序列和问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/C标准库学习笔记(1)——time、ctype、stdarg、assert/">C标准库学习笔记(1)——time、ctype、stdarg、assert</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/使用Python实现网站变化监测系统/">使用Python实现网站变化监测系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/正则表达式总结/">正则表达式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用re正则表达式解析文本/">Python爬虫--使用re正则表达式解析文本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用BeautifulSoup解析HTML/">Python爬虫--使用BeautifulSoup解析HTML</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/U-Boot 2016.05 Stage1代码分析/">U-Boot 2016.05 Stage1代码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/12/UART协议时序总结/">UART协议时序总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/汇编文件后缀.s与.S的区别/">汇编文件后缀.s与.S的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Linux下查看编辑二进制文件/">Linux下查看编辑二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot DM9000网卡驱动提示could not establish link的解决方法/">U-Boot DM9000网卡驱动提示"could not establish link"的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot 2016.05 在S3C2440上的移植——杂项/">U-Boot 2016.05 在S3C2440上的移植——杂项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/在U-Boot中添加自定义命令以实现自动下载程序/">在U-Boot中添加自定义命令以实现自动下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/VMware虚拟机中嵌入式Linux开发环境网络配置/">VMware虚拟机中嵌入式Linux开发环境网络配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡/">U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（3）——Nand Flash/">U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/24/U-Boot 2016.05 在S3C2440上的移植（2）——Nor Flash/">U-Boot 2016.05 在S3C2440上的移植（2）——NOR Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/23/Nor Flash中的启动扇区（Boot Sector, Boot Block）/">Nor Flash中的启动扇区（Boot Sector, Boot Block）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/22/串口终端picocom的使用/">串口终端picocom的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/">Jlink为S3C2440下载程序提示"Unable to halt cpu core"的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/U-Boot 2016.05 在S3C2440上的移植（1）——基本运行/">U-Boot 2016.05 在S3C2440上的移植（1）——基本运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/17/OpenSSH使用多个私钥（SSH Key）配置/">OpenSSH使用多个私钥（SSH Key）配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/16/crosstool-ng参数配置/">crosstool-ng参数配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/GCC中-march、-mtune、-mcpu三个参数的设置/">GCC中-march、-mtune、-mcpu三个参数的设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/crosstool-ng的基本使用流程/">crosstool-ng的基本使用流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/14/crosstool-ng的安装/">crosstool-ng的安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/06/旋转编码器绝对位置测量方法/">旋转编码器绝对位置测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/Python爬虫--使用requests获取网页/">Python爬虫--使用requests获取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/使用Python爬虫抓取网页/">使用Python爬虫抓取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/NFS服务器的搭建/">NFS服务器的搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/U-Boot中IP地址设置方法/">U-Boot中IP地址设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/27/U-Boot版本命名规则及源码下载途径/">U-Boot版本命名规则及源码下载途径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/Android中实现多线程的方法/">Android中实现多线程的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/IQmath库总结/">C28x IQmath库使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/28/结构体内存边界对齐问题/">结构体内存边界对齐问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/ARM Cortex-M内核复位启动过程分析/">ARM Cortex-M内核复位启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/Python Socket Error Address already in use的解决办法/">Python Socket Error： Address already in use的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/C2000 DSP中全局变量清零问题/">C2000 DSP中全局变量清零问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/21/C语言中函数指针的声明及使用/">C语言中函数指针的声明及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/18/C语言标准库总结/">C语言标准库总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/HTTP中确定报文结束的方法/">HTTP中确定报文结束的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/C语言运算符优先级与结合性/">C语言运算符优先级与结合性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/MCS-51 基本数据类型/">MCS-51 基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/22/半导体存储器总结/">半导体存储器总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/04/Altium Designer导出Gerber文件方法/">Altium Designer导出Gerber文件方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/Hexo博客修改Archive页面显示文章数量/">Hexo博客修改Archive页面显示文章数量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/24/Population Count算法/">Population Count算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/28/Matlab调用Origin作图/">Matlab调用Origin作图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/Origin Script Window 执行脚本代码的方法/">Origin Script Window 执行脚本代码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/集成式负载开关/">集成式负载开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/12/Quartus中配置FPGA未使用引脚状态方法/">Quartus中配置FPGA未使用引脚状态方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/11/IGBT与MOSFET异同/">IGBT与MOSFET比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/01/三相逆变器电流采样方案总结/">三相逆变器电流采样方案总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/27/C2000 DSP基本数据类型/">C2000 DSP基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/C2000 ePWM模块/">C2000 ePWM模块</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Simulink仿真模式/">Simulink仿真模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8外设引脚重映射/">STM8外设引脚重映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8系列单片机/">STM8系列单片机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/19/阻抗测量方法/">阻抗测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/11/使用OpenMP进行多线程计算/">使用OpenMP进行多线程计算</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/10/STC单片机不断电下载程序/">STC单片机不断电下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/08/OpenCV 3.0安装/">OpenCV 3.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/06/STM8 SWIM接口/">STM8 SWIM接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/BLDC六步换相法基本原理及驱动波形/">BLDC六步换相法基本原理及驱动波形</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/30/C2000 CSM使用方法/">C2000 CSM使用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/28/TMS320 DSP新建工程基本步骤/">C2000 DSP新建工程基本步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/数据结构——循环队列/">数据结构——循环队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/OSI模型总结/">OSI模型总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/安规电容总结/">安规电容总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/C语言生成随机数/">C语言生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Doxygen处理条件编译/">Doxygen处理条件编译</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/12/使用Doxygen生成高质量代码参考文档/">使用Doxygen生成高质量代码参考文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/Hexo博客优化加载速度/">Hexo博客优化加载速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/使用JLink为2440 NOR Flash下载程序/">使用JLink为2440 NOR Flash下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/30/Markdown常用格式/">Markdown常用格式</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2019 高明飞
+				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 8;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  </div>
+</body>
+</html>

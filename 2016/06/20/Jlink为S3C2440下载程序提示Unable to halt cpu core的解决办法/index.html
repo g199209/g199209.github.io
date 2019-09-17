@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="高明飞">
+
+
+
+<meta name="description" content="今天使用JLink为S3C2440下载U-Boot程序时发现连不上设备了，选择Connect后提示”Unable to halt cpu core. Failed to connect”，然而之前明明是正常的，于是开始寻找解决方案。">
+<meta name="keywords" content="ARM,Bootloader,Debug">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jlink为S3C2440下载程序提示&quot;Unable to halt cpu core&quot;的解决办法">
+<meta property="og:url" content="http://gaomf.cn/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/index.html">
+<meta property="og:site_name" content="高明飞的博客">
+<meta property="og:description" content="今天使用JLink为S3C2440下载U-Boot程序时发现连不上设备了，选择Connect后提示”Unable to halt cpu core. Failed to connect”，然而之前明明是正常的，于是开始寻找解决方案。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-17T11:46:27.591Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jlink为S3C2440下载程序提示&quot;Unable to halt cpu core&quot;的解决办法">
+<meta name="twitter:description" content="今天使用JLink为S3C2440下载U-Boot程序时发现连不上设备了，选择Connect后提示”Unable to halt cpu core. Failed to connect”，然而之前明明是正常的，于是开始寻找解决方案。">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="高明飞的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Jlink为S3C2440下载程序提示&#34;Unable to halt cpu core&#34;的解决办法 | 高明飞的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?023158b4c9d97942be746fc9f5fde1da";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+	
+	<script>
+	(function(){
+		var bp = document.createElement('script');
+		bp.src = '//push.zhanzhang.baidu.com/push.js';
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+  
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+
+	
+		<form id="search-form"  class="search">
+			<input type="text" id="st-search-input" name="q" results="0" class="st-default-search-input" maxlength="50" placeholder="Search..." autocomplete="off" autocorrect="off">
+			<i class="fa fa-times" onclick="resetSearch()"></i>
+		</form>
+	
+
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">高明飞</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">澹泊明志，宁静致远</p>
+        
+
+        
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+			<p class='loading-xml'>Loading XML File... <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/Top">精华文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/atom.xml">RSS</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARM/">ARM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/">Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootloader/">Bootloader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootrom/">Bootrom</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Compiler/">Compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrent/">Concurrent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DDR/">DDR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSP/">DSP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Struct/">Data Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/">Debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doxygen/">Doxygen</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EDA/">EDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Editor/">Editor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File-System/">File System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flash/">Flash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HW-Component/">HW Component</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JTAG/">JTAG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kernel/">Kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MCS-51/">MCS-51</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Matlab/">Matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Motor/">Motor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Number-Theory/">Number Theory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Online-Judge/">Online Judge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMP/">OpenMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PSpice/">PSpice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt/">Qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Raspberry-Pi/">Raspberry Pi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Regular-Expression/">Regular Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Runtime/">Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM8/">STM8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVN/">SVN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Small-Protocol/">Small Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Socket/">Socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spider/">Spider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Top/">Top</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/">Vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Virtualization/">Virtualization</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://caoyudong.com/">BAZINGA</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://lidewen.com/">李德文</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://jiaodi.tech/">焦迪</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.netcan666.com/">Netcan</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">三尺微命，一介书生。曾辗转求学于思源湖畔，老和山下，现栖身于魔都一隅。所学颇杂，对诸多方面均有涉猎，对各种技术充满热情~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">高明飞</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">高明飞</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">澹泊明志，宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/Top">精华文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/atom.xml">RSS</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/" class="article-date">
+      <time datetime="2016-06-20T09:08:06.000Z" itemprop="datePublished">2016-06-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Jlink为S3C2440下载程序提示&#34;Unable to halt cpu core&#34;的解决办法
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/点滴之间/">点滴之间</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ARM/">ARM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bootloader/">Bootloader</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/">Debug</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>今天使用JLink为S3C2440下载U-Boot程序时发现连不上设备了，选择Connect后提示”Unable to halt cpu core. Failed to connect”，然而之前明明是正常的，于是开始寻找解决方案。</p>
+<a id="more"></a>
+
+<p>首先使用J-Link Commander尝试连接，不出意外，打开程序后提示”Unable to halt cpu core”，然而尝试复位后就可以连接了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">VTarget = 3.300V</span><br><span class="line">Info: TotalIRLen = 4, IRPrint = 0x01</span><br><span class="line">Info: Using DBGRQ to halt CPU</span><br><span class="line">Info: Resetting TRST in order to halt CPU</span><br><span class="line">Info: CP15.0.0: 0x41129200: ARM, Architecure 4T</span><br><span class="line">Info: J-Link: ARM9, 920 core</span><br><span class="line"></span><br><span class="line">****** Error: Unable to halt CPU core</span><br><span class="line">Found 1 JTAG device, Total IRLen = 4:</span><br><span class="line"><span class="meta"> #</span><span class="bash">0 Id: 0x0032409D, IRLen: 04, Unknown device</span></span><br><span class="line">Found 1 JTAG device, Total IRLen = 4:</span><br><span class="line"><span class="meta"> #</span><span class="bash">0 Id: 0x0032409D, IRLen: 04, Unknown device</span></span><br><span class="line">Found ARM with core Id 0x0032409D (ARM9)</span><br><span class="line"><span class="meta">J-Link&gt;</span><span class="bash">Regs</span></span><br><span class="line">CPU is not halted !</span><br><span class="line"><span class="meta">J-Link&gt;</span><span class="bash">r</span></span><br><span class="line">Reset delay: 0 ms</span><br><span class="line">Reset type NORMAL: Using RESET pin, halting CPU after Reset</span><br><span class="line">Info: TotalIRLen = 4, IRPrint = 0x01</span><br><span class="line">Info: CP15.0.0: 0x41129200: ARM, Architecure 4T</span><br><span class="line">Info: CP15.0.1: 0x0D172172: ICache: 16kB (64*8*32), DCache: 16kB (64*8*32)</span><br><span class="line">Info: Cache type: Separate, Write-back, Format A</span><br><span class="line"><span class="meta">J-Link&gt;</span><span class="bash">Regs</span></span><br><span class="line">PC: (R15) = 00000000, CPSR = 600000D3 (SVC mode, ARM FIQ dis. IRQ dis.)</span><br><span class="line">R0 = 33B1C948, R1 = 00000000, R2 = 33B1C058, R3 = 19000300</span><br><span class="line">R4 = 33B1C948, R5 = 33B1C058, R6 = 19000300, R7 = 00000000</span><br><span class="line">USR: R8 =33FEC9A0, R9 =33B1BF08, R10=DEADBEEF, R11 =000185BC, R12 =00000000</span><br><span class="line">     R13=FF7CFAEF, R14=BFBFFD9E</span><br><span class="line">FIQ: R8 =E7EF7AF0, R9 =BEBFBFFB, R10=FDA3FBFD, R11 =FCF82DF3, R12 =9FDFFD30</span><br><span class="line">     R13=FDFFDF79, R14=FFEDE3F9, SPSR=00000010</span><br><span class="line">SVC: R13=33B1BE80, R14=33F59374, SPSR=00000013</span><br><span class="line">ABT: R13=FFDFFEFF, R14=4FFFEF77, SPSR=40000014</span><br><span class="line">IRQ: R13=BF9E36F9, R14=69F7FFFF, SPSR=00000010</span><br><span class="line">UND: R13=FBBAD9FF, R14=00000008, SPSR=700000DB</span><br></pre></td></tr></table></figure>
+
+<p>再回到J-Flash ARM中，设置菜单中有一项”Use following init sequence”，按照<a href="/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">之前的做法</a>是设置成了”Reset &amp; Delay 2ms”。注意上面J-Link Commander的输出信息，输入<code>r</code>进行复位后第一行就是:</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Reset <span class="keyword">delay</span>: <span class="number">0</span> ms</span><br></pre></td></tr></table></figure>
+
+<p>复位延时是0ms。受此启发，将J-Flash ARM中的复位延时也改为0ms，此时再尝试连接，发现可以建立连接了。不过问题并没有解决，之后下载程序时会提示错误：”PC of target system has unexpected value after programming”，这也就是之前为何要设置成”Reset &amp; Delay 2ms”的原因（详见<a href="/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">使用JLink为2440 NOR Flash下载程序</a>）。</p>
+<p>面对这个矛盾的问题，我想到的解决方案是：<strong>使用两次复位，第一次延时设置为0ms，这是为了能顺利建立连接；第二次复位延时设置为2ms，这是为了能顺利下载程序</strong>。实际测试表明，这样设置后的确能正常工作了。虽然表面上看问题是解决了，不过这种解决方案不明不白的，还是要深入分析下问题的原因。</p>
+<hr>
+<p>之前屡次实验的结果是：</p>
+<ul>
+<li>直接在程序运行时去连接 -&gt; 无法连接</li>
+<li>切换到NAND Flash启动（其中没有程序）后去连接 -&gt; 正常连接</li>
+<li>复位延时0ms后连接 -&gt; 正常连接</li>
+<li>复位延时2ms后连接 -&gt; 无法连接</li>
+</ul>
+<p>从中可以看到，只要是程序运行起来后均无法正常连接，复位延时2ms后连接可以视为此时程序已经运行起来了，而复位延时0ms后连接相当于程序还没运行就去连接。JATG的连接过程相当于中断（Halt）CPU的过程，这也就意味着问题是由于程序造成的，程序运行起来后因为某些原因导致CPU无法被Halt了。为验证此猜想，在启动代码中，关闭了中断和看门狗后就加入一个死循环指令：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">b</span> .</span><br></pre></td></tr></table></figure>
+
+<p>然后再编译下载运行，此时就可以去掉第一次复位了，连接过程很正常，而且在程序运行中打开J-Link Commander也可以直接连上了，说明JLink此时成功的Halt并连接上了CPU。<strong>这就确定应该是程序中有些问题，导致CPU在某些时候进入了异常状态，从而无法使用JTAG连接。</strong></p>
+<p>既然确定了是程序中的问题，那么是程序中的什么问题造成的呢？联想到之前测试时发现U-Boot的输出每次都不太一样，有些时候可以正常输出用户交互命令行：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">In</span>:    serial</span><br><span class="line">Out:   serial</span><br><span class="line">Err:   serial</span><br><span class="line">Net:   CS8900-0</span><br><span class="line">Error: CS8900-0<span class="built_in"> address </span><span class="keyword">not</span> set.</span><br><span class="line"></span><br><span class="line">SMDK2440 #</span><br></pre></td></tr></table></figure>
+
+<p>然而更多的时候会卡在<code>Net:</code>处：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">In:</span>    serial</span><br><span class="line"><span class="symbol">Out:</span>   serial</span><br><span class="line"><span class="symbol">Err:</span>   serial</span><br><span class="line"><span class="symbol">Net:</span></span><br></pre></td></tr></table></figure>
+
+<p>这就暗示我们会不会是网卡设置出错了呢。LT2440开发板上使用的DM9000网卡连接在了Bank 4上，目前的程序没有对其访问模式做设置，然而根据网上的各种资料，其访问模式应该要设置为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> B4_BWSCON    (DW16 + WAIT + UBLB)</span></span><br></pre></td></tr></table></figure>
+
+<p>即加入等待和启用UB/LB。按这个进行设置后，编译下载运行一切正常。至此，问题已经完全搞清楚了，<strong>因为对网卡的总线访问模式有误，导致CPU进入了异常状态，从而无法建立JTAG连接，修正此问题后一切正常。</strong></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/">Jlink为S3C2440下载程序提示&#34;Unable to halt cpu core&#34;的解决办法</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">高明飞</a></p>
+        <p><span>发布时间:</span>2016-06-20, 17:08:06</p>
+        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/" title="Jlink为S3C2440下载程序提示&#34;Unable to halt cpu core&#34;的解决办法">http://gaomf.cn/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaomf.cn/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/06/22/串口终端picocom的使用/">
+                    串口终端picocom的使用
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/06/19/U-Boot 2016.05 在S3C2440上的移植（1）——基本运行/">
+                    U-Boot 2016.05 在S3C2440上的移植（1）——基本运行
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+
+
+    
+	
+	<!-- Gitment评论插件通用代码 -->
+<!-- from: https://billts.site/extra_css/gitment.css -->
+<!-- from: https://billts.site/js/gitment.js -->
+
+<div id="gitment-ctn" style="margin: 50px"></div>
+<link rel="stylesheet" href="/css/extra_css/gitment.css">
+<script src="/js/gitment.js"></script>
+
+<script>
+var gitment = new Gitment({
+  id: "Jlink为S3C2440下载程序提示&#34;Unable to halt cpu core&#34;的解决办法",
+  owner: 'g199209',
+  repo: 'g199209.github.io',
+  oauth: {
+    client_id: '813326c14fac583d3c91',
+    client_secret: 'f8dbfe0b2626fa098ec31a165f298a4af93c6535',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+<!-- Gitment代码结束 -->
+	
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/06/22/串口终端picocom的使用/" title="上一篇: 串口终端picocom的使用">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/06/19/U-Boot 2016.05 在S3C2440上的移植（1）——基本运行/" title="下一篇: U-Boot 2016.05 在S3C2440上的移植（1）——基本运行">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/28/PVE_OpenWRT_Network_Broken/">PVE上部署OpenWRT发生网络中断的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/24/Thesis_of_Master/">用于嵌入式车载安全预警的交通标志检测若干关键技术研究与验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Deep_Into_Dokcer_Helloworld/">深入分析Docker hello-world镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/17/Sudo_No_Passwd/">sudo不需要输入密码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Hexo_Yelee_Gitment/">为Hexo博客Yelee主题添加Gitment评论系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/sizeof_extern_array/">sizeof 获取 extern 数组长度</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/The_Road/">多歧路，今安在？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/04/SSH_Forwarding/">SSH反向穿透访问内网主机</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/25/C_restrict/">C语言关键词restrict的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/Kernel_min_max_macro/">Linux kernel中的min和max宏</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/C_typeof/">C语言中typeof的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/05/string_literal_concatenate/">C语言中的字符串字面量连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/Detect_Stack_Direction/">用代码判断栈的增长方向</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/20/printf_format_string_attack/">printf格式化字符串漏洞攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/16/Atom_Configure/">Atom编辑器配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/Win10_Software_Font_Blur/">Win10下软件界面显示模糊问题解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/15/Memcpy_Optimization/">memcpy中的内存读写优化问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/31/Array_Find_Half/">寻找数组中出现次数超过一半的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/Cpp_string_COW_SSO/">C++中std::string的COW及SSO实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/12/LDO/">LDO应用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/TL431_Self_OScillation/">TL431自激振荡消除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/Sudoku/">数独求解程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/OpenCV_and_GTK/">OpenCV与GTK+结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/Allegro_Font/">Cadence Allegro 调整界面字体字号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/Discrete_Load_Switch/">带软启动的分立负载开关电路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Tutorial_Help/">PSpice教程及帮助文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Swt/">PSpice中的延时开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/Linux_SoftRouter_Basic/">Linux软路由——基础配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Relaxation_Oscillator/">松弛振荡器原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Capacity_Charge/">对电容充放电过程的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Button_Cell/">纽扣电池型号总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/SVN/">SVN常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/C++_Random/">C++生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/SSH_Authentication/">SSH证书登录总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/Ubuntu_Reduce_Swap/">Ubuntu减小swap分区大小的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/Future_Hesitate/">对于未来的迷茫</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/Minimum_Spanning_Tree/">最小生成树算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/Maximum_Flow_Algorithm/">最大流算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/12/BinaryTree_Traversal/">二叉树的遍历算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/03/Shortest_Path/">最短路径算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/02/Vim_Plugin/">Vim配置及插件总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Linux_Vim_Compile/">Linux下Vim的编译安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Hexo_Git_CRLF/">Hexo Git部署警告"warning： LF will be replaced by CRLF"的去除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Linux_Colourful_Man/">Linux彩色man page设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/Linux_Background_Run/">Linux下让进程在后台可靠运行的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/SSH_Broken_Pipe/">SSH连接自动断开的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/03/VMware_Shrink_Linux/">VMware中收缩Linux虚拟机体积</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/VMware_Internal_SD/">VMware虚拟机中使用电脑内置SD读卡器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/VMWare_Ubuntu_Terminal_Shadowsocks/">VMware Ubuntu虚拟机中为终端配置Shadowsocks代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/VS2015_Qt_UTF8/">VS2015 & Qt中文编码方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/10/OpenCV_and_Qt/">OpenCV与Qt结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/09/VS2015_Qt5_7/">VS2015搭建Qt 5.7开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/VS2015_OpenCV31/">VS2015下编译OpenCV 3.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Array_Shift/">数组循环移位算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/N_Queen_Problem/">N皇后问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/PMSM_Vector_Control/">PMSM矢量控制算法调试流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_014/">LeetCode 014. Longest Common Prefix (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_019/">LeetCode 019. Remove Nth Node From End of List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_083/">LeetCode 083. Remove Duplicates from Sorted List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Raspberry_Pi_Static_IP/">为树莓派设置静态IP地址的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/IP_Mask/">IP地址中子网掩码的表示方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Windows_Ping/">Windows防火墙允许ping请求设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/String_Fill/">一道字符串填充算法题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_319/">LeetCode 319. Bulb Switcher (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_292/">LeetCode 292. Nim Game (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/divide_conquer/">分治法算法复杂度</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_345/">LeetCode 345. Reverse Vowels of a String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_344/">LeetCode 344. Reverse String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_167/">LeetCode 167. Two Sum II - Input array is sorted (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_001/">LeetCode 001. Two Sum (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/apt_apt-get/">apt与apt-get命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_160/">LeetCode 160. Intersection of Two Linked Lists (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_141/">LeetCode 141. Linked List Cycle (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_415/">LeetCode 415. Add String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/20/ARM_Architecture_Core/">ARM架构及内核</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Diff_Patch/">diff及patch的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Blog_New_Theme_2016/">更换博客主题啦~</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Encoder_Velocity_Measure/">旋转编码器速度测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/为Hexo博客Yilia主题添加本地站内搜索功能/">为Hexo博客Yilia主题添加本地站内搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/关于科学与工程/">关于科学与工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/26/在Android Studio中使用Lambda表达式/">在Android Studio中使用Lambda表达式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/16/Java集合框架/">Java集合框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/最大公约数算法/">最大公约数算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/最大子序列和问题/">最大连续子序列和问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/C标准库学习笔记(1)——time、ctype、stdarg、assert/">C标准库学习笔记(1)——time、ctype、stdarg、assert</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/使用Python实现网站变化监测系统/">使用Python实现网站变化监测系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/正则表达式总结/">正则表达式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用re正则表达式解析文本/">Python爬虫--使用re正则表达式解析文本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用BeautifulSoup解析HTML/">Python爬虫--使用BeautifulSoup解析HTML</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/U-Boot 2016.05 Stage1代码分析/">U-Boot 2016.05 Stage1代码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/12/UART协议时序总结/">UART协议时序总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/汇编文件后缀.s与.S的区别/">汇编文件后缀.s与.S的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Linux下查看编辑二进制文件/">Linux下查看编辑二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot DM9000网卡驱动提示could not establish link的解决方法/">U-Boot DM9000网卡驱动提示"could not establish link"的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot 2016.05 在S3C2440上的移植——杂项/">U-Boot 2016.05 在S3C2440上的移植——杂项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/在U-Boot中添加自定义命令以实现自动下载程序/">在U-Boot中添加自定义命令以实现自动下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/VMware虚拟机中嵌入式Linux开发环境网络配置/">VMware虚拟机中嵌入式Linux开发环境网络配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡/">U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（3）——Nand Flash/">U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/24/U-Boot 2016.05 在S3C2440上的移植（2）——Nor Flash/">U-Boot 2016.05 在S3C2440上的移植（2）——NOR Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/23/Nor Flash中的启动扇区（Boot Sector, Boot Block）/">Nor Flash中的启动扇区（Boot Sector, Boot Block）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/22/串口终端picocom的使用/">串口终端picocom的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/">Jlink为S3C2440下载程序提示"Unable to halt cpu core"的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/U-Boot 2016.05 在S3C2440上的移植（1）——基本运行/">U-Boot 2016.05 在S3C2440上的移植（1）——基本运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/17/OpenSSH使用多个私钥（SSH Key）配置/">OpenSSH使用多个私钥（SSH Key）配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/16/crosstool-ng参数配置/">crosstool-ng参数配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/GCC中-march、-mtune、-mcpu三个参数的设置/">GCC中-march、-mtune、-mcpu三个参数的设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/crosstool-ng的基本使用流程/">crosstool-ng的基本使用流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/14/crosstool-ng的安装/">crosstool-ng的安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/06/旋转编码器绝对位置测量方法/">旋转编码器绝对位置测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/Python爬虫--使用requests获取网页/">Python爬虫--使用requests获取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/使用Python爬虫抓取网页/">使用Python爬虫抓取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/NFS服务器的搭建/">NFS服务器的搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/U-Boot中IP地址设置方法/">U-Boot中IP地址设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/27/U-Boot版本命名规则及源码下载途径/">U-Boot版本命名规则及源码下载途径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/Android中实现多线程的方法/">Android中实现多线程的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/IQmath库总结/">C28x IQmath库使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/28/结构体内存边界对齐问题/">结构体内存边界对齐问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/ARM Cortex-M内核复位启动过程分析/">ARM Cortex-M内核复位启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/Python Socket Error Address already in use的解决办法/">Python Socket Error： Address already in use的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/C2000 DSP中全局变量清零问题/">C2000 DSP中全局变量清零问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/21/C语言中函数指针的声明及使用/">C语言中函数指针的声明及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/18/C语言标准库总结/">C语言标准库总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/HTTP中确定报文结束的方法/">HTTP中确定报文结束的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/C语言运算符优先级与结合性/">C语言运算符优先级与结合性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/MCS-51 基本数据类型/">MCS-51 基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/22/半导体存储器总结/">半导体存储器总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/04/Altium Designer导出Gerber文件方法/">Altium Designer导出Gerber文件方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/Hexo博客修改Archive页面显示文章数量/">Hexo博客修改Archive页面显示文章数量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/24/Population Count算法/">Population Count算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/28/Matlab调用Origin作图/">Matlab调用Origin作图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/Origin Script Window 执行脚本代码的方法/">Origin Script Window 执行脚本代码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/集成式负载开关/">集成式负载开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/12/Quartus中配置FPGA未使用引脚状态方法/">Quartus中配置FPGA未使用引脚状态方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/11/IGBT与MOSFET异同/">IGBT与MOSFET比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/01/三相逆变器电流采样方案总结/">三相逆变器电流采样方案总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/27/C2000 DSP基本数据类型/">C2000 DSP基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/C2000 ePWM模块/">C2000 ePWM模块</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Simulink仿真模式/">Simulink仿真模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8外设引脚重映射/">STM8外设引脚重映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8系列单片机/">STM8系列单片机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/19/阻抗测量方法/">阻抗测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/11/使用OpenMP进行多线程计算/">使用OpenMP进行多线程计算</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/10/STC单片机不断电下载程序/">STC单片机不断电下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/08/OpenCV 3.0安装/">OpenCV 3.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/06/STM8 SWIM接口/">STM8 SWIM接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/BLDC六步换相法基本原理及驱动波形/">BLDC六步换相法基本原理及驱动波形</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/30/C2000 CSM使用方法/">C2000 CSM使用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/28/TMS320 DSP新建工程基本步骤/">C2000 DSP新建工程基本步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/数据结构——循环队列/">数据结构——循环队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/OSI模型总结/">OSI模型总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/安规电容总结/">安规电容总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/C语言生成随机数/">C语言生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Doxygen处理条件编译/">Doxygen处理条件编译</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/12/使用Doxygen生成高质量代码参考文档/">使用Doxygen生成高质量代码参考文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/Hexo博客优化加载速度/">Hexo博客优化加载速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/使用JLink为2440 NOR Flash下载程序/">使用JLink为2440 NOR Flash下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/30/Markdown常用格式/">Markdown常用格式</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2019 高明飞
+				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 8;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  </div>
+</body>
+</html>

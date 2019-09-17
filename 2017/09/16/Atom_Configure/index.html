@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="高明飞">
+
+
+
+<meta name="description" content="之前使用过各种文本编辑器，Notepad++、Sublime Text、VIM等，使用下来觉得各有千秋，都有些不太满意的地方。前段时间体验了下Atom，感觉很不错~作为一个所谓的”A hackable text editor for the 21st Century”，还是有很多可以折腾配置的东西，此处总结整理下。">
+<meta name="keywords" content="Editor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Atom编辑器配置">
+<meta property="og:url" content="http://gaomf.cn/2017/09/16/Atom_Configure/index.html">
+<meta property="og:site_name" content="高明飞的博客">
+<meta property="og:description" content="之前使用过各种文本编辑器，Notepad++、Sublime Text、VIM等，使用下来觉得各有千秋，都有些不太满意的地方。前段时间体验了下Atom，感觉很不错~作为一个所谓的”A hackable text editor for the 21st Century”，还是有很多可以折腾配置的东西，此处总结整理下。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170827162506.png">
+<meta property="og:updated_time" content="2019-09-17T11:46:27.587Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Atom编辑器配置">
+<meta name="twitter:description" content="之前使用过各种文本编辑器，Notepad++、Sublime Text、VIM等，使用下来觉得各有千秋，都有些不太满意的地方。前段时间体验了下Atom，感觉很不错~作为一个所谓的”A hackable text editor for the 21st Century”，还是有很多可以折腾配置的东西，此处总结整理下。">
+<meta name="twitter:image" content="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170827162506.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="高明飞的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Atom编辑器配置 | 高明飞的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?023158b4c9d97942be746fc9f5fde1da";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+	
+	<script>
+	(function(){
+		var bp = document.createElement('script');
+		bp.src = '//push.zhanzhang.baidu.com/push.js';
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+  
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+
+	
+		<form id="search-form"  class="search">
+			<input type="text" id="st-search-input" name="q" results="0" class="st-default-search-input" maxlength="50" placeholder="Search..." autocomplete="off" autocorrect="off">
+			<i class="fa fa-times" onclick="resetSearch()"></i>
+		</form>
+	
+
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">高明飞</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">澹泊明志，宁静致远</p>
+        
+
+        
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+			<p class='loading-xml'>Loading XML File... <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/Top">精华文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/atom.xml">RSS</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARM/">ARM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/">Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootloader/">Bootloader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootrom/">Bootrom</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Compiler/">Compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrent/">Concurrent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DDR/">DDR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSP/">DSP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Struct/">Data Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/">Debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doxygen/">Doxygen</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EDA/">EDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Editor/">Editor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File-System/">File System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flash/">Flash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HW-Component/">HW Component</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JTAG/">JTAG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kernel/">Kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MCS-51/">MCS-51</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Matlab/">Matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Motor/">Motor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Number-Theory/">Number Theory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Online-Judge/">Online Judge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMP/">OpenMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PSpice/">PSpice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt/">Qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Raspberry-Pi/">Raspberry Pi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Regular-Expression/">Regular Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Runtime/">Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM8/">STM8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVN/">SVN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Small-Protocol/">Small Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Socket/">Socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spider/">Spider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Top/">Top</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/">Vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Virtualization/">Virtualization</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://caoyudong.com/">BAZINGA</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://lidewen.com/">李德文</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://jiaodi.tech/">焦迪</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.netcan666.com/">Netcan</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">三尺微命，一介书生。曾辗转求学于思源湖畔，老和山下，现栖身于魔都一隅。所学颇杂，对诸多方面均有涉猎，对各种技术充满热情~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">高明飞</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">高明飞</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">澹泊明志，宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/Top">精华文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/atom.xml">RSS</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Atom_Configure" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/16/Atom_Configure/" class="article-date">
+      <time datetime="2017-09-16T02:22:00.000Z" itemprop="datePublished">2017-09-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Atom编辑器配置
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/工具之术/">工具之术</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Editor/">Editor</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>之前使用过各种文本编辑器，<a href="https://notepad-plus-plus.org/" target="_blank" rel="noopener">Notepad++</a>、<a href="https://www.sublimetext.com" target="_blank" rel="noopener">Sublime Text</a>、<a href="http://www.vim.org/" target="_blank" rel="noopener">VIM</a>等，使用下来觉得各有千秋，都有些不太满意的地方。前段时间体验了下<a href="https://atom.io/" target="_blank" rel="noopener">Atom</a>，感觉很不错~作为一个所谓的”A hackable text editor for the 21st Century”，还是有很多可以折腾配置的东西，此处总结整理下。</p>
+<a id="more"></a>
+
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>Atom是Github社区推出的开源编辑器，即可以开箱即用无需配置，也可以充分的去定制折腾：</p>
+<blockquote>
+<p>Atom is a text editor that’s modern, approachable, yet hackable to the core—a tool you can customize to do anything but also use productively without ever touching a config file.</p>
+</blockquote>
+<p>Atom官方的使用手册见文末第一个参考资料链接。</p>
+<h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><p>一般从其<a href="https://atom.io/" target="_blank" rel="noopener">主页</a>上下载编译好的二进制程序文件即可，Windows下一般使用<code>exe</code>安装包。安装过程完全不需要用户参与，也无法参与……安装包会将Atom自动安装到C盘的某个位置，且这是无法更改的。</p>
+<h3 id="命令面板（Command-Palette）"><a href="#命令面板（Command-Palette）" class="headerlink" title="命令面板（Command Palette）"></a>命令面板（Command Palette）</h3><p>Windows下，使用<code>ctrl-shift-p</code>键即可打开命令面板，在这个命令面板中可以使用模糊搜索快速查找所需的命令，而无需像传统方式那样在层层菜单中寻找。如设置界面，可从菜单中的<code>File</code>-&gt;<code>Setting</code>打开，更快的方式是在命令面板中搜索<code>setting</code>，即可看到所需命令及其快捷键：</p>
+<p><img src="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170827162506.png" alt></p>
+<h3 id="主题与字体"><a href="#主题与字体" class="headerlink" title="主题与字体"></a>主题与字体</h3><p>在设置界面中，<code>Themes</code>一项用于设置界面及语法高亮主题，尝试下来<code>One</code>这个主题最好看，还提供了<code>One Light</code>及<code>One Dark</code>两套亮色及暗色主题。如果对自带的几个主题配色不满意的话，可以去官方的<a href="https://atom.io/themes" target="_blank" rel="noopener">几千个主题</a>中挑选自己喜欢的，或者干脆自己自定义一个~不过自带的这两个主题已经可以完全满足我的需求了，就不再去折腾了……</p>
+<p>至于编辑器界面的字体与字号，可在<code>Editor</code>选项卡中配置，一般选择等宽字体，如我选择的<code>YaHei Consolas Hybrid</code>。</p>
+<h3 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h3><p>Atom中，通过文件夹的方式来组织管理项目，界面左侧就是<code>Project</code>面板。若要查找项目中的文件，可使用<code>ctrl-p</code>快捷键；使用<code>ctrl-b</code>查找已打开的文件。</p>
+<h3 id="编辑-amp-移动"><a href="#编辑-amp-移动" class="headerlink" title="编辑&amp;移动"></a>编辑&amp;移动</h3><p>Atom中本身就有一些光标移动的快捷键，不过更方便的是使用下文将要提到的Vim扩展插件，此处仅列举一些比Vim更好用的功能：</p>
+<ul>
+<li>跳转到某行：<code>ctrl-g</code>，之后输入行号</li>
+<li>跳转到标签：<code>ctrl-r</code>，如要在工程内搜索，使用<code>ctrl-shift-r</code></li>
+<li>将当前行（或选中的几行）上下移动：<code>ctrl-↑/↓</code>，此功能在调整代码时会很有用</li>
+</ul>
+<p>Atom中还有个很强大的多光标功能，按住<code>ctrl</code>键的同时用鼠标在多个位置点击或选取，即可启用多光标编辑模式。也可以选中一个词后，按<code>ctrl-d</code>键即可选择下一个相同的词。</p>
+<p>另外，Atom中的括号等不仅会自动配对，而且选中某一个部分后输入单边括号，编辑器会自动用此括号把选中内容包围起来。</p>
+<h3 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h3><p>使用<code>alt-ctrl-F2</code>键来添加或删除书签，使用<code>F2</code>键可以调到下一个书签，<code>ctrl-F2</code>打开书签列表。</p>
+<h3 id="搜索和替换"><a href="#搜索和替换" class="headerlink" title="搜索和替换"></a>搜索和替换</h3><p>与大部分软件一样，<code>ctrl-f</code>打开搜索替换面板，<code>ctrl-shift-f</code>在整个工程中执行搜索替换。也可以使用正则表达式，在替换时若需反向引用，使用<code>$1</code>, <code>$2</code>…</p>
+<h2 id="各种高级功能"><a href="#各种高级功能" class="headerlink" title="各种高级功能"></a>各种高级功能</h2><p>Atom内置了很多高级编辑功能，此处列出一些常用的，详见<a href="http://flight-manual.atom.io/" target="_blank" rel="noopener">Atom Flight Manual</a>中的帮助说明。</p>
+<h3 id="Snippets"><a href="#Snippets" class="headerlink" title="Snippets"></a>Snippets</h3><p>常用代码片段，输入响应关键词后，会自动弹出提示，此时按<code>Tab</code>键即可自动输入。不同文件类型有不同的默认代码片段，各种package也会添加自己的snippets扩展，可在命令面板中输入<code>Snippets:Available</code>查看当前可用的snippets。如果要自定义snippets，可参考官方文档的说明：<a href="http://flight-manual.atom.io/using-atom/sections/snippets/#creating-your-own-snippets" target="_blank" rel="noopener">Creating Your Own Snippets</a></p>
+<h3 id="Git集成"><a href="#Git集成" class="headerlink" title="Git集成"></a>Git集成</h3><p>Atom是Github发布的编辑器，自然内置了很好的Git支持，界面右下角即可看到当前状态，点击后即可打开Git面板。不过和大部分IDE中集成的Git一样，此处的Git只适合日常工作时commit新代码，若要查看之前的提交记录或进行一些更复杂的操作，还是使用专门的软件更好，比如<a href="https://www.gitkraken.com/" target="_blank" rel="noopener">GitKraken</a>。</p>
+<p>值得一提的是，编辑器左侧使用不同颜色直接标出了此文件的修改情况，十分的直观~使用快捷键<code>alt-g-↑/↓</code>可以快速切换到下一个修改过的地方。</p>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><p>Atom本身是一个很轻量级的编辑器框架，它的各种功能都是由不同插件实现的，称为Packages，这也就是配置Atom中最好玩的部分了~插件的安装有几种不同的方法，最简单的方法是，在<code>Settings</code>-&gt;<code>Install</code>中直接搜索安装即可。此处记录下我安装的插件。</p>
+<h3 id="配置备份"><a href="#配置备份" class="headerlink" title="配置备份"></a>配置备份</h3><p>Atom的所有配置文件其实都位于<code>.atom</code>文件夹下，理论上可通过自行备份这个文件夹来实现配置备份，不过此处我们有一个更优雅的解决方案：<code>Sync-setttings</code>插件。此插件基于Github gist进行备份，所以还需要进行一些额外的配置，详见下面两篇文章：</p>
+<blockquote>
+<p><a href="http://wiki.jikexueyuan.com/project/atom/sync-settings.html" target="_blank" rel="noopener">Sync-setttings(插件-备份神器)</a><br><a href="http://elickzhao.github.io/2016/10/Atom%20%E7%BC%96%E8%BE%91%E5%99%A8%E9%85%8D%E7%BD%AEsync-setting/" target="_blank" rel="noopener">Atom 编辑器配置sync-setting</a></p>
+</blockquote>
+<h3 id="Vim扩展"><a href="#Vim扩展" class="headerlink" title="Vim扩展"></a>Vim扩展</h3><p>Vim最好用的地方应该是其移动方式，在Atom中也可以通过安装<code>vim-mode-plus</code>这个插件实现基础的Vim功能，这个插件是对官方Vim插件的升级加强，功能还是很完善的。这个插件还有一个<a href="https://github.com/t9md/atom-vim-mode-plus/wiki" target="_blank" rel="noopener">Wiki页面</a>，里面有各种帮助文档，其中<a href="https://github.com/t9md/atom-vim-mode-plus/wiki/AdvancedTopicTutorial" target="_blank" rel="noopener">Advanced Topic Tutorial</a>部分介绍了各种高级编辑技巧，很值得一读。</p>
+<p><code>vim-mode-plus</code>插件默认绑定了很多快捷键，如果需要自定义的话，可以修改<code>keymap.cson</code>文件。比如我就根据自己的需求加入了以下一些配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&apos;atom-text-editor.vim-mode-plus&apos;:</span><br><span class="line">  # 保证通用的复制粘贴快捷键可用</span><br><span class="line">  &apos;ctrl-c&apos;: &apos;core:copy&apos;</span><br><span class="line">  &apos;ctrl-v&apos;: &apos;core:paste&apos;</span><br><span class="line"></span><br><span class="line">&apos;atom-text-editor.vim-mode-plus:not(.insert-mode)&apos;:</span><br><span class="line">  &apos;H&apos;: &apos;vim-mode-plus:move-to-first-character-of-line&apos;</span><br><span class="line">  &apos;L&apos;: &apos;vim-mode-plus:move-to-last-character-of-line&apos;</span><br><span class="line">  &apos;ctrl-/&apos;: &apos;vim-mode-plus:toggle-line-comments&apos;</span><br><span class="line">  &apos;space space&apos;: &apos;vim-mode-plus:toggle-fold&apos;</span><br></pre></td></tr></table></figure>
+
+<p>Vim中还有个很好用的插件叫EasyMotion，可以实现快速移动定位，同样在Atom中，也可以通过安装<code>Jumpy</code>这个插件来实现这一目的。此插件默认绑定的快捷键是<code>shift-Enter</code>，可以将<code>vim-mode-plus</code>中的<code>f</code>键替换为这个插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&apos;atom-text-editor:not(.mini).vim-mode-plus:not(.insert-mode):not(.jumpy-jump-mode)&apos;:</span><br><span class="line">  &apos;f&apos;: &apos;jumpy:toggle&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Markdown扩展"><a href="#Markdown扩展" class="headerlink" title="Markdown扩展"></a>Markdown扩展</h3><p>Atom本身就支持Markdown语法高亮的，再配合一些插件就可以很完美的作为一个Markdown编辑器使用了：</p>
+<ul>
+<li><code>markdown-preview-enhanced</code> : Markdown预览增强版，提供了各种高级功能，详见其<a href="https://shd101wyy.github.io/markdown-preview-enhanced/#/zh-cn/" target="_blank" rel="noopener">文档</a>。安装好后可以把Atom自带的<code>markdown-preview</code>给禁用掉</li>
+<li><code>Markdown-Writer</code> : 各种辅助增强功能，功能介绍见其<a href="https://github.com/zhuochun/md-writer/wiki/Features" target="_blank" rel="noopener">文档</a></li>
+</ul>
+<p><code>Markdown-Writer</code>有一个很方便的功能就是自动生成草稿文件(draft)和发布(publish)完成的草稿文件，这需要先在其设置中配置一下，相应的<code>config.cson</code>文件如下：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"markdown-writer"</span>:</span><br><span class="line"><span class="symbol">  fileExtension:</span> <span class="string">".md"</span></span><br><span class="line"><span class="symbol">  frontMatter:</span> <span class="string">'''</span></span><br><span class="line"><span class="symbol">    title:</span> <span class="params">&lt;title&gt;</span></span><br><span class="line"><span class="symbol">    permalink:</span></span><br><span class="line"><span class="symbol">    toc:</span> false</span><br><span class="line"><span class="symbol">    mathjax:</span> false</span><br><span class="line"><span class="symbol">    fancybox:</span> false</span><br><span class="line"><span class="symbol">    tags:</span></span><br><span class="line"><span class="symbol">    categories:</span></span><br><span class="line"><span class="symbol">    date:</span> <span class="params">&lt;date&gt;</span></span><br><span class="line"></span><br><span class="line">    ---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="params">&lt;!--more--&gt;</span></span><br><span class="line"></span><br><span class="line">    ----------</span><br><span class="line"></span><br><span class="line">    &gt; 参考资料：</span><br><span class="line">    &gt; []()</span><br><span class="line">  <span class="string">'''</span></span><br><span class="line"><span class="symbol">  siteDraftsDir:</span> <span class="string">"draft"</span></span><br><span class="line"><span class="symbol">  siteEngine:</span> <span class="string">"hexo"</span></span><br><span class="line"><span class="symbol">  siteLocalDir:</span> <span class="string">"D:\\Github\\Hexo"</span></span><br><span class="line"><span class="symbol">  sitePostsDir:</span> <span class="string">"source\\_posts"</span></span><br><span class="line"><span class="symbol">  urlForCategories:</span> <span class="string">"http://gaomf.cn/categories.json"</span></span><br><span class="line"><span class="symbol">  urlForPosts:</span> <span class="string">"http://gaomf.cn/posts.json"</span></span><br><span class="line"><span class="symbol">  urlForTags:</span> <span class="string">"http://gaomf.cn/tags.json"</span></span><br></pre></td></tr></table></figure>
+
+<p>最后三个选项是为了实现自动管理标签和分类用的，这需要另一个Hexo插件<a href="https://github.com/timnew/hexo-generator-atom-markdown-writer-meta" target="_blank" rel="noopener">hexo-generator-atom-markdown-writer-meta</a>配合，这个插件有些小Bug，在Hexo 3上无法正常使用，不过有人给出了解决方案，打上<a href="https://github.com/timnew/hexo-generator-atom-markdown-writer-meta/pull/5/files" target="_blank" rel="noopener">这个补丁</a>即可。</p>
+<p>这样配置好后，再配合内置Terminal，就可以实现在Atom内完成博客写作的全过程了~</p>
+<h3 id="minimap"><a href="#minimap" class="headerlink" title="minimap"></a>minimap</h3><p>Sublime Text中有一个很好用的文档缩略图功能，在滚动时屏幕右侧会显示此文档的缩略图。在Atom中也可以通过插件实现这一功能，这就是<code>minimap</code>插件，除了这个基础插件外，还有几个扩展插件用于增强其功能：</p>
+<ul>
+<li><code>minimap-autohider</code> : 在不滚动鼠标时自动隐藏minimap缩略图；</li>
+<li><code>minimap-bookmarks</code> : 在缩略图中高亮显示书签；</li>
+<li><code>minimap-find-and-replace</code> : 在缩略图中高亮显示搜索结果；</li>
+<li><code>minimap-git-diff</code> : 在缩略图中高亮显示当前文档修改情况；</li>
+<li><code>minimap-highlight-selected</code> : 在缩略图中高亮显示选中的单词；</li>
+<li><code>minimap-split-diff</code> : 在缩略图中显示<code>split-diff</code>插件的比较结果；</li>
+</ul>
+<h3 id="Terminal集成"><a href="#Terminal集成" class="headerlink" title="Terminal集成"></a>Terminal集成</h3><p>Atom中的terminal插件有很多，使用下来最好用的是<code>platformio-ide-terminal</code>，在Windows下默认调用的是<code>powershell</code>。安装好此插件后，点击界面左下角的加号即可新建一个terminal，其显示风格也可以自定义，用起来极为方便。</p>
+<h3 id="编程辅助"><a href="#编程辅助" class="headerlink" title="编程辅助"></a>编程辅助</h3><p>最常用的两个功能就是自动补全和代码检查，通过插件<code>autocomplete-plus</code>和<code>linter</code>实现，这两个插件都只是一个框架，针对不同语言有不同语言的扩展。针对C/C++，可安装<code>autocomplete-clang</code>和<code>linter-clang</code>，这两个插件都依赖于<code>clang</code>，所以要先装好<code>clang</code>。<code>clang</code>是LLVM的一部分，下载链接在<a href="http://releases.llvm.org/download.html" target="_blank" rel="noopener">这里</a>，在Windows下就是一个exe安装包，直接安装即可，不过需要注意的是，<strong>安装时一定要选择添加到环境变量，否则无法正常使用</strong>。安装好后，在命令行中输入<code>clang -v</code>，若有输出说明安装正确。</p>
+<p>关于这两个插件的详细使用和配置可参考其文档。另外，<code>linter</code>的显示似乎还需要一个名为<code>Linter-UI-Default</code>的插件支持，也要一起安装上。</p>
+<p>其他一些推荐插件还有：</p>
+<ul>
+<li><code>atom-ctags</code> : 为当前工程生成tag索引，以便实现跳转，默认跳转快捷键为<code>F12</code>，<code>shift-F12</code>返回；</li>
+<li><code>symbols-tree-view</code> : 与<code>atom-ctags</code>配合使用，以列表的形式列出tag；</li>
+</ul>
+<p>最后一个待解决的问题就是调试器，要是能把GDB等集成到Atom里面就完美了，这个之后再来折腾……</p>
+<blockquote>
+<p>Update 2017-10-05:<br>对于Python来说，可以安装<code>autocomplete-python</code>和<code>linter-pylama</code>，Python的语法补全和错误检查比C语言用起来感觉更好~<br>关于调试器，可以使用<code>dbg-gdb</code>插件</p>
+</blockquote>
+<h3 id="其它插件"><a href="#其它插件" class="headerlink" title="其它插件"></a>其它插件</h3><ul>
+<li><code>highlight-selected</code> : 高亮当前选中的单词</li>
+<li><code>file-icons</code> : 添加一些文件类型的图标，更为美观</li>
+<li><code>split-diff</code> : 可以对比两个文件的差异</li>
+</ul>
+<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><p>使用过程中也遇到了一些零散的问题，此处记录一下。</p>
+<p>Q: 无法通过拖拽打开文件，即将文件拖入一个已经打开的Atom窗口界面时，显示红色的禁止标志。<br>A: 不要使用管理员身份运行Atom即可。</p>
+<p>Q: 界面字体发虚。<br>A: <a href="/2017/08/30/Win10_Software_Font_Blur/">Win10下软件界面显示模糊问题解决办法</a><br>   <a href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></p>
+<p>Q: 安装Package时网络连接错误。<br>A: 这是由于GFW把相关网站墙掉了的缘故……开VPN或者是系统代理即可，使用代理的话，在<code>Settings</code>-&gt;<code>Core</code>中找到<code>Use Proxy Settings When Calling APM</code>，勾选上此选项即可。</p>
+<hr>
+<p>最后，使用了一段时间后觉得，Atom有各种好，不过它也有个最大的缺点，就是慢，真的好慢啊…………</p>
+<hr>
+<blockquote>
+<p>参考资料：<br><a href="http://flight-manual.atom.io/" target="_blank" rel="noopener">Atom Flight Manual</a><br><a href="http://blog.csdn.net/u010494080/article/details/50372857" target="_blank" rel="noopener">Atom编辑器入门到精通(一) 安装及使用基础</a><br><a href="https://www.urlteam.org/2017/07/atom%E5%9C%A8vim%E6%A8%A1%E5%BC%8F%E4%B8%8B%E8%AE%BE%E7%BD%AE%E5%BF%AB%E6%8D%B7%E5%A4%8D%E5%88%B6%E6%8C%89%E9%94%AE/" target="_blank" rel="noopener">atom在vim模式下设置快捷复制按键</a><br><a href="https://draapho.github.io/2016/10/12/1610-WinSoft-atompack/" target="_blank" rel="noopener">Windows 软件系列-atom插件</a></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/09/16/Atom_Configure/">Atom编辑器配置</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">高明飞</a></p>
+        <p><span>发布时间:</span>2017-09-16, 10:22:00</p>
+        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/09/16/Atom_Configure/" title="Atom编辑器配置">http://gaomf.cn/2017/09/16/Atom_Configure/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaomf.cn/2017/09/16/Atom_Configure/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/09/20/printf_format_string_attack/">
+                    printf格式化字符串漏洞攻击
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/09/06/Atom_Disable_GPU/">
+                    Atom禁用GPU启动的方法
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本使用"><span class="toc-number">1.</span> <span class="toc-text">基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载安装"><span class="toc-number">1.1.</span> <span class="toc-text">下载安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令面板（Command-Palette）"><span class="toc-number">1.2.</span> <span class="toc-text">命令面板（Command Palette）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主题与字体"><span class="toc-number">1.3.</span> <span class="toc-text">主题与字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查找文件"><span class="toc-number">1.4.</span> <span class="toc-text">查找文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编辑-amp-移动"><span class="toc-number">1.5.</span> <span class="toc-text">编辑&amp;移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#书签"><span class="toc-number">1.6.</span> <span class="toc-text">书签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索和替换"><span class="toc-number">1.7.</span> <span class="toc-text">搜索和替换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#各种高级功能"><span class="toc-number">2.</span> <span class="toc-text">各种高级功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Snippets"><span class="toc-number">2.1.</span> <span class="toc-text">Snippets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git集成"><span class="toc-number">2.2.</span> <span class="toc-text">Git集成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插件"><span class="toc-number">3.</span> <span class="toc-text">插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置备份"><span class="toc-number">3.1.</span> <span class="toc-text">配置备份</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vim扩展"><span class="toc-number">3.2.</span> <span class="toc-text">Vim扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Markdown扩展"><span class="toc-number">3.3.</span> <span class="toc-text">Markdown扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#minimap"><span class="toc-number">3.4.</span> <span class="toc-text">minimap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Terminal集成"><span class="toc-number">3.5.</span> <span class="toc-text">Terminal集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编程辅助"><span class="toc-number">3.6.</span> <span class="toc-text">编程辅助</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其它插件"><span class="toc-number">3.7.</span> <span class="toc-text">其它插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#杂项"><span class="toc-number">4.</span> <span class="toc-text">杂项</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+
+
+    
+	
+	<!-- Gitment评论插件通用代码 -->
+<!-- from: https://billts.site/extra_css/gitment.css -->
+<!-- from: https://billts.site/js/gitment.js -->
+
+<div id="gitment-ctn" style="margin: 50px"></div>
+<link rel="stylesheet" href="/css/extra_css/gitment.css">
+<script src="/js/gitment.js"></script>
+
+<script>
+var gitment = new Gitment({
+  id: "Atom编辑器配置",
+  owner: 'g199209',
+  repo: 'g199209.github.io',
+  oauth: {
+    client_id: '813326c14fac583d3c91',
+    client_secret: 'f8dbfe0b2626fa098ec31a165f298a4af93c6535',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+<!-- Gitment代码结束 -->
+	
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/09/20/printf_format_string_attack/" title="上一篇: printf格式化字符串漏洞攻击">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/09/06/Atom_Disable_GPU/" title="下一篇: Atom禁用GPU启动的方法">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/28/PVE_OpenWRT_Network_Broken/">PVE上部署OpenWRT发生网络中断的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/24/Thesis_of_Master/">用于嵌入式车载安全预警的交通标志检测若干关键技术研究与验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Deep_Into_Dokcer_Helloworld/">深入分析Docker hello-world镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/17/Sudo_No_Passwd/">sudo不需要输入密码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Hexo_Yelee_Gitment/">为Hexo博客Yelee主题添加Gitment评论系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/sizeof_extern_array/">sizeof 获取 extern 数组长度</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/The_Road/">多歧路，今安在？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/04/SSH_Forwarding/">SSH反向穿透访问内网主机</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/25/C_restrict/">C语言关键词restrict的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/Kernel_min_max_macro/">Linux kernel中的min和max宏</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/C_typeof/">C语言中typeof的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/05/string_literal_concatenate/">C语言中的字符串字面量连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/Detect_Stack_Direction/">用代码判断栈的增长方向</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/20/printf_format_string_attack/">printf格式化字符串漏洞攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/16/Atom_Configure/">Atom编辑器配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/Win10_Software_Font_Blur/">Win10下软件界面显示模糊问题解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/15/Memcpy_Optimization/">memcpy中的内存读写优化问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/31/Array_Find_Half/">寻找数组中出现次数超过一半的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/Cpp_string_COW_SSO/">C++中std::string的COW及SSO实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/12/LDO/">LDO应用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/TL431_Self_OScillation/">TL431自激振荡消除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/Sudoku/">数独求解程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/OpenCV_and_GTK/">OpenCV与GTK+结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/Allegro_Font/">Cadence Allegro 调整界面字体字号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/Discrete_Load_Switch/">带软启动的分立负载开关电路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Tutorial_Help/">PSpice教程及帮助文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Swt/">PSpice中的延时开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/Linux_SoftRouter_Basic/">Linux软路由——基础配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Relaxation_Oscillator/">松弛振荡器原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Capacity_Charge/">对电容充放电过程的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Button_Cell/">纽扣电池型号总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/SVN/">SVN常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/C++_Random/">C++生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/SSH_Authentication/">SSH证书登录总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/Ubuntu_Reduce_Swap/">Ubuntu减小swap分区大小的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/Future_Hesitate/">对于未来的迷茫</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/Minimum_Spanning_Tree/">最小生成树算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/Maximum_Flow_Algorithm/">最大流算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/12/BinaryTree_Traversal/">二叉树的遍历算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/03/Shortest_Path/">最短路径算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/02/Vim_Plugin/">Vim配置及插件总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Linux_Vim_Compile/">Linux下Vim的编译安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Hexo_Git_CRLF/">Hexo Git部署警告"warning： LF will be replaced by CRLF"的去除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Linux_Colourful_Man/">Linux彩色man page设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/Linux_Background_Run/">Linux下让进程在后台可靠运行的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/SSH_Broken_Pipe/">SSH连接自动断开的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/03/VMware_Shrink_Linux/">VMware中收缩Linux虚拟机体积</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/VMware_Internal_SD/">VMware虚拟机中使用电脑内置SD读卡器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/VMWare_Ubuntu_Terminal_Shadowsocks/">VMware Ubuntu虚拟机中为终端配置Shadowsocks代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/VS2015_Qt_UTF8/">VS2015 & Qt中文编码方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/10/OpenCV_and_Qt/">OpenCV与Qt结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/09/VS2015_Qt5_7/">VS2015搭建Qt 5.7开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/VS2015_OpenCV31/">VS2015下编译OpenCV 3.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Array_Shift/">数组循环移位算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/N_Queen_Problem/">N皇后问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/PMSM_Vector_Control/">PMSM矢量控制算法调试流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_014/">LeetCode 014. Longest Common Prefix (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_019/">LeetCode 019. Remove Nth Node From End of List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_083/">LeetCode 083. Remove Duplicates from Sorted List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Raspberry_Pi_Static_IP/">为树莓派设置静态IP地址的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/IP_Mask/">IP地址中子网掩码的表示方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Windows_Ping/">Windows防火墙允许ping请求设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/String_Fill/">一道字符串填充算法题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_319/">LeetCode 319. Bulb Switcher (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_292/">LeetCode 292. Nim Game (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/divide_conquer/">分治法算法复杂度</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_345/">LeetCode 345. Reverse Vowels of a String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_344/">LeetCode 344. Reverse String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_167/">LeetCode 167. Two Sum II - Input array is sorted (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_001/">LeetCode 001. Two Sum (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/apt_apt-get/">apt与apt-get命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_160/">LeetCode 160. Intersection of Two Linked Lists (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_141/">LeetCode 141. Linked List Cycle (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_415/">LeetCode 415. Add String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/20/ARM_Architecture_Core/">ARM架构及内核</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Diff_Patch/">diff及patch的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Blog_New_Theme_2016/">更换博客主题啦~</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Encoder_Velocity_Measure/">旋转编码器速度测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/为Hexo博客Yilia主题添加本地站内搜索功能/">为Hexo博客Yilia主题添加本地站内搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/关于科学与工程/">关于科学与工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/26/在Android Studio中使用Lambda表达式/">在Android Studio中使用Lambda表达式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/16/Java集合框架/">Java集合框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/最大公约数算法/">最大公约数算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/最大子序列和问题/">最大连续子序列和问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/C标准库学习笔记(1)——time、ctype、stdarg、assert/">C标准库学习笔记(1)——time、ctype、stdarg、assert</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/使用Python实现网站变化监测系统/">使用Python实现网站变化监测系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/正则表达式总结/">正则表达式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用re正则表达式解析文本/">Python爬虫--使用re正则表达式解析文本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用BeautifulSoup解析HTML/">Python爬虫--使用BeautifulSoup解析HTML</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/U-Boot 2016.05 Stage1代码分析/">U-Boot 2016.05 Stage1代码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/12/UART协议时序总结/">UART协议时序总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/汇编文件后缀.s与.S的区别/">汇编文件后缀.s与.S的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Linux下查看编辑二进制文件/">Linux下查看编辑二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot DM9000网卡驱动提示could not establish link的解决方法/">U-Boot DM9000网卡驱动提示"could not establish link"的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot 2016.05 在S3C2440上的移植——杂项/">U-Boot 2016.05 在S3C2440上的移植——杂项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/在U-Boot中添加自定义命令以实现自动下载程序/">在U-Boot中添加自定义命令以实现自动下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/VMware虚拟机中嵌入式Linux开发环境网络配置/">VMware虚拟机中嵌入式Linux开发环境网络配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡/">U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（3）——Nand Flash/">U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/24/U-Boot 2016.05 在S3C2440上的移植（2）——Nor Flash/">U-Boot 2016.05 在S3C2440上的移植（2）——NOR Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/23/Nor Flash中的启动扇区（Boot Sector, Boot Block）/">Nor Flash中的启动扇区（Boot Sector, Boot Block）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/22/串口终端picocom的使用/">串口终端picocom的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/">Jlink为S3C2440下载程序提示"Unable to halt cpu core"的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/U-Boot 2016.05 在S3C2440上的移植（1）——基本运行/">U-Boot 2016.05 在S3C2440上的移植（1）——基本运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/17/OpenSSH使用多个私钥（SSH Key）配置/">OpenSSH使用多个私钥（SSH Key）配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/16/crosstool-ng参数配置/">crosstool-ng参数配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/GCC中-march、-mtune、-mcpu三个参数的设置/">GCC中-march、-mtune、-mcpu三个参数的设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/crosstool-ng的基本使用流程/">crosstool-ng的基本使用流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/14/crosstool-ng的安装/">crosstool-ng的安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/06/旋转编码器绝对位置测量方法/">旋转编码器绝对位置测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/Python爬虫--使用requests获取网页/">Python爬虫--使用requests获取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/使用Python爬虫抓取网页/">使用Python爬虫抓取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/NFS服务器的搭建/">NFS服务器的搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/U-Boot中IP地址设置方法/">U-Boot中IP地址设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/27/U-Boot版本命名规则及源码下载途径/">U-Boot版本命名规则及源码下载途径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/Android中实现多线程的方法/">Android中实现多线程的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/IQmath库总结/">C28x IQmath库使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/28/结构体内存边界对齐问题/">结构体内存边界对齐问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/ARM Cortex-M内核复位启动过程分析/">ARM Cortex-M内核复位启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/Python Socket Error Address already in use的解决办法/">Python Socket Error： Address already in use的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/C2000 DSP中全局变量清零问题/">C2000 DSP中全局变量清零问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/21/C语言中函数指针的声明及使用/">C语言中函数指针的声明及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/18/C语言标准库总结/">C语言标准库总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/HTTP中确定报文结束的方法/">HTTP中确定报文结束的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/C语言运算符优先级与结合性/">C语言运算符优先级与结合性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/MCS-51 基本数据类型/">MCS-51 基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/22/半导体存储器总结/">半导体存储器总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/04/Altium Designer导出Gerber文件方法/">Altium Designer导出Gerber文件方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/Hexo博客修改Archive页面显示文章数量/">Hexo博客修改Archive页面显示文章数量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/24/Population Count算法/">Population Count算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/28/Matlab调用Origin作图/">Matlab调用Origin作图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/Origin Script Window 执行脚本代码的方法/">Origin Script Window 执行脚本代码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/集成式负载开关/">集成式负载开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/12/Quartus中配置FPGA未使用引脚状态方法/">Quartus中配置FPGA未使用引脚状态方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/11/IGBT与MOSFET异同/">IGBT与MOSFET比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/01/三相逆变器电流采样方案总结/">三相逆变器电流采样方案总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/27/C2000 DSP基本数据类型/">C2000 DSP基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/C2000 ePWM模块/">C2000 ePWM模块</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Simulink仿真模式/">Simulink仿真模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8外设引脚重映射/">STM8外设引脚重映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8系列单片机/">STM8系列单片机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/19/阻抗测量方法/">阻抗测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/11/使用OpenMP进行多线程计算/">使用OpenMP进行多线程计算</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/10/STC单片机不断电下载程序/">STC单片机不断电下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/08/OpenCV 3.0安装/">OpenCV 3.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/06/STM8 SWIM接口/">STM8 SWIM接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/BLDC六步换相法基本原理及驱动波形/">BLDC六步换相法基本原理及驱动波形</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/30/C2000 CSM使用方法/">C2000 CSM使用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/28/TMS320 DSP新建工程基本步骤/">C2000 DSP新建工程基本步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/数据结构——循环队列/">数据结构——循环队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/OSI模型总结/">OSI模型总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/安规电容总结/">安规电容总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/C语言生成随机数/">C语言生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Doxygen处理条件编译/">Doxygen处理条件编译</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/12/使用Doxygen生成高质量代码参考文档/">使用Doxygen生成高质量代码参考文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/Hexo博客优化加载速度/">Hexo博客优化加载速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/使用JLink为2440 NOR Flash下载程序/">使用JLink为2440 NOR Flash下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/30/Markdown常用格式/">Markdown常用格式</a></li></ul>
+
+
+
+
+    <script>
+        
+            yiliaConfig.fancybox = false;
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2019 高明飞
+				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 8;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  </div>
+</body>
+</html>

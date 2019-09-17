@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="高明飞">
+
+
+
+<meta name="description" content="概述半导体存储器在任何一个包含处理器的系统中都是必不可少的一部分，一般将其分为RAM与ROM两大类；根据系统掉电后存储内容是否可以保持又可分为易失（Volatile）与非易失（Non-volatile）两大类。下面是常见的半导体存储器分类图">
+<meta name="keywords" content="Top,HW Component,Flash,DDR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="半导体存储器总结">
+<meta property="og:url" content="http://gaomf.cn/2016/03/22/半导体存储器总结/index.html">
+<meta property="og:site_name" content="高明飞的博客">
+<meta property="og:description" content="概述半导体存储器在任何一个包含处理器的系统中都是必不可少的一部分，一般将其分为RAM与ROM两大类；根据系统掉电后存储内容是否可以保持又可分为易失（Volatile）与非易失（Non-volatile）两大类。下面是常见的半导体存储器分类图">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%BB%E7%BB%93.svg">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225153539.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225153755.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225154524.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/CircuitAntiFuse.GIF">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuitfgmos.jpg">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225163857.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225182323.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225183052.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuitflip-flop-register.gif">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit24Cxx.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225202124.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225203151.png-height">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225203259.png-height">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225211221.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225211551.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225211819.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225214312.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225222049.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225223229.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/CircuitSDRAM%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuitsdram_cpr1.png">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/Circuit20160225194159.png">
+<meta property="og:updated_time" content="2019-09-17T11:46:27.611Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="半导体存储器总结">
+<meta name="twitter:description" content="概述半导体存储器在任何一个包含处理器的系统中都是必不可少的一部分，一般将其分为RAM与ROM两大类；根据系统掉电后存储内容是否可以保持又可分为易失（Volatile）与非易失（Non-volatile）两大类。下面是常见的半导体存储器分类图">
+<meta name="twitter:image" content="https://gmf.shengnengjin.cn/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%BB%E7%BB%93.svg">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="高明飞的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>半导体存储器总结 | 高明飞的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?023158b4c9d97942be746fc9f5fde1da";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+	
+	<script>
+	(function(){
+		var bp = document.createElement('script');
+		bp.src = '//push.zhanzhang.baidu.com/push.js';
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+  
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+
+	
+		<form id="search-form"  class="search">
+			<input type="text" id="st-search-input" name="q" results="0" class="st-default-search-input" maxlength="50" placeholder="Search..." autocomplete="off" autocorrect="off">
+			<i class="fa fa-times" onclick="resetSearch()"></i>
+		</form>
+	
+
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">高明飞</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">澹泊明志，宁静致远</p>
+        
+
+        
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+			<p class='loading-xml'>Loading XML File... <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/Top">精华文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/atom.xml">RSS</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARM/">ARM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/">Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootloader/">Bootloader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootrom/">Bootrom</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Compiler/">Compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrent/">Concurrent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DDR/">DDR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSP/">DSP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Struct/">Data Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/">Debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doxygen/">Doxygen</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EDA/">EDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Editor/">Editor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File-System/">File System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flash/">Flash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HW-Component/">HW Component</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JTAG/">JTAG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kernel/">Kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MCS-51/">MCS-51</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Matlab/">Matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Motor/">Motor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Number-Theory/">Number Theory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Online-Judge/">Online Judge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMP/">OpenMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PSpice/">PSpice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt/">Qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Raspberry-Pi/">Raspberry Pi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Regular-Expression/">Regular Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Runtime/">Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM8/">STM8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVN/">SVN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Small-Protocol/">Small Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Socket/">Socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spider/">Spider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Top/">Top</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/">Vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Virtualization/">Virtualization</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://caoyudong.com/">BAZINGA</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://lidewen.com/">李德文</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://jiaodi.tech/">焦迪</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.netcan666.com/">Netcan</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">三尺微命，一介书生。曾辗转求学于思源湖畔，老和山下，现栖身于魔都一隅。所学颇杂，对诸多方面均有涉猎，对各种技术充满热情~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">高明飞</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">高明飞</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">澹泊明志，宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/Top">精华文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/atom.xml">RSS</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-半导体存储器总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/22/半导体存储器总结/" class="article-date">
+      <time datetime="2016-03-22T07:40:03.000Z" itemprop="datePublished">2016-03-22</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      半导体存储器总结
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/硬件之理/">硬件之理</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DDR/">DDR</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flash/">Flash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HW-Component/">HW Component</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Top/">Top</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><span id="summary"></span></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>半导体存储器在任何一个包含处理器的系统中都是必不可少的一部分，一般将其分为RAM与ROM两大类；根据系统掉电后存储内容是否可以保持又可分为易失（Volatile）与非易失（Non-volatile）两大类。下面是常见的半导体存储器分类图</p>
+<p><img src="https://gmf.shengnengjin.cn/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%BB%E7%BB%93.svg" alt></p>
+<a id="more"></a>
+
+<p><span id="principle"></span></p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>基本所有的存储器都是做成阵列结构的，即所谓的Memory Array，其中每个最小存储单元称为一个Cell，一般是存储1 bit数据，不过目前也有新工艺（如MLC、TLC）可以在一个存储单元内存放超过1 bit的数据。Memory Cell的结构示意图如下<br><img src="https://gmf.shengnengjin.cn/Circuit20160225153539.png" alt></p>
+<p><span id="ROM"></span></p>
+<h3 id="ROM"><a href="#ROM" class="headerlink" title="ROM"></a>ROM</h3><p>ROM全称Read Only Memory，在一般正常工作状态下，它是只读的。不过，也有一些ROM中的内容可对其进行编程修改，这就是所谓的可编程ROM；与此对应的就是不可编程ROM，即Mask ROM（掩膜 ROM）。<br>ROM的工作原理可参考以下视频：<a href="https://www.youtube.com/watch?v=I4qL4ZK765w" target="_blank" rel="noopener">sec 16-04 Memory Concepts</a></p>
+<p><span id="MROM"></span></p>
+<h4 id="MROM"><a href="#MROM" class="headerlink" title="MROM"></a>MROM</h4><p>MROM即Mask ROM，其Memory cell简化结构示意图如下<br><img src="https://gmf.shengnengjin.cn/Circuit20160225153755.png" alt></p>
+<p>从中可以看到，MOSFET源极连接关系在芯片掩膜中就确定了，所以MROM是无法编程的，其中的内容也是不会发生改变的。在MCU中，MROM一般用于实现一些固化于芯片内部的功能，如引导程序，某些内置的库函数等。</p>
+<p><span id="PROM"></span></p>
+<h4 id="PROM"><a href="#PROM" class="headerlink" title="PROM"></a>PROM</h4><p>PROM即User-Programable ROM，亦称OTP ROM（One-Time Programable ROM）。PROM基于熔丝技术，即Fusible-Link，其Memory cell简化结构示意图如下<br><img src="https://gmf.shengnengjin.cn/Circuit20160225154524.png" alt></p>
+<p>在出厂时，所有熔丝均处于图(b)的状态，即存储器中存储的内容是0。用户可对其进行编程，用大电流使源极熔丝熔断即可将此位置为1。此编程过程是一次性不可逆的，也就是所谓的一次编程（OTP）。</p>
+<p>上面的原理图中描述的是基于熔丝原理的PROM，事实上，目前更为广泛使用的是反熔丝技术。二者的区别在于，熔丝（Fuse）在初始状态是闭合的，可通过编程使其断开；反熔丝（Antifuse）在初始状态是断开的，可通过编程使其闭合。反熔丝技术的基本原理见下图<br><img src="https://gmf.shengnengjin.cn/CircuitAntiFuse.GIF" alt></p>
+<p><span id="Flash"></span></p>
+<h4 id="EPROM-amp-EEPROM-amp-Flash"><a href="#EPROM-amp-EEPROM-amp-Flash" class="headerlink" title="EPROM &amp; EEPROM &amp; Flash"></a>EPROM &amp; EEPROM &amp; Flash</h4><p>EPROM、EEPROM及Flash的基本原理是相同的，都是基于浮栅技术（<a href="https://en.wikipedia.org/wiki/Floating-gate_MOSFET" target="_blank" rel="noopener">Floating-gate MOSFET</a>）。浮栅MOS管的结构示意图如下<br><img src="https://gmf.shengnengjin.cn/Circuitfgmos.jpg" alt></p>
+<p>悬浮栅极位于两层二氧化硅绝缘层之间，因此存储于其中的电荷可以得到长久的保持。EPROM、EEPROM及Flash的Memory cell简化结构示意图如下<br><img src="https://gmf.shengnengjin.cn/Circuit20160225163857.png" alt></p>
+<p>三者的区别主要在于其编程的方式不同。<br>EPROM通过紫外线（UV）照射进行数据擦除，浮栅中的电荷形成光电流泄漏走；EEPROM与Flash均是通过超薄氧化层的Fowler-Nordheim隧道电流使浮栅充放电。</p>
+<p>EEPROM的Memory cell是由FLOTOX(Floating- gate tuneling oxide transister)及一个附加的晶体管（Transister）组成，由于FLOTOX的特性及两管结构，所以可以单元读/写。技术上，Flash是结合EPROM和EEPROM技术达到的，很多Flash使用雪崩热电子注入方式来编程，擦除和EEPROM一样用Fowler-Nordheim tuneling。但主要的不同是，Flash对芯片提供大块或整块的擦除，这就降低了设计的复杂性，它可以不要EEPROM单元里那个多余的Tansister，所以可以做到高集成度，大容量。另外Flash的浮栅工艺也有所不同，写入速度更快。</p>
+<p><span id="RAM"></span></p>
+<h3 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a>RAM</h3><p>RAM全称Random Access Memory，顾名思义，RAM可根据存储单元的行地址和列地址进行快速读取或写入操作。随机访问的含义是RAM可以直接读取或写入任意一个存储单元，因此，从这个意义上来说，NOR Flash似乎也该算作RAM的一种，不过一般情况下还是把它归为ROM。而严格地说，DRAM不属于Random Access，因为在DRAM中数据读取是突发（Burst）传输的。<br>RAM可分为三大类，SRAM、DRAM及nvSRAM。</p>
+<p><span id="SRAM"></span></p>
+<h4 id="SRAM"><a href="#SRAM" class="headerlink" title="SRAM"></a>SRAM</h4><p>SRAM即Static RAM，所谓的Static是指它没有刷新操作，在不掉电的情况下Memory Cell可无限长时间的保存数据。SRAM的工作原理可参考以下视频：<a href="https://www.youtube.com/watch?v=SHJPFNI5Mzo" target="_blank" rel="noopener">sec 16 02 Static RAMs</a><br>其Memory cell简化结构示意图如下<br><img src="https://gmf.shengnengjin.cn/Circuit20160225182323.png" alt></p>
+<p>这是典型的6晶体管结构的SRAM（6T Cell），该结构的SRAM每个存储单元由六个MOS管组成，Q1、Q2、Q5、Q6构成双稳态触发器，Q3、Q4的开关状态由同一个选择信号CE控制。A1与A2是输入输出Buffer。</p>
+<p><span id="DRAM"></span></p>
+<h4 id="DRAM"><a href="#DRAM" class="headerlink" title="DRAM"></a>DRAM</h4><p>DRAM即Dynamic RAM，所谓的Dynamic是指每个一段时间就要对每个Memory Cell进行一次刷新操作，否则数据就会丢失。DRAM的工作原理可参考以下视频：<a href="https://www.youtube.com/watch?v=TUa2KgYiN6o" target="_blank" rel="noopener">sec 16 03 Dynamic RAMs</a><br>其Memory cell简化结构示意图如下<br><img src="https://gmf.shengnengjin.cn/Circuit20160225183052.png" alt></p>
+<p>DRAM每个存储单元由一个MOS管及其寄生电容构成，由于数据信号的状态由电容的电荷量决定，因此每隔一段时间需对电容做一次充放电的刷新操作。</p>
+<p><span id="nvSRAM"></span></p>
+<h4 id="nvSRAM"><a href="#nvSRAM" class="headerlink" title="nvSRAM"></a>nvSRAM</h4><p>nvSRAM即Non-volatile SRAM，某些地方将NOR Flash也算作nvSRAM的一种，不过一般认为的nvSRAM是指FRAM、MRAM一类的新型SRAM，这类器件读取速度与传统的SRAM不相上下，而且掉电后还可以保持之前的数据，是一类很有发展潜力的存储器。其中FRAM就是一种很有代表性的新型存储器。<br>FRAM目前主要由日本富士通公司（Fujitsu）生产，其核心在于使用PZT(锆钛酸铅，Pb{ZrTi}O3)晶粒作为电容存储数据。关于FRAM的详细技术说明，可参考Fujitsu的<a href="https://www.fujitsu.com/downloads/MICRO/fme/fram/fram-guide-book.pdf" target="_blank" rel="noopener">FRAM Guide Book</a>。</p>
+<p>除此之外，还有一种nvSRAM是将电池与SRAM封装在了一起，这个从严格意义上来说并不能算nvSRAM，仅仅只是SRAM+电池而已。</p>
+<p><span id="Register"></span></p>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>一般并不把使用Flip-Flop的寄存器算作存储器的一种，不过实际上它起到的作用和存储器是一样的。在进行嵌入式系统编程时经常涉及到寄存器，其实质就是若干个并联的触发器（Flip-Flop）。以4位寄存器为例，其原理图如下<br><img src="https://gmf.shengnengjin.cn/Circuitflip-flop-register.gif" alt></p>
+<p><span id="Application"></span></p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>选取几种比较有代表性的器件介绍下其应用。</p>
+<p><span id="PROM2"></span></p>
+<h3 id="PROM-1"><a href="#PROM-1" class="headerlink" title="PROM"></a>PROM</h3><p>PROM一般用于OTP芯片中，这类芯片仅可进行一次编程，其价格与使用Flash的同类产品相比有很大优势。部分MCU内部也会有一小块OTP区域供用户使用。<br>除此之外，部分FPGA和CPLD也使用PROM工艺，这还成为了其一大特色，一般用于航天和军工等可靠性要求极高的场合。这类器件使用的是反熔丝工艺，具有以下一些优点：</p>
+<ul>
+<li>编程不可逆，抗高低温，稳定性极高</li>
+<li>抗辐射强</li>
+<li>寿命长</li>
+</ul>
+<p><span id="EEPROM2"></span></p>
+<h3 id="EEPROM"><a href="#EEPROM" class="headerlink" title="EEPROM"></a>EEPROM</h3><p>EEPROM一般用于保存一些系统参数，最常用的分立EEPROM芯片为24Cxx系列，包括容量不同的24C02、24C04、24C08、24C16，分别能存储2k、4k、8k、16k bit数据。<br>24Cxx系列的引脚定义如下<br><img src="https://gmf.shengnengjin.cn/Circuit24Cxx.png" alt><br><img src="https://gmf.shengnengjin.cn/Circuit20160225202124.png" alt></p>
+<p>24Cxx系列通过标准I2C接口与MCU进行通信。<code>A0</code>-<code>A2</code>引脚是器件地址输入，可以将多片24Cxx（24C16除外）同时接到I2C总线上以达到扩大容量的目的，不过这个功能一般不使用。<code>WP</code>引脚是写保护，一般也不使用，直接接地即可。</p>
+<p>两个典型操作的时序图如下：<br><img src="https://gmf.shengnengjin.cn/Circuit20160225203151.png-height" alt><br><img src="https://gmf.shengnengjin.cn/Circuit20160225203259.png-height" alt></p>
+<p><span id="Flash2"></span></p>
+<h3 id="Flash"><a href="#Flash" class="headerlink" title="Flash"></a>Flash</h3><p>Flash一般作为系统的主要存储设备用来保存程序和数据，可分为两种，NOR Flash与NAND Flash。<strong>Nor Flash数据线和地址线分开，可以实现RAM一样的随机寻址功能，可以读取任何一个字节。但是擦除仍要按块（Block）来擦。NAND Flash同样是按块擦除，但是数据线和地址线复用，不能利用地址线随机寻址，读取只能按页（Page）来读取。</strong>二者的结构对比见下图<br><img src="https://gmf.shengnengjin.cn/Circuit20160225211221.png" alt></p>
+<p>由于NAND Flash引脚上复用，因此读取速度比NOR Flash慢一点，但是擦除和写入速度比NOR Flash快很多。NAND Flash内部电路更简单，因此数据密度大，体积小，成本也低。因此大容量的Flash都是NAND型的。小容量的1MB～16MB的Flash多是NOR型的。二者的尺寸及密度对比见下图<br><img src="https://gmf.shengnengjin.cn/Circuit20160225211551.png" alt></p>
+<p>二者的综合性能比较见下图<br><img src="https://gmf.shengnengjin.cn/Circuit20160225211819.png" alt></p>
+<p>从使用上来说，NOR Flash也要比NAND Flash简单。另外，<strong>因为NAND Flash无法直接寻址，故程序无法在NAND Flash中运行，需要将其拷贝到RAM中才能运行。</strong></p>
+<p>关于NAND Flash与NOR Flash的详细比较，可参考M-System公司的技术白皮书:</p>
+<blockquote>
+<p><a href="https://focus.ti.com/pdfs/omap/diskonchipvsnor.pdf" target="_blank" rel="noopener">Two Flash Technologies Compared: NOR vs NAND</a>。</p>
+</blockquote>
+<hr>
+<p>对于NOR Flash而言，因为它有独立的地址线和数据线，其使用方法较为简单，只要将其接到CPU的地址总线和数据总线上即可，可参考下面这张工作模式图：<br><img src="https://gmf.shengnengjin.cn/Circuit20160225214312.png" alt></p>
+<p>至于具体的读取和擦除操作的命令及时序图，参考所使用的芯片的数据手册即可。</p>
+<hr>
+<p>对于NAND Flash而言，它没有专用的地址线，而是通过控制接口与CPU 相连，数据总线为8-bit或16-bit。以K9F1G08U0B为例，其内部存储单元的组织形式如图所示：<br><img src="https://gmf.shengnengjin.cn/Circuit20160225222049.png" alt></p>
+<p>一般NAND Flash有以下这些信号线：<br><img src="https://gmf.shengnengjin.cn/Circuit20160225223229.png" alt></p>
+<p>大部分CPU中均集成了NAND Flash控制器，此时只需要将对应引脚连接起来，然后根据CPU数据手册进行配置即可。如果需要自己实现NAND Flash控制器，那就需要根据NAND Flash的命令集及时序图进行编程了，这个对大部分NAND Flash应该都是基本通用的。具体可进一步参考相关文章，如</p>
+<blockquote>
+<p><a href="http://alanwu.blog.51cto.com/3652632/1429438" target="_blank" rel="noopener">NAND Flash操作技术详解</a></p>
+</blockquote>
+<hr>
+<p>从单个存储单元能存储的比特数来看，Flash芯片又可分为三种，SLC，MLC及TLC。这三者的区别简单来说就是SLC在每个存储单元中只存储1-bit数据，MLC为2-bit，而TLC为3-bit。关于这个问题，可进一步参考Micron公司的文章<a href="https://www.micron.com/products/nand-flash/tlc-mlc-and-slc-devices" target="_blank" rel="noopener">TLC MLC and SLC Devices</a>和<a href="http://www.mydigitaldiscount.com/everything-you-need-to-know-about-slc-mlc-and-tlc-nand-flash.html" target="_blank" rel="noopener">这篇博客文章</a>。</p>
+<p><span id="eMMC2"></span></p>
+<h3 id="eMMC"><a href="#eMMC" class="headerlink" title="eMMC"></a>eMMC</h3><p>eMMC并不是一种存储介质，它是Embedded Multi Meida Card的缩写，而MMC就是指常见的SD卡、TF卡一类的存储卡。MMC相当于一种接口标准，可通过SPI或SDIO总线进行访问，而eMMC就是指符合这种接口标准的存储芯片。它是由NAND Flash加主控封装在一起做出来的，与种类繁多的NAND Flash相比，eMMC统一了接口形式，可以使用和操作SD卡一样的方式去控制NAND Flash。</p>
+<p>eMMC与NAND Flash相比，其优点在于更为稳定可靠，内部集成的主控IC会自动完成坏块处理等工作。另外，如果直接使用NAND Flash的话，产品升级就需要重新修改不少软件，而使用eMMC则不需要，这有助于减小开发新产品的工作量。</p>
+<p>Samsung、SanDisk、Kingston、Toshiba等公司均提供eMMC芯片，容量从2G~64G不等，基本所有的eMMC均使用BGA封装。</p>
+<p><span id="SRAM2"></span></p>
+<h3 id="SRAM-1"><a href="#SRAM-1" class="headerlink" title="SRAM"></a>SRAM</h3><p>SRAM的特点在于其的高速与小容量，它是目前读写速度最快的存储设备，但它也较为昂贵。CPU内部的Cache使用的就是SRAM，嵌入式SoC内部集成的内存也都是SRAM。SRAM可以直接对任意地址寻址，其读取是严格意义上的随机的（Random）。<br>SRAM基本上可以分为两大类：异步（<a href="http://www.issi.com/US/product-asynchronous-sram.shtml" target="_blank" rel="noopener">Asynchronous</a>）SRAM和同步（<a href="http://www.issi.com/US/product-synchronous-sram.shtml" target="_blank" rel="noopener">Synchronous</a>）SRAM。异步SRAM的访问独立于时钟，数据输入和输出都由地址的变化控制。同步SRAM的所有访问都在时钟的上升/下降沿启动。地址、数据输入和其它控制信号均于时钟信号相关。<br><a href="http://www.issi.com/" target="_blank" rel="noopener">ISSI</a>公司提供了很多型号的SRAM可供选择，从类型上来看主要有<a href="http://www.issi.com/US/product-synchronous-sram.shtml#jump3" target="_blank" rel="noopener">ZBT SRAM</a>、<a href="http://www.issi.com/US/product-quad_p_ddr2_p.shtml" target="_blank" rel="noopener">DDR SRAM</a>、<a href="http://www.issi.com/US/product-quad_p_ddr2_p.shtml" target="_blank" rel="noopener">QDR SRAM</a>等。</p>
+<p>ZBT SRAM即Zero Bus Turnaround，零翻转SRAM。对于普通SRAM而言，由于读操作和写操作驱动方不同，当出现类似写-读-写操作时，相邻操作之间需插入一个空闲周期以便切换驱动方法。在读写操作切换频繁的应用中，这种空闲周期将严重地影响存储性能。对于ZBT SRAM，在读写操作之间不存在空闲周期，即读写操作可无缝连接，从而提高了存储性能。</p>
+<p>SRAM主要应用于高速缓存，是决定整个系统性能的关键部分。然而，ZBT SRAM的运行频率无法超过200MHz，随着系统的升级，ZBT SRAM已无法满足更高性能系统的要求，由此又诞生了QDR/DDR SRAM（升级后分别为QDR II/DDR II SRAM），其中DDR II SRAM又分为CIO（Common IO）和SIO（Separated IO）两大类。QDR是指四倍数据速率（Quad Data Rate），DDR的双倍数据速率是通过双边沿对数据采样实现的，QDR的数据采样同样基于双边沿，且进一步将数据的读端口和写端口分开，利用同一组地址和控制信号实现对这两个端口的访问，输入输出同时进行，从而实现四倍数据速率的同时，消除了读写操作之间的空闲周期，提高了存储效率。</p>
+<p><span id="DRAM2"></span></p>
+<h3 id="DRAM-1"><a href="#DRAM-1" class="headerlink" title="DRAM"></a>DRAM</h3><p>DRAM一般作为系统的主内存，常用的DRAM可进一步分为SDRAM（Synchronous）、DDR SDRAM、DDR2 SDRAM、DDR3 SDRAM等。SDRAM即同步动态随机存储器，同步指存储器的工作需要参考时钟。对于同步存储器件，有三个与工作速率相关的重要指标：内核工作频率，时钟频率和数据传输速率。</p>
+<p>不同类型的SDRAM的区别主要在于其读取速度不同，见下图和下表：<br><img src="https://gmf.shengnengjin.cn/CircuitSDRAM%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87.png" alt></p>
+<p><img src="https://gmf.shengnengjin.cn/Circuitsdram_cpr1.png" alt></p>
+<p>SDRAM需要定时进行刷新，这一般是由专用的控制器模块或驱动芯片完成的，绝大部分CPU和一些高端MCU中都集成了控制器模块，只需要将对应的引脚连接起来，再进行相应的配置后即可使用了。</p>
+<p><span id="PSRAM2"></span></p>
+<h3 id="PSRAM"><a href="#PSRAM" class="headerlink" title="PSRAM"></a>PSRAM</h3><p><a href="http://www.issi.com/US/product-cellular-ram.shtml" target="_blank" rel="noopener">PSRAM</a>即Pseudo static random access memory，伪静态随机存储器。它的内部存储颗粒其实与SDRAM的结构类似，不过外部接口则与SRAM类似。可以视为是内部集成了控制器的SDRAM，这主要用于没有SDRAM控制器的MCU应用中。它的容量介于SRAM与SDRAM之间。</p>
+<p><span id="FRAM2"></span></p>
+<h3 id="FRAM"><a href="#FRAM" class="headerlink" title="FRAM"></a>FRAM</h3><p>FRAM在某些时候可用于替代SRAM或EEPROM及Flash。TI就在各大MCU厂商中率先使用了FRAM，<a href="http://www.ti.com/lsds/ti/microcontrollers_16-bit_32-bit/msp/ultra-low_power/msp430frxx_fram/overview.page" target="_blank" rel="noopener">MSP430FR</a>系列MCU中就只有FRAM。详细信息可参考TI的文章<a href="http://www.ti.com/lsds/ti/microcontrollers_16-bit_32-bit/msp/ultra-low_power/msp430frxx_fram/what_is_fram.page" target="_blank" rel="noopener">What is FRAM</a>。</p>
+<p>下面这个Demo视频中演示了FRAM的读取速度：<br><a href="https://www.youtube.com/watch?v=hQMRMvXjjHE" target="_blank" rel="noopener">FRAM Write Speed Demo (FRAM vs. SRAM vs. EEPROM)</a></p>
+<p><span id="Compare"></span></p>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><p>可参考<a href="https://www.fujitsu.com/downloads/MICRO/fme/fram/fram-guide-book.pdf" target="_blank" rel="noopener">FRAM Guide Book</a>中的比较表格：<br><img src="https://gmf.shengnengjin.cn/Circuit20160225194159.png" alt></p>
+<p>最后对各种存储器的应用范围做一总结：<br>*<em>Msak ROM和PROM一般作为芯片的一部分存在；<br>EPROM已基本被淘汰；<br>EEPROM用于需要能够很方便的进行随机存储（单字节操作）的场合，且其容量一般不大；<br>Flash用于大量数据的存储，其中NOR Flash容量较小，不过能进行随机读操作，也可以运行程序；NAND Flash容量较大，不过只能按页操作，不可在其中运行程序；<br>SRAM容量较小，用在对速度要求高的地方，如果需要掉电后保存数据，可考虑使用FRAM；<br>DRAM容量较大，用于当做系统的主内存。<br>*</em></p>
+<p><span id="Reference"></span></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<p>[1] <a href="http://www.amazon.com/Digital-Electronics-Practical-Approach-Edition/dp/0132543036" target="_blank" rel="noopener">William Kleitz. Digital Electronics: A Practical Approach with VHDL (9th Edition). Pearson Prentice Hall, 2011.</a><br>[2] <a href="http://www.wangdali.net/%E5%AD%98%E5%82%A8%E5%99%A8%E6%A6%82%E8%BF%B0/" target="_blank" rel="noopener">存储器概述</a></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/22/半导体存储器总结/">半导体存储器总结</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">高明飞</a></p>
+        <p><span>发布时间:</span>2016-03-22, 15:40:03</p>
+        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/22/半导体存储器总结/" title="半导体存储器总结">http://gaomf.cn/2016/03/22/半导体存储器总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaomf.cn/2016/03/22/半导体存储器总结/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/03/25/MCS-51 基本数据类型/">
+                    MCS-51 基本数据类型
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/03/04/Altium Designer导出Gerber文件方法/">
+                    Altium Designer导出Gerber文件方法
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ROM"><span class="toc-number">2.1.</span> <span class="toc-text">ROM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MROM"><span class="toc-number">2.1.1.</span> <span class="toc-text">MROM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PROM"><span class="toc-number">2.1.2.</span> <span class="toc-text">PROM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#EPROM-amp-EEPROM-amp-Flash"><span class="toc-number">2.1.3.</span> <span class="toc-text">EPROM &amp; EEPROM &amp; Flash</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RAM"><span class="toc-number">2.2.</span> <span class="toc-text">RAM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SRAM"><span class="toc-number">2.2.1.</span> <span class="toc-text">SRAM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DRAM"><span class="toc-number">2.2.2.</span> <span class="toc-text">DRAM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nvSRAM"><span class="toc-number">2.2.3.</span> <span class="toc-text">nvSRAM</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#寄存器"><span class="toc-number">2.3.</span> <span class="toc-text">寄存器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用"><span class="toc-number">3.</span> <span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PROM-1"><span class="toc-number">3.1.</span> <span class="toc-text">PROM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EEPROM"><span class="toc-number">3.2.</span> <span class="toc-text">EEPROM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flash"><span class="toc-number">3.3.</span> <span class="toc-text">Flash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eMMC"><span class="toc-number">3.4.</span> <span class="toc-text">eMMC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SRAM-1"><span class="toc-number">3.5.</span> <span class="toc-text">SRAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DRAM-1"><span class="toc-number">3.6.</span> <span class="toc-text">DRAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PSRAM"><span class="toc-number">3.7.</span> <span class="toc-text">PSRAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FRAM"><span class="toc-number">3.8.</span> <span class="toc-text">FRAM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#比较"><span class="toc-number">4.</span> <span class="toc-text">比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+
+
+    
+	
+	<!-- Gitment评论插件通用代码 -->
+<!-- from: https://billts.site/extra_css/gitment.css -->
+<!-- from: https://billts.site/js/gitment.js -->
+
+<div id="gitment-ctn" style="margin: 50px"></div>
+<link rel="stylesheet" href="/css/extra_css/gitment.css">
+<script src="/js/gitment.js"></script>
+
+<script>
+var gitment = new Gitment({
+  id: "半导体存储器总结",
+  owner: 'g199209',
+  repo: 'g199209.github.io',
+  oauth: {
+    client_id: '813326c14fac583d3c91',
+    client_secret: 'f8dbfe0b2626fa098ec31a165f298a4af93c6535',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+<!-- Gitment代码结束 -->
+	
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/03/25/MCS-51 基本数据类型/" title="上一篇: MCS-51 基本数据类型">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/03/04/Altium Designer导出Gerber文件方法/" title="下一篇: Altium Designer导出Gerber文件方法">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/28/PVE_OpenWRT_Network_Broken/">PVE上部署OpenWRT发生网络中断的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/24/Thesis_of_Master/">用于嵌入式车载安全预警的交通标志检测若干关键技术研究与验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Deep_Into_Dokcer_Helloworld/">深入分析Docker hello-world镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/17/Sudo_No_Passwd/">sudo不需要输入密码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Hexo_Yelee_Gitment/">为Hexo博客Yelee主题添加Gitment评论系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/sizeof_extern_array/">sizeof 获取 extern 数组长度</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/The_Road/">多歧路，今安在？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/04/SSH_Forwarding/">SSH反向穿透访问内网主机</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/25/C_restrict/">C语言关键词restrict的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/Kernel_min_max_macro/">Linux kernel中的min和max宏</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/C_typeof/">C语言中typeof的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/05/string_literal_concatenate/">C语言中的字符串字面量连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/Detect_Stack_Direction/">用代码判断栈的增长方向</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/20/printf_format_string_attack/">printf格式化字符串漏洞攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/16/Atom_Configure/">Atom编辑器配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/Win10_Software_Font_Blur/">Win10下软件界面显示模糊问题解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/15/Memcpy_Optimization/">memcpy中的内存读写优化问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/31/Array_Find_Half/">寻找数组中出现次数超过一半的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/Cpp_string_COW_SSO/">C++中std::string的COW及SSO实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/12/LDO/">LDO应用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/TL431_Self_OScillation/">TL431自激振荡消除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/Sudoku/">数独求解程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/OpenCV_and_GTK/">OpenCV与GTK+结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/Allegro_Font/">Cadence Allegro 调整界面字体字号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/Discrete_Load_Switch/">带软启动的分立负载开关电路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Tutorial_Help/">PSpice教程及帮助文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Swt/">PSpice中的延时开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/Linux_SoftRouter_Basic/">Linux软路由——基础配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Relaxation_Oscillator/">松弛振荡器原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Capacity_Charge/">对电容充放电过程的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Button_Cell/">纽扣电池型号总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/SVN/">SVN常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/C++_Random/">C++生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/SSH_Authentication/">SSH证书登录总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/Ubuntu_Reduce_Swap/">Ubuntu减小swap分区大小的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/Future_Hesitate/">对于未来的迷茫</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/Minimum_Spanning_Tree/">最小生成树算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/Maximum_Flow_Algorithm/">最大流算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/12/BinaryTree_Traversal/">二叉树的遍历算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/03/Shortest_Path/">最短路径算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/02/Vim_Plugin/">Vim配置及插件总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Linux_Vim_Compile/">Linux下Vim的编译安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Hexo_Git_CRLF/">Hexo Git部署警告"warning： LF will be replaced by CRLF"的去除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Linux_Colourful_Man/">Linux彩色man page设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/Linux_Background_Run/">Linux下让进程在后台可靠运行的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/SSH_Broken_Pipe/">SSH连接自动断开的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/03/VMware_Shrink_Linux/">VMware中收缩Linux虚拟机体积</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/VMware_Internal_SD/">VMware虚拟机中使用电脑内置SD读卡器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/VMWare_Ubuntu_Terminal_Shadowsocks/">VMware Ubuntu虚拟机中为终端配置Shadowsocks代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/VS2015_Qt_UTF8/">VS2015 & Qt中文编码方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/10/OpenCV_and_Qt/">OpenCV与Qt结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/09/VS2015_Qt5_7/">VS2015搭建Qt 5.7开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/VS2015_OpenCV31/">VS2015下编译OpenCV 3.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Array_Shift/">数组循环移位算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/N_Queen_Problem/">N皇后问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/PMSM_Vector_Control/">PMSM矢量控制算法调试流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_014/">LeetCode 014. Longest Common Prefix (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_019/">LeetCode 019. Remove Nth Node From End of List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_083/">LeetCode 083. Remove Duplicates from Sorted List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Raspberry_Pi_Static_IP/">为树莓派设置静态IP地址的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/IP_Mask/">IP地址中子网掩码的表示方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Windows_Ping/">Windows防火墙允许ping请求设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/String_Fill/">一道字符串填充算法题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_319/">LeetCode 319. Bulb Switcher (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_292/">LeetCode 292. Nim Game (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/divide_conquer/">分治法算法复杂度</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_345/">LeetCode 345. Reverse Vowels of a String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_344/">LeetCode 344. Reverse String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_167/">LeetCode 167. Two Sum II - Input array is sorted (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_001/">LeetCode 001. Two Sum (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/apt_apt-get/">apt与apt-get命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_160/">LeetCode 160. Intersection of Two Linked Lists (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_141/">LeetCode 141. Linked List Cycle (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_415/">LeetCode 415. Add String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/20/ARM_Architecture_Core/">ARM架构及内核</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Diff_Patch/">diff及patch的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Blog_New_Theme_2016/">更换博客主题啦~</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Encoder_Velocity_Measure/">旋转编码器速度测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/为Hexo博客Yilia主题添加本地站内搜索功能/">为Hexo博客Yilia主题添加本地站内搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/关于科学与工程/">关于科学与工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/26/在Android Studio中使用Lambda表达式/">在Android Studio中使用Lambda表达式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/16/Java集合框架/">Java集合框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/最大公约数算法/">最大公约数算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/最大子序列和问题/">最大连续子序列和问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/C标准库学习笔记(1)——time、ctype、stdarg、assert/">C标准库学习笔记(1)——time、ctype、stdarg、assert</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/使用Python实现网站变化监测系统/">使用Python实现网站变化监测系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/正则表达式总结/">正则表达式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用re正则表达式解析文本/">Python爬虫--使用re正则表达式解析文本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用BeautifulSoup解析HTML/">Python爬虫--使用BeautifulSoup解析HTML</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/U-Boot 2016.05 Stage1代码分析/">U-Boot 2016.05 Stage1代码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/12/UART协议时序总结/">UART协议时序总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/汇编文件后缀.s与.S的区别/">汇编文件后缀.s与.S的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Linux下查看编辑二进制文件/">Linux下查看编辑二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot DM9000网卡驱动提示could not establish link的解决方法/">U-Boot DM9000网卡驱动提示"could not establish link"的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot 2016.05 在S3C2440上的移植——杂项/">U-Boot 2016.05 在S3C2440上的移植——杂项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/在U-Boot中添加自定义命令以实现自动下载程序/">在U-Boot中添加自定义命令以实现自动下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/VMware虚拟机中嵌入式Linux开发环境网络配置/">VMware虚拟机中嵌入式Linux开发环境网络配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡/">U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（3）——Nand Flash/">U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/24/U-Boot 2016.05 在S3C2440上的移植（2）——Nor Flash/">U-Boot 2016.05 在S3C2440上的移植（2）——NOR Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/23/Nor Flash中的启动扇区（Boot Sector, Boot Block）/">Nor Flash中的启动扇区（Boot Sector, Boot Block）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/22/串口终端picocom的使用/">串口终端picocom的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/">Jlink为S3C2440下载程序提示"Unable to halt cpu core"的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/U-Boot 2016.05 在S3C2440上的移植（1）——基本运行/">U-Boot 2016.05 在S3C2440上的移植（1）——基本运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/17/OpenSSH使用多个私钥（SSH Key）配置/">OpenSSH使用多个私钥（SSH Key）配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/16/crosstool-ng参数配置/">crosstool-ng参数配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/GCC中-march、-mtune、-mcpu三个参数的设置/">GCC中-march、-mtune、-mcpu三个参数的设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/crosstool-ng的基本使用流程/">crosstool-ng的基本使用流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/14/crosstool-ng的安装/">crosstool-ng的安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/06/旋转编码器绝对位置测量方法/">旋转编码器绝对位置测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/Python爬虫--使用requests获取网页/">Python爬虫--使用requests获取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/使用Python爬虫抓取网页/">使用Python爬虫抓取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/NFS服务器的搭建/">NFS服务器的搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/U-Boot中IP地址设置方法/">U-Boot中IP地址设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/27/U-Boot版本命名规则及源码下载途径/">U-Boot版本命名规则及源码下载途径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/Android中实现多线程的方法/">Android中实现多线程的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/IQmath库总结/">C28x IQmath库使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/28/结构体内存边界对齐问题/">结构体内存边界对齐问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/ARM Cortex-M内核复位启动过程分析/">ARM Cortex-M内核复位启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/Python Socket Error Address already in use的解决办法/">Python Socket Error： Address already in use的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/C2000 DSP中全局变量清零问题/">C2000 DSP中全局变量清零问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/21/C语言中函数指针的声明及使用/">C语言中函数指针的声明及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/18/C语言标准库总结/">C语言标准库总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/HTTP中确定报文结束的方法/">HTTP中确定报文结束的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/C语言运算符优先级与结合性/">C语言运算符优先级与结合性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/MCS-51 基本数据类型/">MCS-51 基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/22/半导体存储器总结/">半导体存储器总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/04/Altium Designer导出Gerber文件方法/">Altium Designer导出Gerber文件方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/Hexo博客修改Archive页面显示文章数量/">Hexo博客修改Archive页面显示文章数量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/24/Population Count算法/">Population Count算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/28/Matlab调用Origin作图/">Matlab调用Origin作图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/Origin Script Window 执行脚本代码的方法/">Origin Script Window 执行脚本代码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/集成式负载开关/">集成式负载开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/12/Quartus中配置FPGA未使用引脚状态方法/">Quartus中配置FPGA未使用引脚状态方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/11/IGBT与MOSFET异同/">IGBT与MOSFET比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/01/三相逆变器电流采样方案总结/">三相逆变器电流采样方案总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/27/C2000 DSP基本数据类型/">C2000 DSP基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/C2000 ePWM模块/">C2000 ePWM模块</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Simulink仿真模式/">Simulink仿真模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8外设引脚重映射/">STM8外设引脚重映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8系列单片机/">STM8系列单片机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/19/阻抗测量方法/">阻抗测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/11/使用OpenMP进行多线程计算/">使用OpenMP进行多线程计算</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/10/STC单片机不断电下载程序/">STC单片机不断电下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/08/OpenCV 3.0安装/">OpenCV 3.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/06/STM8 SWIM接口/">STM8 SWIM接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/BLDC六步换相法基本原理及驱动波形/">BLDC六步换相法基本原理及驱动波形</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/30/C2000 CSM使用方法/">C2000 CSM使用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/28/TMS320 DSP新建工程基本步骤/">C2000 DSP新建工程基本步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/数据结构——循环队列/">数据结构——循环队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/OSI模型总结/">OSI模型总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/安规电容总结/">安规电容总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/C语言生成随机数/">C语言生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Doxygen处理条件编译/">Doxygen处理条件编译</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/12/使用Doxygen生成高质量代码参考文档/">使用Doxygen生成高质量代码参考文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/Hexo博客优化加载速度/">Hexo博客优化加载速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/使用JLink为2440 NOR Flash下载程序/">使用JLink为2440 NOR Flash下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/30/Markdown常用格式/">Markdown常用格式</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2019 高明飞
+				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 8;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  </div>
+</body>
+</html>

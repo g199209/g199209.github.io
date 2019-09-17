@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="高明飞">
+
+
+
+<meta name="description" content="主流Bootloader的启动过程均可分为Stage1及Stage2两部分，一般来说，Stage1完成最基本的初始化操作、搬移代码及建立C语言运行环境；Stage2完成剩余的初始化操作。故Stage1一般使用汇编完成，Stage2一般使用C语言完成，不过这只是很粗略的情况，实际上Stage1中也会使用C语言代码。 下面以之前针对S3C2440移植好的U-Boot 2016.05为例，分析U-Boo">
+<meta name="keywords" content="Top,Bootloader">
+<meta property="og:type" content="article">
+<meta property="og:title" content="U-Boot 2016.05 Stage1代码分析">
+<meta property="og:url" content="http://gaomf.cn/2016/07/15/U-Boot 2016.05 Stage1代码分析/index.html">
+<meta property="og:site_name" content="高明飞的博客">
+<meta property="og:description" content="主流Bootloader的启动过程均可分为Stage1及Stage2两部分，一般来说，Stage1完成最基本的初始化操作、搬移代码及建立C语言运行环境；Stage2完成剩余的初始化操作。故Stage1一般使用汇编完成，Stage2一般使用C语言完成，不过这只是很粗略的情况，实际上Stage1中也会使用C语言代码。 下面以之前针对S3C2440移植好的U-Boot 2016.05为例，分析U-Boo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/U-Boot%20Stage1_1.svg">
+<meta property="og:image" content="https://gmf.shengnengjin.cn/U-Boot%20Stage1_2.svg">
+<meta property="og:updated_time" content="2019-09-17T11:46:27.601Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="U-Boot 2016.05 Stage1代码分析">
+<meta name="twitter:description" content="主流Bootloader的启动过程均可分为Stage1及Stage2两部分，一般来说，Stage1完成最基本的初始化操作、搬移代码及建立C语言运行环境；Stage2完成剩余的初始化操作。故Stage1一般使用汇编完成，Stage2一般使用C语言完成，不过这只是很粗略的情况，实际上Stage1中也会使用C语言代码。 下面以之前针对S3C2440移植好的U-Boot 2016.05为例，分析U-Boo">
+<meta name="twitter:image" content="https://gmf.shengnengjin.cn/U-Boot%20Stage1_1.svg">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="高明飞的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>U-Boot 2016.05 Stage1代码分析 | 高明飞的博客</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?023158b4c9d97942be746fc9f5fde1da";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+	
+	<script>
+	(function(){
+		var bp = document.createElement('script');
+		bp.src = '//push.zhanzhang.baidu.com/push.js';
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+  
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+
+	
+		<form id="search-form"  class="search">
+			<input type="text" id="st-search-input" name="q" results="0" class="st-default-search-input" maxlength="50" placeholder="Search..." autocomplete="off" autocorrect="off">
+			<i class="fa fa-times" onclick="resetSearch()"></i>
+		</form>
+	
+
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">高明飞</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">澹泊明志，宁静致远</p>
+        
+
+        
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+			<p class='loading-xml'>Loading XML File... <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/Top">精华文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/atom.xml">RSS</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARM/">ARM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/">Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootloader/">Bootloader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootrom/">Bootrom</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Compiler/">Compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrent/">Concurrent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DDR/">DDR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSP/">DSP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Struct/">Data Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/">Debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doxygen/">Doxygen</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EDA/">EDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Editor/">Editor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/">FPGA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File-System/">File System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flash/">Flash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HW-Component/">HW Component</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JTAG/">JTAG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kernel/">Kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MCS-51/">MCS-51</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Matlab/">Matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Motor/">Motor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Number-Theory/">Number Theory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Online-Judge/">Online Judge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMP/">OpenMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PSpice/">PSpice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt/">Qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Raspberry-Pi/">Raspberry Pi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Regular-Expression/">Regular Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Runtime/">Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM8/">STM8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVN/">SVN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Small-Protocol/">Small Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Socket/">Socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spider/">Spider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Top/">Top</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/">Vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Virtualization/">Virtualization</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://caoyudong.com/">BAZINGA</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://lidewen.com/">李德文</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://jiaodi.tech/">焦迪</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.netcan666.com/">Netcan</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">三尺微命，一介书生。曾辗转求学于思源湖畔，老和山下，现栖身于魔都一隅。所学颇杂，对诸多方面均有涉猎，对各种技术充满热情~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">高明飞</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">高明飞</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">澹泊明志，宁静致远</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/Top">精华文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/atom.xml">RSS</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-U-Boot 2016.05 Stage1代码分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/15/U-Boot 2016.05 Stage1代码分析/" class="article-date">
+      <time datetime="2016-07-15T09:14:24.000Z" itemprop="datePublished">2016-07-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      U-Boot 2016.05 Stage1代码分析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/软件之道/">软件之道</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bootloader/">Bootloader</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Top/">Top</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>主流Bootloader的启动过程均可分为Stage1及Stage2两部分，一般来说，Stage1完成最基本的初始化操作、搬移代码及建立C语言运行环境；Stage2完成剩余的初始化操作。故Stage1一般使用汇编完成，Stage2一般使用C语言完成，不过这只是很粗略的情况，实际上Stage1中也会使用C语言代码。</p>
+<p>下面以之前针对S3C2440移植好的U-Boot 2016.05为例，分析U-Boot中Stage1的代码。</p>
+<a id="more"></a>
+
+<h2 id="程序入口点分析"><a href="#程序入口点分析" class="headerlink" title="程序入口点分析"></a><strong>程序入口点分析</strong></h2><p>要分析启动流程首先要找到程序入口点，也就是最先运行的代码位于何处，这是由链接过程决定的，故找到链接脚本文件<code>u-boot.lds</code>：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">ENTRY</span>(_start)</span><br><span class="line"><span class="symbol">SECTIONS</span></span><br><span class="line">&#123;</span><br><span class="line"> . = <span class="number">0x00000000</span><span class="comment">;</span></span><br><span class="line"> . = <span class="meta">ALIGN</span>(<span class="number">4</span>)<span class="comment">;</span></span><br><span class="line"> <span class="meta">.text</span> :</span><br><span class="line"> &#123;</span><br><span class="line">  *(.__image_copy_start)</span><br><span class="line">  *(.vectors)</span><br><span class="line">  arch/<span class="meta">arm</span>/cpu/arm920t/start.o (<span class="meta">.text</span>*)</span><br><span class="line">  *(<span class="meta">.text</span>*)</span><br><span class="line"> &#125;</span><br><span class="line"><span class="comment">;......省略......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，位于映像文件最前面的依次是<code>.__image_copy_start</code>、<code>.vectors</code>及<code>arch/arm/cpu/arm920t/start.o</code>文件。</p>
+<hr>
+<p><code>.__image_copy_start</code>位于映像文件的起始地址处，它在文件<code>arch/arm/lib/sections.c</code>中被定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> __bss_start[<span class="number">0</span>] __attribute__((section(<span class="string">".__bss_start"</span>)));</span><br><span class="line"><span class="keyword">char</span> __bss_end[<span class="number">0</span>] __attribute__((section(<span class="string">".__bss_end"</span>)));</span><br><span class="line"><span class="keyword">char</span> __image_copy_start[<span class="number">0</span>] __attribute__((section(<span class="string">".__image_copy_start"</span>)));</span><br><span class="line"><span class="keyword">char</span> __image_copy_end[<span class="number">0</span>] __attribute__((section(<span class="string">".__image_copy_end"</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>这个变量的用处应该是用来进行代码定位的，也就是这个变量的地址就代表映像文件的起始地址，并不占用真实的存储空间，所以此处使用了一个0长度的数组，其他变量的用处也是一样的。U-Boot作者对此的说明是：</p>
+<blockquote>
+<p>We need a 0-byte-size type for these symbols, and the compiler does not allow defining objects of C type ‘void’. Using an empty struct is allowed by the compiler, but causes gcc versions 4.4 and below to complain about aliasing. Therefore we use the next best thing: zero-sized arrays, which are both 0-byte-size and exempt from aliasing warnings.</p>
+</blockquote>
+<hr>
+<p><code>.vectors</code>是中断向量表，对于ARM920t来说，使用的是位于<code>arch/arm/lib/vectors.S</code>中的通用向量表：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">.globl</span> _start</span><br><span class="line">    <span class="meta">.section</span> <span class="string">".vectors"</span>, <span class="string">"ax"</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">_start</span>:</span><br><span class="line">    <span class="keyword">b </span>  reset</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">pc</span>, _undefined_instruction</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">pc</span>, _software_interrupt</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">pc</span>, _prefetch_abort</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">pc</span>, _data_abort</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">pc</span>, _not_used</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">pc</span>, _irq</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">pc</span>, _fiq</span><br><span class="line"></span><br><span class="line"><span class="comment">;......省略......</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，复位后会首先执行<code>b reset</code>这条指令跳转至<code>reset</code>处执行，而<code>reset</code>标号正是位于<code>arch/arm/cpu/arm920t/start.S</code>文件中：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    .globl  reset</span><br><span class="line"><span class="symbol">reset</span>:</span><br><span class="line"><span class="comment">;   ......省略......</span></span><br></pre></td></tr></table></figure>
+
+<p>所以一般都说，代码执行开始于<code>start.S</code>文件，这也就是程序的入口点。下面就从这个文件开始分析。</p>
+<h2 id="start-S"><a href="#start-S" class="headerlink" title="start.S"></a><strong>start.S</strong></h2><p><code>start.S</code>的执行流程见下图：<br><img src="https://gmf.shengnengjin.cn/U-Boot%20Stage1_1.svg" alt></p>
+<p><code>lowlevel_init</code>是平台相关的，故它位于<code>board/samsung/smdk2440/lowlevel_init.S</code>中。此处需要完成内存控制器的初始化工作，以便之后能正常使用SDRAM。对于S3C2440来说，就是初始化了<code>BWSCON</code>、<code>BANKCONn</code>、<code>REFRESH</code>、<code>BANKSIZE</code>、<code>MRSRB</code>这些寄存器。</p>
+<p><code>_main</code>是平台无关的，位于<code>arch/arm/lib/crt0.S</code>中，crt的意思就是C-runtime startup Code，此文件的目的就是建立C语言运行环境，以便之后跳转到Stage2，下面就来分析此文件。</p>
+<h2 id="crt0-S"><a href="#crt0-S" class="headerlink" title="crt0.S"></a><strong>crt0.S</strong></h2><p><code>crt0.S</code>文件开头的注释中说明了<code>_main</code>的执行序列，摘录如下：</p>
+<blockquote>
+<p>This file handles the target-independent stages of the U-Boot start-up where a C runtime environment is needed. Its entry point is _main and is branched into from the target’s start.S file.</p>
+<p>_main execution sequence is:</p>
+<ol>
+<li><p>Set up initial environment for calling board_init_f().<br>This environment only provides a stack and a place to store the GD (‘global data’) structure, both located in some readily available RAM (SRAM, locked cache…). In this context, VARIABLE global data, initialized or not (BSS), are UNAVAILABLE; only CONSTANT initialized data are available. GD should be zeroed before board_init_f() is called.</p>
+</li>
+<li><p>Call board_init_f().<br>This function prepares the hardware for execution from system RAM (DRAM, DDR…) As system RAM may not be available yet, , board_init_f() must use the current GD to store any data which must be passed on to later stages. These data include the relocation destination, the future stack, and the future GD location.</p>
+</li>
+<li><p>Set up intermediate environment where the stack and GD are the ones allocated by board_init_f() in system RAM, but BSS and initialized non-const data are still not available.</p>
+</li>
+<li><p>For U-Boot proper (not SPL), call relocate_code().<br>This function relocates U-Boot from its current location into the relocation destination computed by board_init_f().</p>
+</li>
+<li><p>Set up final environment for calling board_init_r().<br>This environment has BSS (initialized to 0), initialized non-const data (initialized to their intended value), and stack in system RAM. GD has retained values set by board_init_f().</p>
+</li>
+<li><p>For U-Boot proper (not SPL), some CPUs have some work left to do at this point regarding memory, so call c_runtime_cpu_setup.</p>
+</li>
+<li><p>Branch to board_init_r().</p>
+</li>
+</ol>
+</blockquote>
+<p>其程序流程图如下：</p>
+<p><img src="https://gmf.shengnengjin.cn/U-Boot%20Stage1_2.svg" alt></p>
+<p>全局变量<code>gd</code>是一个<code>struct global_data</code>类型的结构体，此结构体的定义位于<code>include/asm-generic/global_data.h</code>文件中。此结构体保存了初始化阶段需要用到的各种全局变量，大约有100个左右，相关说明如下：</p>
+<blockquote>
+<p>The following data structure is placed in some memory which is available very early after boot (like DPRAM on MPC8xx/MPC82xx, or some locked parts of the data cache) to allow for a minimum set of global variables during system initialization (until we have set up the memory controller so that we can use RAM).<br>Keep it <strong>SMALL</strong> and remember to set GENERATED_GBL_DATA_SIZE &gt; sizeof(gd_t)<br>Each architecture has its own private fields. For now all are private</p>
+</blockquote>
+<p>下面具体说明每一步的作用：</p>
+<h3 id="Step-1-1-初始化SP寄存器"><a href="#Step-1-1-初始化SP寄存器" class="headerlink" title="Step 1.1 初始化SP寄存器"></a>Step 1.1 <strong>初始化SP寄存器</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ldr </span><span class="built_in">sp</span>, =(CONFIG_SYS_INIT_SP_ADDR)</span><br><span class="line"><span class="keyword">bic </span><span class="built_in">sp</span>, <span class="built_in">sp</span>, <span class="number">#7</span></span><br></pre></td></tr></table></figure>
+
+<p><code>CONFIG_SYS_INIT_SP_ADDR</code>在板子的配置文件<code>include/configs/smdk2440.h</code>中定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_SYS_INIT_SP_ADDR	(CONFIG_SYS_SDRAM_BASE + 0x1000 - GENERATED_GBL_DATA_SIZE)</span></span><br></pre></td></tr></table></figure>
+
+<p><code>GENERATED_GBL_DATA_SIZE</code>是<code>struct global_data</code>按16字节对齐后的大小。可以看到，这里是使用了SDRAM开头4K部分来作为临时堆栈。</p>
+<h3 id="Step-1-2-board-init-f-alloc-reserve"><a href="#Step-1-2-board-init-f-alloc-reserve" class="headerlink" title="Step 1.2 board_init_f_alloc_reserve"></a>Step 1.2 <strong>board_init_f_alloc_reserve</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov </span><span class="built_in">r0</span>, <span class="built_in">sp</span></span><br><span class="line"><span class="keyword">bl </span> <span class="keyword">board_init_f_alloc_reserve</span></span><br><span class="line"><span class="keyword">mov </span><span class="built_in">sp</span>, <span class="built_in">r0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ulong <span class="title">board_init_f_alloc_reserve</span><span class="params">(ulong top)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/* reserve GD (rounded up to a multiple of 16 bytes) */</span></span><br><span class="line">    top = rounddown(top-<span class="keyword">sizeof</span>(struct global_data), <span class="number">16</span>);</span><br><span class="line">    <span class="keyword">return</span> top;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为<code>GD</code>结构体分配保留空间，16字节对齐。结构体的存储方式是从低地址向高地址生长，故此处返回的就是<code>gd</code>的基地址。</p>
+<h3 id="Step-1-3-board-init-f-init-reserve"><a href="#Step-1-3-board-init-f-init-reserve" class="headerlink" title="Step 1.3 board_init_f_init_reserve"></a>Step 1.3 <strong>board_init_f_init_reserve</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov </span><span class="built_in">r9</span>, <span class="built_in">r0</span></span><br><span class="line"><span class="keyword">bl </span> <span class="keyword">board_init_f_init_reserve</span></span><br></pre></td></tr></table></figure>
+
+<p>简化版的函数实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">board_init_f_init_reserve</span><span class="params">(ulong base)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">global_data</span> *<span class="title">gd_ptr</span>;</span></span><br><span class="line">    <span class="keyword">int</span> *ptr;</span><br><span class="line"></span><br><span class="line">    gd_ptr = (struct global_data *)base;</span><br><span class="line">    <span class="comment">/* zero the area */</span></span><br><span class="line">    <span class="keyword">for</span> (ptr = (<span class="keyword">int</span> *)gd_ptr; ptr &lt; (<span class="keyword">int</span> *)(gd_ptr + <span class="number">1</span>); )</span><br><span class="line">        *ptr++ = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将<code>gd</code>的基地址放到<code>r9</code>中保存起来，之后将刚刚分配的保留空间清零完成初始化。</p>
+<h3 id="Step-2-board-init-f"><a href="#Step-2-board-init-f" class="headerlink" title="Step 2 board_init_f"></a>Step 2 <strong>board_init_f</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov </span><span class="built_in">r0</span>, <span class="number">#0</span></span><br><span class="line"><span class="keyword">bl </span> <span class="keyword">board_init_f</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">board_init_f</span><span class="params">(ulong boot_flags)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    gd-&gt;flags = boot_flags;</span><br><span class="line">    gd-&gt;have_console = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (initcall_run_list(init_sequence_f))</span><br><span class="line">        hang();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>board_init_f()</code>函数主要是调用<code>initcall_run_list(init_sequence_f)</code>函数，而此函数的作用就是依次执行<code>init_sequence_f</code>中的各函数指针，去除错误处理、Debug信息输出等部分后，简化版的函数体很简单：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">initcall_run_list</span><span class="params">(<span class="keyword">const</span> <span class="keyword">init_fnc_t</span> init_sequence[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">init_fnc_t</span> *init_fnc_ptr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (init_fnc_ptr = init_sequence; *init_fnc_ptr; ++init_fnc_ptr) &#123;</span><br><span class="line">        (*init_fnc_ptr)();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面来看一下<code>init_fnc_t init_sequence_f[]</code>这个数组，<code>init_fnc_t</code>是一个是用<code>typedef</code>定义的函数指针类型：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*<span class="keyword">init_fnc_t</span>)</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>init_sequence_f[]</code>数组中包含的就是需要执行的初始化函数列表，这里面的函数很多，<strong>这些函数的核心目的就是填充<code>gd</code>结构体</strong>。其中比较重要的有下面这些(<strong>省略了其中大部分函数</strong>)：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">init_fnc_t</span> init_sequence_f[] = &#123;</span><br><span class="line">    board_early_init_f,</span><br><span class="line">    serial_init,        <span class="comment">/* serial communications setup */</span></span><br><span class="line">    console_init_f,     <span class="comment">/* stage 1 init of console */</span></span><br><span class="line">    display_options,    <span class="comment">/* say that we are here */</span></span><br><span class="line">    print_cpuinfo,      <span class="comment">/* display cpu info (and speed) */</span></span><br><span class="line">    dram_init,          <span class="comment">/* configure available RAM banks */</span></span><br><span class="line">    show_dram_config,</span><br><span class="line">    setup_dest_addr,</span><br><span class="line">    reserve_xxxxxx,</span><br><span class="line">    setup_reloc,</span><br><span class="line">    <span class="comment">// jump_to_copy,</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>U-Boot自带的SMDK2410配置中，PLL时钟配置是在<code>board_early_init_f</code>中完成的，不过在针对2440移植时将此部分代码移到了start.S文件中，故<code>board_early_init_f</code>中只包含了GPIO端口初始化；</p>
+<p><code>serial_init</code>及<code>console_init_f</code>完成串口终端的初始化，在此之后串口终端才会有输出。</p>
+<p><code>display_options</code>和<code>print_cpuinfo</code>就是U-Boot运行时串口最先输出的那段版本信息。</p>
+<p><code>dram_init</code>：对于2440来说，因为之前已经初始化好了DRAM，此处只是将DRAM大小写入<code>gd</code>中，在<code>show_dram_config</code>中将SDRAM大小信息输出至控制台。</p>
+<p><code>setup_dest_addr</code>中根据RAM的大小计算了重定位开始地址，将RAM顶端地址存放在<code>gd-&gt;relocaddr = gd-&gt;ram_top</code>中。</p>
+<p><code>reserve_xxxxxx</code>依次计算重定位每一部分所需的RAM空间，并从<code>gd-&gt;relocaddr</code>中减去这部分空间，其中<code>reserve_uboot</code>是计算重定位U-Boot本身（.text + .bss）的地址；<code>reserve_global_data</code>是计算重定位<code>gd</code>的地址。从这里可以看出，<strong>重定位后的代码和数据位于RAM顶端</strong>。</p>
+<p><code>setup_reloc</code>向<code>gd</code>中填入了重定位地址信息，并完成了<code>gd</code>本身的重定位，<strong><code>gd-&gt;reloc_off</code>就是在这里计算出来的，代表重定位地址偏移量</strong>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">setup_reloc</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    gd-&gt;reloc_off = gd-&gt;relocaddr - CONFIG_SYS_TEXT_BASE;</span><br><span class="line">    <span class="built_in">memcpy</span>(gd-&gt;new_gd, (<span class="keyword">char</span> *)gd, <span class="keyword">sizeof</span>(<span class="keyword">gd_t</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于其他平台来说，最后还有一步<code>jump_to_copy</code>，这里会实现代码跳转，也就是不会再返回此函数，不过对于ARM平台来说，是没有这一步的，执行完<code>init_sequence_f[]</code>中的函数后会返回到<code>board_init_f()</code>中，最后回到<code>_main</code>中继续执行后面的代码。</p>
+<h3 id="Step-3-设置中间变量"><a href="#Step-3-设置中间变量" class="headerlink" title="Step 3 设置中间变量"></a>Step 3 <strong>设置中间变量</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">ldr </span><span class="built_in">sp</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_START_ADDR_SP</span>] <span class="comment">/* sp = gd-&gt;start_addr_sp */</span></span><br><span class="line">    <span class="keyword">bic </span><span class="built_in">sp</span>, <span class="built_in">sp</span>, <span class="number">#7</span>                  <span class="comment">/* 8-byte alignment for ABI compliance */</span></span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">r9</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_BD</span>]            <span class="comment">/* r9 = gd-&gt;bd */</span></span><br><span class="line">    <span class="keyword">sub </span><span class="built_in">r9</span>, <span class="built_in">r9</span>, <span class="symbol">#GD_SIZE</span>            <span class="comment">/* new GD is below bd */</span></span><br><span class="line">    <span class="keyword">adr </span><span class="built_in">lr</span>, here</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">r0</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_RELOC_OFF</span>]     <span class="comment">/* r0 = gd-&gt;reloc_off */</span></span><br><span class="line">    <span class="keyword">add </span><span class="built_in">lr</span>, <span class="built_in">lr</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">r0</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_RELOCADDR</span>]     <span class="comment">/* r0 = gd-&gt;relocaddr */</span></span><br><span class="line">    <span class="keyword">b </span>  relocate_code</span><br><span class="line"><span class="symbol">here</span>:</span><br><span class="line">    <span class="keyword">bl </span> relocate_vectors</span><br></pre></td></tr></table></figure>
+
+<p>这里面用到的<code>gd</code>中的值都是在<code>board_early_init_f()</code>中设置好的，其中有几句很重要的语句：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">adr </span><span class="built_in">lr</span>, here</span><br><span class="line"><span class="keyword">ldr </span><span class="built_in">r0</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_RELOC_OFF</span>]     <span class="comment">/* r0 = gd-&gt;reloc_off */</span></span><br><span class="line"><span class="keyword">add </span><span class="built_in">lr</span>, <span class="built_in">lr</span>, <span class="built_in">r0</span></span><br></pre></td></tr></table></figure>
+
+<p><code>here</code>就是下面那个标号，此处将<code>here</code>的地址加上<code>gd-&gt;reloc_off</code>这个偏移量后存放到<code>lr</code>寄存器中，之后调用<code>b   relocate_code</code>命令返回后就会返回到<code>lr</code>寄存器中的地址处。<strong>这就实现了将代码拷贝到SDRAM后从新的重定位地址处接着运行的目的。</strong>这也就是源码中这一段注释的含义：</p>
+<blockquote>
+<p>Set up intermediate environment (new sp and gd) and call relocate_code(addr_moni). <strong>Trick here is that we’ll return ‘here’ but relocated.</strong></p>
+</blockquote>
+<p>设置好这些寄存器后调用<code>relocate_code</code>实现代码重定位。</p>
+<h3 id="Step-4-relocate-code"><a href="#Step-4-relocate-code" class="headerlink" title="Step 4 relocate_code"></a>Step 4 <strong>relocate_code</strong></h3><p>位于<code>/arch/arm/lib/relocate.S</code>中，使用汇编完成，简化版的代码如下：</p>
+<figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">ENTRY</span>(relocate_code)</span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">r1</span>, <span class="symbol">=__image_copy_start</span> <span class="comment">/* r1 &lt;- SRC &amp;__image_copy_start */</span></span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">r2</span>, <span class="symbol">=__image_copy_end</span>   <span class="comment">/* r2 &lt;- SRC &amp;__image_copy_end */</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">copy_loop</span>:</span><br><span class="line">    <span class="keyword">ldmia </span>  <span class="built_in">r1</span>!, &#123;<span class="built_in">r10</span>-<span class="built_in">r11</span>&#125;      <span class="comment">/* copy from source address [r1]    */</span></span><br><span class="line">    <span class="keyword">stmia </span>  <span class="built_in">r0</span>!, &#123;<span class="built_in">r10</span>-<span class="built_in">r11</span>&#125;      <span class="comment">/* copy to   target address [r0]    */</span></span><br><span class="line">    <span class="keyword">cmp </span><span class="built_in">r1</span>, <span class="built_in">r2</span>          <span class="comment">/* until source end address [r2]    */</span></span><br><span class="line">    <span class="keyword">blo </span>copy_loop</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bx </span> <span class="built_in">lr</span></span><br><span class="line"><span class="symbol">ENDPROC</span>(relocate_code)</span><br></pre></td></tr></table></figure>
+
+<p>在这段代码中，使用<code>ldmia</code>及<code>stmia</code>指令，每次使用<code>r10</code>及<code>r11</code>两个寄存器进行复制，<strong>实现了将<code>__image_copy_start</code>及<code>__image_copy_end</code>中的代码复制到<code>gd-&gt;reloc_off</code>处的目的</strong>。</p>
+<p>这里省略了<code>.rel.dyn</code>部分的重定位代码，这部分代码和以上代码差不多，只是还做了些额外处理。</p>
+<p>最后调用<code>bx lr</code>返回，此时会进行状态切换后接着运行行下面的程序，不过此时运行的程序已是位于重定位的地址处了。</p>
+<p>之后执行的是<code>bl  relocate_vectors</code>，这个实现的是中断向量表的重定位，具体就不展开了。在此之后还调用了<code>c_runtime_cpu_setup</code>，不过对于2440来说，这里没有做任何事情，可以跳过。</p>
+<h3 id="Step-5-清零BSS段"><a href="#Step-5-清零BSS段" class="headerlink" title="Step 5 清零BSS段"></a>Step 5 <strong>清零BSS段</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">ldr </span><span class="built_in">r0</span>, <span class="symbol">=__bss_start</span>    <span class="comment">/* this is auto-relocated! */</span></span><br><span class="line">    <span class="keyword">ldr </span><span class="built_in">r1</span>, <span class="symbol">=__bss_end</span>      <span class="comment">/* this is auto-relocated! */</span></span><br><span class="line">    <span class="keyword">mov </span><span class="built_in">r2</span>, <span class="number">#0x00000000</span>     <span class="comment">/* prepare zero to clear BSS */</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">clbss_l</span>:</span><br><span class="line">    <span class="keyword">cmp </span><span class="built_in">r0</span>, <span class="built_in">r1</span>              <span class="comment">/* while not at end of BSS */</span></span><br><span class="line">    <span class="keyword">strlo </span>  <span class="built_in">r2</span>, [<span class="built_in">r0</span>]        <span class="comment">/* clear 32-bit BSS word */</span></span><br><span class="line">    <span class="keyword">addlo </span>  <span class="built_in">r0</span>, <span class="built_in">r0</span>, <span class="number">#4</span>      <span class="comment">/* move to next */</span></span><br><span class="line">    <span class="keyword">blo </span>clbss_l</span><br></pre></td></tr></table></figure>
+
+<p>这一步建立C语言运行环境，实际上也就是清零BSS段，代码也很好懂，根据<code>__bss_start</code>及<code>__bss_end</code>的地址循环写入0即可。只是这有一个问题，注释中有说明：“this is auto-relocated!”，这说明<code>__bss_start</code>及<code>__bss_end</code>的地址已经是重定位后的新地址了，这是如何实现的呢？<code>__bss_start</code>及<code>__bss_end</code>的定义见本文最前面<code>arch/arm/lib/sections.c</code>中的代码，是两个长度为0的数组，估计是在<code>relocate_code</code>搬运代码过程中已经搬运了这两个0长度的代码了？这个问题还需要之后来仔细思考下。</p>
+<h3 id="Step-6-board-init-r"><a href="#Step-6-board-init-r" class="headerlink" title="Step 6 board_init_r"></a>Step 6 <strong>board_init_r</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bl </span>coloured_LED_init</span><br><span class="line"><span class="keyword">bl </span>red_led_on</span><br><span class="line"><span class="comment">/* call board_init_r(gd_t *id, ulong dest_addr) */</span></span><br><span class="line"><span class="keyword">mov </span><span class="built_in">r0</span>, <span class="built_in">r9</span>                  <span class="comment">/* gd_t */</span></span><br><span class="line"><span class="keyword">ldr </span><span class="built_in">r1</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_RELOCADDR</span>] <span class="comment">/* dest_addr */</span></span><br><span class="line"><span class="keyword">ldr </span><span class="built_in">pc</span>, <span class="symbol">=board_init_r</span>   <span class="comment">/* this is auto-relocated! */</span></span><br></pre></td></tr></table></figure>
+
+<p>在调用<code>board_init_r</code>前还调用了两个函数：<code>coloured_LED_init</code>及<code>red_led_on</code>，不过在SMDK2410的BSP文件中没有实现这两个函数，目前使用的是<code>common/board_f.c</code>中的空函数，相关函数还有下面这些：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/************************************************************************</span></span><br><span class="line"><span class="comment"> * Coloured LED functionality</span></span><br><span class="line"><span class="comment"> ************************************************************************</span></span><br><span class="line"><span class="comment"> * May be supplied by boards if desired</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">coloured_LED_init</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">red_led_on</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">red_led_off</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">green_led_on</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">green_led_off</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">yellow_led_on</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">yellow_led_off</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">blue_led_on</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line">__<span class="function">weak <span class="keyword">void</span> <span class="title">blue_led_off</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>最后来看看<code>board_init_r()</code>函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">board_init_r</span><span class="params">(<span class="keyword">gd_t</span> *new_gd, ulong dest_addr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (initcall_run_list(init_sequence_r))</span><br><span class="line">        hang();</span><br><span class="line">    <span class="comment">/* NOTREACHED - run_main_loop() does not return */</span></span><br><span class="line">    hang();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>initcall_run_list</code>函数在上面”2.board_init_f”小节中已经分析过了，就是依次执行传入数组中的各函数，此处传入了<code>init_sequence_r</code>，这就是Stage2的初始化函数列表。</p>
+<p>至此，Stage1结束，开始执行Stage2的初始化流程。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/07/15/U-Boot 2016.05 Stage1代码分析/">U-Boot 2016.05 Stage1代码分析</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">高明飞</a></p>
+        <p><span>发布时间:</span>2016-07-15, 17:14:24</p>
+        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/07/15/U-Boot 2016.05 Stage1代码分析/" title="U-Boot 2016.05 Stage1代码分析">http://gaomf.cn/2016/07/15/U-Boot 2016.05 Stage1代码分析/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://gaomf.cn/2016/07/15/U-Boot 2016.05 Stage1代码分析/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/07/20/Python爬虫--使用BeautifulSoup解析HTML/">
+                    Python爬虫--使用BeautifulSoup解析HTML
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/07/12/UART协议时序总结/">
+                    UART协议时序总结
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#程序入口点分析"><span class="toc-number">1.</span> <span class="toc-text">程序入口点分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#start-S"><span class="toc-number">2.</span> <span class="toc-text">start.S</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#crt0-S"><span class="toc-number">3.</span> <span class="toc-text">crt0.S</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1-1-初始化SP寄存器"><span class="toc-number">3.1.</span> <span class="toc-text">Step 1.1 初始化SP寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1-2-board-init-f-alloc-reserve"><span class="toc-number">3.2.</span> <span class="toc-text">Step 1.2 board_init_f_alloc_reserve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1-3-board-init-f-init-reserve"><span class="toc-number">3.3.</span> <span class="toc-text">Step 1.3 board_init_f_init_reserve</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2-board-init-f"><span class="toc-number">3.4.</span> <span class="toc-text">Step 2 board_init_f</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-3-设置中间变量"><span class="toc-number">3.5.</span> <span class="toc-text">Step 3 设置中间变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-4-relocate-code"><span class="toc-number">3.6.</span> <span class="toc-text">Step 4 relocate_code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-5-清零BSS段"><span class="toc-number">3.7.</span> <span class="toc-text">Step 5 清零BSS段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-6-board-init-r"><span class="toc-number">3.8.</span> <span class="toc-text">Step 6 board_init_r</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+
+
+    
+	
+	<!-- Gitment评论插件通用代码 -->
+<!-- from: https://billts.site/extra_css/gitment.css -->
+<!-- from: https://billts.site/js/gitment.js -->
+
+<div id="gitment-ctn" style="margin: 50px"></div>
+<link rel="stylesheet" href="/css/extra_css/gitment.css">
+<script src="/js/gitment.js"></script>
+
+<script>
+var gitment = new Gitment({
+  id: "U-Boot 2016.05 Stage1代码分析",
+  owner: 'g199209',
+  repo: 'g199209.github.io',
+  oauth: {
+    client_id: '813326c14fac583d3c91',
+    client_secret: 'f8dbfe0b2626fa098ec31a165f298a4af93c6535',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+<!-- Gitment代码结束 -->
+	
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/07/20/Python爬虫--使用BeautifulSoup解析HTML/" title="上一篇: Python爬虫--使用BeautifulSoup解析HTML">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/07/12/UART协议时序总结/" title="下一篇: UART协议时序总结">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/28/PVE_OpenWRT_Network_Broken/">PVE上部署OpenWRT发生网络中断的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/24/Thesis_of_Master/">用于嵌入式车载安全预警的交通标志检测若干关键技术研究与验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Deep_Into_Dokcer_Helloworld/">深入分析Docker hello-world镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/17/Sudo_No_Passwd/">sudo不需要输入密码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Hexo_Yelee_Gitment/">为Hexo博客Yelee主题添加Gitment评论系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/sizeof_extern_array/">sizeof 获取 extern 数组长度</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/The_Road/">多歧路，今安在？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/04/SSH_Forwarding/">SSH反向穿透访问内网主机</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/25/C_restrict/">C语言关键词restrict的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/Kernel_min_max_macro/">Linux kernel中的min和max宏</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/C_typeof/">C语言中typeof的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/05/string_literal_concatenate/">C语言中的字符串字面量连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/Detect_Stack_Direction/">用代码判断栈的增长方向</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/20/printf_format_string_attack/">printf格式化字符串漏洞攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/16/Atom_Configure/">Atom编辑器配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/Win10_Software_Font_Blur/">Win10下软件界面显示模糊问题解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/15/Memcpy_Optimization/">memcpy中的内存读写优化问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/31/Array_Find_Half/">寻找数组中出现次数超过一半的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/Cpp_string_COW_SSO/">C++中std::string的COW及SSO实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/12/LDO/">LDO应用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/TL431_Self_OScillation/">TL431自激振荡消除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/Sudoku/">数独求解程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/OpenCV_and_GTK/">OpenCV与GTK+结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/Allegro_Font/">Cadence Allegro 调整界面字体字号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/Discrete_Load_Switch/">带软启动的分立负载开关电路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Tutorial_Help/">PSpice教程及帮助文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Swt/">PSpice中的延时开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/Linux_SoftRouter_Basic/">Linux软路由——基础配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Relaxation_Oscillator/">松弛振荡器原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Capacity_Charge/">对电容充放电过程的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Button_Cell/">纽扣电池型号总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/SVN/">SVN常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/C++_Random/">C++生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/SSH_Authentication/">SSH证书登录总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/Ubuntu_Reduce_Swap/">Ubuntu减小swap分区大小的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/Future_Hesitate/">对于未来的迷茫</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/Minimum_Spanning_Tree/">最小生成树算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/Maximum_Flow_Algorithm/">最大流算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/12/BinaryTree_Traversal/">二叉树的遍历算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/03/Shortest_Path/">最短路径算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/02/Vim_Plugin/">Vim配置及插件总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Linux_Vim_Compile/">Linux下Vim的编译安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Hexo_Git_CRLF/">Hexo Git部署警告"warning： LF will be replaced by CRLF"的去除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Linux_Colourful_Man/">Linux彩色man page设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/Linux_Background_Run/">Linux下让进程在后台可靠运行的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/SSH_Broken_Pipe/">SSH连接自动断开的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/03/VMware_Shrink_Linux/">VMware中收缩Linux虚拟机体积</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/VMware_Internal_SD/">VMware虚拟机中使用电脑内置SD读卡器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/VMWare_Ubuntu_Terminal_Shadowsocks/">VMware Ubuntu虚拟机中为终端配置Shadowsocks代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/VS2015_Qt_UTF8/">VS2015 & Qt中文编码方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/10/OpenCV_and_Qt/">OpenCV与Qt结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/09/VS2015_Qt5_7/">VS2015搭建Qt 5.7开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/VS2015_OpenCV31/">VS2015下编译OpenCV 3.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Array_Shift/">数组循环移位算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/N_Queen_Problem/">N皇后问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/PMSM_Vector_Control/">PMSM矢量控制算法调试流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_014/">LeetCode 014. Longest Common Prefix (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_019/">LeetCode 019. Remove Nth Node From End of List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_083/">LeetCode 083. Remove Duplicates from Sorted List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Raspberry_Pi_Static_IP/">为树莓派设置静态IP地址的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/IP_Mask/">IP地址中子网掩码的表示方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Windows_Ping/">Windows防火墙允许ping请求设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/String_Fill/">一道字符串填充算法题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_319/">LeetCode 319. Bulb Switcher (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_292/">LeetCode 292. Nim Game (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/divide_conquer/">分治法算法复杂度</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_345/">LeetCode 345. Reverse Vowels of a String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_344/">LeetCode 344. Reverse String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_167/">LeetCode 167. Two Sum II - Input array is sorted (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_001/">LeetCode 001. Two Sum (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/apt_apt-get/">apt与apt-get命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_160/">LeetCode 160. Intersection of Two Linked Lists (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_141/">LeetCode 141. Linked List Cycle (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_415/">LeetCode 415. Add String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/20/ARM_Architecture_Core/">ARM架构及内核</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Diff_Patch/">diff及patch的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Blog_New_Theme_2016/">更换博客主题啦~</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Encoder_Velocity_Measure/">旋转编码器速度测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/为Hexo博客Yilia主题添加本地站内搜索功能/">为Hexo博客Yilia主题添加本地站内搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/关于科学与工程/">关于科学与工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/26/在Android Studio中使用Lambda表达式/">在Android Studio中使用Lambda表达式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/16/Java集合框架/">Java集合框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/最大公约数算法/">最大公约数算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/最大子序列和问题/">最大连续子序列和问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/C标准库学习笔记(1)——time、ctype、stdarg、assert/">C标准库学习笔记(1)——time、ctype、stdarg、assert</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/使用Python实现网站变化监测系统/">使用Python实现网站变化监测系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/正则表达式总结/">正则表达式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用re正则表达式解析文本/">Python爬虫--使用re正则表达式解析文本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python爬虫--使用BeautifulSoup解析HTML/">Python爬虫--使用BeautifulSoup解析HTML</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/U-Boot 2016.05 Stage1代码分析/">U-Boot 2016.05 Stage1代码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/12/UART协议时序总结/">UART协议时序总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/汇编文件后缀.s与.S的区别/">汇编文件后缀.s与.S的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Linux下查看编辑二进制文件/">Linux下查看编辑二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot DM9000网卡驱动提示could not establish link的解决方法/">U-Boot DM9000网卡驱动提示"could not establish link"的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot 2016.05 在S3C2440上的移植——杂项/">U-Boot 2016.05 在S3C2440上的移植——杂项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/在U-Boot中添加自定义命令以实现自动下载程序/">在U-Boot中添加自定义命令以实现自动下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/VMware虚拟机中嵌入式Linux开发环境网络配置/">VMware虚拟机中嵌入式Linux开发环境网络配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡/">U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot 2016.05 在S3C2440上的移植（3）——Nand Flash/">U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/24/U-Boot 2016.05 在S3C2440上的移植（2）——Nor Flash/">U-Boot 2016.05 在S3C2440上的移植（2）——NOR Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/23/Nor Flash中的启动扇区（Boot Sector, Boot Block）/">Nor Flash中的启动扇区（Boot Sector, Boot Block）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/22/串口终端picocom的使用/">串口终端picocom的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/20/Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法/">Jlink为S3C2440下载程序提示"Unable to halt cpu core"的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/U-Boot 2016.05 在S3C2440上的移植（1）——基本运行/">U-Boot 2016.05 在S3C2440上的移植（1）——基本运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/17/OpenSSH使用多个私钥（SSH Key）配置/">OpenSSH使用多个私钥（SSH Key）配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/16/crosstool-ng参数配置/">crosstool-ng参数配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/GCC中-march、-mtune、-mcpu三个参数的设置/">GCC中-march、-mtune、-mcpu三个参数的设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/crosstool-ng的基本使用流程/">crosstool-ng的基本使用流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/14/crosstool-ng的安装/">crosstool-ng的安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/06/旋转编码器绝对位置测量方法/">旋转编码器绝对位置测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/Python爬虫--使用requests获取网页/">Python爬虫--使用requests获取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/使用Python爬虫抓取网页/">使用Python爬虫抓取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/NFS服务器的搭建/">NFS服务器的搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/U-Boot中IP地址设置方法/">U-Boot中IP地址设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/27/U-Boot版本命名规则及源码下载途径/">U-Boot版本命名规则及源码下载途径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/Android中实现多线程的方法/">Android中实现多线程的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/IQmath库总结/">C28x IQmath库使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/28/结构体内存边界对齐问题/">结构体内存边界对齐问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/ARM Cortex-M内核复位启动过程分析/">ARM Cortex-M内核复位启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/Python Socket Error Address already in use的解决办法/">Python Socket Error： Address already in use的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/C2000 DSP中全局变量清零问题/">C2000 DSP中全局变量清零问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/21/C语言中函数指针的声明及使用/">C语言中函数指针的声明及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/18/C语言标准库总结/">C语言标准库总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/HTTP中确定报文结束的方法/">HTTP中确定报文结束的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/C语言运算符优先级与结合性/">C语言运算符优先级与结合性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/MCS-51 基本数据类型/">MCS-51 基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/22/半导体存储器总结/">半导体存储器总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/04/Altium Designer导出Gerber文件方法/">Altium Designer导出Gerber文件方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/Hexo博客修改Archive页面显示文章数量/">Hexo博客修改Archive页面显示文章数量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/24/Population Count算法/">Population Count算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/28/Matlab调用Origin作图/">Matlab调用Origin作图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/Origin Script Window 执行脚本代码的方法/">Origin Script Window 执行脚本代码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/集成式负载开关/">集成式负载开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/12/Quartus中配置FPGA未使用引脚状态方法/">Quartus中配置FPGA未使用引脚状态方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/11/IGBT与MOSFET异同/">IGBT与MOSFET比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/01/三相逆变器电流采样方案总结/">三相逆变器电流采样方案总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/27/C2000 DSP基本数据类型/">C2000 DSP基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/C2000 ePWM模块/">C2000 ePWM模块</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Simulink仿真模式/">Simulink仿真模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8外设引脚重映射/">STM8外设引脚重映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8系列单片机/">STM8系列单片机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/19/阻抗测量方法/">阻抗测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/11/使用OpenMP进行多线程计算/">使用OpenMP进行多线程计算</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/10/STC单片机不断电下载程序/">STC单片机不断电下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/08/OpenCV 3.0安装/">OpenCV 3.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/06/STM8 SWIM接口/">STM8 SWIM接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/BLDC六步换相法基本原理及驱动波形/">BLDC六步换相法基本原理及驱动波形</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/30/C2000 CSM使用方法/">C2000 CSM使用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/28/TMS320 DSP新建工程基本步骤/">C2000 DSP新建工程基本步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/数据结构——循环队列/">数据结构——循环队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/OSI模型总结/">OSI模型总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/安规电容总结/">安规电容总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/C语言生成随机数/">C语言生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Doxygen处理条件编译/">Doxygen处理条件编译</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/12/使用Doxygen生成高质量代码参考文档/">使用Doxygen生成高质量代码参考文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/Hexo博客优化加载速度/">Hexo博客优化加载速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/使用JLink为2440 NOR Flash下载程序/">使用JLink为2440 NOR Flash下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/30/Markdown常用格式/">Markdown常用格式</a></li></ul>
+
+
+
+
+    <script>
+        
+            yiliaConfig.fancybox = false;
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2019 高明飞
+				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 8;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  </div>
+</body>
+</html>
