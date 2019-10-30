@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://gaomf.cn/"/>
-  <updated>2019-09-17T11:46:27.597Z</updated>
+  <updated>2019-10-30T15:32:54.045Z</updated>
   <id>http://gaomf.cn/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用 perf 进行性能分析时如何获取准确的调用栈</title>
+    <link href="http://gaomf.cn/2019/10/30/perf_stack_traceback/"/>
+    <id>http://gaomf.cn/2019/10/30/perf_stack_traceback/</id>
+    <published>2019-10-30T15:09:37.000Z</published>
+    <updated>2019-10-30T15:32:54.045Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>perf</code> 是 Linux 下重要的性能分析工具，<code>perf</code> 可以通过采样获取很多性能指标，其中最常用的是获取 CPU Cycles，即程序各部分代码运行所需的时间，进而确定性能瓶颈在哪。不过在实际使用过程中发现，简单的使用<code>perf record -g</code> 获取到的调用栈是有问题的，存在大量 <code>[Unknown]</code> 函数，从 <code>perf report</code> 的结果来看这些部分对应地址大部分都是非法地址，且生成的火焰图中存在很多明显与代码矛盾的调用关系。</p><a id="more"></a><p>最初怀疑是优化级别的问题，然而尝试使用 <code>Og</code> 或 <code>O0</code> 优化依然存在此问题，仔细阅读 <code>perf record</code> 的手册后发现，<code>perf</code> 同时支持 3 种栈回溯方式：<code>fp</code>, <code>dwarf</code>, <code>lbr</code>，可以通过 <code>--call-graph</code> 参数指定，而 <code>-g</code> 就相当于 <code>--call-graph fp</code>.</p><h3 id="栈回溯方式"><a href="#栈回溯方式" class="headerlink" title="栈回溯方式"></a>栈回溯方式</h3><p> <code>fp</code> 就是 Frame Pointer，即 x86 中的 <code>EBP</code> 寄存器，<code>fp</code> 指向当前栈帧栈底地址，此地址保存着上一栈帧的 <code>EBP</code> 值，具体可参考<a href="https://www.cs.rutgers.edu/~pxk/419/notes/frames.html" target="_blank" rel="noopener">此文章</a>的介绍，根据 <code>fp</code> 就可以逐级回溯调用栈。然而这一特性是会被优化掉的，而且这还是 GCC 的默认行为，在不手动指定 <code>-fomit-frame-pointer</code> 时默认都会进行此优化，此时 <code>EBP</code> 被当作一般的通用寄存器使用，以此为依据进行栈回溯显然是错误的。不过尝试指定 <code>-fomit-frame-pointer</code> 后依然没法获取到正确的调用栈，看来只有放弃使用 <code>fp</code> 进行回溯了。</p><p><code>dwarf</code> 是一种调试文件格式，GCC 编译时附加的 <code>-g</code> 参数生成的就是 <code>dwarf</code> 格式的调试信息，其中包括了栈回溯所需的全部信息，使用 <code>libunwind</code> 即可展开这些信息。<code>dwarf</code> 的进一步介绍可参考 <a href="http://cwndmiao.github.io/programming%20tools/2013/11/26/Dwarf/" target="_blank" rel="noopener">“关于DWARF”</a>，值得一提的是，GDB 进行栈回溯时使用的正是 <code>dwarf</code> 调试信息。实际测试表明使用 <code>dwarf</code> 可以很好的获取到准确的调用栈。</p><p>最后 <code>perf</code> 还支持通过 <code>lbr</code> 获取调用栈，<code>lbr</code> 即 Last Branch Records，是较新的 Intel CPU 中提供的一组硬件寄存器，其作用是记录之前若干次分支跳转的地址，主要目的就是用来支持 <code>perf</code> 这类性能分析工具，其详细说明可参考 <a href="https://lwn.net/Articles/680985/" target="_blank" rel="noopener">“An introduction to last branch records”</a> &amp; <a href="https://lwn.net/Articles/680996/" target="_blank" rel="noopener">“Advanced usage of last branch records”</a>。此方法是性能与准确性最高的手段，然而它存在一个很大的局限性，由于硬件 Ring Buffer 寄存器的大小是有限的，<code>lbr</code> 能记录的栈深度也是有限的，具体值取决于特定 CPU 实现，一般就是 32 层，若超过此限制会得到错误的调用栈。</p><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>实际测试下以上 3 种栈回溯方式得到的结果，测试程序是一个调用深度为 50 的简单程序，从 <code>f0()</code> 依次调用至 <code>f50()</code>。</p><p><strong><code>--call-graph fp</code></strong>：</p><p><img src="https://gmf.shengnengjin.cn/perf_test_fp.svg" alt></p><p><strong><code>--call-graph lbr</code></strong>：</p><p><img src="https://gmf.shengnengjin.cn/perf_test_lbr.svg" alt></p><p><strong><code>--call-graph dwarf</code></strong>：</p><p><img src="https://gmf.shengnengjin.cn/perf_test_dwarf.svg" alt></p><p>可以看到，的确只有 <code>dwarf</code> 获取到了正确的调用栈。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><table><thead><tr><th></th><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td><code>fp</code></td><td>None</td><td>1. 默认 <code>fp</code> 被优化掉了根本不可用。</td></tr><tr><td><code>lbr</code></td><td>1. 高效准确</td><td>1. 需要较新的 Intel CPU 才有此功能；2. 能记录的调用栈深度有限。</td></tr><tr><td><code>dwarf</code></td><td>1. 准确</td><td>1. 开销相对较大；2. 需要编译时附加了调试信息。</td></tr></tbody></table><hr><blockquote><p>参考资料：</p><p><a href="http://www.brendangregg.com/perf.html" target="_blank" rel="noopener">perf Examples</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;perf&lt;/code&gt; 是 Linux 下重要的性能分析工具，&lt;code&gt;perf&lt;/code&gt; 可以通过采样获取很多性能指标，其中最常用的是获取 CPU Cycles，即程序各部分代码运行所需的时间，进而确定性能瓶颈在哪。不过在实际使用过程中发现，简单的使用&lt;code&gt;perf record -g&lt;/code&gt; 获取到的调用栈是有问题的，存在大量 &lt;code&gt;[Unknown]&lt;/code&gt; 函数，从 &lt;code&gt;perf report&lt;/code&gt; 的结果来看这些部分对应地址大部分都是非法地址，且生成的火焰图中存在很多明显与代码矛盾的调用关系。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+    
+    
+      <category term="Linux" scheme="http://gaomf.cn/tags/Linux/"/>
+    
+      <category term="Debug" scheme="http://gaomf.cn/tags/Debug/"/>
+    
+      <category term="x86" scheme="http://gaomf.cn/tags/x86/"/>
+    
+  </entry>
   
   <entry>
     <title>PVE上部署OpenWRT发生网络中断的解决方法</title>
@@ -482,27 +509,6 @@
       <category term="Top" scheme="http://gaomf.cn/tags/Top/"/>
     
       <category term="Performance" scheme="http://gaomf.cn/tags/Performance/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>寻找数组中出现次数超过一半的元素</title>
-    <link href="http://gaomf.cn/2017/07/31/Array_Find_Half/"/>
-    <id>http://gaomf.cn/2017/07/31/Array_Find_Half/</id>
-    <published>2017-07-31T13:24:24.000Z</published>
-    <updated>2019-09-17T11:46:27.612Z</updated>
-    
-    <content type="html"><![CDATA[<p>一个数组中，有某个元素的出现次数超过数组中元素个数的一半，找出这个元素。</p><a id="more"></a><p>这题有一些较容易想到的常规做法：</p><ol><li>先排序，中间元素即为所需元素。时间复杂度O(lonN)。</li><li>利用散列，统计每个元素出现的次数，超过一半即输出。此算法需要额外空间，约为O(n)。</li></ol><p>不过这两种方法都未能在时间和空间上同时达到最优，在牛客网上做到这题时，评论区中有个给出了一个来源于《编程之美》中的巧妙算法，可以做到只循环一遍，且不需要额外空间。</p><p>算法基本思路是：<strong>在数组中任选两个不同元素消去，最终剩下的元素一定是出现次数超过一半的元素</strong>（在保证此元素存在的情况下）。</p><p>具体编程时，可以重头开始扫描，记录当前元素出现次数<code>times</code>，遇到不同的元素则<code>times--</code>，若<code>times==0</code>，换一个元素继续。代码如下：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getMode</span><span class="params">(<span class="keyword">int</span> Nums[], <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> remain, times = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (times == <span class="number">0</span>) &#123;</span><br><span class="line">            remain = Nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (remain == Nums[i]) &#123;</span><br><span class="line">            times++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            times--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> remain;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>此算法需要预先保证输入元素中肯定存在解时返回结果才正确，若不确定是否有元素出现次数大于一半，需要在最后再循环检查一遍：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">times = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span> (Nums[i] == remain)</span><br><span class="line">        times++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> (times &gt; n / <span class="number">2</span> ? remain : <span class="number">-1</span>);</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一个数组中，有某个元素的出现次数超过数组中元素个数的一半，找出这个元素。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="算法之美" scheme="http://gaomf.cn/categories/%E7%AE%97%E6%B3%95%E4%B9%8B%E7%BE%8E/"/>
-    
     
   </entry>
   
