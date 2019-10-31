@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://gmf.shengnengjin.cn/perf_test_fp.svg">
 <meta property="og:image" content="https://gmf.shengnengjin.cn/perf_test_lbr.svg">
 <meta property="og:image" content="https://gmf.shengnengjin.cn/perf_test_dwarf.svg">
-<meta property="og:updated_time" content="2019-10-30T15:32:54.045Z">
+<meta property="og:updated_time" content="2019-10-31T11:14:57.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 perf 进行性能分析时如何获取准确的调用栈">
 <meta name="twitter:description" content="perf 是 Linux 下重要的性能分析工具，perf 可以通过采样获取很多性能指标，其中最常用的是获取 CPU Cycles，即程序各部分代码运行所需的时间，进而确定性能瓶颈在哪。不过在实际使用过程中发现，简单的使用perf record -g 获取到的调用栈是有问题的，存在大量 [Unknown] 函数，从 perf report 的结果来看这些部分对应地址大部分都是非法地址，且生成的火焰图">
@@ -356,7 +356,7 @@
 <a id="more"></a>
 
 <p>最初怀疑是优化级别的问题，然而尝试使用 <code>Og</code> 或 <code>O0</code> 优化依然存在此问题，仔细阅读 <code>perf record</code> 的手册后发现，<code>perf</code> 同时支持 3 种栈回溯方式：<code>fp</code>, <code>dwarf</code>, <code>lbr</code>，可以通过 <code>--call-graph</code> 参数指定，而 <code>-g</code> 就相当于 <code>--call-graph fp</code>.</p>
-<h3 id="栈回溯方式"><a href="#栈回溯方式" class="headerlink" title="栈回溯方式"></a>栈回溯方式</h3><p> <code>fp</code> 就是 Frame Pointer，即 x86 中的 <code>EBP</code> 寄存器，<code>fp</code> 指向当前栈帧栈底地址，此地址保存着上一栈帧的 <code>EBP</code> 值，具体可参考<a href="https://www.cs.rutgers.edu/~pxk/419/notes/frames.html" target="_blank" rel="noopener">此文章</a>的介绍，根据 <code>fp</code> 就可以逐级回溯调用栈。然而这一特性是会被优化掉的，而且这还是 GCC 的默认行为，在不手动指定 <code>-fomit-frame-pointer</code> 时默认都会进行此优化，此时 <code>EBP</code> 被当作一般的通用寄存器使用，以此为依据进行栈回溯显然是错误的。不过尝试指定 <code>-fomit-frame-pointer</code> 后依然没法获取到正确的调用栈，看来只有放弃使用 <code>fp</code> 进行回溯了。</p>
+<h3 id="栈回溯方式"><a href="#栈回溯方式" class="headerlink" title="栈回溯方式"></a>栈回溯方式</h3><p> <code>fp</code> 就是 Frame Pointer，即 x86 中的 <code>EBP</code> 寄存器，<code>fp</code> 指向当前栈帧栈底地址，此地址保存着上一栈帧的 <code>EBP</code> 值，具体可参考<a href="https://www.cs.rutgers.edu/~pxk/419/notes/frames.html" target="_blank" rel="noopener">此文章</a>的介绍，根据 <code>fp</code> 就可以逐级回溯调用栈。然而这一特性是会被优化掉的，而且这还是 GCC 的默认行为，在不手动指定 <code>-fno-omit-frame-pointer</code> 时默认都会进行此优化，此时 <code>EBP</code> 被当作一般的通用寄存器使用，以此为依据进行栈回溯显然是错误的。不过尝试指定 <code>-fno-omit-frame-pointer</code> 后依然没法获取到正确的调用栈，根据 GCC 手册的<a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html" target="_blank" rel="noopener">说明</a>，指定了此选项后也并不保证所有函数调用都会使用 <code>fp</code>…… 看来只有放弃使用 <code>fp</code> 进行回溯了。</p>
 <p><code>dwarf</code> 是一种调试文件格式，GCC 编译时附加的 <code>-g</code> 参数生成的就是 <code>dwarf</code> 格式的调试信息，其中包括了栈回溯所需的全部信息，使用 <code>libunwind</code> 即可展开这些信息。<code>dwarf</code> 的进一步介绍可参考 <a href="http://cwndmiao.github.io/programming%20tools/2013/11/26/Dwarf/" target="_blank" rel="noopener">“关于DWARF”</a>，值得一提的是，GDB 进行栈回溯时使用的正是 <code>dwarf</code> 调试信息。实际测试表明使用 <code>dwarf</code> 可以很好的获取到准确的调用栈。</p>
 <p>最后 <code>perf</code> 还支持通过 <code>lbr</code> 获取调用栈，<code>lbr</code> 即 Last Branch Records，是较新的 Intel CPU 中提供的一组硬件寄存器，其作用是记录之前若干次分支跳转的地址，主要目的就是用来支持 <code>perf</code> 这类性能分析工具，其详细说明可参考 <a href="https://lwn.net/Articles/680985/" target="_blank" rel="noopener">“An introduction to last branch records”</a> &amp; <a href="https://lwn.net/Articles/680996/" target="_blank" rel="noopener">“Advanced usage of last branch records”</a>。此方法是性能与准确性最高的手段，然而它存在一个很大的局限性，由于硬件 Ring Buffer 寄存器的大小是有限的，<code>lbr</code> 能记录的栈深度也是有限的，具体值取决于特定 CPU 实现，一般就是 32 层，若超过此限制会得到错误的调用栈。</p>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>实际测试下以上 3 种栈回溯方式得到的结果，测试程序是一个调用深度为 50 的简单程序，从 <code>f0()</code> 依次调用至 <code>f50()</code>。</p>
@@ -407,7 +407,7 @@
         <p><span>本文标题:</span><a href="/2019/10/30/perf_stack_traceback/">使用 perf 进行性能分析时如何获取准确的调用栈</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">高明飞</a></p>
         <p><span>发布时间:</span>2019-10-30, 23:09:37</p>
-        <p><span>最后更新:</span>2019-10-30, 23:32:54</p>
+        <p><span>最后更新:</span>2019-10-31, 19:14:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/10/30/perf_stack_traceback/" title="使用 perf 进行性能分析时如何获取准确的调用栈">http://gaomf.cn/2019/10/30/perf_stack_traceback/</a>
             <span class="copy-path" data-clipboard-text="原文: http://gaomf.cn/2019/10/30/perf_stack_traceback/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
