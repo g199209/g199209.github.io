@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://gaomf.cn/2019/12/24/coredump_optimized_value/</loc>
+    
+    <lastmod>2019-12-24T13:17:27.776Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gaomf.cn/404.html</loc>
     
     <lastmod>2019-10-31T14:55:51.229Z</lastmod>
@@ -149,6 +156,13 @@
   </url>
   
   <url>
+    <loc>http://gaomf.cn/2016/10/13/Encoder_Velocity_Measure/</loc>
+    
+    <lastmod>2019-09-17T11:46:27.613Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gaomf.cn/2016/11/28/Array_Shift/</loc>
     
     <lastmod>2019-09-17T11:46:27.613Z</lastmod>
@@ -157,13 +171,6 @@
   
   <url>
     <loc>http://gaomf.cn/2016/06/06/%25E6%2597%258B%25E8%25BD%25AC%25E7%25BC%2596%25E7%25A0%2581%25E5%2599%25A8%25E7%25BB%259D%25E5%25AF%25B9%25E4%25BD%258D%25E7%25BD%25AE%25E6%25B5%258B%25E9%2587%258F%25E6%2596%25B9%25E6%25B3%2595/</loc>
-    
-    <lastmod>2019-09-17T11:46:27.613Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gaomf.cn/2016/10/13/Encoder_Velocity_Measure/</loc>
     
     <lastmod>2019-09-17T11:46:27.613Z</lastmod>
     
@@ -212,14 +219,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/02/11/Data_Structure_AVLTree/</loc>
+    <loc>http://gaomf.cn/2015/11/26/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584%25E2%2580%2594%25E2%2580%2594%25E5%25BE%25AA%25E7%258E%25AF%25E9%2598%259F%25E5%2588%2597/</loc>
     
     <lastmod>2019-09-17T11:46:27.612Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2015/11/26/%25E6%2595%25B0%25E6%258D%25AE%25E7%25BB%2593%25E6%259E%2584%25E2%2580%2594%25E2%2580%2594%25E5%25BE%25AA%25E7%258E%25AF%25E9%2598%259F%25E5%2588%2597/</loc>
+    <loc>http://gaomf.cn/2017/02/11/Data_Structure_AVLTree/</loc>
     
     <lastmod>2019-09-17T11:46:27.612Z</lastmod>
     
@@ -303,14 +310,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2015/10/31/%25E4%25BD%25BF%25E7%2594%25A8JLink%25E4%25B8%25BA2440%2520NOR%2520Flash%25E4%25B8%258B%25E8%25BD%25BD%25E7%25A8%258B%25E5%25BA%258F/</loc>
+    <loc>http://gaomf.cn/2015/11/12/%25E4%25BD%25BF%25E7%2594%25A8Doxygen%25E7%2594%259F%25E6%2588%2590%25E9%25AB%2598%25E8%25B4%25A8%25E9%2587%258F%25E4%25BB%25A3%25E7%25A0%2581%25E5%258F%2582%25E8%2580%2583%25E6%2596%2587%25E6%25A1%25A3/</loc>
     
     <lastmod>2019-09-17T11:46:27.609Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2015/11/12/%25E4%25BD%25BF%25E7%2594%25A8Doxygen%25E7%2594%259F%25E6%2588%2590%25E9%25AB%2598%25E8%25B4%25A8%25E9%2587%258F%25E4%25BB%25A3%25E7%25A0%2581%25E5%258F%2582%25E8%2580%2583%25E6%2596%2587%25E6%25A1%25A3/</loc>
+    <loc>http://gaomf.cn/2015/10/31/%25E4%25BD%25BF%25E7%2594%25A8JLink%25E4%25B8%25BA2440%2520NOR%2520Flash%25E4%25B8%258B%25E8%25BD%25BD%25E7%25A8%258B%25E5%25BA%258F/</loc>
     
     <lastmod>2019-09-17T11:46:27.609Z</lastmod>
     
@@ -331,7 +338,7 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/11/25/Blog_Search_Mobile/</loc>
+    <loc>http://gaomf.cn/2016/10/10/%25E4%25B8%25BAHexo%25E5%258D%259A%25E5%25AE%25A2Yilia%25E4%25B8%25BB%25E9%25A2%2598%25E6%25B7%25BB%25E5%258A%25A0%25E6%259C%25AC%25E5%259C%25B0%25E7%25AB%2599%25E5%2586%2585%25E6%2590%259C%25E7%25B4%25A2%25E5%258A%259F%25E8%2583%25BD/</loc>
     
     <lastmod>2019-09-17T11:46:27.608Z</lastmod>
     
@@ -345,9 +352,16 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/10/10/%25E4%25B8%25BAHexo%25E5%258D%259A%25E5%25AE%25A2Yilia%25E4%25B8%25BB%25E9%25A2%2598%25E6%25B7%25BB%25E5%258A%25A0%25E6%259C%25AC%25E5%259C%25B0%25E7%25AB%2599%25E5%2586%2585%25E6%2590%259C%25E7%25B4%25A2%25E5%258A%259F%25E8%2583%25BD/</loc>
+    <loc>http://gaomf.cn/2016/11/25/Blog_Search_Mobile/</loc>
     
     <lastmod>2019-09-17T11:46:27.608Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gaomf.cn/2017/09/20/printf_format_string_attack/</loc>
+    
+    <lastmod>2019-09-17T11:46:27.607Z</lastmod>
     
   </url>
   
@@ -366,21 +380,7 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/09/20/printf_format_string_attack/</loc>
-    
-    <lastmod>2019-09-17T11:46:27.607Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://gaomf.cn/2016/10/26/String_Fill/</loc>
-    
-    <lastmod>2019-09-17T11:46:27.607Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gaomf.cn/2016/06/22/%25E4%25B8%25B2%25E5%258F%25A3%25E7%25BB%2588%25E7%25AB%25AFpicocom%25E7%259A%2584%25E4%25BD%25BF%25E7%2594%25A8/</loc>
     
     <lastmod>2019-09-17T11:46:27.607Z</lastmod>
     
@@ -394,21 +394,21 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/06/14/crosstool-ng%25E7%259A%2584%25E5%25AE%2589%25E8%25A3%2585/</loc>
+    <loc>http://gaomf.cn/2016/06/22/%25E4%25B8%25B2%25E5%258F%25A3%25E7%25BB%2588%25E7%25AB%25AFpicocom%25E7%259A%2584%25E4%25BD%25BF%25E7%2594%25A8/</loc>
     
-    <lastmod>2019-09-17T11:46:27.606Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gaomf.cn/2016/10/19/Diff_Patch/</loc>
-    
-    <lastmod>2019-09-17T11:46:27.606Z</lastmod>
+    <lastmod>2019-09-17T11:46:27.607Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://gaomf.cn/2016/06/15/crosstool-ng%25E7%259A%2584%25E5%259F%25BA%25E6%259C%25AC%25E4%25BD%25BF%25E7%2594%25A8%25E6%25B5%2581%25E7%25A8%258B/</loc>
+    
+    <lastmod>2019-09-17T11:46:27.606Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gaomf.cn/2016/06/14/crosstool-ng%25E7%259A%2584%25E5%25AE%2589%25E8%25A3%2585/</loc>
     
     <lastmod>2019-09-17T11:46:27.606Z</lastmod>
     
@@ -422,6 +422,20 @@
   </url>
   
   <url>
+    <loc>http://gaomf.cn/2016/10/19/Diff_Patch/</loc>
+    
+    <lastmod>2019-09-17T11:46:27.606Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gaomf.cn/2017/08/30/Win10_Software_Font_Blur/</loc>
+    
+    <lastmod>2019-09-17T11:46:27.605Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gaomf.cn/2017/02/02/Vim_Plugin/</loc>
     
     <lastmod>2019-09-17T11:46:27.605Z</lastmod>
@@ -430,13 +444,6 @@
   
   <url>
     <loc>http://gaomf.cn/2016/10/27/Windows_Ping/</loc>
-    
-    <lastmod>2019-09-17T11:46:27.605Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gaomf.cn/2017/08/30/Win10_Software_Font_Blur/</loc>
     
     <lastmod>2019-09-17T11:46:27.605Z</lastmod>
     
@@ -457,13 +464,6 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/01/03/VMware_Shrink_Linux/</loc>
-    
-    <lastmod>2019-09-17T11:46:27.604Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://gaomf.cn/2016/12/27/VMWare_Ubuntu_Terminal_Shadowsocks/</loc>
     
     <lastmod>2019-09-17T11:46:27.604Z</lastmod>
@@ -478,6 +478,13 @@
   </url>
   
   <url>
+    <loc>http://gaomf.cn/2017/01/03/VMware_Shrink_Linux/</loc>
+    
+    <lastmod>2019-09-17T11:46:27.604Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gaomf.cn/2016/06/25/VMware%25E8%2599%259A%25E6%258B%259F%25E6%259C%25BA%25E4%25B8%25AD%25E5%25B5%258C%25E5%2585%25A5%25E5%25BC%258FLinux%25E5%25BC%2580%25E5%258F%2591%25E7%258E%25AF%25E5%25A2%2583%25E7%25BD%2591%25E7%25BB%259C%25E9%2585%258D%25E7%25BD%25AE/</loc>
     
     <lastmod>2019-09-17T11:46:27.604Z</lastmod>
@@ -485,14 +492,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/12/12/VS2015_Qt_UTF8/</loc>
+    <loc>http://gaomf.cn/2016/12/06/VS2015_OpenCV31/</loc>
     
     <lastmod>2019-09-17T11:46:27.604Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/12/06/VS2015_OpenCV31/</loc>
+    <loc>http://gaomf.cn/2016/12/12/VS2015_Qt_UTF8/</loc>
     
     <lastmod>2019-09-17T11:46:27.604Z</lastmod>
     
@@ -548,14 +555,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/06/24/U-Boot%25202016.05%2520%25E5%259C%25A8S3C2440%25E4%25B8%258A%25E7%259A%2584%25E7%25A7%25BB%25E6%25A4%258D%25EF%25BC%25882%25EF%25BC%2589%25E2%2580%2594%25E2%2580%2594Nor%2520Flash/</loc>
+    <loc>http://gaomf.cn/2016/06/25/U-Boot%25202016.05%2520%25E5%259C%25A8S3C2440%25E4%25B8%258A%25E7%259A%2584%25E7%25A7%25BB%25E6%25A4%258D%25EF%25BC%25883%25EF%25BC%2589%25E2%2580%2594%25E2%2580%2594Nand%2520Flash/</loc>
     
     <lastmod>2019-09-17T11:46:27.602Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/06/25/U-Boot%25202016.05%2520%25E5%259C%25A8S3C2440%25E4%25B8%258A%25E7%259A%2584%25E7%25A7%25BB%25E6%25A4%258D%25EF%25BC%25883%25EF%25BC%2589%25E2%2580%2594%25E2%2580%2594Nand%2520Flash/</loc>
+    <loc>http://gaomf.cn/2016/06/24/U-Boot%25202016.05%2520%25E5%259C%25A8S3C2440%25E4%25B8%258A%25E7%259A%2584%25E7%25A7%25BB%25E6%25A4%258D%25EF%25BC%25882%25EF%25BC%2589%25E2%2580%2594%25E2%2580%2594Nor%2520Flash/</loc>
     
     <lastmod>2019-09-17T11:46:27.602Z</lastmod>
     
@@ -590,14 +597,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/06/26/U-Boot%25202016.05%2520%25E5%259C%25A8S3C2440%25E4%25B8%258A%25E7%259A%2584%25E7%25A7%25BB%25E6%25A4%258D%25E2%2580%2594%25E2%2580%2594%25E6%259D%2582%25E9%25A1%25B9/</loc>
+    <loc>http://gaomf.cn/2016/07/15/U-Boot%25202016.05%2520Stage1%25E4%25BB%25A3%25E7%25A0%2581%25E5%2588%2586%25E6%259E%2590/</loc>
     
     <lastmod>2019-09-17T11:46:27.601Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/07/15/U-Boot%25202016.05%2520Stage1%25E4%25BB%25A3%25E7%25A0%2581%25E5%2588%2586%25E6%259E%2590/</loc>
+    <loc>http://gaomf.cn/2016/06/26/U-Boot%25202016.05%2520%25E5%259C%25A8S3C2440%25E4%25B8%258A%25E7%259A%2584%25E7%25A7%25BB%25E6%25A4%258D%25E2%2580%2594%25E2%2580%2594%25E6%259D%2582%25E9%25A1%25B9/</loc>
     
     <lastmod>2019-09-17T11:46:27.601Z</lastmod>
     
@@ -653,14 +660,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/01/10/SSH_Broken_Pipe/</loc>
+    <loc>http://gaomf.cn/2017/03/01/SSH_Authentication/</loc>
     
     <lastmod>2019-09-17T11:46:27.599Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/03/01/SSH_Authentication/</loc>
+    <loc>http://gaomf.cn/2017/01/10/SSH_Broken_Pipe/</loc>
     
     <lastmod>2019-09-17T11:46:27.599Z</lastmod>
     
@@ -688,14 +695,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/06/03/Python%25E7%2588%25AC%25E8%2599%25AB--%25E4%25BD%25BF%25E7%2594%25A8requests%25E8%258E%25B7%25E5%258F%2596%25E7%25BD%2591%25E9%25A1%25B5/</loc>
+    <loc>http://gaomf.cn/2016/07/20/Python%25E7%2588%25AC%25E8%2599%25AB--%25E4%25BD%25BF%25E7%2594%25A8BeautifulSoup%25E8%25A7%25A3%25E6%259E%2590HTML/</loc>
     
     <lastmod>2019-09-17T11:46:27.598Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/07/20/Python%25E7%2588%25AC%25E8%2599%25AB--%25E4%25BD%25BF%25E7%2594%25A8BeautifulSoup%25E8%25A7%25A3%25E6%259E%2590HTML/</loc>
+    <loc>http://gaomf.cn/2016/06/03/Python%25E7%2588%25AC%25E8%2599%25AB--%25E4%25BD%25BF%25E7%2594%25A8requests%25E8%258E%25B7%25E5%258F%2596%25E7%25BD%2591%25E9%25A1%25B5/</loc>
     
     <lastmod>2019-09-17T11:46:27.598Z</lastmod>
     
@@ -772,14 +779,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/06/01/OpenCV_and_GTK/</loc>
+    <loc>http://gaomf.cn/2016/12/10/OpenCV_and_Qt/</loc>
     
     <lastmod>2019-09-17T11:46:27.596Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/12/10/OpenCV_and_Qt/</loc>
+    <loc>http://gaomf.cn/2017/06/01/OpenCV_and_GTK/</loc>
     
     <lastmod>2019-09-17T11:46:27.596Z</lastmod>
     
@@ -856,14 +863,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/10/26/LeetCode_292/</loc>
+    <loc>http://gaomf.cn/2016/10/26/LeetCode_319/</loc>
     
     <lastmod>2019-09-17T11:46:27.593Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/10/26/LeetCode_319/</loc>
+    <loc>http://gaomf.cn/2016/10/26/LeetCode_292/</loc>
     
     <lastmod>2019-09-17T11:46:27.593Z</lastmod>
     
@@ -926,14 +933,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/10/25/LeetCode_160/</loc>
+    <loc>http://gaomf.cn/2016/10/25/LeetCode_167/</loc>
     
     <lastmod>2019-09-17T11:46:27.592Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/10/25/LeetCode_167/</loc>
+    <loc>http://gaomf.cn/2016/10/25/LeetCode_160/</loc>
     
     <lastmod>2019-09-17T11:46:27.592Z</lastmod>
     
@@ -954,7 +961,7 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/06/12/LDO/</loc>
+    <loc>http://gaomf.cn/2016/10/25/LeetCode_001/</loc>
     
     <lastmod>2019-09-17T11:46:27.591Z</lastmod>
     
@@ -968,7 +975,7 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/10/25/LeetCode_001/</loc>
+    <loc>http://gaomf.cn/2017/06/12/LDO/</loc>
     
     <lastmod>2019-09-17T11:46:27.591Z</lastmod>
     
@@ -976,6 +983,13 @@
   
   <url>
     <loc>http://gaomf.cn/2016/06/15/GCC%25E4%25B8%25AD-march%25E3%2580%2581-mtune%25E3%2580%2581-mcpu%25E4%25B8%2589%25E4%25B8%25AA%25E5%258F%2582%25E6%2595%25B0%25E7%259A%2584%25E8%25AE%25BE%25E7%25BD%25AE/</loc>
+    
+    <lastmod>2019-09-17T11:46:27.590Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gaomf.cn/2016/04/14/HTTP%25E4%25B8%25AD%25E7%25A1%25AE%25E5%25AE%259A%25E6%258A%25A5%25E6%2596%2587%25E7%25BB%2593%25E6%259D%259F%25E7%259A%2584%25E6%2596%25B9%25E6%25B3%2595/</loc>
     
     <lastmod>2019-09-17T11:46:27.590Z</lastmod>
     
@@ -990,13 +1004,6 @@
   
   <url>
     <loc>http://gaomf.cn/2015/11/01/Hexo%25E5%258D%259A%25E5%25AE%25A2%25E4%25BC%2598%25E5%258C%2596%25E5%258A%25A0%25E8%25BD%25BD%25E9%2580%259F%25E5%25BA%25A6/</loc>
-    
-    <lastmod>2019-09-17T11:46:27.590Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gaomf.cn/2016/04/14/HTTP%25E4%25B8%25AD%25E7%25A1%25AE%25E5%25AE%259A%25E6%258A%25A5%25E6%2596%2587%25E7%25BB%2593%25E6%259D%259F%25E7%259A%2584%25E6%2596%25B9%25E6%25B3%2595/</loc>
     
     <lastmod>2019-09-17T11:46:27.590Z</lastmod>
     
@@ -1038,7 +1045,7 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/04/21/C%25E8%25AF%25AD%25E8%25A8%2580%25E4%25B8%25AD%25E5%2587%25BD%25E6%2595%25B0%25E6%258C%2587%25E9%2592%2588%25E7%259A%2584%25E5%25A3%25B0%25E6%2598%258E%25E5%258F%258A%25E4%25BD%25BF%25E7%2594%25A8/</loc>
+    <loc>http://gaomf.cn/2017/10/25/C_restrict/</loc>
     
     <lastmod>2019-09-17T11:46:27.589Z</lastmod>
     
@@ -1052,7 +1059,7 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/10/25/C_restrict/</loc>
+    <loc>http://gaomf.cn/2016/04/21/C%25E8%25AF%25AD%25E8%25A8%2580%25E4%25B8%25AD%25E5%2587%25BD%25E6%2595%25B0%25E6%258C%2587%25E9%2592%2588%25E7%259A%2584%25E5%25A3%25B0%25E6%2598%258E%25E5%258F%258A%25E4%25BD%25BF%25E7%2594%25A8/</loc>
     
     <lastmod>2019-09-17T11:46:27.589Z</lastmod>
     
@@ -1066,14 +1073,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2015/11/16/C%25E8%25AF%25AD%25E8%25A8%2580%25E7%2594%259F%25E6%2588%2590%25E9%259A%258F%25E6%259C%25BA%25E6%2595%25B0/</loc>
+    <loc>http://gaomf.cn/2016/04/08/C%25E8%25AF%25AD%25E8%25A8%2580%25E8%25BF%2590%25E7%25AE%2597%25E7%25AC%25A6%25E4%25BC%2598%25E5%2585%2588%25E7%25BA%25A7%25E4%25B8%258E%25E7%25BB%2593%25E5%2590%2588%25E6%2580%25A7/</loc>
     
     <lastmod>2019-09-17T11:46:27.589Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/04/08/C%25E8%25AF%25AD%25E8%25A8%2580%25E8%25BF%2590%25E7%25AE%2597%25E7%25AC%25A6%25E4%25BC%2598%25E5%2585%2588%25E7%25BA%25A7%25E4%25B8%258E%25E7%25BB%2593%25E5%2590%2588%25E6%2580%25A7/</loc>
+    <loc>http://gaomf.cn/2015/11/16/C%25E8%25AF%25AD%25E8%25A8%2580%25E7%2594%259F%25E6%2588%2590%25E9%259A%258F%25E6%259C%25BA%25E6%2595%25B0/</loc>
     
     <lastmod>2019-09-17T11:46:27.589Z</lastmod>
     
@@ -1087,14 +1094,14 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2017/03/22/C++_Random/</loc>
+    <loc>http://gaomf.cn/2015/11/30/C2000%2520CSM%25E4%25BD%25BF%25E7%2594%25A8%25E6%2596%25B9%25E6%25B3%2595/</loc>
     
     <lastmod>2019-09-17T11:46:27.588Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2015/11/30/C2000%2520CSM%25E4%25BD%25BF%25E7%2594%25A8%25E6%2596%25B9%25E6%25B3%2595/</loc>
+    <loc>http://gaomf.cn/2017/03/22/C++_Random/</loc>
     
     <lastmod>2019-09-17T11:46:27.588Z</lastmod>
     
@@ -1143,13 +1150,6 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/10/20/ARM_Architecture_Core/</loc>
-    
-    <lastmod>2019-09-17T11:46:27.587Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://gaomf.cn/2016/03/04/Altium%2520Designer%25E5%25AF%25BC%25E5%2587%25BAGerber%25E6%2596%2587%25E4%25BB%25B6%25E6%2596%25B9%25E6%25B3%2595/</loc>
     
     <lastmod>2019-09-17T11:46:27.587Z</lastmod>
@@ -1157,7 +1157,7 @@
   </url>
   
   <url>
-    <loc>http://gaomf.cn/2016/05/24/Android%25E4%25B8%25AD%25E5%25AE%259E%25E7%258E%25B0%25E5%25A4%259A%25E7%25BA%25BF%25E7%25A8%258B%25E7%259A%2584%25E6%2596%25B9%25E6%25B3%2595/</loc>
+    <loc>http://gaomf.cn/2016/10/20/ARM_Architecture_Core/</loc>
     
     <lastmod>2019-09-17T11:46:27.587Z</lastmod>
     
@@ -1165,6 +1165,13 @@
   
   <url>
     <loc>http://gaomf.cn/2017/09/06/Atom_Disable_GPU/</loc>
+    
+    <lastmod>2019-09-17T11:46:27.587Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gaomf.cn/2016/05/24/Android%25E4%25B8%25AD%25E5%25AE%259E%25E7%258E%25B0%25E5%25A4%259A%25E7%25BA%25BF%25E7%25A8%258B%25E7%259A%2584%25E6%2596%25B9%25E6%25B3%2595/</loc>
     
     <lastmod>2019-09-17T11:46:27.587Z</lastmod>
     
