@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="高明飞" />
+<meta name="author" content="码农半亩地" />
 
 
 
@@ -19,7 +19,7 @@
 <meta name="keywords" content="Linux,Debug,x86">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 perf 进行性能分析时如何获取准确的调用栈">
-<meta property="og:url" content="http:&#x2F;&#x2F;gaomf.cn&#x2F;2019&#x2F;10&#x2F;30&#x2F;perf_stack_traceback&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;gaomf.cn&#x2F;2019&#x2F;10&#x2F;30&#x2F;perf_stack_traceback&#x2F;index.html">
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="perf 是 Linux 下重要的性能分析工具，perf 可以通过采样获取很多性能指标，其中最常用的是获取 CPU Cycles，即程序各部分代码运行所需的时间，进而确定性能瓶颈在哪。不过在实际使用过程中发现，简单的使用perf record -g 获取到的调用栈是有问题的，存在大量 [Unknown] 函数，从 perf report 的结果来看这些部分对应地址大部分都是非法地址，且生成的火焰图">
 <meta property="og:locale" content="zh-Hans">
@@ -133,7 +133,7 @@
             <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">高明飞</a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -210,7 +210,7 @@
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                                <a class="fa Email" href="mailto:gaomf163@163.com" target="_blank" rel="noopener" title="Email"></a>
                             
                                 <a class="fa GitHub" href="https://github.com/g199209" target="_blank" rel="noopener" title="GitHub"></a>
                             
@@ -262,7 +262,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">高明飞</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -270,7 +270,7 @@
                 <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">高明飞</a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <p class="header-subtitle">澹泊明志，宁静致远</p>
@@ -294,7 +294,7 @@
             <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" target="_blank" href="mailto:gaomf@gaomf.cn" title="Email"></a>
+                                <a class="fa Email" target="_blank" href="mailto:gaomf163@163.com" title="Email"></a>
                             
                                 <a class="fa GitHub" target="_blank" href="https://github.com/g199209" title="GitHub"></a>
                             
@@ -403,12 +403,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2019/10/30/perf_stack_traceback/">使用 perf 进行性能分析时如何获取准确的调用栈</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">高明飞</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2019-10-30, 23:09:37</p>
         <p><span>最后更新:</span>2019-10-31, 19:14:57</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/10/30/perf_stack_traceback/" title="使用 perf 进行性能分析时如何获取准确的调用栈">http://gaomf.cn/2019/10/30/perf_stack_traceback/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://gaomf.cn/2019/10/30/perf_stack_traceback/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/10/30/perf_stack_traceback/" title="使用 perf 进行性能分析时如何获取准确的调用栈">https://gaomf.cn/2019/10/30/perf_stack_traceback/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2019/10/30/perf_stack_traceback/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -502,7 +502,7 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2019 高明飞
+                2015-2020 码农半亩地
 				Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
             </div>
             <div class="footer-right">

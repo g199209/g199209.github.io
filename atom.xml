@@ -5,12 +5,12 @@
   <subtitle>澹泊明志，宁静致远</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://gaomf.cn/"/>
-  <updated>2019-12-24T13:17:27.776Z</updated>
-  <id>http://gaomf.cn/</id>
+  <link href="https://gaomf.cn/"/>
+  <updated>2019-12-24T14:05:29.015Z</updated>
+  <id>https://gaomf.cn/</id>
   
   <author>
-    <name>高明飞</name>
+    <name>码农半亩地</name>
     
   </author>
   
@@ -18,10 +18,10 @@
   
   <entry>
     <title>如何从 coredump 文件中获取被优化掉的局部变量真实值</title>
-    <link href="http://gaomf.cn/2019/12/24/coredump_optimized_value/"/>
-    <id>http://gaomf.cn/2019/12/24/coredump_optimized_value/</id>
+    <link href="https://gaomf.cn/2019/12/24/coredump_optimized_value/"/>
+    <id>https://gaomf.cn/2019/12/24/coredump_optimized_value/</id>
     <published>2019-12-24T12:56:28.000Z</published>
-    <updated>2019-12-24T13:17:27.776Z</updated>
+    <updated>2019-12-24T14:05:29.015Z</updated>
     
     <content type="html"><![CDATA[<p>在 GCC  <code>-O3</code> 优化级别下，很多局部变量是会被优化掉的，此时只能通过人工分析反汇编代码来获取所需信息，而这么做的前提是保存下来的寄存器中的值是准确的。绝大部分情况下 coredump 是由于 segment fault 或 assert 触发的，segment fault 情况下 Kernel 保存下来的 registers 信息是准确的，GDB 中直接用 <code>info registers</code> 就可以看到。然而若是由 assert 触发，由于 assert 会进行多层函数调用后最终执行 <code>raise()</code>，错误现场的寄存器信息是不准确的，这时候就需要一些其他手段来解决此问题。下面用一个具体例子来说明此问题。</p><a id="more"></a><p>测试程序代码：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">int</span> final = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> b = a + <span class="number">100</span>;</span><br><span class="line">  final = b;</span><br><span class="line">  <span class="keyword">if</span> (b &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    assert(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; b;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (fun(rand()) == <span class="number">1</span>) &#123;</span><br><span class="line">      n++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (n &gt; <span class="number">100000</span>) &#123;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>运行此程序肯定会发生 assert failed，我们用 gdb 来看下调用栈：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Program terminated with signal SIGABRT, Aborted.</span><br><span class="line"><span class="meta">#</span><span class="bash">0  0x00007fac9f2f31f7 <span class="keyword">in</span> raise () from /lib64/libc.so.6</span></span><br><span class="line"><span class="meta">gef&gt;</span><span class="bash"> bt</span></span><br><span class="line"><span class="meta">#</span><span class="bash">0  0x00007fac9f2f31f7 <span class="keyword">in</span> raise () from /lib64/libc.so.6</span></span><br><span class="line"><span class="meta">#</span><span class="bash">1  0x00007fac9f2f48e8 <span class="keyword">in</span> abort () from /lib64/libc.so.6</span></span><br><span class="line"><span class="meta">#</span><span class="bash">2  0x00007fac9f2ec266 <span class="keyword">in</span> __assert_fail_base () from /lib64/libc.so.6</span></span><br><span class="line"><span class="meta">#</span><span class="bash">3  0x00007fac9f2ec312 <span class="keyword">in</span> __assert_fail () from /lib64/libc.so.6</span></span><br><span class="line"><span class="meta">#</span><span class="bash">4  0x0000000000400d5e <span class="keyword">in</span> fun (a=&lt;optimized out&gt;)</span></span><br><span class="line"><span class="meta">#</span><span class="bash">5  main (argc=&lt;optimized out&gt;, argv=&lt;optimized out&gt;)</span></span><br></pre></td></tr></table></figure><p>切换到 <code>fun()</code> 的栈帧：</p><figure class="highlight sh"><figcaption><span>e</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; f 4</span><br><span class="line"><span class="comment">#4  0x0000000000400de0 in fun (a=&lt;optimized out&gt;)</span></span><br><span class="line">245    assert(<span class="literal">false</span>);</span><br><span class="line">gef&gt; p a</span><br><span class="line"><span class="variable">$1</span> = &lt;optimized out&gt;</span><br><span class="line">gef&gt; p b</span><br><span class="line"><span class="variable">$2</span> = &lt;optimized out&gt;</span><br></pre></td></tr></table></figure><p>可以看到 <code>a</code> 与 <code>b</code> 都被优化掉了，到底是哪个值触发了 assert 就不能直接确定了。当然并不是就彻底没办法知道了，来看下 <code>fun()</code> 函数的反汇编：</p><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; disassemble</span><br><span class="line">Dump of assembler code for function main(<span class="keyword">int</span>, char**):</span><br><span class="line">   <span class="number">0x0000000000400d10</span> &lt;+<span class="number">0</span>&gt;:<span class="keyword">push</span>   <span class="built_in">rbx</span></span><br><span class="line">   <span class="number">0x0000000000400d11</span> &lt;+<span class="number">1</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">ebx</span>,<span class="number">0x186a1</span></span><br><span class="line">   <span class="number">0x0000000000400d16</span> &lt;+<span class="number">6</span>&gt;:<span class="keyword">nop</span>    <span class="built_in">WORD</span> <span class="built_in">PTR</span> <span class="built_in">cs</span>:[<span class="built_in">rax</span>+<span class="built_in">rax</span>*<span class="number">1</span>+<span class="number">0x0</span>]</span><br><span class="line">   <span class="number">0x0000000000400d20</span> &lt;+<span class="number">16</span>&gt;:<span class="keyword">call</span>   <span class="number">0x400c70</span> &lt;rand@plt&gt;</span><br><span class="line">   <span class="number">0x0000000000400d25</span> &lt;+<span class="number">21</span>&gt;:<span class="keyword">lea</span>    <span class="built_in">esi</span>,[<span class="built_in">rax</span>+<span class="number">0x64</span>]</span><br><span class="line">   <span class="number">0x0000000000400d28</span> &lt;+<span class="number">24</span>&gt;:<span class="keyword">test</span>   <span class="built_in">esi</span>,<span class="built_in">esi</span></span><br><span class="line">   <span class="number">0x0000000000400d2a</span> &lt;+<span class="number">26</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">DWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rip</span>+<span class="number">0x201570</span>],<span class="built_in">esi</span>        # <span class="number">0x6022a0</span> &lt;final&gt;</span><br><span class="line">   <span class="number">0x0000000000400d30</span> &lt;+<span class="number">32</span>&gt;:<span class="keyword">jg</span>     <span class="number">0x400d45</span> &lt;main(<span class="keyword">int</span>, char**)+<span class="number">53</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400d32</span> &lt;+<span class="number">34</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">edi</span>,<span class="number">0x602080</span></span><br><span class="line">   <span class="number">0x0000000000400d37</span> &lt;+<span class="number">39</span>&gt;:<span class="keyword">call</span>   <span class="number">0x400cd0</span> &lt;_ZNSolsEi@plt&gt;</span><br><span class="line">   <span class="number">0x0000000000400d3c</span> &lt;+<span class="number">44</span>&gt;:<span class="keyword">sub</span>    <span class="built_in">ebx</span>,<span class="number">0x1</span></span><br><span class="line">   <span class="number">0x0000000000400d3f</span> &lt;+<span class="number">47</span>&gt;:<span class="keyword">jne</span>    <span class="number">0x400d20</span> &lt;main(<span class="keyword">int</span>, char**)+<span class="number">16</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400d41</span> &lt;+<span class="number">49</span>&gt;:<span class="keyword">xor</span>    <span class="built_in">eax</span>,<span class="built_in">eax</span></span><br><span class="line">   <span class="number">0x0000000000400d43</span> &lt;+<span class="number">51</span>&gt;:<span class="keyword">pop</span>    <span class="built_in">rbx</span></span><br><span class="line">   <span class="number">0x0000000000400d44</span> &lt;+<span class="number">52</span>&gt;:<span class="keyword">ret</span></span><br><span class="line">   <span class="number">0x0000000000400d45</span> &lt;+<span class="number">53</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">ecx</span>,<span class="number">0x400fc6</span></span><br><span class="line">   <span class="number">0x0000000000400d4a</span> &lt;+<span class="number">58</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">edx</span>,<span class="number">0xf5</span></span><br><span class="line">   <span class="number">0x0000000000400d4f</span> &lt;+<span class="number">63</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">esi</span>,<span class="number">0x400f70</span></span><br><span class="line">   <span class="number">0x0000000000400d54</span> &lt;+<span class="number">68</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">edi</span>,<span class="number">0x400fc0</span></span><br><span class="line">   <span class="number">0x0000000000400d59</span> &lt;+<span class="number">73</span>&gt;:<span class="keyword">call</span>   <span class="number">0x400c80</span> &lt;__assert_fail@plt&gt;</span><br></pre></td></tr></table></figure><p>在 <code>-O3</code> 优化下 <code>fun()</code> 直接被内联到 <code>main()</code> 里面了，不过这不影响基本分析，重点关注 <code>&lt;+16&gt;</code> ~ <code>&lt;+32&gt;</code> 这几行，这就对应 <code>fun()</code> 的前几行逻辑，<code>if (b &gt; 0)</code> 是通过 <code>test</code> + <code>jg</code> 来实现的，<code>b</code> 的值此时就是 <code>%esi</code> 寄存器中的值。看下 gdb 分析出来的当前栈帧的寄存器值：</p><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; info registers</span><br><span class="line"><span class="built_in">rax</span>            <span class="number">0x0</span>                 <span class="number">0x0</span></span><br><span class="line"><span class="built_in">rbx</span>            <span class="number">0x186a1</span>             <span class="number">0x186a1</span></span><br><span class="line"><span class="built_in">rcx</span>            <span class="number">0x7fac9f2f31f7</span>      <span class="number">0x7fac9f2f31f7</span></span><br><span class="line"><span class="built_in">rdx</span>            <span class="number">0x6</span>                 <span class="number">0x6</span></span><br><span class="line"><span class="built_in">rsi</span>            <span class="number">0x4cc5</span>              <span class="number">0x4cc5</span></span><br><span class="line"><span class="built_in">rdi</span>            <span class="number">0x4cc5</span>              <span class="number">0x4cc5</span></span><br><span class="line"><span class="built_in">rbp</span>            <span class="number">0x0</span>                 <span class="number">0x0</span></span><br><span class="line"><span class="built_in">rsp</span>            <span class="number">0x7fff091e0410</span>      <span class="number">0x7fff091e0410</span></span><br><span class="line"><span class="built_in">r8</span>             <span class="number">0x1</span>                 <span class="number">0x1</span></span><br><span class="line"><span class="built_in">r9</span>             <span class="number">0xfeff092d63646b68</span>  <span class="number">0xfeff092d63646b68</span></span><br><span class="line"><span class="built_in">r10</span>            <span class="number">0x8</span>                 <span class="number">0x8</span></span><br><span class="line"><span class="built_in">r11</span>            <span class="number">0x206</span>               <span class="number">0x206</span></span><br><span class="line"><span class="built_in">r12</span>            <span class="number">0x400daf</span>            <span class="number">0x400daf</span></span><br><span class="line"><span class="built_in">r13</span>            <span class="number">0x7fff091e04f0</span>      <span class="number">0x7fff091e04f0</span></span><br><span class="line"><span class="built_in">r14</span>            <span class="number">0x0</span>                 <span class="number">0x0</span></span><br><span class="line"><span class="built_in">r15</span>            <span class="number">0x0</span>                 <span class="number">0x0</span></span><br><span class="line"><span class="built_in">rip</span>            <span class="number">0x400d5e</span>            <span class="number">0x400d5e</span></span><br><span class="line">eflags         <span class="number">0x206</span>               [ PF IF ]</span><br><span class="line"><span class="built_in">cs</span>             <span class="number">0x33</span>                <span class="number">0x33</span></span><br><span class="line"><span class="built_in">ss</span>             <span class="number">0x2b</span>                <span class="number">0x2b</span></span><br><span class="line"><span class="built_in">ds</span>             <span class="number">0x0</span>                 <span class="number">0x0</span></span><br><span class="line"><span class="built_in">es</span>             <span class="number">0x0</span>                 <span class="number">0x0</span></span><br><span class="line"><span class="built_in">fs</span>             <span class="number">0x0</span>                 <span class="number">0x0</span></span><br><span class="line"><span class="built_in">gs</span>             <span class="number">0x0</span>                 <span class="number">0x0</span></span><br></pre></td></tr></table></figure><p>是不是其中 <code>%rsi</code> 的值就是我们需要的 <code>b</code> 了呢？非也！注意到 <code>&lt;+68&gt;</code> 行，在调用 <code>__assert_fail()</code> 前 <code>%esi</code> 又被重新赋值用于传递参数了，且由于 <code>%esi</code> 属于 caller save 的寄存器，在 <code>__assert_fail()</code> 内有可能会被再次改写。因此 <strong>使用 GDB 分析 coredump 文件不同栈帧的 register 信息时，只有为数不多的几个 callee save 寄存器的值是可靠的，其他的都是不可靠的。</strong> 那如何才能得到可靠的寄存器值呢？一般来说只有靠我们自己保存了，一个简单思路是只要在调用 <code>__assert_fail()</code> 前把所有寄存器的值保存到一个全局数组中就可以了。</p><p>在 <code>assert()</code> 前添加如下一段内联汇编代码即可实现此目的：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">__asm__ __volatile__(<span class="string">"movq $0, %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%rax, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%rbx, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%rcx, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%rdx, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%rsi, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%rdi, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%rbp, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%rsp, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%r8, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%r9, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%r10, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%r11, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%r12, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%r13, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%r14, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                     <span class="string">"movq %%r15, (%0, %%r15, 8);\n\t"</span></span><br><span class="line">                     <span class="string">"incq %%r15;\n\t"</span></span><br><span class="line">                        :</span><br><span class="line">                        : <span class="string">"r"</span> (registers_data)</span><br><span class="line">                        : <span class="string">"%r15"</span>);</span><br></pre></td></tr></table></figure><p>再来看下此时的反汇编代码：</p><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; disassemble</span><br><span class="line">Dump of assembler code for function main(<span class="keyword">int</span>, char**):</span><br><span class="line">   <span class="number">0x0000000000400d10</span> &lt;+<span class="number">0</span>&gt;:<span class="keyword">push</span>   <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d12</span> &lt;+<span class="number">2</span>&gt;:<span class="keyword">push</span>   <span class="built_in">rbx</span></span><br><span class="line">   <span class="number">0x0000000000400d13</span> &lt;+<span class="number">3</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">ebx</span>,<span class="number">0x186a1</span></span><br><span class="line">   <span class="number">0x0000000000400d18</span> &lt;+<span class="number">8</span>&gt;:<span class="keyword">sub</span>    <span class="built_in">rsp</span>,<span class="number">0x8</span></span><br><span class="line">   <span class="number">0x0000000000400d1c</span> &lt;+<span class="number">12</span>&gt;:<span class="keyword">nop</span>    <span class="built_in">DWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="number">0x0</span>]</span><br><span class="line">   <span class="number">0x0000000000400d20</span> &lt;+<span class="number">16</span>&gt;:<span class="keyword">call</span>   <span class="number">0x400c70</span> &lt;rand@plt&gt;</span><br><span class="line">   <span class="number">0x0000000000400d25</span> &lt;+<span class="number">21</span>&gt;:<span class="keyword">lea</span>    <span class="built_in">esi</span>,[<span class="built_in">rax</span>+<span class="number">0x64</span>]</span><br><span class="line">   <span class="number">0x0000000000400d28</span> &lt;+<span class="number">24</span>&gt;:<span class="keyword">test</span>   <span class="built_in">esi</span>,<span class="built_in">esi</span></span><br><span class="line">   <span class="number">0x0000000000400d2a</span> &lt;+<span class="number">26</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">DWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rip</span>+<span class="number">0x201570</span>],<span class="built_in">esi</span>        # <span class="number">0x6022a0</span> &lt;final&gt;</span><br><span class="line">   <span class="number">0x0000000000400d30</span> &lt;+<span class="number">32</span>&gt;:<span class="keyword">jg</span>     <span class="number">0x400d4b</span> &lt;main(<span class="keyword">int</span>, char**)+<span class="number">59</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400d32</span> &lt;+<span class="number">34</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">edi</span>,<span class="number">0x602080</span></span><br><span class="line">   <span class="number">0x0000000000400d37</span> &lt;+<span class="number">39</span>&gt;:<span class="keyword">call</span>   <span class="number">0x400cd0</span> &lt;_ZNSolsEi@plt&gt;</span><br><span class="line">   <span class="number">0x0000000000400d3c</span> &lt;+<span class="number">44</span>&gt;:<span class="keyword">sub</span>    <span class="built_in">ebx</span>,<span class="number">0x1</span></span><br><span class="line">   <span class="number">0x0000000000400d3f</span> &lt;+<span class="number">47</span>&gt;:<span class="keyword">jne</span>    <span class="number">0x400d20</span> &lt;main(<span class="keyword">int</span>, char**)+<span class="number">16</span>&gt;</span><br><span class="line">   <span class="number">0x0000000000400d41</span> &lt;+<span class="number">49</span>&gt;:<span class="keyword">add</span>    <span class="built_in">rsp</span>,<span class="number">0x8</span></span><br><span class="line">   <span class="number">0x0000000000400d45</span> &lt;+<span class="number">53</span>&gt;:<span class="keyword">xor</span>    <span class="built_in">eax</span>,<span class="built_in">eax</span></span><br><span class="line">   <span class="number">0x0000000000400d47</span> &lt;+<span class="number">55</span>&gt;:<span class="keyword">pop</span>    <span class="built_in">rbx</span></span><br><span class="line">   <span class="number">0x0000000000400d48</span> &lt;+<span class="number">56</span>&gt;:<span class="keyword">pop</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d4a</span> &lt;+<span class="number">58</span>&gt;:<span class="keyword">ret</span></span><br><span class="line">   <span class="number">0x0000000000400d4b</span> &lt;+<span class="number">59</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">eax</span>,<span class="number">0x6021a0</span></span><br><span class="line">   <span class="number">0x0000000000400d50</span> &lt;+<span class="number">64</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">r15</span>,<span class="number">0x0</span></span><br><span class="line">   <span class="number">0x0000000000400d57</span> &lt;+<span class="number">71</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">rax</span></span><br><span class="line">   <span class="number">0x0000000000400d5b</span> &lt;+<span class="number">75</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d5e</span> &lt;+<span class="number">78</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">rbx</span></span><br><span class="line">   <span class="number">0x0000000000400d62</span> &lt;+<span class="number">82</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d65</span> &lt;+<span class="number">85</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">rcx</span></span><br><span class="line">   <span class="number">0x0000000000400d69</span> &lt;+<span class="number">89</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d6c</span> &lt;+<span class="number">92</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">rdx</span></span><br><span class="line">   <span class="number">0x0000000000400d70</span> &lt;+<span class="number">96</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d73</span> &lt;+<span class="number">99</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">rsi</span></span><br><span class="line">   <span class="number">0x0000000000400d77</span> &lt;+<span class="number">103</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d7a</span> &lt;+<span class="number">106</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">rdi</span></span><br><span class="line">   <span class="number">0x0000000000400d7e</span> &lt;+<span class="number">110</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d81</span> &lt;+<span class="number">113</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">rbp</span></span><br><span class="line">   <span class="number">0x0000000000400d85</span> &lt;+<span class="number">117</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d88</span> &lt;+<span class="number">120</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">rsp</span></span><br><span class="line">   <span class="number">0x0000000000400d8c</span> &lt;+<span class="number">124</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d8f</span> &lt;+<span class="number">127</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">r8</span></span><br><span class="line">   <span class="number">0x0000000000400d93</span> &lt;+<span class="number">131</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d96</span> &lt;+<span class="number">134</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">r9</span></span><br><span class="line">   <span class="number">0x0000000000400d9a</span> &lt;+<span class="number">138</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400d9d</span> &lt;+<span class="number">141</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">r10</span></span><br><span class="line">   <span class="number">0x0000000000400da1</span> &lt;+<span class="number">145</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400da4</span> &lt;+<span class="number">148</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">r11</span></span><br><span class="line">   <span class="number">0x0000000000400da8</span> &lt;+<span class="number">152</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400dab</span> &lt;+<span class="number">155</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">r12</span></span><br><span class="line">   <span class="number">0x0000000000400daf</span> &lt;+<span class="number">159</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400db2</span> &lt;+<span class="number">162</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">r13</span></span><br><span class="line">   <span class="number">0x0000000000400db6</span> &lt;+<span class="number">166</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400db9</span> &lt;+<span class="number">169</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">r14</span></span><br><span class="line">   <span class="number">0x0000000000400dbd</span> &lt;+<span class="number">173</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400dc0</span> &lt;+<span class="number">176</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">QWORD</span> <span class="built_in">PTR</span> [<span class="built_in">rax</span>+<span class="built_in">r15</span>*<span class="number">8</span>],<span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400dc4</span> &lt;+<span class="number">180</span>&gt;:<span class="keyword">inc</span>    <span class="built_in">r15</span></span><br><span class="line">   <span class="number">0x0000000000400dc7</span> &lt;+<span class="number">183</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">ecx</span>,<span class="number">0x4010c6</span></span><br><span class="line">   <span class="number">0x0000000000400dcc</span> &lt;+<span class="number">188</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">edx</span>,<span class="number">0xf5</span></span><br><span class="line">   <span class="number">0x0000000000400dd1</span> &lt;+<span class="number">193</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">esi</span>,<span class="number">0x401070</span></span><br><span class="line">   <span class="number">0x0000000000400dd6</span> &lt;+<span class="number">198</span>&gt;:<span class="keyword">mov</span>    <span class="built_in">edi</span>,<span class="number">0x4010c0</span></span><br><span class="line">   <span class="number">0x0000000000400ddb</span> &lt;+<span class="number">203</span>&gt;:<span class="keyword">call</span>   <span class="number">0x400c80</span> &lt;__assert_fail@plt&gt;</span><br></pre></td></tr></table></figure><p><code>&lt;+59&gt;</code> ~ <code>&lt;+180&gt;</code> 行就是我们新加的逻辑，可以看到这段代码紧接在 <code>&lt;+32&gt;</code> 行之后，理论上分析的确是可以保存准确的寄存器信息。来看下实际效果：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">gef&gt;</span><span class="bash"> p registers_data</span></span><br><span class="line"><span class="meta">$</span><span class="bash">1 = &#123;0x6021a0, 0x186a1, 0x7f872ad260d4, 0x7f872ad260c8, 0x6b8b45cb, 0x7f872ad266e0, 0x0, 0x7ffd6d53a660, 0x7f872ad260c8, 0x7f872ad26140, 0x7ffd6d53a370, 0x7f872a9a38b0, 0x400e2f, 0x7ffd6d53a750, 0x0, 0xf, 0x0 &lt;repeats 16 <span class="built_in">times</span>&gt;&#125;</span></span><br><span class="line"><span class="meta">gef&gt;</span><span class="bash"> p final</span></span><br><span class="line"><span class="meta">$</span><span class="bash">2 = 0x6b8b45cb</span></span><br></pre></td></tr></table></figure><p><code>registers_data[4]</code> 与 <code>final</code> 的值完全相同，而从源代码和反汇编 <code>&lt;+26&gt;</code> 行可以看到，<code>final</code> 中保存的就是 <code>b</code> 的真实值。</p><hr><blockquote><p>参考资料：<br><a href="https://undo.io/resources/value-optimized-out-reverse-debugging-rescue/" target="_blank" rel="noopener">Value optimized out. Reverse debugging to the rescue!</a></p></blockquote>]]></content>
     
@@ -32,25 +32,25 @@
     </summary>
     
     
-      <category term="编程之法" scheme="http://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="Top" scheme="http://gaomf.cn/tags/Top/"/>
+      <category term="Top" scheme="https://gaomf.cn/tags/Top/"/>
     
-      <category term="Linux" scheme="http://gaomf.cn/tags/Linux/"/>
+      <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
     
-      <category term="Debug" scheme="http://gaomf.cn/tags/Debug/"/>
+      <category term="Debug" scheme="https://gaomf.cn/tags/Debug/"/>
     
-      <category term="x86" scheme="http://gaomf.cn/tags/x86/"/>
+      <category term="x86" scheme="https://gaomf.cn/tags/x86/"/>
     
-      <category term="GDB" scheme="http://gaomf.cn/tags/GDB/"/>
+      <category term="GDB" scheme="https://gaomf.cn/tags/GDB/"/>
     
   </entry>
   
   <entry>
     <title>使用 perf 进行性能分析时如何获取准确的调用栈</title>
-    <link href="http://gaomf.cn/2019/10/30/perf_stack_traceback/"/>
-    <id>http://gaomf.cn/2019/10/30/perf_stack_traceback/</id>
+    <link href="https://gaomf.cn/2019/10/30/perf_stack_traceback/"/>
+    <id>https://gaomf.cn/2019/10/30/perf_stack_traceback/</id>
     <published>2019-10-30T15:09:37.000Z</published>
     <updated>2019-10-31T11:14:57.963Z</updated>
     
@@ -63,21 +63,21 @@
     </summary>
     
     
-      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
-      <category term="Linux" scheme="http://gaomf.cn/tags/Linux/"/>
+      <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
     
-      <category term="Debug" scheme="http://gaomf.cn/tags/Debug/"/>
+      <category term="Debug" scheme="https://gaomf.cn/tags/Debug/"/>
     
-      <category term="x86" scheme="http://gaomf.cn/tags/x86/"/>
+      <category term="x86" scheme="https://gaomf.cn/tags/x86/"/>
     
   </entry>
   
   <entry>
     <title>PVE上部署OpenWRT发生网络中断的解决方法</title>
-    <link href="http://gaomf.cn/2019/07/28/PVE_OpenWRT_Network_Broken/"/>
-    <id>http://gaomf.cn/2019/07/28/PVE_OpenWRT_Network_Broken/</id>
+    <link href="https://gaomf.cn/2019/07/28/PVE_OpenWRT_Network_Broken/"/>
+    <id>https://gaomf.cn/2019/07/28/PVE_OpenWRT_Network_Broken/</id>
     <published>2019-07-28T03:27:09.000Z</published>
     <updated>2019-09-17T11:46:27.597Z</updated>
     
@@ -90,19 +90,19 @@
     </summary>
     
     
-      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
-      <category term="Network" scheme="http://gaomf.cn/tags/Network/"/>
+      <category term="Network" scheme="https://gaomf.cn/tags/Network/"/>
     
-      <category term="Virtualization" scheme="http://gaomf.cn/tags/Virtualization/"/>
+      <category term="Virtualization" scheme="https://gaomf.cn/tags/Virtualization/"/>
     
   </entry>
   
   <entry>
     <title>用于嵌入式车载安全预警的交通标志检测若干关键技术研究与验证</title>
-    <link href="http://gaomf.cn/2019/02/24/Thesis_of_Master/"/>
-    <id>http://gaomf.cn/2019/02/24/Thesis_of_Master/</id>
+    <link href="https://gaomf.cn/2019/02/24/Thesis_of_Master/"/>
+    <id>https://gaomf.cn/2019/02/24/Thesis_of_Master/</id>
     <published>2019-02-24T13:32:12.000Z</published>
     <updated>2019-09-17T11:46:27.615Z</updated>
     
@@ -115,19 +115,19 @@
     </summary>
     
     
-      <category term="科研之路" scheme="http://gaomf.cn/categories/%E7%A7%91%E7%A0%94%E4%B9%8B%E8%B7%AF/"/>
+      <category term="科研之路" scheme="https://gaomf.cn/categories/%E7%A7%91%E7%A0%94%E4%B9%8B%E8%B7%AF/"/>
     
     
-      <category term="Concurrent" scheme="http://gaomf.cn/tags/Concurrent/"/>
+      <category term="Concurrent" scheme="https://gaomf.cn/tags/Concurrent/"/>
     
-      <category term="OpenCV" scheme="http://gaomf.cn/tags/OpenCV/"/>
+      <category term="OpenCV" scheme="https://gaomf.cn/tags/OpenCV/"/>
     
   </entry>
   
   <entry>
     <title>深入分析Docker hello-world镜像</title>
-    <link href="http://gaomf.cn/2019/02/15/Deep_Into_Dokcer_Helloworld/"/>
-    <id>http://gaomf.cn/2019/02/15/Deep_Into_Dokcer_Helloworld/</id>
+    <link href="https://gaomf.cn/2019/02/15/Deep_Into_Dokcer_Helloworld/"/>
+    <id>https://gaomf.cn/2019/02/15/Deep_Into_Dokcer_Helloworld/</id>
     <published>2019-02-15T14:46:25.000Z</published>
     <updated>2019-09-17T11:46:27.615Z</updated>
     
@@ -140,25 +140,25 @@
     </summary>
     
     
-      <category term="软件之道" scheme="http://gaomf.cn/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/"/>
+      <category term="软件之道" scheme="https://gaomf.cn/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/"/>
     
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
-      <category term="Runtime" scheme="http://gaomf.cn/tags/Runtime/"/>
+      <category term="Runtime" scheme="https://gaomf.cn/tags/Runtime/"/>
     
-      <category term="Linux" scheme="http://gaomf.cn/tags/Linux/"/>
+      <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
     
-      <category term="Compiler" scheme="http://gaomf.cn/tags/Compiler/"/>
+      <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
     
-      <category term="Docker" scheme="http://gaomf.cn/tags/Docker/"/>
+      <category term="Docker" scheme="https://gaomf.cn/tags/Docker/"/>
     
   </entry>
   
   <entry>
     <title>sudo不需要输入密码的方法</title>
-    <link href="http://gaomf.cn/2018/11/17/Sudo_No_Passwd/"/>
-    <id>http://gaomf.cn/2018/11/17/Sudo_No_Passwd/</id>
+    <link href="https://gaomf.cn/2018/11/17/Sudo_No_Passwd/"/>
+    <id>https://gaomf.cn/2018/11/17/Sudo_No_Passwd/</id>
     <published>2018-11-17T09:20:09.000Z</published>
     <updated>2019-09-17T11:46:27.607Z</updated>
     
@@ -171,17 +171,17 @@
     </summary>
     
     
-      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
-      <category term="Linux" scheme="http://gaomf.cn/tags/Linux/"/>
+      <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
     
   </entry>
   
   <entry>
     <title>为Hexo博客Yelee主题添加Gitment评论系统</title>
-    <link href="http://gaomf.cn/2018/11/04/Hexo_Yelee_Gitment/"/>
-    <id>http://gaomf.cn/2018/11/04/Hexo_Yelee_Gitment/</id>
+    <link href="https://gaomf.cn/2018/11/04/Hexo_Yelee_Gitment/"/>
+    <id>https://gaomf.cn/2018/11/04/Hexo_Yelee_Gitment/</id>
     <published>2018-11-04T13:36:31.000Z</published>
     <updated>2019-09-17T11:46:27.608Z</updated>
     
@@ -194,17 +194,17 @@
     </summary>
     
     
-      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
-      <category term="Blog" scheme="http://gaomf.cn/tags/Blog/"/>
+      <category term="Blog" scheme="https://gaomf.cn/tags/Blog/"/>
     
   </entry>
   
   <entry>
     <title>sizeof 获取 extern 数组长度</title>
-    <link href="http://gaomf.cn/2018/06/30/sizeof_extern_array/"/>
-    <id>http://gaomf.cn/2018/06/30/sizeof_extern_array/</id>
+    <link href="https://gaomf.cn/2018/06/30/sizeof_extern_array/"/>
+    <id>https://gaomf.cn/2018/06/30/sizeof_extern_array/</id>
     <published>2018-06-30T08:52:12.000Z</published>
     <updated>2019-09-17T11:46:27.607Z</updated>
     
@@ -217,17 +217,17 @@
     </summary>
     
     
-      <category term="编程之法" scheme="http://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
   </entry>
   
   <entry>
     <title>多歧路，今安在？</title>
-    <link href="http://gaomf.cn/2018/06/03/The_Road/"/>
-    <id>http://gaomf.cn/2018/06/03/The_Road/</id>
+    <link href="https://gaomf.cn/2018/06/03/The_Road/"/>
+    <id>https://gaomf.cn/2018/06/03/The_Road/</id>
     <published>2018-06-03T08:59:01.000Z</published>
     <updated>2019-09-17T11:46:27.611Z</updated>
     
@@ -240,15 +240,15 @@
     </summary>
     
     
-      <category term="人生之思" scheme="http://gaomf.cn/categories/%E4%BA%BA%E7%94%9F%E4%B9%8B%E6%80%9D/"/>
+      <category term="人生之思" scheme="https://gaomf.cn/categories/%E4%BA%BA%E7%94%9F%E4%B9%8B%E6%80%9D/"/>
     
     
   </entry>
   
   <entry>
     <title>SSH反向穿透访问内网主机</title>
-    <link href="http://gaomf.cn/2017/11/04/SSH_Forwarding/"/>
-    <id>http://gaomf.cn/2017/11/04/SSH_Forwarding/</id>
+    <link href="https://gaomf.cn/2017/11/04/SSH_Forwarding/"/>
+    <id>https://gaomf.cn/2017/11/04/SSH_Forwarding/</id>
     <published>2017-11-03T16:16:00.000Z</published>
     <updated>2019-09-17T11:46:27.599Z</updated>
     
@@ -261,19 +261,19 @@
     </summary>
     
     
-      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
-      <category term="Linux" scheme="http://gaomf.cn/tags/Linux/"/>
+      <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
     
-      <category term="Network" scheme="http://gaomf.cn/tags/Network/"/>
+      <category term="Network" scheme="https://gaomf.cn/tags/Network/"/>
     
   </entry>
   
   <entry>
     <title>C语言关键词restrict的应用</title>
-    <link href="http://gaomf.cn/2017/10/25/C_restrict/"/>
-    <id>http://gaomf.cn/2017/10/25/C_restrict/</id>
+    <link href="https://gaomf.cn/2017/10/25/C_restrict/"/>
+    <id>https://gaomf.cn/2017/10/25/C_restrict/</id>
     <published>2017-10-25T08:22:00.000Z</published>
     <updated>2019-09-17T11:46:27.589Z</updated>
     
@@ -286,17 +286,17 @@
     </summary>
     
     
-      <category term="编程之法" scheme="http://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
   </entry>
   
   <entry>
     <title>Linux kernel中的min和max宏</title>
-    <link href="http://gaomf.cn/2017/10/08/Kernel_min_max_macro/"/>
-    <id>http://gaomf.cn/2017/10/08/Kernel_min_max_macro/</id>
+    <link href="https://gaomf.cn/2017/10/08/Kernel_min_max_macro/"/>
+    <id>https://gaomf.cn/2017/10/08/Kernel_min_max_macro/</id>
     <published>2017-10-08T08:38:00.000Z</published>
     <updated>2019-09-17T11:46:27.593Z</updated>
     
@@ -309,19 +309,19 @@
     </summary>
     
     
-      <category term="编程之法" scheme="http://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
-      <category term="Kernel" scheme="http://gaomf.cn/tags/Kernel/"/>
+      <category term="Kernel" scheme="https://gaomf.cn/tags/Kernel/"/>
     
   </entry>
   
   <entry>
     <title>C语言中typeof的使用</title>
-    <link href="http://gaomf.cn/2017/10/07/C_typeof/"/>
-    <id>http://gaomf.cn/2017/10/07/C_typeof/</id>
+    <link href="https://gaomf.cn/2017/10/07/C_typeof/"/>
+    <id>https://gaomf.cn/2017/10/07/C_typeof/</id>
     <published>2017-10-07T12:48:00.000Z</published>
     <updated>2019-09-17T11:46:27.589Z</updated>
     
@@ -334,17 +334,17 @@
     </summary>
     
     
-      <category term="编程之法" scheme="http://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
   </entry>
   
   <entry>
     <title>深入理解C语言中宏定义</title>
-    <link href="http://gaomf.cn/2017/10/06/C_Macro/"/>
-    <id>http://gaomf.cn/2017/10/06/C_Macro/</id>
+    <link href="https://gaomf.cn/2017/10/06/C_Macro/"/>
+    <id>https://gaomf.cn/2017/10/06/C_Macro/</id>
     <published>2017-10-06T12:15:00.000Z</published>
     <updated>2019-09-17T11:46:27.615Z</updated>
     
@@ -357,19 +357,19 @@
     </summary>
     
     
-      <category term="编程之法" scheme="http://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="Top" scheme="http://gaomf.cn/tags/Top/"/>
+      <category term="Top" scheme="https://gaomf.cn/tags/Top/"/>
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
   </entry>
   
   <entry>
     <title>C语言中的字符串字面量连接</title>
-    <link href="http://gaomf.cn/2017/10/05/string_literal_concatenate/"/>
-    <id>http://gaomf.cn/2017/10/05/string_literal_concatenate/</id>
+    <link href="https://gaomf.cn/2017/10/05/string_literal_concatenate/"/>
+    <id>https://gaomf.cn/2017/10/05/string_literal_concatenate/</id>
     <published>2017-10-05T07:27:00.000Z</published>
     <updated>2019-09-17T11:46:27.589Z</updated>
     
@@ -385,17 +385,17 @@
     </summary>
     
     
-      <category term="编程之法" scheme="http://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
   </entry>
   
   <entry>
     <title>用代码判断栈的增长方向</title>
-    <link href="http://gaomf.cn/2017/09/28/Detect_Stack_Direction/"/>
-    <id>http://gaomf.cn/2017/09/28/Detect_Stack_Direction/</id>
+    <link href="https://gaomf.cn/2017/09/28/Detect_Stack_Direction/"/>
+    <id>https://gaomf.cn/2017/09/28/Detect_Stack_Direction/</id>
     <published>2017-09-28T12:23:00.000Z</published>
     <updated>2019-09-17T11:46:27.615Z</updated>
     
@@ -408,19 +408,19 @@
     </summary>
     
     
-      <category term="编程之法" scheme="http://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
-      <category term="Compiler" scheme="http://gaomf.cn/tags/Compiler/"/>
+      <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
     
   </entry>
   
   <entry>
     <title>printf格式化字符串漏洞攻击</title>
-    <link href="http://gaomf.cn/2017/09/20/printf_format_string_attack/"/>
-    <id>http://gaomf.cn/2017/09/20/printf_format_string_attack/</id>
+    <link href="https://gaomf.cn/2017/09/20/printf_format_string_attack/"/>
+    <id>https://gaomf.cn/2017/09/20/printf_format_string_attack/</id>
     <published>2017-09-20T13:58:00.000Z</published>
     <updated>2019-09-17T11:46:27.607Z</updated>
     
@@ -433,21 +433,21 @@
     </summary>
     
     
-      <category term="软件之道" scheme="http://gaomf.cn/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/"/>
+      <category term="软件之道" scheme="https://gaomf.cn/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/"/>
     
     
-      <category term="Top" scheme="http://gaomf.cn/tags/Top/"/>
+      <category term="Top" scheme="https://gaomf.cn/tags/Top/"/>
     
-      <category term="C" scheme="http://gaomf.cn/tags/C/"/>
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
-      <category term="Security" scheme="http://gaomf.cn/tags/Security/"/>
+      <category term="Security" scheme="https://gaomf.cn/tags/Security/"/>
     
   </entry>
   
   <entry>
     <title>Atom编辑器配置</title>
-    <link href="http://gaomf.cn/2017/09/16/Atom_Configure/"/>
-    <id>http://gaomf.cn/2017/09/16/Atom_Configure/</id>
+    <link href="https://gaomf.cn/2017/09/16/Atom_Configure/"/>
+    <id>https://gaomf.cn/2017/09/16/Atom_Configure/</id>
     <published>2017-09-16T02:22:00.000Z</published>
     <updated>2019-09-17T11:46:27.587Z</updated>
     
@@ -460,17 +460,17 @@
     </summary>
     
     
-      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
-      <category term="Editor" scheme="http://gaomf.cn/tags/Editor/"/>
+      <category term="Editor" scheme="https://gaomf.cn/tags/Editor/"/>
     
   </entry>
   
   <entry>
     <title>Atom禁用GPU启动的方法</title>
-    <link href="http://gaomf.cn/2017/09/06/Atom_Disable_GPU/"/>
-    <id>http://gaomf.cn/2017/09/06/Atom_Disable_GPU/</id>
+    <link href="https://gaomf.cn/2017/09/06/Atom_Disable_GPU/"/>
+    <id>https://gaomf.cn/2017/09/06/Atom_Disable_GPU/</id>
     <published>2017-09-06T14:51:00.000Z</published>
     <updated>2019-09-17T11:46:27.587Z</updated>
     
@@ -483,17 +483,17 @@
     </summary>
     
     
-      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
-      <category term="Editor" scheme="http://gaomf.cn/tags/Editor/"/>
+      <category term="Editor" scheme="https://gaomf.cn/tags/Editor/"/>
     
   </entry>
   
   <entry>
     <title>Win10下软件界面显示模糊问题解决办法</title>
-    <link href="http://gaomf.cn/2017/08/30/Win10_Software_Font_Blur/"/>
-    <id>http://gaomf.cn/2017/08/30/Win10_Software_Font_Blur/</id>
+    <link href="https://gaomf.cn/2017/08/30/Win10_Software_Font_Blur/"/>
+    <id>https://gaomf.cn/2017/08/30/Win10_Software_Font_Blur/</id>
     <published>2017-08-30T08:20:00.000Z</published>
     <updated>2019-09-17T11:46:27.605Z</updated>
     
@@ -511,10 +511,10 @@
     </summary>
     
     
-      <category term="工具之术" scheme="http://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
+      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
-      <category term="Debug" scheme="http://gaomf.cn/tags/Debug/"/>
+      <category term="Debug" scheme="https://gaomf.cn/tags/Debug/"/>
     
   </entry>
   
