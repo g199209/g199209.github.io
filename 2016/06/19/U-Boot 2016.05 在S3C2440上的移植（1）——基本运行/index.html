@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="相关环境：系统版本：Ubuntu 16.04 64bitU-boot 版本：2016.05交叉编译链GCC版本为5.20，使用crosstool-ng自行制作。 基本运行的目标是能够顺利的编译通过，是之后移植修改的基础。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160618160432.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.602Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160618160432.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.220Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160618160432.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160618160432.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -395,7 +395,7 @@
 <h3 id="修改屏蔽中断代码"><a href="#修改屏蔽中断代码" class="headerlink" title="修改屏蔽中断代码"></a>修改屏蔽中断代码</h3><p>修改屏蔽中断的代码：</p>
 <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@@ -78,6 +78,10 @@ copyex:</span><br><span class="line"> 	ldr	r1, =0x3ff</span><br><span class="line"> 	ldr	r0, =INTSUBMSK</span><br><span class="line"> 	str	r1, [r0]</span><br><span class="line"><span class="addition">+# elif defined(CONFIG_S3C2440)</span></span><br><span class="line"><span class="addition">+	ldr	r1, =0x7fff</span></span><br><span class="line"><span class="addition">+	ldr	r0, =INTSUBMSK</span></span><br><span class="line"><span class="addition">+	str	r1, [r0]</span></span><br><span class="line"> # endif</span><br><span class="line"> </span><br><span class="line"> 	/* FCLK:HCLK:PCLK = 1:2:4 */</span><br></pre></td></tr></table></figure>
 
-<p>此处的设置参考2440数据手册中对<code>INTSUBMSK</code>寄存器的说明：<br><img src="https://gmf.shengnengjin.cn/20160618160432.png" alt=""></p>
+<p>此处的设置参考2440数据手册中对<code>INTSUBMSK</code>寄存器的说明：<br><img src="https://pic.gaomf.store/20160618160432.png" alt=""></p>
 <h3 id="更改时钟设置"><a href="#更改时钟设置" class="headerlink" title="更改时钟设置"></a>更改时钟设置</h3><p>更改时钟设置，默认<code>start.S</code>中只有时钟分频设置，PLL的设置放在Stage 2中进行。对此进行下修改，在此完成所有时钟部分的初始化设置。一般都将2400配置为：FCLK=400M；HCLK=100M；PCLK=50M，需要将原来的：</p>
 <figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* FCLK:HCLK:PCLK = 1:2:4 */</span></span><br><span class="line"><span class="comment">/* defualt FCLK is 120 MHz ! */</span></span><br><span class="line"><span class="keyword">ldr </span>    <span class="built_in">r0</span>, <span class="symbol">=CLKDIVN</span></span><br><span class="line"><span class="keyword">mov </span>    <span class="built_in">r1</span>, <span class="number">#3</span></span><br><span class="line"><span class="keyword">str </span>    <span class="built_in">r1</span>, [<span class="built_in">r0</span>]</span><br></pre></td></tr></table></figure>
 
@@ -432,7 +432,7 @@
         <p><span>本文标题:</span><a href="/2016/06/19/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%BF%90%E8%A1%8C/">U-Boot 2016.05 在S3C2440上的移植（1）——基本运行</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-06-19, 17:12:00</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/06/19/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%BF%90%E8%A1%8C/" title="U-Boot 2016.05 在S3C2440上的移植（1）——基本运行">https://gaomf.cn/2016/06/19/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%BF%90%E8%A1%8C/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/19/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%BF%90%E8%A1%8C/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

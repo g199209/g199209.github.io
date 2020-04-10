@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="按照crosstool-ng的安装中的做法安装好crosstool-ng后就可以使用crosstool-ng了，基本使用流程在其官网上有说明：Using a released version，这里做下总结。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160615105843.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.606Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160615105843.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.227Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160615105843.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160615105843.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -372,7 +372,7 @@
 <p><strong>网上很多教程中都说要手动复制配置文件，目前新版本的crosstool-ng不需要这样做，而且手动复制还会出错，直接使用上述命令生成示例配置即可。</strong></p>
 <h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>一般来说，示例配置是不能直接使用的，需要对其进行一些修改，<strong>在工作目录中</strong>输入：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ct-ng menuconfig</span><br></pre></td></tr></table></figure>
-<p>会进入下图这样的menuconfig配置界面：<br><img src="https://gmf.shengnengjin.cn/20160615105843.png" alt=""></p>
+<p>会进入下图这样的menuconfig配置界面：<br><img src="https://pic.gaomf.store/20160615105843.png" alt=""></p>
 <p>一般需要更改下路径，进入<code>Paths and misc options</code>，修改<code>Local tarballs directory</code> &amp; <code>Prefix directory</code>。前者是下载的源码包存放的路径，后者是生成的交叉编译链存放的路径，将其改为之前在工作目录下新建的文件夹即可：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">($</span><span class="bash">&#123;build&#125;/src) Local tarballs directory</span></span><br><span class="line"><span class="meta">($</span><span class="bash">&#123;build&#125;/x-tools/<span class="variable">$&#123;CT_TARGET&#125;</span>) Prefix directory</span></span><br></pre></td></tr></table></figure>
 
@@ -398,7 +398,7 @@
         <p><span>本文标题:</span><a href="/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/">crosstool-ng的基本使用流程</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-06-15, 11:33:58</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/" title="crosstool-ng的基本使用流程">https://gaomf.cn/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

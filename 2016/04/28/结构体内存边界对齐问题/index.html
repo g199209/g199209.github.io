@@ -23,15 +23,15 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="结构体成员在内存中并不是紧凑排列的，这就是所谓的结构体内存边界对齐问题，默认情况下会按照其自然边界对齐，本文将具体研究下这一问题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160428151020.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160428151511.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160428151945.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160428152324.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160428155020.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160428160448.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.616Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160428151020.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160428151511.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160428151945.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160428152324.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160428155020.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160428160448.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.240Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160428151020.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160428151020.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -40,7 +40,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -133,7 +133,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -270,7 +270,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -379,13 +379,13 @@
 </ul>
 <p>根据以上原则就很好理解默认对齐方式了，下面给出几种结构体声明方式及其对应的内存分配情况图。图中每一个单元格代表一字节数据，灰色部分代表不属于此结构体的部分。</p>
 <h3 id="Case-1"><a href="#Case-1" class="headerlink" title="Case 1"></a>Case 1</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">char</span>  a;</span><br><span class="line">  <span class="keyword">int</span>   b;</span><br><span class="line">  <span class="keyword">short</span> c;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gmf.shengnengjin.cn/20160428151020.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20160428151020.png" alt=""></p>
 <h3 id="Case-2"><a href="#Case-2" class="headerlink" title="Case 2"></a>Case 2</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">int</span>   a;</span><br><span class="line">  <span class="keyword">char</span>  b;</span><br><span class="line">  <span class="keyword">short</span> c;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gmf.shengnengjin.cn/20160428151511.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20160428151511.png" alt=""></p>
 <h3 id="Case-3"><a href="#Case-3" class="headerlink" title="Case 3"></a>Case 3</h3><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">short </span>a<span class="comment">;</span></span><br><span class="line">  char  <span class="keyword">b;</span></span><br><span class="line"><span class="keyword"> </span> <span class="keyword">short </span>c<span class="comment">;</span></span><br><span class="line">&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://gmf.shengnengjin.cn/20160428151945.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20160428151945.png" alt=""></p>
 <h3 id="Case-4"><a href="#Case-4" class="headerlink" title="Case 4"></a>Case 4</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">char</span> a;</span><br><span class="line">  <span class="keyword">int</span>  b;</span><br><span class="line">  <span class="keyword">char</span> c;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gmf.shengnengjin.cn/20160428152324.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20160428152324.png" alt=""></p>
 <h2 id="指定边界对齐"><a href="#指定边界对齐" class="headerlink" title="指定边界对齐"></a><strong>指定边界对齐</strong></h2><p>可使用一些编译器预处理指令来手动指定对齐方式，不同的编译器有不同的预处理指令，此处仅简要总结下GCC中的预处理指令。</p>
 <h3 id="pragma-pack-n"><a href="#pragma-pack-n" class="headerlink" title="#pragma pack(n)"></a><strong>#pragma pack(n)</strong></h3><p>其中<code>n</code>必须为2的若干次幂，如1，2，4，8，16等；若不指定n，相当于恢复默认的自然边界对齐方式。这个指令的效果是：<strong>按照<code>#pragma pack</code>指定的数值和这个数据成员自身长度中比较小的值来对齐。</strong>也就是说，当<code>#pragma pack</code>的值等于或超过所有数据成员长度的时候，这个值的大小将不产生任何效果，也就是说，这条指令仅可用于减小间隙。</p>
 <p>用自然边界对齐中的Case 1为例，使用<code>#pragma pack(1)</code>强制对齐至1字节地址处：</p>
@@ -394,14 +394,14 @@
 <p>程序输入为：</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Struct size <span class="keyword">is</span> : <span class="number">7</span></span><br><span class="line"><span class="keyword">Offset</span> <span class="keyword">of</span> a <span class="keyword">is</span>: <span class="number">00000000</span></span><br><span class="line"><span class="keyword">Offset</span> <span class="keyword">of</span> b <span class="keyword">is</span>: <span class="number">00000001</span></span><br><span class="line"><span class="keyword">Offset</span> <span class="keyword">of</span> c <span class="keyword">is</span>: <span class="number">00000005</span></span><br></pre></td></tr></table></figure>
 
-<p>内存分配情况如下所示：<br><img src="https://gmf.shengnengjin.cn/20160428155020.png" alt=""></p>
+<p>内存分配情况如下所示：<br><img src="https://pic.gaomf.store/20160428155020.png" alt=""></p>
 <h3 id="attribute-aligned-n"><a href="#attribute-aligned-n" class="headerlink" title="__attribute((aligned(n)))"></a><strong>__attribute((aligned(n)))</strong></h3><p>同样，<code>n</code>需要为2的若干次幂，这条指令仅可以用于增加间隙。</p>
 <p>用自然边界对齐中的Case 2为例，使用<code>__attribute((aligned(4)))</code>将每个成员都强制对齐至4字节地址处：</p>
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">int</span>   a <span class="constructor">__attribute((<span class="params">aligned</span>(4)</span>));</span><br><span class="line">  <span class="built_in">char</span>  b <span class="constructor">__attribute((<span class="params">aligned</span>(4)</span>));</span><br><span class="line">  short c <span class="constructor">__attribute((<span class="params">aligned</span>(4)</span>));</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>程序输出为：</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Struct size <span class="keyword">is</span> : <span class="number">12</span></span><br><span class="line"><span class="keyword">Offset</span> <span class="keyword">of</span> a <span class="keyword">is</span>: <span class="number">00000000</span></span><br><span class="line"><span class="keyword">Offset</span> <span class="keyword">of</span> b <span class="keyword">is</span>: <span class="number">00000004</span></span><br><span class="line"><span class="keyword">Offset</span> <span class="keyword">of</span> c <span class="keyword">is</span>: <span class="number">00000008</span></span><br></pre></td></tr></table></figure>
-<p>内存分配情况如下图：<br><img src="https://gmf.shengnengjin.cn/20160428160448.png" alt=""></p>
+<p>内存分配情况如下图：<br><img src="https://pic.gaomf.store/20160428160448.png" alt=""></p>
 
       
     </div>
@@ -413,7 +413,7 @@
         <p><span>本文标题:</span><a href="/2016/04/28/%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%E8%BE%B9%E7%95%8C%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/">结构体内存边界对齐问题</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-04-28, 16:06:48</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/04/28/%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%E8%BE%B9%E7%95%8C%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/" title="结构体内存边界对齐问题">https://gaomf.cn/2016/04/28/%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%E8%BE%B9%E7%95%8C%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/04/28/%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%E8%BE%B9%E7%95%8C%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

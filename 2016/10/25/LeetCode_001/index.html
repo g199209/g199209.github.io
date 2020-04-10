@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="给定一个整数集合及一个目标数，从集合中找出两个数，使其和等于目标数。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20161025161036.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.591Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20161025161036.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.207Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20161025161036.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20161025161036.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -359,7 +359,7 @@
 </blockquote>
 <h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>最直接的思路就是直接两次循环，判断两数之和是否等于目标数。这样做算法复杂度是O(n^2)，效率很低。下面C语言版本的代码就是用这种方法实现的。</p>
 <p>另一种高效的方法是使用字典HashMap，仅需一次循环即可，算法复杂度O(n)。以题目中的Example为例，算法原理可用下图说明：</p>
-<p><img src="https://gmf.shengnengjin.cn/20161025161036.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20161025161036.png" alt=""></p>
 <p>添加到<code>Map</code>中的元素是将数组中元素值<code>Number</code>作为<code>Key</code>，而对应的数组的索引值<code>Index</code>作为<code>Value</code>的。循环过程中，先判断此数字在<code>Map</code>中是否存在，若不存在的话，将其互补元素（即<code>target</code> - <code>nums[i]</code>）添加到<code>Map</code>中，对应的值即为<strong>当前的</strong><code>i</code>值；若存在的话，返回当前<code>i</code>值与<code>Map[nums[i]]</code>的值即可。具体实现见下面C++及Java版本的代码。</p>
 <h2 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h2><h3 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>* <span class="title">twoSum</span><span class="params">(<span class="keyword">int</span>* nums, <span class="keyword">int</span> numsSize, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i, j;</span><br><span class="line">    <span class="keyword">int</span> * result;</span><br><span class="line">    </span><br><span class="line">    result = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(<span class="number">2</span> * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; numsSize - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j = i + <span class="number">1</span>; j &lt; numsSize; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] + nums[j] == target) &#123;</span><br><span class="line">                result[<span class="number">0</span>] = i;</span><br><span class="line">                result[<span class="number">1</span>] = j;</span><br><span class="line">                <span class="keyword">return</span> result;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -381,7 +381,7 @@
         <p><span>本文标题:</span><a href="/2016/10/25/LeetCode_001/">LeetCode 001. Two Sum (Easy)</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-10-25, 15:59:31</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/10/25/LeetCode_001/" title="LeetCode 001. Two Sum (Easy)">https://gaomf.cn/2016/10/25/LeetCode_001/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/25/LeetCode_001/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

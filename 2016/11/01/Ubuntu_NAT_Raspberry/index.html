@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="树莓派3自带了WiFi，可以将其连接到无线热点上来联网，不过实验室没有无线路由器可用，只能将其用双绞线连接到电脑上，此时要实现树莓派能正常联网就需要在电脑上的Ubuntu虚拟机中设置NAT转发，这里来记录一下设置过程。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20161101160822.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.603Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20161101160822.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.225Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20161101160822.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20161101160822.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -352,7 +352,7 @@
 <a id="more"></a>
 
 <h2 id="网络拓扑结构"><a href="#网络拓扑结构" class="headerlink" title="网络拓扑结构"></a>网络拓扑结构</h2><p>基本的网络结构如下所示：</p>
-<p><img src="https://gmf.shengnengjin.cn/20161101160822.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20161101160822.png" alt=""></p>
 <p>其中蓝色线条表示逻辑上的网络连接关系。树莓派上的LAN接口使用双绞线与电脑连接，在虚拟机中设置桥接模式，即会产生一块虚拟网卡<code>eth1</code>桥接到已有的以太网上构成局域网。虚拟机中还有一块虚拟网卡<code>eth0</code>，这是通过VMware的NAT模式产生的，VMware中运行着一个NAT服务实现了<code>eth0</code>到<code>VMnet8</code>这两块虚拟网卡间的转发，最终实现了虚拟机联网的目的。</p>
 <p>从图中可以看到，目前树莓派只连接到了一个局域网中，并没有和Internet建立连接，要实现联网的目的，最简单的方法就是在Ubuntu虚拟机中建立<code>eth1</code>至<code>eth0</code>的NAT转发。</p>
 <h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><h3 id="开启IPv4转发"><a href="#开启IPv4转发" class="headerlink" title="开启IPv4转发"></a>开启IPv4转发</h3><p>Linux内核本身就是支持IPv4转发的，只需要开启这个功能即可。使用以下命令：</p>
@@ -396,7 +396,7 @@
         <p><span>本文标题:</span><a href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-11-01, 21:05:07</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/01/Ubuntu_NAT_Raspberry/" title="Ubuntu虚拟机中设置NAT使树莓派开发板可以联网">https://gaomf.cn/2016/11/01/Ubuntu_NAT_Raspberry/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/01/Ubuntu_NAT_Raspberry/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

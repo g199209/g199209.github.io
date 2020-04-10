@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="从本质上看，C语言中的宏定义实现的是一个文本替换的功能，似乎很简单的样子，然而这几天去看了下Linux Kernel源码中的各种宏定义，才发现一个宏定义竟然也可以有如此多的奇技淫巧……于是花了一天时间仔细研究了下宏的相关知识，此处整理总结下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Macro_Expand3.svg">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.615Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Macro_Expand3.svg">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.239Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Macro_Expand3.svg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Macro_Expand3.svg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -366,7 +366,7 @@
 <li>宏基本上是图灵完备的，所以可以只靠宏实现各种东西……</li>
 </ul>
 <p>宏的展开过程遵循以下流程图：</p>
-<p><img src="https://gmf.shengnengjin.cn/Macro_Expand3.svg" alt=""></p>
+<p><img src="https://pic.gaomf.store/Macro_Expand3.svg" alt=""></p>
 <p>这个流程图是我根据自己的理解和实验画出来的，并不确定完全正确……图中的“已展开宏记录”就是文章中说的“蓝色列表”。</p>
 <p>使用gcc编译时，可以通过附加<code>-E</code>参数，让gcc只进行预处理，这样就可以看到各种宏实际展开出来的结果是什么了，如<code>gcc -E -o test.i test.c</code>命令对<code>test.c</code>文件进行预处理，生成<code>test.i</code>文件。</p>
 <p>关于宏的展开流程，有一些不太明确的地方，此处用例子说明下，结果都经过gcc预处理验证过。</p>
@@ -404,7 +404,7 @@
         <p><span>本文标题:</span><a href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2017-10-06, 20:15:00</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/06/C_Macro/" title="深入理解C语言中宏定义">https://gaomf.cn/2017/10/06/C_Macro/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/10/06/C_Macro/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

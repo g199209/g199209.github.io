@@ -23,12 +23,12 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="本文以Samsung S3C2440处理器为例，介绍使用crosstool-ng制作交叉编译链时该如何针对特定的目标CPU进行配置。一般来说，常用的CPU架构都有至少一个现成的示例配置文件，对于S3C2440来说，一般选用arm-unknown-linux-gnueabi，下面就以这个示例配置为基础进行修改。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160615172011.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160615220831.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160615223725.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.605Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160615172011.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160615220831.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160615223725.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.227Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160615172011.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160615172011.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -130,7 +130,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -267,7 +267,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -386,7 +386,7 @@
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Floating</span> <span class="selector-tag">point</span>: (software (no FPU))</span><br><span class="line">()  <span class="selector-tag">Use</span> <span class="selector-tag">specific</span> <span class="selector-tag">FPU</span></span><br></pre></td></tr></table></figure>
 <p>与FPU相关配置，S3C2440没有FPU，如果有FPU的话，按实际情况设置即可，其中<code>Use specific FPU</code>对应GCC中的<code>-mfpu</code>参数，可以指定所用的FPU的类型。</p>
 <hr>
-<p>配置好的界面：<br><img src="https://gmf.shengnengjin.cn/20160615172011.png" alt=""></p>
+<p>配置好的界面：<br><img src="https://pic.gaomf.store/20160615172011.png" alt=""></p>
 <h2 id="Toolchain-options"><a href="#Toolchain-options" class="headerlink" title="Toolchain options"></a><strong>Toolchain options</strong></h2><p>重要配置参数如下：</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[ ]</span> Build Static Toolchain</span><br></pre></td></tr></table></figure>
 <p>构建静态链接的交叉编译链，这里的静态链接是指交叉编译链本身，不是它编译出来的文件。这个主要是用于需要发布交叉编译链时，如果其他主机没有所需版本的系统库，使用动态链接就会出错，这是就需要使用静态链接。不过静态链接会增大生成的可执行文件的体积，这里只考虑在本机上用，故不选择这个选项。</p>
@@ -397,7 +397,7 @@
 <figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">s3c2440</span>) Tuple's vendor string</span><br></pre></td></tr></table></figure>
 <p>指定交叉编译链标准命名<code>arch-vendor-kernel-system</code>中的第二部分<code>vendor</code>。</p>
 <hr>
-<p>配置好的界面：<br><img src="https://gmf.shengnengjin.cn/20160615220831.png" alt=""></p>
+<p>配置好的界面：<br><img src="https://pic.gaomf.store/20160615220831.png" alt=""></p>
 <h2 id="Operating-System"><a href="#Operating-System" class="headerlink" title="Operating System"></a><strong>Operating System</strong></h2><p>重要配置参数如下：</p>
 <figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Target OS (<span class="name">linux</span>)</span><br></pre></td></tr></table></figure>
 <p>目标系统，可以选择<code>bare-metal</code>或<code>linux</code>。<br>编译Bootloader时严格来说是该选择<code>bare-metal</code>的，不过这样编译Bootloader和编译其他应用就要选用两套不同的交叉编译链，使用起来不是很方便。实际上使用针对<code>linux</code>的交叉编译链来编译Bootloader也是可以的，而编译Kernel时必须选择<code>linux</code>，故此处一般都选择<code>linux</code>。相关说明如下：</p>
@@ -411,7 +411,7 @@
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[*] <span class="keyword">Build </span><span class="keyword">shared </span>libraries</span><br></pre></td></tr></table></figure>
 <p>是否编译共享库，编译Linux应用时不需要，不过编译Bootloader和Linux kernel等东西时需要，为了保证通用性，一般选上这个。</p>
 <hr>
-<p>配置好的界面：<br><img src="https://gmf.shengnengjin.cn/20160615223725.png" alt=""></p>
+<p>配置好的界面：<br><img src="https://pic.gaomf.store/20160615223725.png" alt=""></p>
 <h2 id="Binary-utilities"><a href="#Binary-utilities" class="headerlink" title="Binary utilities"></a><strong>Binary utilities</strong></h2><p>使用默认配置，重要配置参数如下：</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Binary </span>format: (ELF)</span><br></pre></td></tr></table></figure>
 <p>生成的二进制文件的格式，当<code>Target options</code>中选择了MMU后，此处只能选择ELF格式；若没有MMU，此处一般选择Flat格式。</p>
@@ -437,7 +437,7 @@
         <p><span>本文标题:</span><a href="/2016/06/16/crosstool-ng%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">crosstool-ng参数配置</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-06-16, 00:01:23</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/06/16/crosstool-ng%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/" title="crosstool-ng参数配置">https://gaomf.cn/2016/06/16/crosstool-ng%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/16/crosstool-ng%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

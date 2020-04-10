@@ -23,11 +23,11 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="IQmath库是TI C28x系列DSP中使用的一个高度优化且高精度的数学库，用于使用定点算法实现浮点运算。在DSP编程中，出于性能的考虑，应尽量使用IQmath库代替ANSI C中的math库。IQmath库同时支持C和C++，此处仅讨论使用C语言的情况。 IQmath的官方使用手册为SPRC990 C28x IQmath Library，在ControlSUITE中可以找到这份文档的最新版本。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160515095003.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160515101508.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.590Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160515095003.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160515101508.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.206Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160515095003.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160515095003.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -129,7 +129,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -266,7 +266,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -361,7 +361,7 @@
 <h2 id="Q格式"><a href="#Q格式" class="headerlink" title="Q格式"></a><strong>Q格式</strong></h2><p><a href="https://en.wikipedia.org/wiki/Q_%28number_format%29" target="_blank" rel="noopener">Q格式</a>是一种定点小数表示方法，具体来说，二者的转换关系为：</p>
 <p>*<em>定点数 = 浮点数 * 2^Q *</em></p>
 <p>在C2000中，统一使用32位来表示。Q<em>N</em>格式对应数据类型为_iq<em>N</em>，表示使用<em>N</em>位来表示小数，其余32-<em>N</em>位表示整数，故Q0其实就是一般的32位整数。具体的Q1~Q30的取值范围及精度见下表：</p>
-<p><img src="https://gmf.shengnengjin.cn/20160515095003.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20160515095003.png" alt=""></p>
 <p><code>_iq</code>类型代表使用<code>GLOBAL_Q</code>定义的精度，<code>GLOBAL_Q</code>在<code>IQmathLib.h</code>文件中定义，默认为：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> GLOBAL_Q</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GLOBAL_Q 24 <span class="comment">/* Q1 to Q29 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 
@@ -498,7 +498,7 @@
 <td>欧氏距离</td>
 </tr>
 </tbody></table>
-<h3 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h3><p>完整的IQmath函数及性能评估表如下：<br><img src="https://gmf.shengnengjin.cn/20160515101508.png" alt=""></p>
+<h3 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h3><p>完整的IQmath函数及性能评估表如下：<br><img src="https://pic.gaomf.store/20160515101508.png" alt=""></p>
 
       
     </div>
@@ -510,7 +510,7 @@
         <p><span>本文标题:</span><a href="/2016/05/15/IQmath%E5%BA%93%E6%80%BB%E7%BB%93/">C28x IQmath库使用</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-05-15, 14:21:27</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/05/15/IQmath%E5%BA%93%E6%80%BB%E7%BB%93/" title="C28x IQmath库使用">https://gaomf.cn/2016/05/15/IQmath%E5%BA%93%E6%80%BB%E7%BB%93/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/05/15/IQmath%E5%BA%93%E6%80%BB%E7%BB%93/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

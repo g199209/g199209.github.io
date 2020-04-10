@@ -23,14 +23,14 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="项目中使用TL431作为电流采样放大电路的基准源，然而之后调试过程中发现，采样电流有很大噪声，会影响控制效果。进一步分析表明，这是因为TL431输出的基准电压不稳造成的，输出纹波有几百毫伏，初步猜测是发生了自激振荡。下面对此问题进行下总结。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;TIM%E6%88%AA%E5%9B%BE20170609165635.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;TIM%E6%88%AA%E5%9B%BE20170609152547.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;TIM%E6%88%AA%E5%9B%BE20170609154537.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;TIM%E6%88%AA%E5%9B%BE20170609161554.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;TIM%E6%88%AA%E5%9B%BE20170609163714.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.601Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;TIM%E6%88%AA%E5%9B%BE20170609165635.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;TIM%E6%88%AA%E5%9B%BE20170609152547.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;TIM%E6%88%AA%E5%9B%BE20170609154537.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;TIM%E6%88%AA%E5%9B%BE20170609161554.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;TIM%E6%88%AA%E5%9B%BE20170609163714.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.218Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;TIM%E6%88%AA%E5%9B%BE20170609165635.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;TIM%E6%88%AA%E5%9B%BE20170609165635.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -39,7 +39,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -132,7 +132,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -269,7 +269,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -356,10 +356,10 @@
 <a id="more"></a>
 
 <p>TL431部分电路原理图如下：</p>
-<p><img src="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170609165635.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/TIM%E6%88%AA%E5%9B%BE20170609165635.png" alt=""></p>
 <p>TL431作为基准源使用，输出2.5V基准电压，<code>RL</code>为后级等效负载，<code>CL</code>则是一个负载电容，设计电路时增加此电容是为了起到滤波作用，期望使得基准电压更平稳。</p>
 <p>系统供电是反激开关电源产生的<code>+5V</code>，实际使用示波器测试过，<code>+5V</code>的纹波和毛刺都很小，50mV不到，所以可以排除是电源导致的输出振荡。再来看一下TL431的内部原理框图：</p>
-<p><img src="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170609152547.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/TIM%E6%88%AA%E5%9B%BE20170609152547.png" alt=""></p>
 <p>TL431内部有一个误差比较器，用于比较<code>REF</code>管脚的电压与内部2.5V<code>Vref</code>间的差异，进而控制后级晶体管的基极电流，这个三极管应该是工作在放大区的，通过调整其基极电流，可以控制<code>ICE</code>，对于后级负载来说，这就相当于一个分流器，进而实现了对<code>Cathode</code>阴极输出电压的控制。这只是对其基本工作原理的一个定性理解，若对其内部电路实现有兴趣，可以进一步参考此分析文章：</p>
 <blockquote>
 <p><a href="https://wenku.baidu.com/view/e3e3e71b227916888486d738.html" target="_blank" rel="noopener">TL431内部结构</a></p>
@@ -369,21 +369,21 @@
 <p>This standard device has proven ubiquity and versatility across a wide range of applications, ranging from power to signal path. This is due to it’s key components containing an accurate voltage reference &amp; opamp, which are very fundamental analog building blocks. TL43xx is used in conjunction with it’s key components to behave as a single voltage reference, error amplifier, voltage clamp or comparator with integrated reference.</p>
 </blockquote>
 <p>当用作电压基准源时，从上面的工作原理分析中很容易想到，此时该引入负反馈闭环使得阴极输出电压稳定，这就是最经典的所谓的“Shunt Regulator”电路：</p>
-<p><img src="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170609154537.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/TIM%E6%88%AA%E5%9B%BE20170609154537.png" alt=""></p>
 <p>输出电压可以由电阻分压很简单的求出来，在我们的应用电路中，省去了反馈的两个分压电阻，直接将阴极输出与反馈端连接了起来，这样输出电压期望就是2.5V。<code>RSup</code>电阻用于提供直流偏置，保证整个系统在开环时就工作于合适的线性放大区，这个偏置电流在数据手册中用<code>IKA</code>表示，其范围很宽，1mA~100mA均可保证TL431正常工作，典型值是10mA。不过较大的驱动电流可以获得更好的响应特性及稳定性，所以在我们的电路中，<code>IKA</code>设置为了100mA。</p>
 <p>分析了电路的内部原理就会发现，这其实就是一个运放负反馈电路，自然就存在系统稳定性问题，关于这个问题，TL431的数据手册中是这样说的：</p>
 <blockquote>
 <p>Unlike many linear regulators, TL43xx is internally compensated to be stable without an output capacitor between the cathode and anode. However, if it is desired to use an output capacitor Figure 24 can be used as a guide to assist in choosing the correct capacitor to maintain stability.</p>
 </blockquote>
 <p>Figure 24是TL431内部晶体管的详细原理图，我的水平并不能从中分析出稳定区域来……不过仔细阅读数据手册后发现，其中给了这么一张稳定性区域图：</p>
-<p><img src="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170609161554.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/TIM%E6%88%AA%E5%9B%BE20170609161554.png" alt=""></p>
 <p>仔细看这张图，当<code>IKA</code>为100mA时，A曲线的<strong>不稳定区域</strong>对应的负载电容在0.3uF~4uF之间，而我们选择的2.2uF正好在这个区域中，所以此时整个闭环系统是处于不稳定区域的，发生自激振荡也就很正常了。这张图是通过实际实验测试得到的，考虑到元器件参数的离散性，特别是电容公差较大，我们选择的2.2uF离临界值相差不远，所以其实可以理解成，这个设计其实是处于临界稳定状态的。这也就进一步解释了，实际调试时，为何大部分板子都会振荡，但是也有几块板子不振荡。</p>
 <p>TI文档<code>SLVA482A</code>对此问题做了进一步的分析：</p>
 <blockquote>
 <p><a href="http://www.ti.com/lit/an/slva482a/slva482a.pdf" target="_blank" rel="noopener">Understanding stability boundary conditions charts in TL431, TL432 Data sheet</a></p>
 </blockquote>
 <p>其中指出，<strong>负载电容的加入相当于为系统引入了一个极点，当此极点位于S平面右半边时，系统即会发生振荡。数据手册中给出的稳定性区域图是临界条件，也就是相位裕度为0的情况，实际设计时还要预留30度以上的相位裕度，以保证系统的可靠性。粗略来看，可以使用左右两侧临界区域1/10或10倍的值作为设计参考。</strong>文档中还给出了一张30度相位裕度参考图：</p>
-<p><img src="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170609163714.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/TIM%E6%88%AA%E5%9B%BE20170609163714.png" alt=""></p>
 <p>至此问题已经明确了，将板子上的2.2uF的电容改为1nF的，自激振荡即消失，电机控制效果好了很多。</p>
 <hr>
 <p>最后还要补充一点，除了调整负载电容容量外，TI文档中还给出了另一种解决方法，在电容上人为串联一个电阻，相当于增加电容的ESR。此方法的原理是为系统增加一个零点，用这个零点来抵消相位延迟：</p>
@@ -406,7 +406,7 @@
         <p><span>本文标题:</span><a href="/2017/06/09/TL431_Self_OScillation/">TL431自激振荡消除方法</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2017-06-09, 16:51:47</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/06/09/TL431_Self_OScillation/" title="TL431自激振荡消除方法">https://gaomf.cn/2017/06/09/TL431_Self_OScillation/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/06/09/TL431_Self_OScillation/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

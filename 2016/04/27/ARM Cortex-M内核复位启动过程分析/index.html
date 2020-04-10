@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="ARM Cortex-M内核的复位启动过程也被称为复位序列(Reset sequence)，下面就来简要总结分析下这一过程。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160427172324.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160427200250.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160427215016.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160427215242.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.587Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160427172324.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160427200250.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160427215016.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160427215242.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.199Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160427172324.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160427172324.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -131,7 +131,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -268,7 +268,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -359,9 +359,9 @@
 <li><strong>从地址<code>0x0000_0000</code>处取出<code>MSP</code>的初始值；</strong></li>
 <li><strong>从地址<code>0x0000_0004</code>处取出<code>PC</code>的初始值，然后从这个值对应的地址处取指。</strong></li>
 </ol>
-<p>即下图所示过程：<br><img src="https://gmf.shengnengjin.cn/20160427172324.png" alt=""></p>
+<p>即下图所示过程：<br><img src="https://pic.gaomf.store/20160427172324.png" alt=""></p>
 <p>事实上，地址<code>0x0000_0004</code>开始存放的就是默认中断向量表（有些资料中将地址<code>0x0000_0000</code>处的MSP指针初始值也算作中断向量表的一部分，这个说法似乎不太妥当），ARM Cortex-M内核的中断向量表布局情况如下图所示：</p>
-<p><img src="https://gmf.shengnengjin.cn/20160427200250.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20160427200250.png" alt=""></p>
 <p><em>注意：中断向量表的位置可以改变，此处是默认情况下的设置。</em></p>
 <p><strong>值得注意的是，在ARM Cortex-M内核中，发生异常后，并不是去执行中断向量表中对应位置处的代码，而是将对应位置处的数据存入<code>PC</code>中，然后去此地址处进行取指。简而言之，在ARM Cortex-M的中断向量表中不应该放置跳转指令，而是该放置ISR程序的入口地址。</strong></p>
 <p>有了上面的分析就很好理解复位序列了，复位其实就相当于发生了一次<code>Reset</code>异常，而从图中可以看到，地址<code>0x0000_0004</code>处存放的正是<code>Reset</code>异常对应的中断处理函数入口地址。</p>
@@ -383,8 +383,8 @@
 <p>第11行使用<code>DCD</code>伪指令分配了4个字节的存储空间，并将其值设置为<code>0x0000_0400</code>；第12行同理，将<code>Start</code>标号处的地址放置在偏移量为4字节的位置处；第17行<code>Start</code>标号之后的部分就是程序主体，依次完成了GPIOA端口RCC时钟使能、PA0设置为输出模式、PA0置高这三个步骤。</p>
 <p>程序在链接时会将<code>RESET</code>段放置在目标文件开头，故相当于在地址<code>0x0000_0000</code>处的数据为<code>0x0000_0400</code>，在地址<code>0x0000_0004</code>处的数据为<code>Start</code>部分的入口地址。</p>
 <p>不过需要指出的是，实际上在STM32F4芯片中，内部Flash的地址是从<code>0x0800_0000</code>处开始的，在BOOT管脚设置为Flash启动的时候，芯片内部会自动将<code>0x0000_0000</code><del><code>0x000F_FFFF</code>区域映射至<code>0x0800_0000</code></del><code>0x080F_FFFF</code>处，此时可以视为二者是等价的。</p>
-<p>使用Debug模式进行调试，复位后CPU寄存器的值如下所示：<br><img src="https://gmf.shengnengjin.cn/20160427215016.png" alt=""></p>
-<p>Flash中的数据如图：<br><img src="https://gmf.shengnengjin.cn/20160427215242.png" alt=""></p>
+<p>使用Debug模式进行调试，复位后CPU寄存器的值如下所示：<br><img src="https://pic.gaomf.store/20160427215016.png" alt=""></p>
+<p>Flash中的数据如图：<br><img src="https://pic.gaomf.store/20160427215242.png" alt=""></p>
 <p>可以看到，编译器很智能的将<code>0x0800_0004</code>处的数据设置为了<code>0x0800_0009</code>，而不是<code>Start</code>标号真实的地址值，这说明了这是一条<code>Thumb-2</code>指令。复位后<code>PC</code>中的值是<code>0x0800_0008</code>，<code>SP</code>中的值是<code>0x0000_0400</code>，与预期结果完全相同。</p>
 <p><em>最后顺便提一下，上面那段简单的程序有个问题，实际上<code>Start</code>部分的程序是占用了中断向量表的空间，这在没有异常发生的时候是没有问题的，不过一旦有异常发生，显然程序执行是会出错的。</em></p>
 
@@ -398,7 +398,7 @@
         <p><span>本文标题:</span><a href="/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">ARM Cortex-M内核复位启动过程分析</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-04-27, 20:14:29</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" title="ARM Cortex-M内核复位启动过程分析">https://gaomf.cn/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

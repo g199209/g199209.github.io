@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="前几天根据 小A同学 的方法在Github Pages上使用Hexo搭建了这个博客，然而之后发现访问速度实在是太慢了，而且有些时候还会直接无法打开。当然要想个办法来解决这个问题，于是又开始了折腾……写篇文章来记录下折腾的过程。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;web20151101141232.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.590Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;web20151101141232.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.205Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;web20151101141232.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;web20151101141232.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -358,7 +358,7 @@
 <p>主要就是在建立好Gitcafe Pages后，通过修改<code>_config.yml</code>文件的配置，让每次使用<code>hexo d</code>命令进行部署时，能同时部署至Github和Gitcafe上。相关代码如下：</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repository</span>: </span><br><span class="line">    <span class="attribute">gitcafe</span>: git<span class="variable">@gitcafe</span>.<span class="attribute">com</span>:username/username.git,gitcafe-pages</span><br><span class="line">    <span class="attribute">github</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:username/username.github.io.git,master</span><br></pre></td></tr></table></figure>
 <p>Github与Gitcafe使用的SSH RSA公钥必须相同。</p>
-<p>部署完成后，需要配置DNS多线路解析，以DNSPod为例，添加如下主机记录即可：<br><img src="https://gmf.shengnengjin.cn/web20151101141232.png" alt=""><br>Github与Gitcafe均使用了官方推荐的CNAME方式进行解析。</p>
+<p>部署完成后，需要配置DNS多线路解析，以DNSPod为例，添加如下主机记录即可：<br><img src="https://pic.gaomf.store/web20151101141232.png" alt=""><br>Github与Gitcafe均使用了官方推荐的CNAME方式进行解析。</p>
 <h2 id="优化Mathjax"><a href="#优化Mathjax" class="headerlink" title="优化Mathjax"></a>优化Mathjax</h2><h3 id="选择性加载"><a href="#选择性加载" class="headerlink" title="选择性加载"></a>选择性加载</h3><p>加载Mathjax的过程很费时间，根据 <a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">Yilia</a> 主题的默认写法，即使在网页中并没有生成公式时, 也会加载最基本 MathJax.js。为解决此问题，可根据 <a href="http://lukang.me/2014/mathjax-for-hexo.html" target="_blank" rel="noopener">这篇文章</a> 的做法，只有在用到公式的页面才加载 Mathjax。<br>修改<code>after-footer.ejs</code>文件，将原来的</p>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="meta">%</span> <span class="keyword">if</span> <span class="comment">(theme.mathjax)</span>&#123; <span class="meta">%</span>&gt;</span><br><span class="line">&lt;<span class="meta">%</span>- partial<span class="comment">('mathjax')</span> <span class="meta">%</span>&gt;</span><br><span class="line">&lt;<span class="meta">%</span> &#125; <span class="meta">%</span>&gt;</span><br></pre></td></tr></table></figure>
 <p>替换为</p>
@@ -430,7 +430,7 @@
         <p><span>本文标题:</span><a href="/2015/11/01/Hexo%E5%8D%9A%E5%AE%A2%E4%BC%98%E5%8C%96%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/">Hexo博客优化加载速度</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2015-11-01, 13:28:23</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/11/01/Hexo%E5%8D%9A%E5%AE%A2%E4%BC%98%E5%8C%96%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/" title="Hexo博客优化加载速度">https://gaomf.cn/2015/11/01/Hexo%E5%8D%9A%E5%AE%A2%E4%BC%98%E5%8C%96%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/01/Hexo%E5%8D%9A%E5%AE%A2%E4%BC%98%E5%8C%96%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

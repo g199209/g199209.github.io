@@ -23,11 +23,11 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="Matlab作出的图普遍没有Origin作出的美观好看，而且导出为eps或emf格式后会有各种奇怪的Bug。目前普遍采用的一种方法是，将Matlab数据导出为mat文件后再导入Origin中手工作图，这种方式需要不少重复性劳动，并不是一种很完美的解决方案。前几天偶然看到Origin提供了COM接口可供Matlab调用，于是就研究了下可否用Matlab调用Origin来生成所需的emf格式图片，最终">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Matlab20160128204513.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Matlab20160128205045.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.595Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Matlab20160128204513.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Matlab20160128205045.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.210Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Matlab20160128204513.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Matlab20160128204513.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -129,7 +129,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -266,7 +266,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -357,8 +357,8 @@
 <p>根据这两个示例程序基本就可以依葫芦画瓢写出一个符合自己要求的程序了，然而这其中并没有导出emf格式图片的示例，于是开始研究其官方帮助文档……官方帮助文档很多地方都语焉不详，而且其间还经历了种种坑，比如<a href="http://GaoMF.cn/2016/01/27/Origin%20Script%20Window%20%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95/">上篇文章</a>这个。不过最终还是找到了正确的解决办法，就是使用Origin <a href="http://www.originlab.com/doc/X-Function" target="_blank" rel="noopener">X-Function</a>中的<a href="http://www.originlab.com/doc/X-Function/ref/expGraph" target="_blank" rel="noopener">expGraph</a>命令。</p>
 <hr>
 <p>最终找到的较好的解决方案是这样的：</p>
-<p>首先，用Origin生成一个空白模板工程，其中包含了基本的Worksheet结构及Graph样式，比如示例文件中提供的这个：<br><img src="https://gmf.shengnengjin.cn/Matlab20160128204513.png" alt=""></p>
-<p>这个模板工程需要保证只要向Worksheet中填入数据，Graph中就能生成所需的图，就像这样：<br><img src="https://gmf.shengnengjin.cn/Matlab20160128205045.png" alt=""></p>
+<p>首先，用Origin生成一个空白模板工程，其中包含了基本的Worksheet结构及Graph样式，比如示例文件中提供的这个：<br><img src="https://pic.gaomf.store/Matlab20160128204513.png" alt=""></p>
+<p>这个模板工程需要保证只要向Worksheet中填入数据，Graph中就能生成所需的图，就像这样：<br><img src="https://pic.gaomf.store/Matlab20160128205045.png" alt=""></p>
 <p>这里的Worksheet和Graph可以不止有一个，不过一般情况下一个就足够了。</p>
 <p>制作好了模板文件后，在Matlab程序中只需要通过COM接口调用Origin，打开这个模板文件，然后向其中的Worksheet填入正确的数据，最后导出图片文件即可。<br>Matlab程序如下：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 调用Origin作图并保存为emf格式的图片</span></span><br><span class="line"><span class="comment">% 作者 : 高明飞</span></span><br><span class="line"><span class="comment">% 日期 : 2016-01-27</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% mdata : 需要填充到Origin Worksheet中的数据</span></span><br><span class="line"><span class="comment">% template : Origin模板函数名，不含后缀，需要保存在当前工作目录下，如'CreatePlotInOrigin'</span></span><br><span class="line"><span class="comment">% fdir : 输出图片目标文件夹，如'D:\image'</span></span><br><span class="line"><span class="comment">% fname : 输出图片文件名，不含后缀，如'abc'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">OriginPlot</span><span class="params">(mdata, template, fdir, fname)</span></span></span><br><span class="line"><span class="comment">% Obtain Origin COM Server object</span></span><br><span class="line"><span class="comment">% This will connect to an existing instance of Origin, or create a new one if none exist</span></span><br><span class="line">originObj=actxserver(<span class="string">'Origin.ApplicationSI'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Clear "dirty" flag in Origin to suppress prompt for saving current project</span></span><br><span class="line">invoke(originObj, <span class="string">'IsModified'</span>, <span class="string">'false'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Load the custom template project</span></span><br><span class="line">dir = pwd;</span><br><span class="line">dir = strcat(dir, <span class="string">'\', template, '</span>.opj');</span><br><span class="line">invoke(originObj, <span class="string">'Load'</span>, dir);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Send this data over to the Data1 worksheet</span></span><br><span class="line">invoke(originObj, <span class="string">'PutWorksheet'</span>, <span class="string">'Data1'</span>, mdata);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Save graph</span></span><br><span class="line">cmd = <span class="string">'expGraph type:=emf overwrite := rename tr1.unit := 2 tr1.width := 10000 path:= "'</span>;</span><br><span class="line">cmd = strcat(cmd, fdir, <span class="string">'" filename:= "'</span>, fname, <span class="string">'.emf";'</span>);</span><br><span class="line">invoke(originObj, <span class="string">'Execute'</span>, cmd);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Release</span></span><br><span class="line">release(originObj);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
@@ -375,7 +375,7 @@
         <p><span>本文标题:</span><a href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/">Matlab调用Origin作图</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-01-28, 21:23:24</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/" title="Matlab调用Origin作图">https://gaomf.cn/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

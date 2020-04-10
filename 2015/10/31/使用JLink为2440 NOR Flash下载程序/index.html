@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="以Mini2440开发板为例，通过Jlink将程序下载至NOR Flash中运行。因为CPU可对NOR Flash直接寻址，程序可在NOR Flash中直接运行，故将裸机程序下载至NOR Flash中调试运行较为简单。 使用J-Link Commander和J-Flash ARM均可实现程序下载，不过J-Flash ARM使用起来更为简单直观。 下面总结一下使用J-Flash ARM下载程序的方法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;arm20151031162234.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;arm20151031163621.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;arm20151031163909.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;arm20151031153629.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.609Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;arm20151031162234.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;arm20151031163621.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;arm20151031163909.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;arm20151031153629.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.233Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;arm20151031162234.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;arm20151031162234.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -131,7 +131,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -268,7 +268,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -365,14 +365,14 @@
 <p>实际测试表明，不进行设置全部使用默认值（大部分选项的默认值均是Auto）可以成功下载程序，不过也有可能会发生一些 <a href="http://m.blog.csdn.net/blog/zhoujiaxq/7750933" target="_blank" rel="noopener">问题</a> 。另外，默认情况下不使用目标RAM，下载速度会很慢。所以还是建议进行下设置。</p>
 <p><code>General</code>一般不需要更改。</p>
 <p><code>Target Interface</code>可保持默认值，也可修改下JTAG speed。</p>
-<p><code>CPU</code>中，<code>Core</code>可以选择<code>Auto</code>，也可按实际情况选为<code>ARM9</code>。<br><code>Use traget RAM (faster)</code>建议选上，否则下载速度会很慢。RAM Address根据实际情况填写，对于S3C2440来说，可以使用内部4K的SRAM，其地址为0x40000000。<br>在使用了目标RAM后，有时候下载会提示错误：<code>PC of target system has unexpected value after programming</code>,若出现此错误，可参考 <a href="http://www.crifan.com/resolved_j-flash_arm_nor_flash_programming_error_pc_of_target_system_has_unexpected_value_after_programming/" target="_blank" rel="noopener">这篇文章</a> 的做法，将<code>Use following init sequence:</code>中Reset的Delay时间改为2ms。<br>配置完成后的设置如图：<br><img src="https://gmf.shengnengjin.cn/arm20151031162234.png" alt=""></p>
-<p><code>Flash</code>中，可不勾选<code>Automatically detect flash memory</code>，改为手动指定Flash型号。<br>点击<code>Select flash device</code>后，选择正确的Falsh型号即可。Mini2440开发板上使用的NOR Flash为AM29LV160DB。<br>如果没有实际使用的型号，可以选择一个兼容型号，然后去掉<code>Check manufacturer flash Id</code>和<code>Check product flash Id</code>即可。<br>配置完成后的设置如图：<br><img src="https://gmf.shengnengjin.cn/arm20151031163621.png" alt=""></p>
+<p><code>CPU</code>中，<code>Core</code>可以选择<code>Auto</code>，也可按实际情况选为<code>ARM9</code>。<br><code>Use traget RAM (faster)</code>建议选上，否则下载速度会很慢。RAM Address根据实际情况填写，对于S3C2440来说，可以使用内部4K的SRAM，其地址为0x40000000。<br>在使用了目标RAM后，有时候下载会提示错误：<code>PC of target system has unexpected value after programming</code>,若出现此错误，可参考 <a href="http://www.crifan.com/resolved_j-flash_arm_nor_flash_programming_error_pc_of_target_system_has_unexpected_value_after_programming/" target="_blank" rel="noopener">这篇文章</a> 的做法，将<code>Use following init sequence:</code>中Reset的Delay时间改为2ms。<br>配置完成后的设置如图：<br><img src="https://pic.gaomf.store/arm20151031162234.png" alt=""></p>
+<p><code>Flash</code>中，可不勾选<code>Automatically detect flash memory</code>，改为手动指定Flash型号。<br>点击<code>Select flash device</code>后，选择正确的Falsh型号即可。Mini2440开发板上使用的NOR Flash为AM29LV160DB。<br>如果没有实际使用的型号，可以选择一个兼容型号，然后去掉<code>Check manufacturer flash Id</code>和<code>Check product flash Id</code>即可。<br>配置完成后的设置如图：<br><img src="https://pic.gaomf.store/arm20151031163621.png" alt=""></p>
 <p><code>Production</code>保持默认。</p>
-<p>全部设置完成后，工程设置如图：<br><img src="https://gmf.shengnengjin.cn/arm20151031163909.png" alt=""></p>
+<p>全部设置完成后，工程设置如图：<br><img src="https://pic.gaomf.store/arm20151031163909.png" alt=""></p>
 <p>可将设置文件保存为<code>.jfalsh</code>文件，下次直接打开即可。</p>
 <h2 id="测试下载速度-Optional"><a href="#测试下载速度-Optional" class="headerlink" title="测试下载速度(Optional)"></a>测试下载速度(Optional)</h2><p><code>Target</code> -&gt; <code>Test</code> -&gt; <code>Test speed</code></p>
 <p>可以通过测试下载速度来检查之前的配置是否正确，如果能正常下载测试数据，说明配置正确。</p>
-<p>如果测试通过的话，会自动弹出测试结果：<br><img src="https://gmf.shengnengjin.cn/arm20151031153629.png" alt=""></p>
+<p>如果测试通过的话，会自动弹出测试结果：<br><img src="https://pic.gaomf.store/arm20151031153629.png" alt=""></p>
 <h2 id="选择程序文件"><a href="#选择程序文件" class="headerlink" title="选择程序文件"></a>选择程序文件</h2><p><code>File</code> -&gt; <code>Open data file</code></p>
 <p>一般选择<code>.bin</code>格式的程序文件，不支持<code>.axf</code>文件，可通过<code>fromelf.exe</code>将<code>.axf</code>文件转为<code>.bin</code>文件。</p>
 <h2 id="下载编程"><a href="#下载编程" class="headerlink" title="下载编程"></a>下载编程</h2><p><code>Target</code> -&gt; <code>Program</code><br>之后选择确定擦除和复写编程区域。</p>
@@ -402,7 +402,7 @@
         <p><span>本文标题:</span><a href="/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">使用JLink为2440 NOR Flash下载程序</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2015-10-31, 14:30:38</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/" title="使用JLink为2440 NOR Flash下载程序">https://gaomf.cn/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

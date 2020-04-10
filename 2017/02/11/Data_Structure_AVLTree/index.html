@@ -23,11 +23,11 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="AVL树是一种特殊的二叉查找树，其特征在于：对所有节点来说，其左子树和右子树间的高度差小于等于1。本文简要总结下AVL树的几种基本操作。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;281624280475098.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;281625317193879.jpg">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.612Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;281624280475098.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;281625317193879.jpg">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.236Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;281624280475098.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;281624280475098.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -129,7 +129,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -266,7 +266,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -365,7 +365,7 @@
 <li>RL：在右子树左节点进行插入</li>
 </ul>
 <p>示意图：</p>
-<p><img src="https://gmf.shengnengjin.cn/281624280475098.jpg" alt=""><br><img src="https://gmf.shengnengjin.cn/281625317193879.jpg" alt=""></p>
+<p><img src="https://pic.gaomf.store/281624280475098.jpg" alt=""><br><img src="https://pic.gaomf.store/281625317193879.jpg" alt=""></p>
 <p>关于旋转的详细分析可参考<a href="http://www.cnblogs.com/skywang12345/p/3576969.html" target="_blank" rel="noopener">第一篇参考资料</a>，此处仅给出实现代码及简要思路。</p>
 <h3 id="LL及RR单旋转"><a href="#LL及RR单旋转" class="headerlink" title="LL及RR单旋转"></a>LL及RR单旋转</h3><p>二者是镜像操作，实现方法比较简单。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">RotateLL</span> <span class="params">(Node * T)</span> </span>&#123;</span><br><span class="line">    Node * t = T-&gt;left;</span><br><span class="line"></span><br><span class="line">    T-&gt;left = t-&gt;right;</span><br><span class="line">    t-&gt;right = T;</span><br><span class="line"></span><br><span class="line">    CalHeight(T);</span><br><span class="line">    CalHeight(t);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -409,7 +409,7 @@
         <p><span>本文标题:</span><a href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2017-02-11, 17:00:18</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/11/Data_Structure_AVLTree/" title="数据结构——AVL树">https://gaomf.cn/2017/02/11/Data_Structure_AVLTree/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/02/11/Data_Structure_AVLTree/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

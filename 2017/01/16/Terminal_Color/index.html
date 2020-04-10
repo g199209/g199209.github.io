@@ -23,12 +23,12 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="黑白的世界总没有彩色的世界精彩，最初的Linux或其他系统的Shell终端肯定只有黑白的，之后逐渐出现了支持8色、16色、256色及真彩色的终端。目前主流的终端一般都支持256色，未来的趋势是支持24位真彩色。那如何判断当前使用的是哪种模式，以及如何更改设置呢？本文就以Ubuntu下Gnome-Terminal为例介绍一下设置方法，理论上应该适用于所有Linux终端。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20170116154133.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f35643464623866396777316638696e746f386776676a3230686630306f3073762e6a7067.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20170116155023.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.610Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20170116154133.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f35643464623866396777316638696e746f386776676a3230686630306f3073762e6a7067.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20170116155023.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.233Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20170116154133.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20170116154133.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -130,7 +130,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -267,7 +267,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -363,7 +363,7 @@
 <h3 id="256色支持"><a href="#256色支持" class="headerlink" title="256色支持"></a>256色支持</h3><p>运行以下命令，若输出了完整的256种颜色，就说明当前终端支持256色：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(x=`tput op` y=`<span class="built_in">printf</span> %76s`;<span class="keyword">for</span> i <span class="keyword">in</span> &#123;0..256&#125;;<span class="keyword">do</span> o=00<span class="variable">$i</span>;<span class="built_in">echo</span> -e <span class="variable">$&#123;o:$&#123;#o&#125;</span>-3:3&#125; `tput setaf <span class="variable">$i</span>;tput setab <span class="variable">$i</span>`<span class="variable">$&#123;y// /=&#125;</span><span class="variable">$x</span>;<span class="keyword">done</span>)</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gmf.shengnengjin.cn/20170116154133.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20170116154133.png" alt=""></p>
 <p>若只有前8种颜色，说明当前配置是8色模式，默认情况下，Ubuntu中的Gnome-Terminal就只开启了8色支持。此时可通过修改<code>~/.bashrc</code>文件将其改为256色，在<code>.bashrc</code>文件中加入以下代码即可：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$TERM</span>"</span> <span class="keyword">in</span></span><br><span class="line">    xterm)</span><br><span class="line">        <span class="built_in">export</span> TERM=xterm-256color</span><br><span class="line">        ;;</span><br><span class="line">    screen)</span><br><span class="line">        <span class="built_in">export</span> TERM=screen-256color</span><br><span class="line">        ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
 
@@ -371,9 +371,9 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123;</span></span><br><span class="line"><span class="string">    s="/\\/\\/\\/\\/\\"; s=s s s s s s s s;</span></span><br><span class="line"><span class="string">    for (colnum = 0; colnum&lt;77; colnum++) &#123;</span></span><br><span class="line"><span class="string">        r = 255-(colnum*255/76);</span></span><br><span class="line"><span class="string">        g = (colnum*510/76);</span></span><br><span class="line"><span class="string">        b = (colnum*255/76);</span></span><br><span class="line"><span class="string">        if (g&gt;255) g = 510-g;</span></span><br><span class="line"><span class="string">        printf "\033[48;2;%d;%d;%dm", r,g,b;</span></span><br><span class="line"><span class="string">        printf "\033[38;2;%d;%d;%dm", 255-r,255-g,255-b;</span></span><br><span class="line"><span class="string">        printf "%s\033[0m", substr(s,colnum+1,1);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    printf "\n";</span></span><br><span class="line"><span class="string">&#125;'</span></span><br></pre></td></tr></table></figure>
 
 <p>如果支持真彩色的话，输出效果如下：</p>
-<p><img src="https://gmf.shengnengjin.cn/687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f35643464623866396777316638696e746f386776676a3230686630306f3073762e6a7067.jpg" alt=""></p>
+<p><img src="https://pic.gaomf.store/687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f35643464623866396777316638696e746f386776676a3230686630306f3073762e6a7067.jpg" alt=""></p>
 <p>若不支持，是无法显示出连续的色彩的：</p>
-<p><img src="https://gmf.shengnengjin.cn/20170116155023.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20170116155023.png" alt=""></p>
 <h3 id="Vim中256色设置"><a href="#Vim中256色设置" class="headerlink" title="Vim中256色设置"></a>Vim中256色设置</h3><p>要让Vim很好的支持256色需要在<code>.vimrc</code>文件中进行下设置，添加以下代码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> t_Co=256</span><br></pre></td></tr></table></figure>
 
@@ -395,7 +395,7 @@
         <p><span>本文标题:</span><a href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2017-01-16, 16:00:51</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/01/16/Terminal_Color/" title="判断终端色彩支持情况的方法">https://gaomf.cn/2017/01/16/Terminal_Color/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/01/16/Terminal_Color/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

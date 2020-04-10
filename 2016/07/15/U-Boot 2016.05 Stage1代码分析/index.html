@@ -23,11 +23,11 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="主流Bootloader的启动过程均可分为Stage1及Stage2两部分，一般来说，Stage1完成最基本的初始化操作、搬移代码及建立C语言运行环境；Stage2完成剩余的初始化操作。故Stage1一般使用汇编完成，Stage2一般使用C语言完成，不过这只是很粗略的情况，实际上Stage1中也会使用C语言代码。 下面以之前针对S3C2440移植好的U-Boot 2016.05为例，分析U-Boo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;U-Boot%20Stage1_1.svg">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;U-Boot%20Stage1_2.svg">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.601Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;U-Boot%20Stage1_1.svg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;U-Boot%20Stage1_2.svg">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.219Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;U-Boot%20Stage1_1.svg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;U-Boot%20Stage1_1.svg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -129,7 +129,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -266,7 +266,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -373,7 +373,7 @@
 <figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    .globl  reset</span><br><span class="line"><span class="symbol">reset</span>:</span><br><span class="line"><span class="comment">;   ......省略......</span></span><br></pre></td></tr></table></figure>
 
 <p>所以一般都说，代码执行开始于<code>start.S</code>文件，这也就是程序的入口点。下面就从这个文件开始分析。</p>
-<h2 id="start-S"><a href="#start-S" class="headerlink" title="start.S"></a><strong>start.S</strong></h2><p><code>start.S</code>的执行流程见下图：<br><img src="https://gmf.shengnengjin.cn/U-Boot%20Stage1_1.svg" alt=""></p>
+<h2 id="start-S"><a href="#start-S" class="headerlink" title="start.S"></a><strong>start.S</strong></h2><p><code>start.S</code>的执行流程见下图：<br><img src="https://pic.gaomf.store/U-Boot%20Stage1_1.svg" alt=""></p>
 <p><code>lowlevel_init</code>是平台相关的，故它位于<code>board/samsung/smdk2440/lowlevel_init.S</code>中。此处需要完成内存控制器的初始化工作，以便之后能正常使用SDRAM。对于S3C2440来说，就是初始化了<code>BWSCON</code>、<code>BANKCONn</code>、<code>REFRESH</code>、<code>BANKSIZE</code>、<code>MRSRB</code>这些寄存器。</p>
 <p><code>_main</code>是平台无关的，位于<code>arch/arm/lib/crt0.S</code>中，crt的意思就是C-runtime startup Code，此文件的目的就是建立C语言运行环境，以便之后跳转到Stage2，下面就来分析此文件。</p>
 <h2 id="crt0-S"><a href="#crt0-S" class="headerlink" title="crt0.S"></a><strong>crt0.S</strong></h2><p><code>crt0.S</code>文件开头的注释中说明了<code>_main</code>的执行序列，摘录如下：</p>
@@ -398,7 +398,7 @@
 </ol>
 </blockquote>
 <p>其程序流程图如下：</p>
-<p><img src="https://gmf.shengnengjin.cn/U-Boot%20Stage1_2.svg" alt=""></p>
+<p><img src="https://pic.gaomf.store/U-Boot%20Stage1_2.svg" alt=""></p>
 <p>全局变量<code>gd</code>是一个<code>struct global_data</code>类型的结构体，此结构体的定义位于<code>include/asm-generic/global_data.h</code>文件中。此结构体保存了初始化阶段需要用到的各种全局变量，大约有100个左右，相关说明如下：</p>
 <blockquote>
 <p>The following data structure is placed in some memory which is available very early after boot (like DPRAM on MPC8xx/MPC82xx, or some locked parts of the data cache) to allow for a minimum set of global variables during system initialization (until we have set up the memory controller so that we can use RAM).<br>Keep it <strong>SMALL</strong> and remember to set GENERATED_GBL_DATA_SIZE &gt; sizeof(gd_t)<br>Each architecture has its own private fields. For now all are private</p>
@@ -486,7 +486,7 @@
         <p><span>本文标题:</span><a href="/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">U-Boot 2016.05 Stage1代码分析</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-07-15, 17:14:24</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" title="U-Boot 2016.05 Stage1代码分析">https://gaomf.cn/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

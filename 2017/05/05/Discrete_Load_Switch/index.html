@@ -23,12 +23,12 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="负载开关用于控制后级电路的供电，可以采用分立元件，也可用专用的芯片，此处总结一下最常用的分立元件方案。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20170505203851.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20170505210411.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20170505210633.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.612Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20170505203851.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20170505210411.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20170505210633.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.235Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20170505203851.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20170505203851.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -130,7 +130,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -267,7 +267,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -354,12 +354,12 @@
 <a id="more"></a>
 
 <p>电路原理图：</p>
-<p><img src="https://gmf.shengnengjin.cn/20170505203851.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20170505203851.png" alt=""></p>
 <p>图中C1及R5代表后级负载电路。U5断开时，Q1截止，进而U4也为截止状态；U5导通时，Q1也导通，此时V1、C2、R2、Q1构成RC充电回路，U4 Vgs逐渐上升，当Vgs上升超过其阈值后，U4导通，不过刚开始导通时其导通电阻较大，故尽管负载电容很大，此时的电流并不会很大，这也就是所谓的软启动功能。随着Vgs进一步上升，U4导通电阻降低，系统正常为后级负载供电。</p>
 <p>PSpice仿真结果如下：</p>
-<p><img src="https://gmf.shengnengjin.cn/20170505210411.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20170505210411.png" alt=""></p>
 <p>若去掉C2，此时就没有软启动了，PSpice仿真结果为：</p>
-<p><img src="https://gmf.shengnengjin.cn/20170505210633.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20170505210633.png" alt=""></p>
 <p>可以看到，在导通的瞬间有一个很大的脉冲浪涌电流，这很有可能导致MOS管的损坏。不过也要看到，软启动功能也带来了一些弊端，比如电路延时变长。</p>
 <p>更为可靠的方法是使用集成式负载开关，可参考之前写的这篇文章：</p>
 <blockquote>
@@ -376,7 +376,7 @@
         <p><span>本文标题:</span><a href="/2017/05/05/Discrete_Load_Switch/">带软启动的分立负载开关电路</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2017-05-05, 21:14:50</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/05/05/Discrete_Load_Switch/" title="带软启动的分立负载开关电路">https://gaomf.cn/2017/05/05/Discrete_Load_Switch/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/05/05/Discrete_Load_Switch/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

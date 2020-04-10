@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="正如在之前的文章中提到，Atom在Win10下若不禁用GPU加速的话，界面字体会模糊，启动时可以通过附加--disable-gpu选项来禁用GPU，然而在打开关联文件等时候，是无法直接设置命令行参数的，此时就需要做些配置来实现这一目的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;TIM%E6%88%AA%E5%9B%BE20170906160347.png">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.587Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;TIM%E6%88%AA%E5%9B%BE20170906160347.png">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.200Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;TIM%E6%88%AA%E5%9B%BE20170906160347.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;TIM%E6%88%AA%E5%9B%BE20170906160347.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -352,7 +352,7 @@
 <a id="more"></a>
 
 <h3 id="修改快捷方式"><a href="#修改快捷方式" class="headerlink" title="修改快捷方式"></a>修改快捷方式</h3><p>若要直接打开一个程序，较常用的方法就是通过桌面或开始菜单中的快捷方式，此时可以在快捷方式属性中指定命令行参数即可，如图所示：</p>
-<p><img src="https://gmf.shengnengjin.cn/TIM%E6%88%AA%E5%9B%BE20170906160347.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/TIM%E6%88%AA%E5%9B%BE20170906160347.png" alt=""></p>
 <h3 id="修改右键菜单"><a href="#修改右键菜单" class="headerlink" title="修改右键菜单"></a>修改右键菜单</h3><p>默认情况下，Atom会自动新建一个<code>Open with Atom</code>的右键菜单项，这个功能还是很实用的，要实现此处打开的Atom也能附加命令行参数，需要通过修改注册表实现。在<code>regedit</code>中，找到<code>\HKEY_CLASSES_ROOT\*\shell\Atom</code>项，这就对应右键菜单中那个命令，其默认项为菜单项的名称，<code>Icon</code>项指向一个<code>exe</code>文件，对应缩略图图标，不要去修改它。继续展开其<code>command</code>子目录，其默认项就是调用的命令，在最后添加一个<code>--disable-gpu</code>即可，例如：<code>&quot;C:\Users\g1992\AppData\Local\atom\atom.exe&quot; &quot;%1&quot; --disable-gpu</code>。最先为Atom的目录，之后的<code>&quot;%1&quot;</code>应该就是系统传入的待打开的文件，最后为我们加上的附加参数。注意，<code>disable-gpu</code>必须加在<code>&quot;%1&quot;</code>之后，加在前面Atom无法正常打开文件。</p>
 <h3 id="修改文件关联"><a href="#修改文件关联" class="headerlink" title="修改文件关联"></a>修改文件关联</h3><p>要修改文件关联调用的程序，也要通过修改注册表实现。系统的打开方式中列出的程序其实是由注册表中<code>\HKEY_CLASSES_ROOT\Applications\</code>目录决定的，每一个子项对应一个程序。找到<code>\HKEY_CLASSES_ROOT\Applications\atom.exe</code>项，这就对应打开方式中Atom项。<code>\HKEY_CLASSES_ROOT\Applications\atom.exe\shell\open</code>目录下的<code>FriendlyAppName</code>项就是打开方式中程序的名称，而其下的<code>command</code>目录的默认项就对应调用的命令行。同理在最后添加一个<code>--disable-gpu</code>即可。</p>
 <hr>
@@ -372,7 +372,7 @@
         <p><span>本文标题:</span><a href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2017-09-06, 22:51:00</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/06/Atom_Disable_GPU/" title="Atom禁用GPU启动的方法">https://gaomf.cn/2017/09/06/Atom_Disable_GPU/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/09/06/Atom_Disable_GPU/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

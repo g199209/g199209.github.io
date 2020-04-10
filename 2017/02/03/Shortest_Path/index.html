@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="图论中求解最短路径的算法主要有两种，Dijkstra算法及Floyd算法，其中Dijkstra算法用于求解单源最短路径问题，而Floyd算法则用于解决多源最短路径问题。本文对这两种算法做一总结。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Dijkstra_Animation.gif">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.614Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Dijkstra_Animation.gif">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.238Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Dijkstra_Animation.gif">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Dijkstra_Animation.gif">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -365,7 +365,7 @@
 </ol>
 <p>算法的核心就是上述步骤中的第4步，这里所谓的更新是指：<strong>遍历与选出的顶点邻接的所有顶点，若其位于<code>Unknown</code>集合中，比较当前<code>dr</code>与经由选出顶点至其的距离，若新的距离小于<code>dr</code>，则使用新的距离替代<code>dr</code></strong>。需要注意的是，<strong>这里只更新比较位于<code>Unknown</code>集合中的邻接顶点，不需要去更新<code>Known</code>集合中的顶点</strong>，否则这就不是贪心法了。</p>
 <p>用一张图可以很好的说明以上步骤：</p>
-<p><img src="https://gmf.shengnengjin.cn/Dijkstra_Animation.gif" alt=""></p>
+<p><img src="https://pic.gaomf.store/Dijkstra_Animation.gif" alt=""></p>
 <p>下面给出Dijkstra算法的核心伪代码：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span>(!Unknown.empty()) &#123;</span><br><span class="line">    V = Unknown.FindMinDr();</span><br><span class="line">    Unknown.remove(V);</span><br><span class="line">    Known.add(V);</span><br><span class="line">    </span><br><span class="line">    foreach(W adjacent to V) &#123;</span><br><span class="line">      <span class="keyword">if</span> (Known.contain(W))</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">      <span class="keyword">if</span> (V.dr + D[v][w] &lt; W.dr) &#123;</span><br><span class="line">        W.dr = V.dr + D[v][w];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -389,7 +389,7 @@
         <p><span>本文标题:</span><a href="/2017/02/03/Shortest_Path/">最短路径算法</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2017-02-03, 11:32:39</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/03/Shortest_Path/" title="最短路径算法">https://gaomf.cn/2017/02/03/Shortest_Path/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/02/03/Shortest_Path/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

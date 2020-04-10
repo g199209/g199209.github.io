@@ -22,11 +22,11 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="所谓Population Count算法，即是指计算一个二进制数中1的个数的算法。具体来说，就是任意给定一个无符号整数N，求N的二进制表示中1的个数，比如N = 5（0101）时，返回2；N = 15（1111）时，返回4。 这个问题是一个经典的面试题目，在实际中也有应用。关于这个问题，以下两篇博客文章中有较详细的论述：  详解二进制数中1的个数算法-求二进制数中1的个数  在此，仅对其中一些较为">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Software2010060623161414.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20160224Graph.png-height">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.598Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Software2010060623161414.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20160224Graph.png-height">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.214Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Software2010060623161414.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Software2010060623161414.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -363,7 +363,7 @@
 <h2 id="逐次清除最低位1"><a href="#逐次清除最低位1" class="headerlink" title="逐次清除最低位1"></a>逐次清除最低位1</h2><p>此方法利用<code>num &amp;= (num - 1)</code>可清除最低位1的原理进行计数。<br><code>num</code>与<code>num - 1</code>的区别在于，<code>num</code>的最低位1在<code>num - 1</code>中变为了0，故二者取与后即可清除最低位1.</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">CountOne3</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> num)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> Count;</span><br><span class="line">  <span class="keyword">for</span> (Count = <span class="number">0</span>; num != <span class="number">0</span>; Count++)</span><br><span class="line">  &#123;</span><br><span class="line">      num &amp;= (num - <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> Count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="分支法"><a href="#分支法" class="headerlink" title="分支法"></a>分支法</h2><p>思路类似二分法，两两相加后即可得到结果，见下图：<br><img src="https://gmf.shengnengjin.cn/Software2010060623161414.jpg" alt=""><br>在<a href="http://github.tiankonguse.com/blog/2014/11/16/bit-count-more/" target="_blank" rel="noopener">详解二进制数中1的个数</a>中对此有详细描述。此方法复杂度为Log(N)(之前几种方法复杂度均为N)，对于32位整数只需要计算5次即可。</p>
+<h2 id="分支法"><a href="#分支法" class="headerlink" title="分支法"></a>分支法</h2><p>思路类似二分法，两两相加后即可得到结果，见下图：<br><img src="https://pic.gaomf.store/Software2010060623161414.jpg" alt=""><br>在<a href="http://github.tiankonguse.com/blog/2014/11/16/bit-count-more/" target="_blank" rel="noopener">详解二进制数中1的个数</a>中对此有详细描述。此方法复杂度为Log(N)(之前几种方法复杂度均为N)，对于32位整数只需要计算5次即可。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">CountOne4</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> num)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">  num = (num &amp; <span class="number">0x55555555</span>) + ((num &gt;&gt; <span class="number">1</span>)  &amp; <span class="number">0x55555555</span>); </span><br><span class="line">  num = (num &amp; <span class="number">0x33333333</span>) + ((num &gt;&gt; <span class="number">2</span>)  &amp; <span class="number">0x33333333</span>); </span><br><span class="line">  num = (num &amp; <span class="number">0x0f0f0f0f</span>) + ((num &gt;&gt; <span class="number">4</span>)  &amp; <span class="number">0x0f0f0f0f</span>); </span><br><span class="line">  num = (num &amp; <span class="number">0x00ff00ff</span>) + ((num &gt;&gt; <span class="number">8</span>)  &amp; <span class="number">0x00ff00ff</span>); </span><br><span class="line">  num = (num &amp; <span class="number">0x0000ffff</span>) + ((num &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0x0000ffff</span>); </span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> num ; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="三分法"><a href="#三分法" class="headerlink" title="三分法"></a>三分法</h2><p>这是一种很巧妙的方法，在此对其原理不多做说明，可参考之前提到的那两篇博客文章。</p>
@@ -377,7 +377,7 @@
 <p>在GCC下，可直接调用<code>__builtin_popcountll()</code>函数，编译时加上编译选项<code>-mpopcnt</code>即可，此时编译器会自动使用POPCNT指令。</p>
 <p>在ARM中，也有类似的指令，比如<a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0081b/CHDJJGAJ.html" target="_blank" rel="noopener">POPCOUNT宏</a>（需要约10个时钟周期），<a href="http://www.arm.com/zh/products/processors/technologies/neon.php" target="_blank" rel="noopener">NEON</a> SIMD指令集中的<a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0489g/CIHCFDBJ.html" target="_blank" rel="noopener">VCNT</a>及<a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0802a/CNT_advsimd_vector.html" target="_blank" rel="noopener">CNT</a>指令。</p>
 <p>POPCNT指令应该是有其实际重要作用的，比如在OpenCV的编译过程中就可以选择是否启用POPCNT指令。</p>
-<h2 id="执行时间对比"><a href="#执行时间对比" class="headerlink" title="执行时间对比"></a>执行时间对比</h2><p>毫无疑问，直接调用CPU指令是最佳的解决方案，将其执行时间规定为1，对其他算法的执行时间进行归一化处理，结果如下：<br><img src="https://gmf.shengnengjin.cn/20160224Graph.png-height" alt=""></p>
+<h2 id="执行时间对比"><a href="#执行时间对比" class="headerlink" title="执行时间对比"></a>执行时间对比</h2><p>毫无疑问，直接调用CPU指令是最佳的解决方案，将其执行时间规定为1，对其他算法的执行时间进行归一化处理，结果如下：<br><img src="https://pic.gaomf.store/20160224Graph.png-height" alt=""></p>
 <p>从中可以看到，除了特别简单的情况下（如0x01），分枝法与三分法的执行效率是最好的，且这两种算法是稳定的算法，其执行时间不依赖于输入数据。逐次清除最低位1法在1的个数较少时也不失为一种好方法。</p>
 
       
@@ -390,7 +390,7 @@
         <p><span>本文标题:</span><a href="/2016/02/24/Population%20Count%E7%AE%97%E6%B3%95/">Population Count算法</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-02-24, 18:38:19</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/02/24/Population%20Count%E7%AE%97%E6%B3%95/" title="Population Count算法">https://gaomf.cn/2016/02/24/Population%20Count%E7%AE%97%E6%B3%95/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/02/24/Population%20Count%E7%AE%97%E6%B3%95/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

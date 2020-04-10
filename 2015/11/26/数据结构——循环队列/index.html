@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="可参考这篇文章，循环队列一般用静态数组实现，称之为队列的顺序存储类型。可使用如下结构体： 123456typedef struct&amp;#123;  Queue_EleType Buffer[Queue_Buffer_Size + 1];  uint8_t front;    &#x2F;*!&amp;lt;数据头 *&#x2F;  uint8_t rear;     &#x2F;*!&amp;lt;数据尾 *&#x2F;&amp;#125; CircularQu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Algorithm1-140G32234251B.jpg">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.612Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Algorithm1-140G32234251B.jpg">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.236Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Algorithm1-140G32234251B.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Algorithm1-140G32234251B.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -353,7 +353,7 @@
 
 <a id="more"></a>
 
-<p>循环队列入队及出队示意图见下图：<br><img src="https://gmf.shengnengjin.cn/Algorithm1-140G32234251B.jpg" alt=""></p>
+<p>循环队列入队及出队示意图见下图：<br><img src="https://pic.gaomf.store/Algorithm1-140G32234251B.jpg" alt=""></p>
 <p><strong>循环队列实现的核心问题在于队满情况的判断。</strong>最普遍的做法是牺牲一个单元来区分队空和队满，入队时少用一个队列单元，即图中(d2)的情况。约定以“<strong>队头指针在队尾指针的下一位置</strong>“作为队满的标志，故在上述循环队列结构体定义中，<code>Buffer</code>的大小为<code>Queue_Buffer_Size + 1</code>。</p>
 <p>下面给出循环队列具体实现：</p>
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">void</span> CircularInit(CircularQueue * Q)</span><br><span class="line">&#123;</span><br><span class="line">  Q-&gt;front = <span class="number">0</span>;</span><br><span class="line">  Q-&gt;rear = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -376,7 +376,7 @@
         <p><span>本文标题:</span><a href="/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/">数据结构——循环队列</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2015-11-26, 22:52:05</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/" title="数据结构——循环队列">https://gaomf.cn/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

@@ -23,10 +23,10 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="给定一个链表，返回链表中环的开始节点，若没有环，返回null。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.592Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.208Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -265,7 +265,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -358,7 +358,7 @@
 <p>Follow up:<br>Can you solve it without using extra space?</p>
 </blockquote>
 <h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>类似<a href="/2016/10/24/LeetCode_141/">LeetCode 141</a>的解法，只是之后还要求出环开始的节点，这依赖于一些数学关系，下面来简要推导一下。</p>
-<p><img src="https://gmf.shengnengjin.cn/05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg" alt=""></p>
+<p><img src="https://pic.gaomf.store/05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg" alt=""></p>
 <p>如图所示，假设<code>slow</code>指针运动到$Y$节点时，<code>fast</code>指针位于环中任意位置（图中未标出），其距$Y$点的距离为$m$。首先证明当<code>slow</code>指针与<code>fast</code>指针相遇于环中某一点$Z$时，<code>slow</code>指针移动距离$b$小于环的长度$L$，且<code>fast</code>指针只会比<code>slow</code>指针多移动一圈。</p>
 <p>假设此时<code>slow</code>指针移动距离为$b$($b$ &lt; $L$)，<code>fast</code>指针比<code>slow</code>指针多移动了$N$圈，则：<br>$$b=m+2b-NL$$<br>$$\Rightarrow b=NL-m$$<br>$$\because 0 \leqslant b \leqslant L, 0 \leqslant m \leqslant L$$<br>$$\therefore N = 1$$<br>$$\Rightarrow b=L-m$$<br>对任意$m$及$L$，均可由上式确定唯一的$b$，故原命题成立。</p>
 <p>下面在此基础上推导$a$与$c$之间的关系，应用上面得出的结论，两指针相遇时有：</p>
@@ -380,7 +380,7 @@
         <p><span>本文标题:</span><a href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-10-24, 23:04:27</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/10/24/LeetCode_142/" title="LeetCode 142. Linked List Cycle II (Medium)">https://gaomf.cn/2016/10/24/LeetCode_142/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/24/LeetCode_142/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

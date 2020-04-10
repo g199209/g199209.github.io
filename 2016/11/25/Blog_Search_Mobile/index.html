@@ -23,11 +23,11 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="之前已经为博客的PC端界面添加了搜索功能，用起来效果不错，不过美中不足的是，使用手机访问的时候并不能使用搜索功能。这几天折腾了一下，终于给移动端界面上也加上了搜索功能~这里来记录一下实现方法。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20161125210304.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;Search_mobile.gif">
-<meta property="og:updated_time" content="2019-09-17T11:46:27.608Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20161125210304.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;Search_mobile.gif">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.229Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;20161125210304.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;20161125210304.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -129,7 +129,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -266,7 +266,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -358,7 +358,7 @@
 </blockquote>
 <p>要为移动端添加搜索功能，主要就是添加搜索框及搜索结果HTML样式及添加相关JS代码。</p>
 <h2 id="添加搜索框及搜索结果区"><a href="#添加搜索框及搜索结果区" class="headerlink" title="添加搜索框及搜索结果区"></a>添加搜索框及搜索结果区</h2><p>当前主题在移动端的布局中，点击左上角的菜单按钮就会弹出一个显示友情链接、标签等信息的叠层，综合看下来将搜索框添加在这个位置较合适，最终的效果如图：</p>
-<p><img src="https://gmf.shengnengjin.cn/20161125210304.png" alt=""></p>
+<p><img src="https://pic.gaomf.store/20161125210304.png" alt=""></p>
 <p>这里的搜索框和PC端基本是一样的，只是样式上做了些变化，使得整体效果更和谐。找到合适的位置添加搜索框及搜索结果区的HTML代码即可：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"search-form_mobile"</span>  <span class="attr">class</span>=<span class="string">"search_mobile"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"st-search-input_mobile"</span> <span class="attr">name</span>=<span class="string">"q"</span> <span class="attr">results</span>=<span class="string">"0"</span> <span class="attr">class</span>=<span class="string">"st-default-search-input_mobile"</span> <span class="attr">maxlength</span>=<span class="string">"50"</span> <span class="attr">placeholder</span>=<span class="string">"Search..."</span> <span class="attr">autocomplete</span>=<span class="string">"off"</span> <span class="attr">autocorrect</span>=<span class="string">"off"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-times"</span> <span class="attr">onclick</span>=<span class="string">"resetSearch_mobile()"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"search_hint"</span> <span class="attr">class</span>=<span class="string">"search-hint"</span>&gt;</span>向右滑动结果打开链接~<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"local-search-result_mobile"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"no-result"</span>&gt;</span>No results found <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-spinner fa-pulse"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"loading-xml"</span>&gt;</span>Loading XML File... <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">"fa fa-spinner fa-pulse"</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -380,7 +380,7 @@
 
 <p>完整的<code>mobile.js</code>文件在<a href="https://github.com/g199209/BlogTheme/blob/master/source/js/mobile.js" target="_blank" rel="noopener">这里</a>。</p>
 <h2 id="最终成品效果"><a href="#最终成品效果" class="headerlink" title="最终成品效果"></a>最终成品效果</h2><p>实际使用下来还是比较满意的，搜索效果像这样：</p>
-<p><img src="https://gmf.shengnengjin.cn/Search_mobile.gif" alt=""></p>
+<p><img src="https://pic.gaomf.store/Search_mobile.gif" alt=""></p>
 
       
     </div>
@@ -392,7 +392,7 @@
         <p><span>本文标题:</span><a href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2016-11-25, 22:00:59</p>
-        <p><span>最后更新:</span>2019-09-17, 19:46:27</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/25/Blog_Search_Mobile/" title="为Hexo博客移动端添加搜索功能">https://gaomf.cn/2016/11/25/Blog_Search_Mobile/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/25/Blog_Search_Mobile/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

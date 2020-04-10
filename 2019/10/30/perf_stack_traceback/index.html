@@ -23,12 +23,12 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="perf 是 Linux 下重要的性能分析工具，perf 可以通过采样获取很多性能指标，其中最常用的是获取 CPU Cycles，即程序各部分代码运行所需的时间，进而确定性能瓶颈在哪。不过在实际使用过程中发现，简单的使用perf record -g 获取到的调用栈是有问题的，存在大量 [Unknown] 函数，从 perf report 的结果来看这些部分对应地址大部分都是非法地址，且生成的火焰图">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;perf_test_fp.svg">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;perf_test_lbr.svg">
-<meta property="og:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;perf_test_dwarf.svg">
-<meta property="og:updated_time" content="2019-10-31T11:14:57.963Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;perf_test_fp.svg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;perf_test_lbr.svg">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;perf_test_dwarf.svg">
+<meta property="og:updated_time" content="2020-04-10T07:18:23.231Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;gmf.shengnengjin.cn&#x2F;perf_test_fp.svg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pic.gaomf.store&#x2F;perf_test_fp.svg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://gmf.shengnengjin.cn/global头像2.jpg">
+    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
 
 
 
@@ -130,7 +130,7 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
         </a>
         <hgroup>
           <h1 class="header-author"><a href="/">码农半亩地</a></h1>
@@ -267,7 +267,7 @@
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://gmf.shengnengjin.cn/global头像2.jpg" class="animated zoomIn">
+                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
             </a>
             <hgroup>
               <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
@@ -359,11 +359,11 @@
 <p>最后 <code>perf</code> 还支持通过 <code>lbr</code> 获取调用栈，<code>lbr</code> 即 Last Branch Records，是较新的 Intel CPU 中提供的一组硬件寄存器，其作用是记录之前若干次分支跳转的地址，主要目的就是用来支持 <code>perf</code> 这类性能分析工具，其详细说明可参考 <a href="https://lwn.net/Articles/680985/" target="_blank" rel="noopener">“An introduction to last branch records”</a> &amp; <a href="https://lwn.net/Articles/680996/" target="_blank" rel="noopener">“Advanced usage of last branch records”</a>。此方法是性能与准确性最高的手段，然而它存在一个很大的局限性，由于硬件 Ring Buffer 寄存器的大小是有限的，<code>lbr</code> 能记录的栈深度也是有限的，具体值取决于特定 CPU 实现，一般就是 32 层，若超过此限制会得到错误的调用栈。</p>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>实际测试下以上 3 种栈回溯方式得到的结果，测试程序是一个调用深度为 50 的简单程序，从 <code>f0()</code> 依次调用至 <code>f50()</code>。</p>
 <p><strong><code>--call-graph fp</code></strong>：</p>
-<p><img src="https://gmf.shengnengjin.cn/perf_test_fp.svg" alt=""></p>
+<p><img src="https://pic.gaomf.store/perf_test_fp.svg" alt=""></p>
 <p><strong><code>--call-graph lbr</code></strong>：</p>
-<p><img src="https://gmf.shengnengjin.cn/perf_test_lbr.svg" alt=""></p>
+<p><img src="https://pic.gaomf.store/perf_test_lbr.svg" alt=""></p>
 <p><strong><code>--call-graph dwarf</code></strong>：</p>
-<p><img src="https://gmf.shengnengjin.cn/perf_test_dwarf.svg" alt=""></p>
+<p><img src="https://pic.gaomf.store/perf_test_dwarf.svg" alt=""></p>
 <p>可以看到，的确只有 <code>dwarf</code> 获取到了正确的调用栈。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><table>
 <thead>
@@ -405,7 +405,7 @@
         <p><span>本文标题:</span><a href="/2019/10/30/perf_stack_traceback/">使用 perf 进行性能分析时如何获取准确的调用栈</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">码农半亩地</a></p>
         <p><span>发布时间:</span>2019-10-30, 23:09:37</p>
-        <p><span>最后更新:</span>2019-10-31, 19:14:57</p>
+        <p><span>最后更新:</span>2020-04-10, 15:18:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/10/30/perf_stack_traceback/" title="使用 perf 进行性能分析时如何获取准确的调用栈">https://gaomf.cn/2019/10/30/perf_stack_traceback/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2019/10/30/perf_stack_traceback/　　作者: 码农半亩地" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
