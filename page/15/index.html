@@ -315,6 +315,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Matlab调用Origin作图" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/" class="article-date">
+      <time datetime="2016-01-28T13:23:24.000Z" itemprop="datePublished">2016-01-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/">Matlab调用Origin作图</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>Matlab作出的图普遍没有Origin作出的美观好看，而且导出为eps或emf格式后会有各种奇怪的Bug。目前普遍采用的一种方法是，将Matlab数据导出为mat文件后再导入Origin中手工作图，这种方式需要不少重复性劳动，并不是一种很完美的解决方案。<br>前几天偶然看到Origin提供了COM接口可供Matlab调用，于是就研究了下可否用Matlab调用Origin来生成所需的emf格式图片，最终经过一番折腾，基本完成了这个目标。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/">工具之术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Matlab/" rel="tag">Matlab</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Origin Script Window 执行脚本代码的方法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -913,75 +981,6 @@
       
         <p class="article-more-link">
           <a href="/2015/12/21/STM8%E5%A4%96%E8%AE%BE%E5%BC%95%E8%84%9A%E9%87%8D%E6%98%A0%E5%B0%84/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-STM8系列单片机" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/12/21/STM8%E7%B3%BB%E5%88%97%E5%8D%95%E7%89%87%E6%9C%BA/" class="article-date">
-      <time datetime="2015-12-21T05:31:31.000Z" itemprop="datePublished">2015-12-21</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/21/STM8%E7%B3%BB%E5%88%97%E5%8D%95%E7%89%87%E6%9C%BA/">STM8系列单片机</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p><a href="http://www.st.com/web/en/catalog/mmc/FM141/SC1244" target="_blank" rel="noopener">STM8</a>系列单片机基于STM8专有8位内核，具有很高的性价比，其下一共有5个系列:<a href="http://www.st.com/st-web-ui/active/en/home/catalog/mmc/SC1244/SS1010" target="_blank" rel="noopener">STM8S</a>、<a href="http://www.st.com/st-web-ui/active/en/home/catalog/mmc/SC1244/SS1336" target="_blank" rel="noopener">STM8L</a>、<a href="http://www.st.com/st-web-ui/active/en/home/catalog/mmc/SC1244/SS1583" target="_blank" rel="noopener">STM8AF</a>、<a href="http://www.st.com/st-web-ui/active/en/home/catalog/mmc/SC1244/SS1584" target="_blank" rel="noopener">STM8AL</a>及<a href="http://www.st.com/st-web-ui/active/en/home/catalog/mmc/FM141/SC1244/SS1598" target="_blank" rel="noopener">STM8T</a>，<a href="http://www.eccn.com/theme/2015/smarthome/ArticleShow.html?pid=2014100910359313" target="_blank" rel="noopener">这篇文章</a>中比较分析了这几个系列，下面简要总结一下。</p>
-<p><strong>STM8S是STM8中的主流系列；STM8L侧重于低功耗；STM8AF与STM8AL则是STM8S及STM8L用于汽车应用的增强型，其使用温度更广，具有更高的可靠性；STM8T未在上图中出现，此系列在STM8L系列的基础上增加了ProxSense电荷转移电容采集技术，用于触控检测。</strong></p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/">工具之术</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STM8/" rel="tag">STM8</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2015/12/21/STM8%E7%B3%BB%E5%88%97%E5%8D%95%E7%89%87%E6%9C%BA/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>

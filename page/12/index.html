@@ -315,6 +315,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Nor Flash中的启动扇区（Boot Sector, Boot Block）" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/23/Nor%20Flash%E4%B8%AD%E7%9A%84%E5%90%AF%E5%8A%A8%E6%89%87%E5%8C%BA%EF%BC%88Boot%20Sector,%20Boot%20Block%EF%BC%89/" class="article-date">
+      <time datetime="2016-06-22T17:04:50.000Z" itemprop="datePublished">2016-06-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/23/Nor%20Flash%E4%B8%AD%E7%9A%84%E5%90%AF%E5%8A%A8%E6%89%87%E5%8C%BA%EF%BC%88Boot%20Sector,%20Boot%20Block%EF%BC%89/">Nor Flash中的启动扇区（Boot Sector, Boot Block）</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>在Nor Flash中，有个启动扇区（Boot Sector，有时也被称为启动块）的概念，这个概念应该是只针对Nor Flash的，因为Nand Flash无法直接寻址，故Nand Flash中是没有Boot Sector的。</p>
+<p>一个Nor Flash一般被分为若干块（Block）<strong>或</strong>若干扇区（Sector），这应该只是不同厂家用的名字不同，并不存在一个Block中包含若干Sector的说法。<strong>这些扇区的大小一般并不相同，通常情况下会配置为大量大容量扇区加上少量小容量扇区的结构，这些小扇区就被称之为启动扇区。</strong></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E7%82%B9%E6%BB%B4%E4%B9%8B%E9%97%B4/">点滴之间</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flash/" rel="tag">Flash</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/06/23/Nor%20Flash%E4%B8%AD%E7%9A%84%E5%90%AF%E5%8A%A8%E6%89%87%E5%8C%BA%EF%BC%88Boot%20Sector,%20Boot%20Block%EF%BC%89/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-串口终端picocom的使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -914,75 +983,6 @@
       
         <p class="article-more-link">
           <a href="/2016/06/06/%E6%97%8B%E8%BD%AC%E7%BC%96%E7%A0%81%E5%99%A8%E7%BB%9D%E5%AF%B9%E4%BD%8D%E7%BD%AE%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Python爬虫--使用requests获取网页" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/06/03/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5/" class="article-date">
-      <time datetime="2016-06-03T14:08:49.000Z" itemprop="datePublished">2016-06-03</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/03/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5/">Python爬虫--使用requests获取网页</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p><code>requests</code>包用于获取网站的内容，使用HTTP协议，基于<code>urllib3</code>实现。其官方中文文档为：<a href="http://cn.python-requests.org/zh_CN/latest/" target="_blank" rel="noopener">Requests: HTTP for Humans</a></p>
-<p><code>requests</code>的基本使用方法很简单，这里记录一些最常用的方法，完整的介绍见其官方文档，以下介绍基于Python 3.5。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/">编程之法</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spider/" rel="tag">Spider</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2016/06/03/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>

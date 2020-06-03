@@ -315,6 +315,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Python爬虫--使用requests获取网页" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/03/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5/" class="article-date">
+      <time datetime="2016-06-03T14:08:49.000Z" itemprop="datePublished">2016-06-03</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/03/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5/">Python爬虫--使用requests获取网页</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p><code>requests</code>包用于获取网站的内容，使用HTTP协议，基于<code>urllib3</code>实现。其官方中文文档为：<a href="http://cn.python-requests.org/zh_CN/latest/" target="_blank" rel="noopener">Requests: HTTP for Humans</a></p>
+<p><code>requests</code>的基本使用方法很简单，这里记录一些最常用的方法，完整的介绍见其官方文档，以下介绍基于Python 3.5。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/">编程之法</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spider/" rel="tag">Spider</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/06/03/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-使用Python爬虫抓取网页" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -944,74 +1013,6 @@
       
         <p class="article-more-link">
           <a href="/2016/04/27/Python%20Socket%20Error%20Address%20already%20in%20use%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-C2000 DSP中全局变量清零问题" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/04/24/C2000%20DSP%E4%B8%AD%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E6%B8%85%E9%9B%B6%E9%97%AE%E9%A2%98/" class="article-date">
-      <time datetime="2016-04-24T15:33:39.000Z" itemprop="datePublished">2016-04-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/24/C2000%20DSP%E4%B8%AD%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E6%B8%85%E9%9B%B6%E9%97%AE%E9%A2%98/">C2000 DSP中全局变量清零问题</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>一般情况下，未明确赋初值的全局变量会被自动清零，而且ANSI C中<em>似乎</em>也有这一规定，之前写程序都默认这是没有例外的规定了。然而，前段时间在调试28030程序的时候发现，未赋初值的全局变量并没有被清零，而是一个随机值，这说明<strong>在TI的DSP中，全局变量并不会自动清零</strong>。TI论坛中的<a href="http://www.deyisupport.com/question_answer/microcontrollers/c2000/f/56/t/101473.aspx" target="_blank" rel="noopener">这个讨论</a>也证实了这一结论，由此可见，TI的编译器的确有些很特别的地方……下面来具体谈谈全局变量清零这个问题。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/">软件之道</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DSP/" rel="tag">DSP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Runtime/" rel="tag">Runtime</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Top/" rel="tag">Top</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2016/04/24/C2000%20DSP%E4%B8%AD%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E6%B8%85%E9%9B%B6%E9%97%AE%E9%A2%98/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
