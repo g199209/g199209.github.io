@@ -315,6 +315,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Python Socket Error Address already in use的解决办法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/27/Python%20Socket%20Error%20Address%20already%20in%20use%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="article-date">
+      <time datetime="2016-04-27T07:14:43.000Z" itemprop="datePublished">2016-04-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/27/Python%20Socket%20Error%20Address%20already%20in%20use%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">Python Socket Error： Address already in use的解决办法</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>之前用Python写了个简单的TCP通信程序，放在腾讯云上24小时运行。不过有个问题，有时候使用<code>kill -9 pid</code>命令结束掉python进程后，再次运行程序就会提示<code>Address already in use</code>这个错误，然而等一段时间再去运行就可以了。</p>
+<p>造成这个问题的原因在于此时TCP连接还没有完全关闭，而Socket默认不支持地址复用。深入的原因打算等之后仔细学习TCP/IP协议的时候再来研究，目前只是要找一个解决方案。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/">编程之法</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Socket/" rel="tag">Socket</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/04/27/Python%20Socket%20Error%20Address%20already%20in%20use%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-C2000 DSP中全局变量清零问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -923,75 +992,6 @@
       
         <p class="article-more-link">
           <a href="/2016/03/03/Hexo%E5%8D%9A%E5%AE%A2%E4%BF%AE%E6%94%B9Archive%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E6%96%87%E7%AB%A0%E6%95%B0%E9%87%8F/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Population Count算法" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/02/24/Population%20Count%E7%AE%97%E6%B3%95/" class="article-date">
-      <time datetime="2016-02-24T10:38:19.000Z" itemprop="datePublished">2016-02-24</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/24/Population%20Count%E7%AE%97%E6%B3%95/">Population Count算法</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>所谓<a href="http://en.wikichip.org/wiki/population_count" target="_blank" rel="noopener">Population Count</a>算法，即是指计算一个二进制数中1的个数的算法。具体来说，就是任意给定一个无符号整数N，求N的二进制表示中1的个数，比如N = 5（0101）时，返回2；N = 15（1111）时，返回4。</p>
-<p>这个问题是一个经典的面试题目，在实际中也有应用。关于这个问题，以下两篇博客文章中有较详细的论述：</p>
-<blockquote>
-<p><a href="http://github.tiankonguse.com/blog/2014/11/16/bit-count-more/" target="_blank" rel="noopener">详解二进制数中1的个数</a><br><a href="http://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html" target="_blank" rel="noopener">算法-求二进制数中1的个数</a></p>
-</blockquote>
-<p>在此，仅对其中一些较为常规和较为巧妙的方法做一总结，并比较一下他们的执行效率。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E4%B9%8B%E7%BE%8E/">算法之美</a>
-    </div>
-
-
-      
-      
-        <p class="article-more-link">
-          <a href="/2016/02/24/Population%20Count%E7%AE%97%E6%B3%95/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>

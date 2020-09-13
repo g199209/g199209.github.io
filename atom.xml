@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://gaomf.cn/"/>
-  <updated>2020-06-03T14:26:07.370Z</updated>
+  <updated>2020-09-13T05:37:01.298Z</updated>
   <id>https://gaomf.cn/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++ 中的 volatile, atomic &amp; memory barrier</title>
+    <link href="https://gaomf.cn/2020/09/11/Cpp_Volatile_Atomic_Memory_barrier/"/>
+    <id>https://gaomf.cn/2020/09/11/Cpp_Volatile_Atomic_Memory_barrier/</id>
+    <published>2020-09-11T08:46:28.000Z</published>
+    <updated>2020-09-13T05:37:01.298Z</updated>
+    
+    <content type="html"><![CDATA[<p>C++ 中的 <code>volatile</code> 关键字，<code>std::atomic</code> 变量及手动插入内存屏障指令（Memory Barrier）均是为了避免内存访问过程中出现一些不符合预期的行为。这三者的作用有些相似之处，不过显然它们并不相同，本文就将对这三者的应用场景做一总结。</p><a id="more"></a><p>这三者应用场景的区别可以用一张表来概括：</p><table><thead><tr><th></th><th><code>volatile</code></th><th>Memory Barrier</th><th><code>atomic</code></th></tr></thead><tbody><tr><td>抑制编译器重排</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>抑制编译器优化</td><td>Yes</td><td>No</td><td>Yes</td></tr><tr><td>抑制 CPU 乱序</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>保证访问原子性</td><td>No</td><td>No</td><td>Yes</td></tr></tbody></table><p>下面来具体看一下每一条。</p><h3 id="抑制编译器重排"><a href="#抑制编译器重排" class="headerlink" title="抑制编译器重排"></a>抑制编译器重排</h3><p>所谓编译器重排，这里是指编译器在生成目标代码的过程中交换没有依赖关系的内存访问顺序的行为。</p><p>比如以下代码：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*p_a = a;</span><br><span class="line">b = *p_b;</span><br></pre></td></tr></table></figure><p>编译器<strong>不保证</strong>在最终生成的汇编代码中对 <code>p_a</code> 内存的写入在对 <code>p_b</code> 内存的读取之前。</p><p>如果这个顺序是有意义的，就需要用一些手段来保证编译器不会进行错误的优化。具体来说可以通过以下三种方式来实现：</p><ul><li>把对应的变量声明为 <code>volatile</code> 的，C++ 标准保证对 <code>volatile</code> 变量间的访问编译器不会进行重排，不过仅仅是  <code>volatile</code> 变量之间， <code>volatile</code> 变量和其他变量间还是有可能会重排的；</li><li>在需要的地方手动添加合适的 Memory Barrier 指令，Memory Barrier 指令的语义保证了编译器不会进行错误的重排操作；</li><li>把对应变量声明为 <code>atomic</code> 的， 与 <code>volatile</code> 类似，C++ 标准也保证 <code>atomic</code> 变量间的访问编译器不会进行重排。不过 C++ 中不存在所谓的 “atomic pointer” 这种东西，如果需要对某个确定的地址进行 atomic 操作，需要靠一些技巧性的手段来实现，比如在那个地址上进行 placement new 操作强制生成一个 <code>atomic</code> 等；</li></ul><h3 id="抑制编译器优化"><a href="#抑制编译器优化" class="headerlink" title="抑制编译器优化"></a>抑制编译器优化</h3><p>此处的编译器优化特指编译器不生成其认为无意义的内存访问代码的优化行为，比如如下代码：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; ++i) &#123;</span><br><span class="line">    a += i;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在较高优化级别下对变量 <code>a</code> 的内存访问基本都会被优化掉，<code>f()</code> 生成的汇编代码和一个空函数基本差不多。然而如果对 <code>a</code> 循环若干次的内存访问是有意义的，则需要做一些修改来抑制编译起的此优化行为。可以把对应变量声明为 <code>volatile</code> 或 <code>atomic</code> 的来实现此目的，C++ 标准保证对 <code>volatile</code> 或 <code>atomic</code> 内存的访问肯定会发生，不会被优化掉。</p><p>不过需要注意的是，这时候手动添加内存屏障指令是没有意义的，在上述代码的 <code>for</code> 循环中加入 <code>mfence</code> 指令后，仅仅是让循环没有被优化掉，然而每次循环中对变量 <code>a</code> 的赋值依然会被优化掉，结果就是连续执行了 1000 次 <code>mfence</code>。</p><h3 id="抑制-CPU-乱序"><a href="#抑制-CPU-乱序" class="headerlink" title="抑制 CPU 乱序"></a>抑制 CPU 乱序</h3><p>上面说到了编译器重排，那没有了编译器重排内存访问就会严格按照我们代码中的顺序执行了么？非也！现代 CPU 中的诸多特性均会影响这一行为。对于不同架构的 CPU 来说，其保证的内存存储模型是不一样的，比如 x86_64 就是所谓的 TSO（完全存储定序）模型，而很多 ARM 则是 RMO（宽松存储模型）。再加上多核间 Cache 一致性问题，多线程编程时会面临更多的挑战。</p><p>为了解决这些问题，从根本上来说只有通过插入所谓的 Memory Barrier 内存屏障指令来解决，这些指令会使得 CPU 保证特定的内存访问序及内存写入操作在多核间的可见性。然而由于不同处理器架构间的内存模型和具体 Memory Barrier 指令均不相同，需要在什么位置添加哪条指令并不具有通用性，因此 C++ 11 在此基础上做了一层抽象，引入了 <code>atomic</code> 类型及 Memory Order 的概念，有助于写出更通用的代码。从本质上看就是靠编译器来根据代码中指定的高层次 Memory Order 来自动选择是否需要插入特定处理器架构上低层次的内存屏障指令。</p><p>关于 Memory Order，内存模型，内存屏障等东西的原理和具体使用方法网上已经有很多写得不错的文章了，可以参考文末的几篇参考资料。</p><h3 id="保证访问原子性"><a href="#保证访问原子性" class="headerlink" title="保证访问原子性"></a>保证访问原子性</h3><p>所谓访问原子性就是 Read，Write 操作是否存在中间状态，具体如何实现原子性的访问与处理器指令集有很大关系，如果处理器本身就支持某些原子操作指令，如 Atomic Store， Atomic Load，Atomic Fetch Add，Atomic Compare And Swap（CAS）等，那只需要在代码生成时选择合适的指令即可，否则需要依赖锁来实现。C++ 中提供的可移植通用方法就是 <code>std::atomic</code>，<code>volatile</code> 及 Memory Barrier 均与此完全无关。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>从上面的比较中可以看出，<code>volatile</code>，<code>atomic</code> 及 Memory Barrier 的适用范围还是比较好区分的。</p><ul><li>如果需要原子性的访问支持，只能选择 <code>atomic</code>；</li><li>如果仅仅只是需要保证内存访问不会被编译器优化掉，优先考虑 <code>volatile</code>；</li><li>如果需要保证 Memory Order，也优先考虑 <code>atomic</code>，只有当不需要保证原子性，而且很明确要在哪插入内存屏障时才考虑手动插入 Memory Barrier。</li></ul><blockquote><p>参考资料：</p><p><a href="https://www.cnblogs.com/ishen/p/13200838.html" target="_blank" rel="noopener">内存模型与c++中的memory order</a></p><p><a href="https://zhuanlan.zhihu.com/p/43526907" target="_blank" rel="noopener">volatile与内存屏障总结</a></p><p><a href="https://zhuanlan.zhihu.com/p/41872203" target="_blank" rel="noopener">X86/GCC memory fence的一些见解</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;C++ 中的 &lt;code&gt;volatile&lt;/code&gt; 关键字，&lt;code&gt;std::atomic&lt;/code&gt; 变量及手动插入内存屏障指令（Memory Barrier）均是为了避免内存访问过程中出现一些不符合预期的行为。这三者的作用有些相似之处，不过显然它们并不相同，本文就将对这三者的应用场景做一总结。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
+    
+    
+      <category term="ARM" scheme="https://gaomf.cn/tags/ARM/"/>
+    
+      <category term="Concurrent" scheme="https://gaomf.cn/tags/Concurrent/"/>
+    
+      <category term="C++" scheme="https://gaomf.cn/tags/C/"/>
+    
+      <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
+    
+      <category term="x86" scheme="https://gaomf.cn/tags/x86/"/>
+    
+  </entry>
   
   <entry>
     <title>动态库全局符号覆盖的大坑</title>
@@ -39,9 +70,9 @@
     
       <category term="C++" scheme="https://gaomf.cn/tags/C/"/>
     
-      <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
-    
       <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
+    
+      <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
     
       <category term="Debug" scheme="https://gaomf.cn/tags/Debug/"/>
     
@@ -68,11 +99,11 @@
     
       <category term="Top" scheme="https://gaomf.cn/tags/Top/"/>
     
+      <category term="x86" scheme="https://gaomf.cn/tags/x86/"/>
+    
       <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
     
       <category term="Debug" scheme="https://gaomf.cn/tags/Debug/"/>
-    
-      <category term="x86" scheme="https://gaomf.cn/tags/x86/"/>
     
       <category term="GDB" scheme="https://gaomf.cn/tags/GDB/"/>
     
@@ -97,11 +128,11 @@
       <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
     
     
+      <category term="x86" scheme="https://gaomf.cn/tags/x86/"/>
+    
       <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
     
       <category term="Debug" scheme="https://gaomf.cn/tags/Debug/"/>
-    
-      <category term="x86" scheme="https://gaomf.cn/tags/x86/"/>
     
   </entry>
   
@@ -174,13 +205,13 @@
       <category term="软件之道" scheme="https://gaomf.cn/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/"/>
     
     
+      <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
+    
       <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
       <category term="Runtime" scheme="https://gaomf.cn/tags/Runtime/"/>
     
       <category term="Linux" scheme="https://gaomf.cn/tags/Linux/"/>
-    
-      <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
     
       <category term="Docker" scheme="https://gaomf.cn/tags/Docker/"/>
     
@@ -442,9 +473,9 @@
       <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
     
-      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
-    
       <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
+    
+      <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     
   </entry>
   
@@ -487,29 +518,6 @@
     <summary type="html">
     
       &lt;p&gt;之前使用过各种文本编辑器，&lt;a href=&quot;https://notepad-plus-plus.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Notepad++&lt;/a&gt;、&lt;a href=&quot;https://www.sublimetext.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Sublime Text&lt;/a&gt;、&lt;a href=&quot;http://www.vim.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;VIM&lt;/a&gt;等，使用下来觉得各有千秋，都有些不太满意的地方。前段时间体验了下&lt;a href=&quot;https://atom.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Atom&lt;/a&gt;，感觉很不错~作为一个所谓的”A hackable text editor for the 21st Century”，还是有很多可以折腾配置的东西，此处总结整理下。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="工具之术" scheme="https://gaomf.cn/categories/%E5%B7%A5%E5%85%B7%E4%B9%8B%E6%9C%AF/"/>
-    
-    
-      <category term="Editor" scheme="https://gaomf.cn/tags/Editor/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Atom禁用GPU启动的方法</title>
-    <link href="https://gaomf.cn/2017/09/06/Atom_Disable_GPU/"/>
-    <id>https://gaomf.cn/2017/09/06/Atom_Disable_GPU/</id>
-    <published>2017-09-06T14:51:00.000Z</published>
-    <updated>2020-04-10T07:18:23.200Z</updated>
-    
-    <content type="html"><![CDATA[<p>正如在<a href="/2017/08/30/Win10_Software_Font_Blur/">之前的文章</a>中提到，Atom在Win10下若不禁用GPU加速的话，界面字体会模糊，启动时可以通过附加<code>--disable-gpu</code>选项来禁用GPU，然而在打开关联文件等时候，是无法直接设置命令行参数的，此时就需要做些配置来实现这一目的。</p><a id="more"></a><h3 id="修改快捷方式"><a href="#修改快捷方式" class="headerlink" title="修改快捷方式"></a>修改快捷方式</h3><p>若要直接打开一个程序，较常用的方法就是通过桌面或开始菜单中的快捷方式，此时可以在快捷方式属性中指定命令行参数即可，如图所示：</p><p><img src="https://pic.gaomf.store/TIM%E6%88%AA%E5%9B%BE20170906160347.png" alt=""></p><h3 id="修改右键菜单"><a href="#修改右键菜单" class="headerlink" title="修改右键菜单"></a>修改右键菜单</h3><p>默认情况下，Atom会自动新建一个<code>Open with Atom</code>的右键菜单项，这个功能还是很实用的，要实现此处打开的Atom也能附加命令行参数，需要通过修改注册表实现。在<code>regedit</code>中，找到<code>\HKEY_CLASSES_ROOT\*\shell\Atom</code>项，这就对应右键菜单中那个命令，其默认项为菜单项的名称，<code>Icon</code>项指向一个<code>exe</code>文件，对应缩略图图标，不要去修改它。继续展开其<code>command</code>子目录，其默认项就是调用的命令，在最后添加一个<code>--disable-gpu</code>即可，例如：<code>&quot;C:\Users\g1992\AppData\Local\atom\atom.exe&quot; &quot;%1&quot; --disable-gpu</code>。最先为Atom的目录，之后的<code>&quot;%1&quot;</code>应该就是系统传入的待打开的文件，最后为我们加上的附加参数。注意，<code>disable-gpu</code>必须加在<code>&quot;%1&quot;</code>之后，加在前面Atom无法正常打开文件。</p><h3 id="修改文件关联"><a href="#修改文件关联" class="headerlink" title="修改文件关联"></a>修改文件关联</h3><p>要修改文件关联调用的程序，也要通过修改注册表实现。系统的打开方式中列出的程序其实是由注册表中<code>\HKEY_CLASSES_ROOT\Applications\</code>目录决定的，每一个子项对应一个程序。找到<code>\HKEY_CLASSES_ROOT\Applications\atom.exe</code>项，这就对应打开方式中Atom项。<code>\HKEY_CLASSES_ROOT\Applications\atom.exe\shell\open</code>目录下的<code>FriendlyAppName</code>项就是打开方式中程序的名称，而其下的<code>command</code>目录的默认项就对应调用的命令行。同理在最后添加一个<code>--disable-gpu</code>即可。</p><hr><p>通过以上配置，基本可以实现无论通过哪种方式打开Atom均可以完全禁用GPU加速的效果了~</p><hr><blockquote><p>参考资料：<br><a href="http://www.360doc.com/content/13/0518/07/4299739_286250789.shtml" target="_blank" rel="noopener">修改注册表实现文件默认打开方式</a></p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;正如在&lt;a href=&quot;/2017/08/30/Win10_Software_Font_Blur/&quot;&gt;之前的文章&lt;/a&gt;中提到，Atom在Win10下若不禁用GPU加速的话，界面字体会模糊，启动时可以通过附加&lt;code&gt;--disable-gpu&lt;/code&gt;选项来禁用GPU，然而在打开关联文件等时候，是无法直接设置命令行参数的，此时就需要做些配置来实现这一目的。&lt;/p&gt;
     
     </summary>
     

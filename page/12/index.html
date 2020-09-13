@@ -315,6 +315,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-U-Boot 2016.05 在S3C2440上的移植（2）——Nor Flash" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/24/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94Nor%20Flash/" class="article-date">
+      <time datetime="2016-06-24T06:07:50.000Z" itemprop="datePublished">2016-06-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/24/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94Nor%20Flash/">U-Boot 2016.05 在S3C2440上的移植（2）——NOR Flash</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>移植好基本框架能运行后就可以开始移植NOR Flash了，需要让U-Boot支持实际硬件平台中的NOR Flash。开发板上使用的NOR Flash型号为EN29LV160B，1024K * 16-bit。U-Boot中默认没有对此型号NOR Flash的支持，故需要添加相关代码。</p>
+<p>U-Boot对NOR Flash的检测有两种方法，使用Legacy方法进行检测和使用CFI接口进行检测，下面将分别介绍这两种方法。其中使用CFI接口进行检测应该是更好的方法，优先使用此方法。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/">编程之法</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bootloader/" rel="tag">Bootloader</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2016/06/24/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94Nor%20Flash/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Nor Flash中的启动扇区（Boot Sector, Boot Block）" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -915,74 +984,6 @@
       
         <p class="article-more-link">
           <a href="/2016/06/14/crosstool-ng%E7%9A%84%E5%AE%89%E8%A3%85/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-旋转编码器绝对位置测量方法" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/06/06/%E6%97%8B%E8%BD%AC%E7%BC%96%E7%A0%81%E5%99%A8%E7%BB%9D%E5%AF%B9%E4%BD%8D%E7%BD%AE%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95/" class="article-date">
-      <time datetime="2016-06-06T14:54:17.000Z" itemprop="datePublished">2016-06-06</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/06/%E6%97%8B%E8%BD%AC%E7%BC%96%E7%A0%81%E5%99%A8%E7%BB%9D%E5%AF%B9%E4%BD%8D%E7%BD%AE%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95/">旋转编码器绝对位置测量方法</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>一般的旋转编码器本身只能提供相对位置信息，不过配合零点信号（即Z相信号）即可确定绝对位置，下面结合TI C2000系列单片机来讨论具体实现方法。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/%E7%A7%91%E7%A0%94%E4%B9%8B%E8%B7%AF/">科研之路</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DSP/" rel="tag">DSP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Motor/" rel="tag">Motor</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2016/06/06/%E6%97%8B%E8%BD%AC%E7%BC%96%E7%A0%81%E5%99%A8%E7%BB%9D%E5%AF%B9%E4%BD%8D%E7%BD%AE%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
