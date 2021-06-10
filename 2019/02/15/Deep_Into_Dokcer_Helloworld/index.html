@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="学习Docker时一般刚开始接触的第一个docker image就是hello-world，这个image运行起来的效果也很简单直接，仅仅是在屏幕上输出一段Docker的使用说明就结束了。这个镜像虽然简单，然而仔细分析下还是涉及不少底层机制的。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2019-02-15T14:46:25.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.131Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:57.014Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Compiler">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="Runtime">
@@ -39,7 +39,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -118,7 +118,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -134,10 +134,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -259,20 +259,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -306,6 +307,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-深入分析Docker-hello-world镜像" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -351,11 +353,12 @@
       
           
         <p>学习Docker时一般刚开始接触的第一个docker image就是<code>hello-world</code>，这个image运行起来的效果也很简单直接，仅仅是在屏幕上输出一段Docker的使用说明就结束了。这个镜像虽然简单，然而仔细分析下还是涉及不少底层机制的。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>我之所以会对这个镜像感兴趣，是发现它的大小仅仅只有1.84kB，这实在是太小了，写一个<code>printf(&quot;Hello Wolrd\n&quot;);</code>的程序编译出来大小就远超1.84kB了，所以很好奇这个镜像是如何构建出来的。</p>
 <h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p>Docker的镜像构建过程是由其镜像描述文件Dockerfile决定的，所以就先找到其Dockerfile来看看。<code>hello-world</code>用于<code>AMD64</code>架构的Dockerfile可以在<a target="_blank" rel="noopener" href="https://github.com/docker-library/hello-world/blob/b715c35271f1d18832480bde75fe17b93db26414/amd64/hello-world/Dockerfile">Github上</a>找到，只有简单的3行：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> scratch</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> hello /</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;/hello&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
 <p>第1行导入了一个名为<code>scratch</code>的东西，这并不是一个真正的image，可以把它视为是所有image的最底层虚拟镜像，类似于一个基本抽象类，Docker官方对其的说明<a target="_blank" rel="noopener" href="https://hub.docker.com/_/scratch">如下</a>：</p>
 <blockquote>
 <p>This image is most useful in the context of building base images (such as <a target="_blank" rel="noopener" href="https://registry.hub.docker.com/_/debian/"><code>debian</code></a> and <a target="_blank" rel="noopener" href="https://registry.hub.docker.com/_/busybox/"><code>busybox</code></a>) or super minimal images (that contain only a single binary and whatever it requires, such as <a target="_blank" rel="noopener" href="https://registry.hub.docker.com/_/hello-world/"><code>hello-world</code></a>).</p>
@@ -366,12 +369,14 @@
 <p>后面两行的含义也很直接，把一个名为hello的程序copy到根目录下，在运行image的时候运行此程序。下面就来看下这个如此小的hello world程序是如何实现的。</p>
 <h2 id="主程序"><a href="#主程序" class="headerlink" title="主程序"></a>主程序</h2><p>hello.c文件的源码也在同一个<a target="_blank" rel="noopener" href="https://github.com/docker-library/hello-world/blob/master/hello.c">Github仓库中</a>，省略掉过长的字符串常量后很简单：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/syscall.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> message[] =</span><br><span class="line">    <span class="string">&quot;Hello World!&quot;</span></span><br><span class="line">    <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _start() &#123;</span><br><span class="line">    syscall(SYS_write, <span class="number">1</span>, message, <span class="keyword">sizeof</span>(message) - <span class="number">1</span>);</span><br><span class="line">    syscall(SYS_exit, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这个最简版本的Hello World和C语言教科书中第一个Hello World是有不小差别的。首先是程序入口点上，众所周知正常C/C++程序的入口点是<code>main()</code>，然而这里使用的是<code>_start()</code>。</p>
 <p>我们的程序是运行在Linux系统上的，程序的加载与运行必然是由OS发起的，**对于Linux来说，OS层面的程序入口点就是<code>_start()</code>而不是<code>main()</code>**，一个程序要能正常运行在<code>main()</code>之前是有一些准备工作要做的，比如建立程序运行环境（初始化.bss全局变量等）；在<code>main()</code>返回之后也有些收尾工作要处理，比如调用<code>exit()</code>通知系统等。这些工作正常情况下是由语言标准库来完成的，也就是所谓的Runtime运行环境，对于C语言来说就是<code>crt0.o</code>。大部分程序的<code>_start()</code>就位于其中，在建立好运行环境后<code>_start()</code>会调用<code>main()</code>跳转到用户定义的入口点处。当<code>main()</code>返回后程序又将回到<code>ctr0.o</code>中，最终调用<code>exit()</code>通知OS回收进程资源。</p>
 <p>这里为了缩小程序体积和简单起见，没有使用标准的<code>ctr0.o</code> Runtime，事实上这一个简单的程序也不需要什么Runtime。程序最后直接通过<code>syscall</code>函数调用了<code>SYS_exit</code>系统调用结束了自身的运行。</p>
 <p>将字符串输出到屏幕上也没有使用标准库中的<code>printf()</code>，同样是直接调用了<code>SYS_write</code>这个系统调用，其第一个参数显式的写为了1，其实就是<code>STDOUT_FILENO</code>，Linux系统在<code>unistd.h</code>中定义了<code>stdin</code>, <code>stdout</code>, <code>stderr</code>这几个标准文件描述符。</p>
 <p>可以看到，这样一个程序是可以不依赖于任何其他的库在Linux上独立运行的，为了实现不链接C标准库的目的，需要使用一些特殊的编译选项。从编译这个<code>hello-world</code>程序使用的<a target="_blank" rel="noopener" href="https://github.com/docker-library/hello-world/blob/master/Makefile">Makefile</a>中可以找到使用的编译选项为：</p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CFLAGS := -static -Os -nostartfiles -fno-asynchronous-unwind-tables</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><code>-static</code>表示静态链接，虽然对这个程序来说无所谓动态链接还是静态链接……</li>
 <li><code>-Os</code>表示为空间进行<code>-O2</code>级别的优化，专门用于减少目标文件大小；</li>
@@ -396,12 +401,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2019/02/15/Deep_Into_Dokcer_Helloworld/">深入分析Docker hello-world镜像</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2019-02-15, 22:46:25</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/02/15/Deep_Into_Dokcer_Helloworld/" title="深入分析Docker hello-world镜像">https://gaomf.cn/2019/02/15/Deep_Into_Dokcer_Helloworld/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2019/02/15/Deep_Into_Dokcer_Helloworld/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2019/02/15/Deep_Into_Dokcer_Helloworld/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -427,6 +432,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -495,8 +501,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -523,6 +529,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

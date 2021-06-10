@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="主要参考以下文章：  【OpenCV入门教程之一】 安装OpenCV64位系统vs2013配置opencv3.0VS2013+openCV3.0无脑配置方法+解决警告问题【windows平台】  目前OpenCV的最新版本为3.0.0，正式版发布于2015年6月4日。本文记录一下安装OpenCV 3.0及新建工程的步骤。相关环境：Windows 8.1 64bit；Visual Studio 20">
 <meta property="og:locale">
 <meta property="article:published_time" content="2015-12-07T16:18:12.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:29:49.373Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.990Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="OpenCV">
 <meta name="twitter:card" content="summary">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -114,7 +114,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -130,10 +130,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -255,20 +255,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -302,6 +303,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-OpenCV 3.0安装" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -351,7 +353,7 @@
 <p><a target="_blank" rel="noopener" href="http://blog.csdn.net/poem_qianmo/article/details/19809337">【OpenCV入门教程之一】 安装OpenCV</a><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/desti5/article/details/39012343">64位系统vs2013配置opencv3.0</a><br><a target="_blank" rel="noopener" href="http://www.bubuko.com/infodetail-793518.html">VS2013+openCV3.0无脑配置方法+解决警告问题【windows平台】</a></p>
 </blockquote>
 <p>目前OpenCV的最新版本为3.0.0，正式版发布于2015年6月4日。本文记录一下安装OpenCV 3.0及新建工程的步骤。相关环境：Windows 8.1 64bit；Visual Studio 2013。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="下载OpenCV-SDK"><a href="#下载OpenCV-SDK" class="headerlink" title="下载OpenCV SDK"></a><strong>下载OpenCV SDK</strong></h2><p>在<a target="_blank" rel="noopener" href="http://opencv.org/">官网</a>上找到OpenCV for Windows下载下来即可，大概有300MB不到。这是一个自解压压缩包，下载完后直接双击运行即可。<strong>因为OpenCV项目文件打包的时候，根目录就是opencv，所以我们不需要额外的新建一个名为opencv的文件夹，然后再解压</strong>。解压后的文件有接近3G。</p>
 <h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a><strong>配置环境变量</strong></h2><p>在PATH路径中增加以下两项即可：</p>
@@ -366,6 +368,7 @@
 <h2 id="创建新工程"><a href="#创建新工程" class="headerlink" title="创建新工程"></a><strong>创建新工程</strong></h2><p>正常新建一个VC++空项目，然后打开属性管理器，如果没有属性管理器的话可以从<code>视图</code>-&gt;<code>其他窗口</code>-&gt;<code>属性管理器</code>中打开。打开后在工程名上点击右键，选择添加现有属性表，找到之前新建的项目属性表文件添加进来即可。</p>
 <p>新建一个<code>main.cpp</code>文件进行测试，使用如下测试代码：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2\opencv.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Mat img = imread(<span class="string">&quot;pic.jpg&quot;</span>);</span><br><span class="line">  imshow(<span class="string">&quot;Picture&quot;</span>, img);</span><br><span class="line">  waitKey();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>将<code>pic.jpg</code>图片放置于工程目录下编译运行程序，如果之前配置正确的话就可以显示出图片了。</p>
 
       
@@ -376,12 +379,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2015/12/08/OpenCV%203.0%E5%AE%89%E8%A3%85/">OpenCV 3.0安装</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2015-12-08, 00:18:12</p>
-        <p><span>最后更新:</span>2021-05-16, 19:29:49</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/12/08/OpenCV%203.0%E5%AE%89%E8%A3%85/" title="OpenCV 3.0安装">https://gaomf.cn/2015/12/08/OpenCV%203.0%E5%AE%89%E8%A3%85/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/12/08/OpenCV%203.0%E5%AE%89%E8%A3%85/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/12/08/OpenCV%203.0%E5%AE%89%E8%A3%85/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -407,6 +410,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -496,8 +500,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -524,6 +528,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

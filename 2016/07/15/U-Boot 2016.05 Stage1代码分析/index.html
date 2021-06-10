@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,15 +22,15 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="主流Bootloader的启动过程均可分为Stage1及Stage2两部分，一般来说，Stage1完成最基本的初始化操作、搬移代码及建立C语言运行环境；Stage2完成剩余的初始化操作。故Stage1一般使用汇编完成，Stage2一般使用C语言完成，不过这只是很粗略的情况，实际上Stage1中也会使用C语言代码。 下面以之前针对S3C2440移植好的U-Boot 2016.05为例，分析U-Boo">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/U-Boot%20Stage1_1.svg">
-<meta property="og:image" content="https://pic.gaomf.store/U-Boot%20Stage1_2.svg">
+<meta property="og:image" content="https://img.gaomf.cn/U-Boot%20Stage1_1.svg">
+<meta property="og:image" content="https://img.gaomf.cn/U-Boot%20Stage1_2.svg">
 <meta property="article:published_time" content="2016-07-15T09:14:24.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:18:31.612Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.614Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Top">
 <meta property="article:tag" content="Bootloader">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/U-Boot%20Stage1_1.svg">
+<meta name="twitter:image" content="https://img.gaomf.cn/U-Boot%20Stage1_1.svg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -39,7 +39,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -118,7 +118,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -134,10 +134,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -259,20 +259,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -306,6 +307,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-U-Boot 2016.05 Stage1代码分析" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -352,14 +354,16 @@
           
         <p>主流Bootloader的启动过程均可分为Stage1及Stage2两部分，一般来说，Stage1完成最基本的初始化操作、搬移代码及建立C语言运行环境；Stage2完成剩余的初始化操作。故Stage1一般使用汇编完成，Stage2一般使用C语言完成，不过这只是很粗略的情况，实际上Stage1中也会使用C语言代码。</p>
 <p>下面以之前针对S3C2440移植好的U-Boot 2016.05为例，分析U-Boot中Stage1的代码。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="程序入口点分析"><a href="#程序入口点分析" class="headerlink" title="程序入口点分析"></a><strong>程序入口点分析</strong></h2><p>要分析启动流程首先要找到程序入口点，也就是最先运行的代码位于何处，这是由链接过程决定的，故找到链接脚本文件<code>u-boot.lds</code>：</p>
 <figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">ENTRY</span>(_start)</span><br><span class="line"><span class="symbol">SECTIONS</span></span><br><span class="line">&#123;</span><br><span class="line"> . = <span class="number">0x00000000</span><span class="comment">;</span></span><br><span class="line"> . = <span class="meta">ALIGN</span>(<span class="number">4</span>)<span class="comment">;</span></span><br><span class="line"> <span class="meta">.text</span> :</span><br><span class="line"> &#123;</span><br><span class="line">  *(.__image_copy_start)</span><br><span class="line">  *(.vectors)</span><br><span class="line">  arch/<span class="meta">arm</span>/cpu/arm920t/start.o (<span class="meta">.text</span>*)</span><br><span class="line">  *(<span class="meta">.text</span>*)</span><br><span class="line"> &#125;</span><br><span class="line"><span class="comment">;......省略......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>可以看到，位于映像文件最前面的依次是<code>.__image_copy_start</code>、<code>.vectors</code>及<code>arch/arm/cpu/arm920t/start.o</code>文件。</p>
 <hr>
 <p><code>.__image_copy_start</code>位于映像文件的起始地址处，它在文件<code>arch/arm/lib/sections.c</code>中被定义：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> __bss_start[<span class="number">0</span>] __attribute__((section(<span class="string">&quot;.__bss_start&quot;</span>)));</span><br><span class="line"><span class="keyword">char</span> __bss_end[<span class="number">0</span>] __attribute__((section(<span class="string">&quot;.__bss_end&quot;</span>)));</span><br><span class="line"><span class="keyword">char</span> __image_copy_start[<span class="number">0</span>] __attribute__((section(<span class="string">&quot;.__image_copy_start&quot;</span>)));</span><br><span class="line"><span class="keyword">char</span> __image_copy_end[<span class="number">0</span>] __attribute__((section(<span class="string">&quot;.__image_copy_end&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
 <p>这个变量的用处应该是用来进行代码定位的，也就是这个变量的地址就代表映像文件的起始地址，并不占用真实的存储空间，所以此处使用了一个0长度的数组，其他变量的用处也是一样的。U-Boot作者对此的说明是：</p>
 <blockquote>
 <p>We need a 0-byte-size type for these symbols, and the compiler does not allow defining objects of C type ‘void’. Using an empty struct is allowed by the compiler, but causes gcc versions 4.4 and below to complain about aliasing. Therefore we use the next best thing: zero-sized arrays, which are both 0-byte-size and exempt from aliasing warnings.</p>
@@ -367,10 +371,12 @@
 <hr>
 <p><code>.vectors</code>是中断向量表，对于ARM920t来说，使用的是位于<code>arch/arm/lib/vectors.S</code>中的通用向量表：</p>
 <figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">.globl</span> _start</span><br><span class="line">    <span class="meta">.section</span> <span class="string">&quot;.vectors&quot;</span>, <span class="string">&quot;ax&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">_start:</span></span><br><span class="line">    <span class="keyword">b</span>   reset</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">pc</span>, _undefined_instruction</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">pc</span>, _software_interrupt</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">pc</span>, _prefetch_abort</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">pc</span>, _data_abort</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">pc</span>, _not_used</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">pc</span>, _irq</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">pc</span>, _fiq</span><br><span class="line"></span><br><span class="line"><span class="comment">;......省略......</span></span><br></pre></td></tr></table></figure>
+
 <p>可以看到，复位后会首先执行<code>b reset</code>这条指令跳转至<code>reset</code>处执行，而<code>reset</code>标号正是位于<code>arch/arm/cpu/arm920t/start.S</code>文件中：</p>
 <figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    .globl  reset</span><br><span class="line"><span class="symbol">reset:</span></span><br><span class="line"><span class="comment">;   ......省略......</span></span><br></pre></td></tr></table></figure>
+
 <p>所以一般都说，代码执行开始于<code>start.S</code>文件，这也就是程序的入口点。下面就从这个文件开始分析。</p>
-<h2 id="start-S"><a href="#start-S" class="headerlink" title="start.S"></a><strong>start.S</strong></h2><p><code>start.S</code>的执行流程见下图：<br><img src="https://pic.gaomf.store/U-Boot%20Stage1_1.svg"></p>
+<h2 id="start-S"><a href="#start-S" class="headerlink" title="start.S"></a><strong>start.S</strong></h2><p><code>start.S</code>的执行流程见下图：<br><img src="https://img.gaomf.cn/U-Boot%20Stage1_1.svg"></p>
 <p><code>lowlevel_init</code>是平台相关的，故它位于<code>board/samsung/smdk2440/lowlevel_init.S</code>中。此处需要完成内存控制器的初始化工作，以便之后能正常使用SDRAM。对于S3C2440来说，就是初始化了<code>BWSCON</code>、<code>BANKCONn</code>、<code>REFRESH</code>、<code>BANKSIZE</code>、<code>MRSRB</code>这些寄存器。</p>
 <p><code>_main</code>是平台无关的，位于<code>arch/arm/lib/crt0.S</code>中，crt的意思就是C-runtime startup Code，此文件的目的就是建立C语言运行环境，以便之后跳转到Stage2，下面就来分析此文件。</p>
 <h2 id="crt0-S"><a href="#crt0-S" class="headerlink" title="crt0.S"></a><strong>crt0.S</strong></h2><p><code>crt0.S</code>文件开头的注释中说明了<code>_main</code>的执行序列，摘录如下：</p>
@@ -395,31 +401,42 @@
 </ol>
 </blockquote>
 <p>其程序流程图如下：</p>
-<p><img src="https://pic.gaomf.store/U-Boot%20Stage1_2.svg"></p>
+<p><img src="https://img.gaomf.cn/U-Boot%20Stage1_2.svg"></p>
 <p>全局变量<code>gd</code>是一个<code>struct global_data</code>类型的结构体，此结构体的定义位于<code>include/asm-generic/global_data.h</code>文件中。此结构体保存了初始化阶段需要用到的各种全局变量，大约有100个左右，相关说明如下：</p>
 <blockquote>
 <p>The following data structure is placed in some memory which is available very early after boot (like DPRAM on MPC8xx/MPC82xx, or some locked parts of the data cache) to allow for a minimum set of global variables during system initialization (until we have set up the memory controller so that we can use RAM).<br>Keep it <strong>SMALL</strong> and remember to set GENERATED_GBL_DATA_SIZE &gt; sizeof(gd_t)<br>Each architecture has its own private fields. For now all are private</p>
 </blockquote>
 <p>下面具体说明每一步的作用：</p>
 <h3 id="Step-1-1-初始化SP寄存器"><a href="#Step-1-1-初始化SP寄存器" class="headerlink" title="Step 1.1 初始化SP寄存器"></a>Step 1.1 <strong>初始化SP寄存器</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ldr</span> <span class="built_in">sp</span>, =(CONFIG_SYS_INIT_SP_ADDR)</span><br><span class="line"><span class="keyword">bic</span> <span class="built_in">sp</span>, <span class="built_in">sp</span>, <span class="number">#7</span></span><br></pre></td></tr></table></figure>
+
 <p><code>CONFIG_SYS_INIT_SP_ADDR</code>在板子的配置文件<code>include/configs/smdk2440.h</code>中定义：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_SYS_INIT_SP_ADDR	(CONFIG_SYS_SDRAM_BASE + 0x1000 - GENERATED_GBL_DATA_SIZE)</span></span><br></pre></td></tr></table></figure>
+
 <p><code>GENERATED_GBL_DATA_SIZE</code>是<code>struct global_data</code>按16字节对齐后的大小。可以看到，这里是使用了SDRAM开头4K部分来作为临时堆栈。</p>
 <h3 id="Step-1-2-board-init-f-alloc-reserve"><a href="#Step-1-2-board-init-f-alloc-reserve" class="headerlink" title="Step 1.2 board_init_f_alloc_reserve"></a>Step 1.2 <strong>board_init_f_alloc_reserve</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov</span> <span class="built_in">r0</span>, <span class="built_in">sp</span></span><br><span class="line"><span class="keyword">bl</span>  board_init_f_alloc_reserve</span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">sp</span>, <span class="built_in">r0</span></span><br></pre></td></tr></table></figure>
+
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ulong <span class="title">board_init_f_alloc_reserve</span><span class="params">(ulong top)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/* reserve GD (rounded up to a multiple of 16 bytes) */</span></span><br><span class="line">    top = rounddown(top-<span class="keyword">sizeof</span>(struct global_data), <span class="number">16</span>);</span><br><span class="line">    <span class="keyword">return</span> top;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>为<code>GD</code>结构体分配保留空间，16字节对齐。结构体的存储方式是从低地址向高地址生长，故此处返回的就是<code>gd</code>的基地址。</p>
 <h3 id="Step-1-3-board-init-f-init-reserve"><a href="#Step-1-3-board-init-f-init-reserve" class="headerlink" title="Step 1.3 board_init_f_init_reserve"></a>Step 1.3 <strong>board_init_f_init_reserve</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov</span> <span class="built_in">r9</span>, <span class="built_in">r0</span></span><br><span class="line"><span class="keyword">bl</span>  board_init_f_init_reserve</span><br></pre></td></tr></table></figure>
+
 <p>简化版的函数实现：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">board_init_f_init_reserve</span><span class="params">(ulong base)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">global_data</span> *<span class="title">gd_ptr</span>;</span></span><br><span class="line">    <span class="keyword">int</span> *ptr;</span><br><span class="line"></span><br><span class="line">    gd_ptr = (struct global_data *)base;</span><br><span class="line">    <span class="comment">/* zero the area */</span></span><br><span class="line">    <span class="keyword">for</span> (ptr = (<span class="keyword">int</span> *)gd_ptr; ptr &lt; (<span class="keyword">int</span> *)(gd_ptr + <span class="number">1</span>); )</span><br><span class="line">        *ptr++ = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>将<code>gd</code>的基地址放到<code>r9</code>中保存起来，之后将刚刚分配的保留空间清零完成初始化。</p>
 <h3 id="Step-2-board-init-f"><a href="#Step-2-board-init-f" class="headerlink" title="Step 2 board_init_f"></a>Step 2 <strong>board_init_f</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov</span> <span class="built_in">r0</span>, <span class="number">#0</span></span><br><span class="line"><span class="keyword">bl</span>  board_init_f</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">board_init_f</span><span class="params">(ulong boot_flags)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    gd-&gt;flags = boot_flags;</span><br><span class="line">    gd-&gt;have_console = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (initcall_run_list(init_sequence_f))</span><br><span class="line">        hang();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>board_init_f()</code>函数主要是调用<code>initcall_run_list(init_sequence_f)</code>函数，而此函数的作用就是依次执行<code>init_sequence_f</code>中的各函数指针，去除错误处理、Debug信息输出等部分后，简化版的函数体很简单：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">initcall_run_list</span><span class="params">(<span class="keyword">const</span> <span class="keyword">init_fnc_t</span> init_sequence[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">init_fnc_t</span> *init_fnc_ptr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (init_fnc_ptr = init_sequence; *init_fnc_ptr; ++init_fnc_ptr) &#123;</span><br><span class="line">        (*init_fnc_ptr)();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>下面来看一下<code>init_fnc_t init_sequence_f[]</code>这个数组，<code>init_fnc_t</code>是一个是用<code>typedef</code>定义的函数指针类型：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*<span class="keyword">init_fnc_t</span>)</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p><code>init_sequence_f[]</code>数组中包含的就是需要执行的初始化函数列表，这里面的函数很多，<strong>这些函数的核心目的就是填充<code>gd</code>结构体</strong>。其中比较重要的有下面这些(<strong>省略了其中大部分函数</strong>)：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">init_fnc_t</span> init_sequence_f[] = &#123;</span><br><span class="line">    board_early_init_f,</span><br><span class="line">    serial_init,        <span class="comment">/* serial communications setup */</span></span><br><span class="line">    console_init_f,     <span class="comment">/* stage 1 init of console */</span></span><br><span class="line">    display_options,    <span class="comment">/* say that we are here */</span></span><br><span class="line">    print_cpuinfo,      <span class="comment">/* display cpu info (and speed) */</span></span><br><span class="line">    dram_init,          <span class="comment">/* configure available RAM banks */</span></span><br><span class="line">    show_dram_config,</span><br><span class="line">    setup_dest_addr,</span><br><span class="line">    reserve_xxxxxx,</span><br><span class="line">    setup_reloc,</span><br><span class="line">    <span class="comment">// jump_to_copy,</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>U-Boot自带的SMDK2410配置中，PLL时钟配置是在<code>board_early_init_f</code>中完成的，不过在针对2440移植时将此部分代码移到了start.S文件中，故<code>board_early_init_f</code>中只包含了GPIO端口初始化；</p>
 <p><code>serial_init</code>及<code>console_init_f</code>完成串口终端的初始化，在此之后串口终端才会有输出。</p>
 <p><code>display_options</code>和<code>print_cpuinfo</code>就是U-Boot运行时串口最先输出的那段版本信息。</p>
@@ -428,10 +445,13 @@
 <p><code>reserve_xxxxxx</code>依次计算重定位每一部分所需的RAM空间，并从<code>gd-&gt;relocaddr</code>中减去这部分空间，其中<code>reserve_uboot</code>是计算重定位U-Boot本身（.text + .bss）的地址；<code>reserve_global_data</code>是计算重定位<code>gd</code>的地址。从这里可以看出，<strong>重定位后的代码和数据位于RAM顶端</strong>。</p>
 <p><code>setup_reloc</code>向<code>gd</code>中填入了重定位地址信息，并完成了<code>gd</code>本身的重定位，**<code>gd-&gt;reloc_off</code>就是在这里计算出来的，代表重定位地址偏移量**：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">setup_reloc</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    gd-&gt;reloc_off = gd-&gt;relocaddr - CONFIG_SYS_TEXT_BASE;</span><br><span class="line">    <span class="built_in">memcpy</span>(gd-&gt;new_gd, (<span class="keyword">char</span> *)gd, <span class="keyword">sizeof</span>(<span class="keyword">gd_t</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>对于其他平台来说，最后还有一步<code>jump_to_copy</code>，这里会实现代码跳转，也就是不会再返回此函数，不过对于ARM平台来说，是没有这一步的，执行完<code>init_sequence_f[]</code>中的函数后会返回到<code>board_init_f()</code>中，最后回到<code>_main</code>中继续执行后面的代码。</p>
 <h3 id="Step-3-设置中间变量"><a href="#Step-3-设置中间变量" class="headerlink" title="Step 3 设置中间变量"></a>Step 3 <strong>设置中间变量</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">ldr</span> <span class="built_in">sp</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_START_ADDR_SP</span>] <span class="comment">/* sp = gd-&gt;start_addr_sp */</span></span><br><span class="line">    <span class="keyword">bic</span> <span class="built_in">sp</span>, <span class="built_in">sp</span>, <span class="number">#7</span>                  <span class="comment">/* 8-byte alignment for ABI compliance */</span></span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">r9</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_BD</span>]            <span class="comment">/* r9 = gd-&gt;bd */</span></span><br><span class="line">    <span class="keyword">sub</span> <span class="built_in">r9</span>, <span class="built_in">r9</span>, <span class="symbol">#GD_SIZE</span>            <span class="comment">/* new GD is below bd */</span></span><br><span class="line">    <span class="keyword">adr</span> <span class="built_in">lr</span>, here</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">r0</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_RELOC_OFF</span>]     <span class="comment">/* r0 = gd-&gt;reloc_off */</span></span><br><span class="line">    <span class="keyword">add</span> <span class="built_in">lr</span>, <span class="built_in">lr</span>, <span class="built_in">r0</span></span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">r0</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_RELOCADDR</span>]     <span class="comment">/* r0 = gd-&gt;relocaddr */</span></span><br><span class="line">    <span class="keyword">b</span>   relocate_code</span><br><span class="line"><span class="symbol">here:</span></span><br><span class="line">    <span class="keyword">bl</span>  relocate_vectors</span><br></pre></td></tr></table></figure>
+
 <p>这里面用到的<code>gd</code>中的值都是在<code>board_early_init_f()</code>中设置好的，其中有几句很重要的语句：</p>
 <figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">adr</span> <span class="built_in">lr</span>, here</span><br><span class="line"><span class="keyword">ldr</span> <span class="built_in">r0</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_RELOC_OFF</span>]     <span class="comment">/* r0 = gd-&gt;reloc_off */</span></span><br><span class="line"><span class="keyword">add</span> <span class="built_in">lr</span>, <span class="built_in">lr</span>, <span class="built_in">r0</span></span><br></pre></td></tr></table></figure>
+
 <p><code>here</code>就是下面那个标号，此处将<code>here</code>的地址加上<code>gd-&gt;reloc_off</code>这个偏移量后存放到<code>lr</code>寄存器中，之后调用<code>b   relocate_code</code>命令返回后就会返回到<code>lr</code>寄存器中的地址处。<strong>这就实现了将代码拷贝到SDRAM后从新的重定位地址处接着运行的目的。</strong>这也就是源码中这一段注释的含义：</p>
 <blockquote>
 <p>Set up intermediate environment (new sp and gd) and call relocate_code(addr_moni). <strong>Trick here is that we’ll return ‘here’ but relocated.</strong></p>
@@ -439,18 +459,23 @@
 <p>设置好这些寄存器后调用<code>relocate_code</code>实现代码重定位。</p>
 <h3 id="Step-4-relocate-code"><a href="#Step-4-relocate-code" class="headerlink" title="Step 4 relocate_code"></a>Step 4 <strong>relocate_code</strong></h3><p>位于<code>/arch/arm/lib/relocate.S</code>中，使用汇编完成，简化版的代码如下：</p>
 <figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">ENTRY</span>(relocate_code)</span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">r1</span>, <span class="symbol">=__image_copy_start</span> <span class="comment">/* r1 &lt;- SRC &amp;__image_copy_start */</span></span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">r2</span>, <span class="symbol">=__image_copy_end</span>   <span class="comment">/* r2 &lt;- SRC &amp;__image_copy_end */</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">copy_loop:</span></span><br><span class="line">    <span class="keyword">ldmia</span>   <span class="built_in">r1</span>!, &#123;<span class="built_in">r10</span>-<span class="built_in">r11</span>&#125;      <span class="comment">/* copy from source address [r1]    */</span></span><br><span class="line">    <span class="keyword">stmia</span>   <span class="built_in">r0</span>!, &#123;<span class="built_in">r10</span>-<span class="built_in">r11</span>&#125;      <span class="comment">/* copy to   target address [r0]    */</span></span><br><span class="line">    <span class="keyword">cmp</span> <span class="built_in">r1</span>, <span class="built_in">r2</span>          <span class="comment">/* until source end address [r2]    */</span></span><br><span class="line">    <span class="keyword">blo</span> copy_loop</span><br><span class="line"></span><br><span class="line">    <span class="keyword">bx</span>  <span class="built_in">lr</span></span><br><span class="line"><span class="symbol">ENDPROC</span>(relocate_code)</span><br></pre></td></tr></table></figure>
+
 <p>在这段代码中，使用<code>ldmia</code>及<code>stmia</code>指令，每次使用<code>r10</code>及<code>r11</code>两个寄存器进行复制，<strong>实现了将<code>__image_copy_start</code>及<code>__image_copy_end</code>中的代码复制到<code>gd-&gt;reloc_off</code>处的目的</strong>。</p>
 <p>这里省略了<code>.rel.dyn</code>部分的重定位代码，这部分代码和以上代码差不多，只是还做了些额外处理。</p>
 <p>最后调用<code>bx lr</code>返回，此时会进行状态切换后接着运行行下面的程序，不过此时运行的程序已是位于重定位的地址处了。</p>
 <p>之后执行的是<code>bl  relocate_vectors</code>，这个实现的是中断向量表的重定位，具体就不展开了。在此之后还调用了<code>c_runtime_cpu_setup</code>，不过对于2440来说，这里没有做任何事情，可以跳过。</p>
 <h3 id="Step-5-清零BSS段"><a href="#Step-5-清零BSS段" class="headerlink" title="Step 5 清零BSS段"></a>Step 5 <strong>清零BSS段</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">ldr</span> <span class="built_in">r0</span>, <span class="symbol">=__bss_start</span>    <span class="comment">/* this is auto-relocated! */</span></span><br><span class="line">    <span class="keyword">ldr</span> <span class="built_in">r1</span>, <span class="symbol">=__bss_end</span>      <span class="comment">/* this is auto-relocated! */</span></span><br><span class="line">    <span class="keyword">mov</span> <span class="built_in">r2</span>, <span class="number">#0x00000000</span>     <span class="comment">/* prepare zero to clear BSS */</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">clbss_l:</span></span><br><span class="line">    <span class="keyword">cmp</span> <span class="built_in">r0</span>, <span class="built_in">r1</span>              <span class="comment">/* while not at end of BSS */</span></span><br><span class="line">    <span class="keyword">strlo</span>   <span class="built_in">r2</span>, [<span class="built_in">r0</span>]        <span class="comment">/* clear 32-bit BSS word */</span></span><br><span class="line">    <span class="keyword">addlo</span>   <span class="built_in">r0</span>, <span class="built_in">r0</span>, <span class="number">#4</span>      <span class="comment">/* move to next */</span></span><br><span class="line">    <span class="keyword">blo</span> clbss_l</span><br></pre></td></tr></table></figure>
+
 <p>这一步建立C语言运行环境，实际上也就是清零BSS段，代码也很好懂，根据<code>__bss_start</code>及<code>__bss_end</code>的地址循环写入0即可。只是这有一个问题，注释中有说明：“this is auto-relocated!”，这说明<code>__bss_start</code>及<code>__bss_end</code>的地址已经是重定位后的新地址了，这是如何实现的呢？<code>__bss_start</code>及<code>__bss_end</code>的定义见本文最前面<code>arch/arm/lib/sections.c</code>中的代码，是两个长度为0的数组，估计是在<code>relocate_code</code>搬运代码过程中已经搬运了这两个0长度的代码了？这个问题还需要之后来仔细思考下。</p>
 <h3 id="Step-6-board-init-r"><a href="#Step-6-board-init-r" class="headerlink" title="Step 6 board_init_r"></a>Step 6 <strong>board_init_r</strong></h3><figure class="highlight arm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bl</span> coloured_LED_init</span><br><span class="line"><span class="keyword">bl</span> red_led_on</span><br><span class="line"><span class="comment">/* call board_init_r(gd_t *id, ulong dest_addr) */</span></span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">r0</span>, <span class="built_in">r9</span>                  <span class="comment">/* gd_t */</span></span><br><span class="line"><span class="keyword">ldr</span> <span class="built_in">r1</span>, [<span class="built_in">r9</span>, <span class="symbol">#GD_RELOCADDR</span>] <span class="comment">/* dest_addr */</span></span><br><span class="line"><span class="keyword">ldr</span> <span class="built_in">pc</span>, <span class="symbol">=board_init_r</span>   <span class="comment">/* this is auto-relocated! */</span></span><br></pre></td></tr></table></figure>
+
 <p>在调用<code>board_init_r</code>前还调用了两个函数：<code>coloured_LED_init</code>及<code>red_led_on</code>，不过在SMDK2410的BSP文件中没有实现这两个函数，目前使用的是<code>common/board_f.c</code>中的空函数，相关函数还有下面这些：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/************************************************************************</span></span><br><span class="line"><span class="comment"> * Coloured LED functionality</span></span><br><span class="line"><span class="comment"> ************************************************************************</span></span><br><span class="line"><span class="comment"> * May be supplied by boards if desired</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">coloured_LED_init</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">red_led_on</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">red_led_off</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">green_led_on</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">green_led_off</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">yellow_led_on</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">yellow_led_off</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">blue_led_on</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br><span class="line"><span class="function">__weak <span class="keyword">void</span> <span class="title">blue_led_off</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p>最后来看看<code>board_init_r()</code>函数：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">board_init_r</span><span class="params">(<span class="keyword">gd_t</span> *new_gd, ulong dest_addr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (initcall_run_list(init_sequence_r))</span><br><span class="line">        hang();</span><br><span class="line">    <span class="comment">/* NOTREACHED - run_main_loop() does not return */</span></span><br><span class="line">    hang();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>initcall_run_list</code>函数在上面”2.board_init_f”小节中已经分析过了，就是依次执行传入数组中的各函数，此处传入了<code>init_sequence_r</code>，这就是Stage2的初始化函数列表。</p>
 <p>至此，Stage1结束，开始执行Stage2的初始化流程。</p>
 
@@ -462,12 +487,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">U-Boot 2016.05 Stage1代码分析</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-07-15, 17:14:24</p>
-        <p><span>最后更新:</span>2021-05-16, 19:18:31</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" title="U-Boot 2016.05 Stage1代码分析">https://gaomf.cn/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -493,6 +518,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -584,8 +610,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -612,6 +638,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

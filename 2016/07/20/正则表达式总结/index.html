@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,13 +22,13 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="正则表达式（Regular Expression，在代码中常简写为regex、regexp或RE）是一个字符串，此字符串用于描述、匹配一系列符合某个句法规则的字符串。 正则表达式引擎是一种可以处理正则表达式的软件。通常，引擎是更大的应用程序的一部分。在软件世界，不同的正则表达式引擎并不完全互相兼容。正则表达式引擎缺省是大小写敏感的。 此处总结下常用的正则表达式规则。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/pyre_ebb9ce1c-e5e8-4219-a8ae-7ee620d5f9f1.png">
+<meta property="og:image" content="https://img.gaomf.cn/pyre_ebb9ce1c-e5e8-4219-a8ae-7ee620d5f9f1.png">
 <meta property="article:published_time" content="2016-07-20T13:05:47.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:14:37.792Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.017Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Regular Expression">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/pyre_ebb9ce1c-e5e8-4219-a8ae-7ee620d5f9f1.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/pyre_ebb9ce1c-e5e8-4219-a8ae-7ee620d5f9f1.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -116,7 +116,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -132,10 +132,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -257,20 +257,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -304,6 +305,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-正则表达式总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -351,7 +353,7 @@
         <p>正则表达式（Regular Expression，在代码中常简写为regex、regexp或RE）是一个字符串，此字符串用于描述、匹配一系列符合某个句法规则的字符串。</p>
 <p>正则表达式引擎是一种可以处理正则表达式的软件。通常，引擎是更大的应用程序的一部分。在软件世界，<strong>不同的正则表达式引擎并不完全互相兼容</strong>。<br>正则表达式引擎缺省是大小写敏感的。</p>
 <p>此处总结下常用的正则表达式规则。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h2><p>有12个字符被保留作特殊用途，它们是：<br><code>[</code> <code>]</code> <code>\</code> <code>^</code> <code>$</code> <code>.</code> <code>|</code> <code>?</code> <code>*</code> <code>+</code> <code>(</code> <code>)</code><br>如果要在正则表达式中将这些字符用作文本字符，需要用反斜杠<code>\</code>对其进行转义。<br>在编程语言中，一些特殊的字符会先被编译器处理，然后再传递给正则引擎。因此为了匹配<code>&quot;C:\temp&quot;</code>，要用正则表达式<code>&quot;C:\\temp&quot;</code>。而在C++中，正则表达式则变成了<code>&quot;C:\\\\temp&quot;</code>。</p>
 <h2 id="重复"><a href="#重复" class="headerlink" title="重复"></a>重复</h2><p>不加数量限定则代表<strong>出现且仅出现一次</strong>。</p>
@@ -442,7 +444,7 @@
 </tbody></table>
 <hr>
 <p>最后附上一张相对完整的正则表达式规则以供参考：</p>
-<p><img src="https://pic.gaomf.store/pyre_ebb9ce1c-e5e8-4219-a8ae-7ee620d5f9f1.png"></p>
+<p><img src="https://img.gaomf.cn/pyre_ebb9ce1c-e5e8-4219-a8ae-7ee620d5f9f1.png"></p>
 <blockquote>
 <p>参考资料：<br><a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">WiKi - 正则表达式</a><br><a target="_blank" rel="noopener" href="http://dragon.cnblogs.com/archive/2006/05/08/394078.html">深入浅出之正则表达式（一）</a><br><a target="_blank" rel="noopener" href="http://deerchao.net/tutorials/regex/regex.htm">正则表达式30分钟入门教程</a></p>
 </blockquote>
@@ -455,12 +457,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/07/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93/">正则表达式总结</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-07-20, 21:05:47</p>
-        <p><span>最后更新:</span>2021-05-16, 19:14:37</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93/" title="正则表达式总结">https://gaomf.cn/2016/07/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -486,6 +488,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -575,8 +578,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -603,6 +606,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

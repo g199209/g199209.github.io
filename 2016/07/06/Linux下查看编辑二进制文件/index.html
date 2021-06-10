@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="查看二进制文件：hexdump、hd、xxd编辑二进制文件：vim + xxd">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-07-06T03:34:39.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:30:24.613Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.988Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -114,7 +114,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -130,10 +130,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -255,20 +255,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -302,6 +303,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-Linux下查看编辑二进制文件" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -343,10 +345,11 @@
       
           
         <p>查看二进制文件：hexdump、<strong>hd</strong>、xxd<br>编辑二进制文件：<strong>vim + xxd</strong></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="查看二进制文件"><a href="#查看二进制文件" class="headerlink" title="查看二进制文件"></a><strong>查看二进制文件</strong></h2><p>使用<code>hexdump</code>、<code>hd</code>或<code>xxd</code>都可以，其中最简单的是使用<code>hd</code>。<code>hd</code>相当于<code>hexdump -C</code>，使用如下格式显示：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">00000000  53 04 a0 e3 00 10 a0 e3  00 10 80 e5 00 10 e0 e3  |S...............|</span><br><span class="line">00000010  38 00 9f e5 00 10 80 e5  34 10 9f e5 34 00 9f e5  |8.......4...4...|</span><br><span class="line">00000020  00 10 80 e5 30 00 9f e5  30 10 9f e5 00 20 a0 e3  |....0...0.... ..|</span><br></pre></td></tr></table></figure>
+
 <p>使用<code>xxd</code>可以更灵活的控制显示的格式，具体参数使用<code>man</code>查询即可。常用的有：</p>
 <table>
 <thead>
@@ -374,8 +377,10 @@
 </tbody></table>
 <h2 id="编辑二进制文件"><a href="#编辑二进制文件" class="headerlink" title="编辑二进制文件"></a><strong>编辑二进制文件</strong></h2><p>先使用<code>vim -b</code>以二进制的方式打开文件，之后执行以下命令将文件以16进制方式显示：</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:%</span>!xxd -g <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
 <p>按正常修改文本文件的方法修改此文件，修改完成后使用</p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:%</span>!xxd -r</span><br></pre></td></tr></table></figure>
+
 <p>即可返回。此处<code>xxd</code>命令可以附加的参数与查看二进制文件时使用的<code>xxd</code>相同，可以使用各种显示方式。</p>
 
       
@@ -386,12 +391,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/07/06/Linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%BE%91%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/">Linux下查看编辑二进制文件</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-07-06, 11:34:39</p>
-        <p><span>最后更新:</span>2021-05-16, 19:30:24</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/06/Linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%BE%91%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/" title="Linux下查看编辑二进制文件">https://gaomf.cn/2016/07/06/Linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%BE%91%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/06/Linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%BE%91%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/06/Linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%BE%91%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -417,6 +422,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -506,8 +512,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -534,6 +540,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

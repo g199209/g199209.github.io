@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="Lambda表达式是Java 8中的一个重要新特性，使用Lambda表达式可以简化很多代码，比如常见的为一个按键添加点击事件Listener的代码： 123456btn.setOnClickListener(new View.OnClickListener() &amp;#123;    @Override    public void onClick(View view) &amp;#123;        &#x2F;">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-09-26T02:53:34.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:25:24.148Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:57.008Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -115,7 +115,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -131,10 +131,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -256,20 +256,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -303,6 +304,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-在Android Studio中使用Lambda表达式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -349,12 +351,15 @@
           
         <p>Lambda表达式是Java 8中的一个重要新特性，使用Lambda表达式可以简化很多代码，比如常见的为一个按键添加点击事件<code>Listener</code>的代码：</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">btn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> <span class="function"><span class="title">onClick</span>(<span class="params">View view</span>)</span> &#123;</span><br><span class="line">        <span class="comment">// do what you want...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <p>其中有用的代码很有可能只有一行，其他部分其实都没有实际意义，只是语法需要，创建了一个匿名类而已。但是，如果使用Lambda表达式之后，上述代码就可以简化为：</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">btn</span><span class="selector-class">.setOnClickListener</span>(v -&gt; &#123;</span><br><span class="line">    <span class="comment">// do what you want...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
+
+<span id="more"></span>
 
 <p>如果只有一行代码还可以进一步简化为：</p>
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btn.set<span class="constructor">OnClickListener(<span class="params">v</span> -&gt; <span class="params">doSomething</span>()</span>);</span><br></pre></td></tr></table></figure>
+
 <p>可以看到，使用了Lambda表达式后可以让程序代码更加优雅简洁。关于Java 8中的Lambda表达式详情，可参考以下几篇文章：</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="http://www.importnew.com/16436.html">Java8 lambda表达式10个示例</a><br><a target="_blank" rel="noopener" href="http://www.liaoxuefeng.com/article/001411306573093ce6ebcdd67624db98acedb2a905c8ea4000">Java 8新特性：lambda表达式</a></p>
@@ -364,14 +369,18 @@
 <p>1.安装<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 8</a>。</p>
 <p>2.在<strong>项目的</strong><code>build.gradle</code>文件中添加以下代码：</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">buildscript</span> &#123;</span><br><span class="line">  <span class="keyword">repositories</span> &#123;</span><br><span class="line">     mavenCentral()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">dependencies</span> &#123;</span><br><span class="line">     <span class="keyword">classpath</span> <span class="string">&#x27;me.tatarka:gradle-retrolambda:3.3.0&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Required because retrolambda is on maven central</span></span><br><span class="line"><span class="keyword">repositories</span> &#123;</span><br><span class="line">  mavenCentral()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>3.在<strong>工程模块的</strong><code>build.gradle</code>文件中添加以下代码：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">apply</span> plugin: <span class="string">&#x27;me.tatarka.retrolambda&#x27;</span></span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">  <span class="section">compileOptions</span> &#123;</span><br><span class="line">    <span class="attribute">sourceCompatibility</span> JavaVersion.VERSION_1_8</span><br><span class="line">    targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>4.在<code>proguard-rules.pro</code>文件中添加以下代码：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># <span class="selector-tag">For</span> <span class="selector-tag">retrolambda</span>  </span><br><span class="line"><span class="selector-tag">-dontwarn</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.invoke</span>.*  </span><br></pre></td></tr></table></figure>
+
 <p>5.还可以对Retrolambda进行一些配置，具体见<a target="_blank" rel="noopener" href="https://github.com/evant/gradle-retrolambda#configuration">Github页面的说明</a></p>
 <p><strong>注意事项：</strong><br>retrolambda的版本这里选择了3.3.0，这是目前的最新版本，不过之后肯定会有新版本的，可以根据Github上的说明替换为最新版本。</p>
 <p>配置完成后第一次编译时，Android Studio中的Gradle不能配置为Offline模式，否则会提示错误：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Gradle <span class="keyword">sync</span> failed: No cached <span class="keyword">version</span> of <span class="keyword">me</span>.tatark<span class="variable">a:gradle</span>-retrolambd<span class="variable">a:3</span>.<span class="number">3.0</span> available <span class="keyword">for</span> offline <span class="keyword">mode</span>.</span><br></pre></td></tr></table></figure>
+
 <p>因为上述配置只是指明了需要使用<code>me.tatarka:gradle-retrolambda:3.3.0</code>，此时还需要联网下载retrolambda，若配置为离线模式是无法正常下载的。不过只要编译成功一次之后，retrolambda就会被下载到缓存中，此时就可以了改回Offline模式了。</p>
 <h2 id="Jack"><a href="#Jack" class="headerlink" title="Jack"></a><strong>Jack</strong></h2><p>Jack是Java Android Compile Kit的缩写，它是Google为Android推出的一个全新的Java编译工具链。关于Jack的详细信息可参考以下链接：</p>
 <blockquote>
@@ -380,6 +389,7 @@
 <p>使用Jack也是Google官方给出的支持Java 8特性的方法：<a target="_blank" rel="noopener" href="https://developer.android.com/guide/platform/j8-jack.html#supported-features">Java 8 语言功能</a></p>
 <p>要在Android Studio中使用Jack并开启Java 8，只需要在<strong>工程模块的</strong><code>build.gradle</code>文件中添加以下代码：</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">android</span> &#123;</span><br><span class="line">  <span class="section">defaultConfig</span> &#123;</span><br><span class="line">      <span class="section">jackOptions</span> &#123;</span><br><span class="line">          <span class="attribute">enabled</span> <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  compileOptions &#123;</span><br><span class="line">    <span class="attribute">sourceCompatibility</span> JavaVersion.VERSION_1_8</span><br><span class="line">    targetCompatibility JavaVersion.VERSION_1_8</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>使用Jack后，除了支持Lambda表达式外，还可以支持更多的Java 8新特性。不过实际测试下来，使用Jack有两个很大的缺陷：</p>
 <p>首先，Jack的编译速度明显要慢很多，而且似乎每次都要从头全部重新编译一次，同样的工程编译所需的时间是原来的5~10倍；</p>
 <p>其次，使用Jack后就无法使用<a target="_blank" rel="noopener" href="https://developer.android.com/studio/run/index.html#instant-run">Instant Run</a>功能了，Instant Run是一个很好用的功能，在修改程序后重新推送到设备运行时不需要再次安装apk文件，基本马上就可以看到更改后的变化，这可以大幅提升工作效率。然而目前版本的Jack并没有支持Instant Run。</p>
@@ -394,12 +404,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/09/26/%E5%9C%A8Android%20Studio%E4%B8%AD%E4%BD%BF%E7%94%A8Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">在Android Studio中使用Lambda表达式</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-09-26, 10:53:34</p>
-        <p><span>最后更新:</span>2021-05-16, 19:25:24</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/09/26/%E5%9C%A8Android%20Studio%E4%B8%AD%E4%BD%BF%E7%94%A8Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="在Android Studio中使用Lambda表达式">https://gaomf.cn/2016/09/26/%E5%9C%A8Android%20Studio%E4%B8%AD%E4%BD%BF%E7%94%A8Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/09/26/%E5%9C%A8Android%20Studio%E4%B8%AD%E4%BD%BF%E7%94%A8Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/09/26/%E5%9C%A8Android%20Studio%E4%B8%AD%E4%BD%BF%E7%94%A8Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -425,6 +435,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -514,8 +525,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -542,6 +553,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

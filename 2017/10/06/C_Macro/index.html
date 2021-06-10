@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="从本质上看，C语言中的宏定义实现的是一个文本替换的功能，似乎很简单的样子，然而这几天去看了下Linux Kernel源码中的各种宏定义，才发现一个宏定义竟然也可以有如此多的奇技淫巧……于是花了一天时间仔细研究了下宏的相关知识，此处整理总结下。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/Macro_Expand3.svg">
+<meta property="og:image" content="https://img.gaomf.cn/Macro_Expand3.svg">
 <meta property="article:published_time" content="2017-10-06T12:15:00.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.440Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.614Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Top">
 <meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/Macro_Expand3.svg">
+<meta name="twitter:image" content="https://img.gaomf.cn/Macro_Expand3.svg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -117,7 +117,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -133,10 +133,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -258,20 +258,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -305,6 +306,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-深入理解C语言中宏定义" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,7 +352,7 @@
       
           
         <p>从本质上看，C语言中的宏定义实现的是一个文本替换的功能，似乎很简单的样子，然而这几天去看了下Linux Kernel源码中的各种宏定义，才发现一个宏定义竟然也可以有如此多的奇技淫巧……于是花了一天时间仔细研究了下宏的相关知识，此处整理总结下。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>关于宏，网上有一组写得极好的文章，基本上看完这几篇文章就可以对宏有一个深入的理解了：</p>
 <blockquote>
@@ -367,22 +369,26 @@
 <li>宏基本上是图灵完备的，所以可以只靠宏实现各种东西……</li>
 </ul>
 <p>宏的展开过程遵循以下流程图：</p>
-<p><img src="https://pic.gaomf.store/Macro_Expand3.svg"></p>
+<p><img src="https://img.gaomf.cn/Macro_Expand3.svg"></p>
 <p>这个流程图是我根据自己的理解和实验画出来的，并不确定完全正确……图中的“已展开宏记录”就是文章中说的“蓝色列表”。</p>
 <p>使用gcc编译时，可以通过附加<code>-E</code>参数，让gcc只进行预处理，这样就可以看到各种宏实际展开出来的结果是什么了，如<code>gcc -E -o test.i test.c</code>命令对<code>test.c</code>文件进行预处理，生成<code>test.i</code>文件。</p>
 <p>关于宏的展开流程，有一些不太明确的地方，此处用例子说明下，结果都经过gcc预处理验证过。</p>
 <hr>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> M K(P)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> K(a) a a ## a a</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PP 11</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FOO(a) #a a</span></span><br><span class="line"></span><br><span class="line">FOO(M)	--&gt;  FOO(K(P))</span><br><span class="line">        --&gt;  FOO(<span class="number">2</span> PP <span class="number">2</span>)</span><br><span class="line">        --&gt;  FOO(<span class="number">2</span> <span class="number">11</span> <span class="number">2</span>)</span><br><span class="line">        --&gt;  <span class="string">&quot;M&quot;</span> <span class="number">2</span> <span class="number">11</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
 <p>遇到<code>#</code>或<code>##</code>时，其相连的宏参数不会展开，然而这不意味着这个宏参数本身不会展开，其他部分用到这个宏参数的地方还是会展开的。</p>
 <p>另外，<code>#</code>运算符后必须是一个宏参数，不能是其他东西，不过<code>##</code>两端则无这一要求，来看个例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P(a)  #a a</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PP(a) #a a</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CAT(a) P ## P(P##a(a))</span></span><br><span class="line"></span><br><span class="line">CAT(P)	--&gt;  PP(PP(P))</span><br><span class="line">        --&gt;  PP(<span class="string">&quot;P&quot;</span> P)</span><br><span class="line">        --&gt;  <span class="string">&quot;PP(P)&quot;</span> <span class="string">&quot;P&quot;</span> P</span><br><span class="line"></span><br><span class="line">CAT(A)	--&gt;  PP(PA(A))</span><br><span class="line">        --&gt;  <span class="string">&quot;PA(A)&quot;</span> PA(A)</span><br></pre></td></tr></table></figure>
+
 <p>可以看到，<code>##</code>两端可以是任意token，其作用就是把这两个token合成一个。另外，还可以看到，<code>##</code>是在最开始就进行处理的，所以<code>P(a)</code>这个宏是没有用到的。另外，由<code>##</code>操作符组合产生的新宏是会继续展开的，并不像某些文章说的那样会停止展开。</p>
 <hr>
 <p>关于多次扫描展开的问题，有些文章中说的是展开完成后会重新扫描一遍当前字符串，若有可以继续展开的则继续展开，然而实际测试下来并不是这样的。还是来看个例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BRACKET ()</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CREATE(a, b)  a ## b</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FOO() 123</span></span><br><span class="line"></span><br><span class="line">CREATE(F, OO) BRACKET   --&gt;  FOO BRACKET</span><br><span class="line">                        --&gt;  FOO ()</span><br><span class="line"></span><br><span class="line">CREATE(F, OO) ()        --&gt;  FOO ()</span><br><span class="line">                        --&gt;  <span class="number">123</span></span><br><span class="line"></span><br><span class="line">FOO BRACKET             --&gt;  FOO ()</span><br></pre></td></tr></table></figure>
+
 <p>可以看到，第1、3个例子中，展开到<code>FOO ()</code> 之后就没有继续展开下去了，这说明并没有重新扫描字符串这一步，<strong>已经处理过的部分不会再次处理的</strong>。而第2个例子则说明的确是会再展开合并出新的宏来的，故上面的流程图中使用了”向后扫描一个token，形成一个新的字符串”这样的说法。考虑到token是以空白为界划分的，<strong>后面组合出来的新宏只可能是function-like的宏</strong>，所以这样的展开方式是不存在歧义的，不会出现原来的宏被组合成其他宏的情况。</p>
 <p>如果要继续展开上面未能展开的那两个宏，可以再封装一层：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BRACKET ()</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CREATE(a, b)  a ## b</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FOO() 123</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXPAND(...) __VA_ARGS__</span></span><br><span class="line"></span><br><span class="line">EXPAND(CREATE(F, OO) BRACKET)	--&gt;  EXPAND(FOO())</span><br><span class="line">                                --&gt;  EXPAND(<span class="number">123</span>)</span><br><span class="line">                                --&gt;  <span class="number">123</span></span><br></pre></td></tr></table></figure>
+
 <p>这里利用的原理是：宏参数会先尽可能展开后再进行替换。</p>
 <hr>
 <p>将宏定义的各种奇技淫巧应用得巅峰造极、神鬼莫测之作就是<a target="_blank" rel="noopener" href="http://www.boost.org/doc/libs/1_65_1/libs/preprocessor/doc/index.html">The Boost Preprocessing library</a>，这是Boost库的一部分，不过和其他部分完全独立，这部分包含了各种数据结构和算法等，而且只有头文件，全部都是宏定义……简直可谓是丧心病狂……Github上有人将这部分独立的代码提取出来了，有兴趣的读者可以去进一步揣摩瞻仰：<a target="_blank" rel="noopener" href="https://github.com/imoldman/boost-preprocessor">boost-preprocessor</a></p>
@@ -399,12 +405,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2017-10-06, 20:15:00</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/10/06/C_Macro/" title="深入理解C语言中宏定义">https://gaomf.cn/2017/10/06/C_Macro/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/10/06/C_Macro/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/10/06/C_Macro/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -430,6 +436,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -498,8 +505,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -526,6 +533,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

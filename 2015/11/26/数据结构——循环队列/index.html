@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,13 +22,13 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="可参考这篇文章，循环队列一般用静态数组实现，称之为队列的顺序存储类型。可使用如下结构体： 123456typedef struct&amp;#123;  Queue_EleType Buffer[Queue_Buffer_Size + 1];  uint8_t front;    &#x2F;*!&lt;数据头 *&#x2F;  uint8_t rear;     &#x2F;*!&lt;数据尾 *&#x2F;&amp;#125; CircularQu">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/Algorithm1-140G32234251B.jpg">
+<meta property="og:image" content="https://img.gaomf.cn/Algorithm1-140G32234251B.jpg">
 <meta property="article:published_time" content="2015-11-26T14:52:05.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:15:06.633Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.016Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Data Struct">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/Algorithm1-140G32234251B.jpg">
+<meta name="twitter:image" content="https://img.gaomf.cn/Algorithm1-140G32234251B.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -116,7 +116,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -132,10 +132,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -257,20 +257,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -304,6 +305,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-数据结构——循环队列" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,15 +352,20 @@
           
         <p>可参考<a target="_blank" rel="noopener" href="http://c.biancheng.net/cpp/html/2706.html">这篇文章</a>，循环队列一般用静态数组实现，称之为队列的顺序存储类型。可使用如下结构体：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  Queue_EleType Buffer[Queue_Buffer_Size + <span class="number">1</span>];</span><br><span class="line">  <span class="keyword">uint8_t</span> front;    <span class="comment">/*!&lt;数据头 */</span></span><br><span class="line">  <span class="keyword">uint8_t</span> rear;     <span class="comment">/*!&lt;数据尾 */</span></span><br><span class="line">&#125; CircularQueue;</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
 
-<p>循环队列入队及出队示意图见下图：<br><img src="https://pic.gaomf.store/Algorithm1-140G32234251B.jpg"></p>
+<span id="more"></span>
+
+<p>循环队列入队及出队示意图见下图：<br><img src="https://img.gaomf.cn/Algorithm1-140G32234251B.jpg"></p>
 <p><strong>循环队列实现的核心问题在于队满情况的判断。</strong>最普遍的做法是牺牲一个单元来区分队空和队满，入队时少用一个队列单元，即图中(d2)的情况。约定以“<strong>队头指针在队尾指针的下一位置</strong>“作为队满的标志，故在上述循环队列结构体定义中，<code>Buffer</code>的大小为<code>Queue_Buffer_Size + 1</code>。</p>
 <p>下面给出循环队列具体实现：</p>
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> CircularInit(CircularQueue * Q)</span><br><span class="line">&#123;</span><br><span class="line">  Q-&gt;front = <span class="number">0</span>;</span><br><span class="line">  Q-&gt;rear = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="判断队列是否为空"><a href="#判断队列是否为空" class="headerlink" title="判断队列是否为空"></a>判断队列是否为空</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> CircularIsEmpty(CircularQueue * Q)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (Q-&gt;front == Q-&gt;rear)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">TRUE</span>;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">FALSE</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="入队"><a href="#入队" class="headerlink" title="入队"></a>入队</h3><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ErrorStatus CircularEnQueue(CircularQueue * Q, Queue_EleType x)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> ((Q-&gt;rear + <span class="number">1</span>) % (Queue_Buffer_Size + <span class="number">1</span>) == Q-&gt;front)</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">  Q-&gt;Buffer[Q-&gt;rear] = x;</span><br><span class="line">  Q-&gt;rear = (Q-&gt;rear + <span class="number">1</span>) % (Queue_Buffer_Size + <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="出队"><a href="#出队" class="headerlink" title="出队"></a>出队</h3><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ErrorStatus CircularDeQueue(CircularQueue * Q, Queue_EleType * x)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="title">if</span> (Q-&gt;</span><span class="function"><span class="title">front</span> == Q-&gt;</span>rear)</span><br><span class="line">    return ERROR;</span><br><span class="line">  *<span class="function"><span class="title">x</span> = Q-&gt;</span>B<span class="function"><span class="title">uffer</span>[Q-&gt;</span>front];</span><br><span class="line">  Q-&gt;<span class="function"><span class="title">front</span> = (Q-&gt;</span>front + <span class="number">1</span>) % (Queue_Buffer_Size + <span class="number">1</span>);</span><br><span class="line">  return SUCCESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><a target="_blank" rel="noopener" href="https://github.com/g199209/MCUSnippet/tree/master/Structure/Queue">完整代码</a>。</p>
 
       
@@ -369,12 +376,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/">数据结构——循环队列</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2015-11-26, 22:52:05</p>
-        <p><span>最后更新:</span>2021-05-16, 19:15:06</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/" title="数据结构——循环队列">https://gaomf.cn/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -400,6 +407,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -466,8 +474,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -494,6 +502,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

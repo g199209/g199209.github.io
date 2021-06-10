@@ -11,20 +11,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
-<meta name="description" content="函数指针一般的声明方式为： 1Return (* pf)(Params); 其中Return代表返回值的类型，Params代表函数参数列表，如下面两个比较简单的声明： 12void (* pf1)(int, char *);int * (* pf2)(void);">
+<meta name="description" content="函数指针一般的声明方式为： 1Return (* pf)(Params);  其中Return代表返回值的类型，Params代表函数参数列表，如下面两个比较简单的声明： 12void (* pf1)(int, char *);int * (* pf2)(void);">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C语言中函数指针的声明及使用">
 <meta property="og:url" content="https://gaomf.cn/2016/04/21/C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E7%9A%84%E5%A3%B0%E6%98%8E%E5%8F%8A%E4%BD%BF%E7%94%A8/">
 <meta property="og:site_name" content="高明飞的博客">
-<meta property="og:description" content="函数指针一般的声明方式为： 1Return (* pf)(Params); 其中Return代表返回值的类型，Params代表函数参数列表，如下面两个比较简单的声明： 12void (* pf1)(int, char *);int * (* pf2)(void);">
+<meta property="og:description" content="函数指针一般的声明方式为： 1Return (* pf)(Params);  其中Return代表返回值的类型，Params代表函数参数列表，如下面两个比较简单的声明： 12void (* pf1)(int, char *);int * (* pf2)(void);">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-04-21T07:58:46.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:31:42.181Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.981Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -114,7 +114,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -130,10 +130,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -255,20 +255,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -302,6 +303,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-C语言中函数指针的声明及使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -348,47 +350,63 @@
           
         <p>函数指针一般的声明方式为：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Return (* pf)(Params);</span><br></pre></td></tr></table></figure>
+
 <p>其中<code>Return</code>代表返回值的类型，<code>Params</code>代表函数参数列表，如下面两个比较简单的声明：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (* pf1)(<span class="keyword">int</span>, <span class="keyword">char</span> *);</span><br><span class="line"><span class="keyword">int</span> * (* pf2)(<span class="keyword">void</span>);</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
+
+<span id="more"></span>
 
 <p>使用的时候可以使用以下两种等价的赋值及调用方式：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assign</span></span><br><span class="line">pf = FunctionName;</span><br><span class="line">pf = &amp;FunctionName;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Call</span></span><br><span class="line">pf();</span><br><span class="line">(*pf)();</span><br></pre></td></tr></table></figure>
+
 <p>更为复杂一点的问题是，如果一个函数指针作为函数的参数与函数的返回值时该如何进行声明呢？</p>
 <p>作为函数参数的情况比较简单，像这样处理即可：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Fun</span><span class="params">(<span class="keyword">void</span> (*)(<span class="keyword">int</span>, <span class="keyword">int</span>), <span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Fun</span><span class="params">(<span class="keyword">void</span> (* pf)(<span class="keyword">int</span>, <span class="keyword">int</span>), <span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> pf(a, b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这个例子中，声明并定义了一个函数<code>Fun()</code>，这个函数接受3个参数，后两个参数为<code>int</code>，第一个参数的类型是<code>void (*)(int, int)</code>，这是一个函数指针，指向一个返回值为<code>void</code>，参数为两个<code>int</code>的函数。</p>
 <hr>
 <p>然而如何处理函数指针作为返回值的情况呢？标准库<code>&lt;signal.h&gt;</code>中的<code>signal()</code>函数就是一个这样的函数，其声明形式如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (* signal(<span class="keyword">int</span> sig, <span class="keyword">void</span> (* handler)(<span class="keyword">int</span>)))(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+
 <p>这个函数声明一眼看过去不是很好懂，下面来仔细分析一下。</p>
 <p>如果我们要声明一个整形变量<code>a</code>，可以这样写：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a;</span><br></pre></td></tr></table></figure>
+
 <p>如果要改为声明一个返回值为整形的函数<code>fun()</code>，可以视为只要将声明变量时使用的<code>a</code>改为<code>fun()</code>即可，即</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>用同样的思路来分析声明一个返回值为函数指针的函数的声明方法，只要将函数指针声明中的变量名部分换为函数体即可。用实例分析一下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (* pf)(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+
 <p>这里面<code>pf</code>是一个函数指针，指向一个输入参数为<code>int</code>，返回值为<code>void</code>的函数。将其中的<code>pf</code>换为一个函数<code>fun()</code>，即</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (* fun())(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+
 <p>这样就得到了一个返回值为函数指针的函数<code>fun()</code>，它返回的函数指针其实就是上面的<code>pf</code>。</p>
 <p>理解了这样的声明方式后再来看<code>signal()</code>函数的声明就不那么难理解了。先看最里层：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (* handler)(<span class="keyword">int</span>)</span><br></pre></td></tr></table></figure>
+
 <p>这是一个函数指针<code>handler</code>，带一个<code>int</code>参数，返回值为空。</p>
 <p>再向外一层：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">signal(<span class="keyword">int</span> sig, <span class="keyword">void</span> (* handler)(<span class="keyword">int</span>))</span><br></pre></td></tr></table></figure>
+
 <p>这是一个函数<code>signal()</code>，其参数为一个整形和一个函数指针。那这个函数的返回值是什么呢？由上面的分析易知，也是一个函数指针，这个函数指针的原型是这样的：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (* Returnpf)(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+
 <p>对比<code>Returnpf</code>和<code>handler</code>的声明，可以看到二者是完全一样的。这时候就可以利用<code>typedef</code>这个好东西来简化之前那个复杂的<code>signal()</code>函数的声明了，具体做法如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (* signal(<span class="keyword">int</span> sig, <span class="keyword">void</span> (* handler)(<span class="keyword">int</span>)))(<span class="keyword">int</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span> <span class="params">(* <span class="keyword">sighandler_t</span>)</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">sighandler_t</span> <span class="title">signal</span><span class="params">(<span class="keyword">int</span> sig, <span class="keyword">sighandler_t</span> handler)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>其中第1行与第5行的声明是完全等价的，使用第5行这种声明方式就显得直观多了。</p>
 <hr>
 <p>最后编写了两个简单的测试程序来进一步熟悉下函数指针的使用方法。</p>
 <p>不使用<code>typedef</code>的版本：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Function declaration</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintStr</span><span class="params">(<span class="keyword">char</span> *(*)(<span class="keyword">void</span>))</span></span>;</span><br><span class="line"><span class="keyword">char</span> *(* Run(<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">int</span> (*)(<span class="keyword">int</span>, <span class="keyword">int</span>)))(<span class="keyword">void</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">Msg1</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;Great than 0!\r\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">Msg2</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;Less than 0!\r\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintStr</span><span class="params">(<span class="keyword">char</span> *(* Fun)(<span class="keyword">void</span>))</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">puts</span>(Fun());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *(* Run(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> (* SumFun)(<span class="keyword">int</span>, <span class="keyword">int</span>)))(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span>(SumFun(a, b) &gt;= <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> Msg1;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> Msg2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  PrintStr(Run(<span class="number">1</span>,<span class="number">2</span>,Sum));</span><br><span class="line">  PrintStr(Run(<span class="number">-1</span>,<span class="number">-2</span>,Sum));</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>使用<code>typedef</code>的版本：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Typedef</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(* MySumFun)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> * (* MyCharFun)(<span class="keyword">void</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Function declaration</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintStr</span><span class="params">(MyCharFun)</span></span>;</span><br><span class="line"><span class="function">MyCharFun <span class="title">Run</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>, MySumFun)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">Msg1</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;Great than 0!\r\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">Msg2</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;Less than 0!\r\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintStr</span><span class="params">(MyCharFun Fun)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">puts</span>(Fun());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">MyCharFun <span class="title">Run</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, MySumFun Fun)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(Fun(a, b) &gt;= <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> Msg1;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> Msg2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  PrintStr(Run(<span class="number">1</span>,<span class="number">2</span>,Sum));</span><br><span class="line">  PrintStr(Run(<span class="number">-1</span>,<span class="number">-2</span>,Sum));</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>程序运行输出结果均为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Great than 0!</span><br><span class="line"></span><br><span class="line">Less than 0!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>使用<code>typedef</code>的版本明显可读性要好得多。</p>
 
       
@@ -399,12 +417,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/04/21/C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E7%9A%84%E5%A3%B0%E6%98%8E%E5%8F%8A%E4%BD%BF%E7%94%A8/">C语言中函数指针的声明及使用</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-04-21, 15:58:46</p>
-        <p><span>最后更新:</span>2021-05-16, 19:31:42</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/04/21/C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E7%9A%84%E5%A3%B0%E6%98%8E%E5%8F%8A%E4%BD%BF%E7%94%A8/" title="C语言中函数指针的声明及使用">https://gaomf.cn/2016/04/21/C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E7%9A%84%E5%A3%B0%E6%98%8E%E5%8F%8A%E4%BD%BF%E7%94%A8/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/04/21/C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E7%9A%84%E5%A3%B0%E6%98%8E%E5%8F%8A%E4%BD%BF%E7%94%A8/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/04/21/C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E7%9A%84%E5%A3%B0%E6%98%8E%E5%8F%8A%E4%BD%BF%E7%94%A8/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -430,6 +448,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -519,8 +538,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -547,6 +566,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

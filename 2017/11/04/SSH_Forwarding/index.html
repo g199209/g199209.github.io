@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="学校的网络位于无数重NAT内网中，而且还有各种VPN，所以想要从外网访问十分困难，之前试过各种方法都没成功。今天偶然看到了SSH反向穿透的方法，因为我访问内网服务器主要也是需要SSH连接功能，故此方法可以很好的满足我的需求。此处记录下配置方法。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2017-11-03T16:16:00.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.439Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.994Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Network">
 <meta name="twitter:card" content="summary">
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -115,7 +115,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -131,10 +131,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -256,20 +256,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -303,6 +304,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-SSH反向穿透访问内网主机" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -348,7 +350,7 @@
       
           
         <p>学校的网络位于无数重NAT内网中，而且还有各种VPN，所以想要从外网访问十分困难，之前试过各种方法都没成功。今天偶然看到了SSH反向穿透的方法，因为我访问内网服务器主要也是需要SSH连接功能，故此方法可以很好的满足我的需求。此处记录下配置方法。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>SSH反向穿透需要有一台有公网IP的服务器作为桥梁，此处将位于多重NAT网络中需要访问的主机称为Target，而将有固定IP的中转服务器称为Server。SSH反向穿透的原理是，Target主动建立与Server间的SSH连接，利用SSH的端口转发功能，将访问Server某端口的数据包转发到Target SSH端口（22端口）上，以此实现间接登陆Target的目的。</p>
 <p>假设Server上的转发端口为<code>6766</code>，使用如下命令在Target上建立与Server间的反向隧道：</p>
@@ -356,12 +358,15 @@
 <p><code>-R</code>用于定义反向隧道，<code>-fN</code>用于在建立SSH连接后SSH进入后台运行。</p>
 <p>之后需要在Server上打开<code>sshd</code>的<code>GatewayPorts</code>功能，这样才能实现只登录一次即可连接上Target。修改<code>/etc/ssh/sshd_config</code>文件，添加下面这行：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GatewayPorts clientspecified</span><br></pre></td></tr></table></figure>
+
 <p>重启<code>sshd</code>服务：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service ssh restart</span><br></pre></td></tr></table></figure>
+
 <p>此时就可以在任意一个终端上使用<code>ssh -p 6766 userTarget@Server</code>登录到Target上了，需要注意的是，此时使用的用户名、密码、秘钥都应该是Target而不是Server的，只有IP地址或者是域名是Server的。</p>
 <p>最后一个问题是，如何保持这个SSH反向隧道的稳定存在，并且实现若Target意外重启后能自动再次建立此反向隧道。解决方法是使用<code>autossh</code>，并且把它作为一个服务自动启动。</p>
 <p>先安装<code>autossh</code>，之后在<code>/etc/init.d</code>下建立一个名为<code>autossh</code>的文件：（以下操作以Ubuntu为例，其他发行版可能会有区别）</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line">/usr/bin/autossh -p 22 -M 6777 -fN -R *:6766:localhost:22 userServer@Server -i id_rsa</span><br></pre></td></tr></table></figure>
+
 <p><code>-M</code>参数指定了一个监控端口，和端口转发无关，使用一个无用的端口即可；<code>-i</code>指定了一个密钥，此处用RSA密钥的方式登陆Server。</p>
 <p>保存此文件，并添加执行权限：<code>chmod +x autossh</code>；注册服务：<code>update-rc.d autossh enable</code>；最后启动服务：<code>service autossh start</code>。</p>
 <p>可使用<code>sysv-rc-conf</code>工具查看<code>autossh</code>服务的开机自启动情况。这样将其作为服务配置好后，就可以实现稳定的SSH反向穿透了，终于可以实现从任何地方自由访问内网主机的目的了~~</p>
@@ -379,12 +384,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2017/11/04/SSH_Forwarding/">SSH反向穿透访问内网主机</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2017-11-04, 00:16:00</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/11/04/SSH_Forwarding/" title="SSH反向穿透访问内网主机">https://gaomf.cn/2017/11/04/SSH_Forwarding/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/11/04/SSH_Forwarding/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/11/04/SSH_Forwarding/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -410,6 +415,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -478,8 +484,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -506,6 +512,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

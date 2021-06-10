@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="在STM8中，外设对应引脚可能会有几种不同的选择，可根据实际情况来选择合适的引脚。下面总结下STM8S与STM8L系列中进行外设引脚重映射(Remap)的方法。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/STM820151221155326.png">
-<meta property="og:image" content="https://pic.gaomf.store/STM820151221160054.png">
+<meta property="og:image" content="https://img.gaomf.cn/STM820151221155326.png">
+<meta property="og:image" content="https://img.gaomf.cn/STM820151221160054.png">
 <meta property="article:published_time" content="2015-12-21T07:26:15.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:19:24.735Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.016Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="STM8">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/STM820151221155326.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/STM820151221155326.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -117,7 +117,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -133,10 +133,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -258,20 +258,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -305,6 +306,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-STM8外设引脚重映射" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,15 +352,15 @@
       
           
         <p>在STM8中，外设对应引脚可能会有几种不同的选择，可根据实际情况来选择合适的引脚。下面总结下STM8S与STM8L系列中进行外设引脚重映射(Remap)的方法。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="STM8S"><a href="#STM8S" class="headerlink" title="STM8S"></a>STM8S</h2><p>在STM8S中，默认情况下一个外设功能只会对应一个引脚，只有少数外设引脚可以改变位置。<strong>进行引脚重映射通过修改”Option bytes”完成</strong>，具体修改内容可参考器件的数据手册。需要注意的是，修改”Option bytes”并不像读写其他一般寄存器那样直接，其修改方式在数据手册中有如下说明：</p>
 <blockquote>
 <p>Option bytes can be modified in ICP mode (via SWIM) by accessing the EEPROM address shown in the table below.<br>Option bytes can also be modified “on the fly” by the application in IAP mode, except the ROP option that can only be modified in ICP mode (via SWIM).</p>
 </blockquote>
-<p>一般情况下可直接在IDE中设置”Option bytes”，如在IAR中：<br><img src="https://pic.gaomf.store/STM820151221155326.png"></p>
+<p>一般情况下可直接在IDE中设置”Option bytes”，如在IAR中：<br><img src="https://img.gaomf.cn/STM820151221155326.png"></p>
 <h2 id="STM8L"><a href="#STM8L" class="headerlink" title="STM8L"></a>STM8L</h2><p>在STM8L中，同样可以通过修改”Option bytes”来完成一些引脚的重映射，不过除此之外，有些外设功能本身就对应到了多个引脚上，此时<strong>可以通过SYSCFG寄存器来选择需要使用的引脚</strong>。</p>
-<p>以STM8L051F3为例：<br><img src="https://pic.gaomf.store/STM820151221160054.png"><br>此图中使用”[]”括起来的功能就是只能通过上文修改”Option bytes”的方法来进行重映射的功能，而其余功能的选择则可通过修改SYSCFG寄存器来完成，如Timer 2-channel 1可以选择PB0或PC5。</p>
+<p>以STM8L051F3为例：<br><img src="https://img.gaomf.cn/STM820151221160054.png"><br>此图中使用”[]”括起来的功能就是只能通过上文修改”Option bytes”的方法来进行重映射的功能，而其余功能的选择则可通过修改SYSCFG寄存器来完成，如Timer 2-channel 1可以选择PB0或PC5。</p>
 <p>SYSCFG寄存器的主要作用是进行引脚功能选择，其操作较为简单，直接根据参考手册中的说明设置所需的位即可。<br>如果使用库函数的话，可通过调用<code>SYSCFG_REMAPPinConfig()</code>函数完成。如下面两句代码将STM8L051中TIM2_CH1与TIM2_CH2由默认的PB0、PB2重映射至PC5、PC6。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SYSCFG_REMAPPinConfig(REMAP_Pin_TIM2Channel1, ENABLE);</span><br><span class="line">SYSCFG_REMAPPinConfig(REMAP_Pin_TIM2Channel2, ENABLE);</span><br></pre></td></tr></table></figure>
       
@@ -369,12 +371,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2015/12/21/STM8%E5%A4%96%E8%AE%BE%E5%BC%95%E8%84%9A%E9%87%8D%E6%98%A0%E5%B0%84/">STM8外设引脚重映射</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2015-12-21, 15:26:15</p>
-        <p><span>最后更新:</span>2021-05-16, 19:19:24</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/12/21/STM8%E5%A4%96%E8%AE%BE%E5%BC%95%E8%84%9A%E9%87%8D%E6%98%A0%E5%B0%84/" title="STM8外设引脚重映射">https://gaomf.cn/2015/12/21/STM8%E5%A4%96%E8%AE%BE%E5%BC%95%E8%84%9A%E9%87%8D%E6%98%A0%E5%B0%84/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/12/21/STM8%E5%A4%96%E8%AE%BE%E5%BC%95%E8%84%9A%E9%87%8D%E6%98%A0%E5%B0%84/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/12/21/STM8%E5%A4%96%E8%AE%BE%E5%BC%95%E8%84%9A%E9%87%8D%E6%98%A0%E5%B0%84/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -400,6 +402,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -489,8 +492,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -517,6 +520,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

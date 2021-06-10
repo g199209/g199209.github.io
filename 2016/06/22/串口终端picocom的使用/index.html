@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="Linux下的串口终端程序主要有这几个：minicom、kermit、picocom。其中用的最多的应该是minicom，不过picocom最为简单易用，从其名字pico-com上也可以看出，这是一个比mini-com更精简的串口终端，不过其功能足够满足大多数时候的需求。 使用时，指定波特率和串口设备文件即可打开终端： 1sudo picocom -b 115200 &#x2F;dev&#x2F;ttyUSB0">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-06-22T12:50:23.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:26:28.368Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:57.004Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -114,7 +114,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -130,10 +130,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -255,20 +255,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -302,6 +303,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-串口终端picocom的使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -349,11 +351,13 @@
         <p>Linux下的串口终端程序主要有这几个：minicom、kermit、picocom。其中用的最多的应该是minicom，不过picocom最为简单易用，从其名字pico-com上也可以看出，这是一个比mini-com更精简的串口终端，不过其功能足够满足大多数时候的需求。</p>
 <p>使用时，指定波特率和串口设备文件即可打开终端：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo picocom -b 115200 /dev/ttyUSB0</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
+
+<span id="more"></span>
 
 <p>一般情况下，USB转串口的名字都是 <code>ttyUSB*</code>，需要注意的是，<strong>必须使用<code>sudo</code>命令或以root的身份运行picocom</strong>，这是由于<code>ttyUSB*</code>设备的权限一般都是660，普通用户没有读写权限。</p>
 <p>成功打开后会显示一些基本信息，并进入正常终端模式：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">picocom v1.7</span><br><span class="line"></span><br><span class="line">port is        : &#x2F;dev&#x2F;ttyUSB0</span><br><span class="line">flowcontrol    : none</span><br><span class="line">baudrate is    : 115200</span><br><span class="line">parity is      : none</span><br><span class="line">databits are   : 8</span><br><span class="line">escape is      : C-a</span><br><span class="line">local echo is  : no</span><br><span class="line">noinit is      : no</span><br><span class="line">noreset is     : no</span><br><span class="line">nolock is      : no</span><br><span class="line">send_cmd is    : sz -vv</span><br><span class="line">receive_cmd is : rz -vv</span><br><span class="line">imap is        : </span><br><span class="line">omap is        : </span><br><span class="line">emap is        : crcrlf,delbs,</span><br><span class="line"></span><br><span class="line">Terminal ready</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>如要退出，先按<code>Ctrl + A</code>进入转义模式，再按<code>Ctrl + Q</code>即可正常退出。</p>
 
       
@@ -364,12 +368,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/06/22/%E4%B8%B2%E5%8F%A3%E7%BB%88%E7%AB%AFpicocom%E7%9A%84%E4%BD%BF%E7%94%A8/">串口终端picocom的使用</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-06-22, 20:50:23</p>
-        <p><span>最后更新:</span>2021-05-16, 19:26:28</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/06/22/%E4%B8%B2%E5%8F%A3%E7%BB%88%E7%AB%AFpicocom%E7%9A%84%E4%BD%BF%E7%94%A8/" title="串口终端picocom的使用">https://gaomf.cn/2016/06/22/%E4%B8%B2%E5%8F%A3%E7%BB%88%E7%AB%AFpicocom%E7%9A%84%E4%BD%BF%E7%94%A8/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/22/%E4%B8%B2%E5%8F%A3%E7%BB%88%E7%AB%AFpicocom%E7%9A%84%E4%BD%BF%E7%94%A8/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/22/%E4%B8%B2%E5%8F%A3%E7%BB%88%E7%AB%AFpicocom%E7%9A%84%E4%BD%BF%E7%94%A8/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -395,6 +399,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -484,8 +489,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -512,6 +517,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

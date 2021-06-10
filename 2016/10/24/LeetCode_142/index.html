@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,13 +22,13 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="给定一个链表，返回链表中环的开始节点，若没有环，返回null。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg">
+<meta property="og:image" content="https://img.gaomf.cn/05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg">
 <meta property="article:published_time" content="2016-10-24T15:04:27.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.439Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.395Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Online Judge">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg">
+<meta name="twitter:image" content="https://img.gaomf.cn/05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -116,7 +116,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -132,10 +132,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -257,20 +257,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -304,6 +305,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-LeetCode142" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -349,7 +351,7 @@
       
           
         <p>给定一个链表，返回链表中环的开始节点，若没有环，返回<code>null</code>。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="原始问题"><a href="#原始问题" class="headerlink" title="原始问题"></a>原始问题</h2><blockquote>
 <p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/linked-list-cycle-ii/">https://leetcode.com/problems/linked-list-cycle-ii/</a></p>
@@ -358,13 +360,14 @@
 <p>Follow up:<br>Can you solve it without using extra space?</p>
 </blockquote>
 <h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>类似<a href="/2016/10/24/LeetCode_141/">LeetCode 141</a>的解法，只是之后还要求出环开始的节点，这依赖于一些数学关系，下面来简要推导一下。</p>
-<p><img src="https://pic.gaomf.store/05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg"></p>
+<p><img src="https://img.gaomf.cn/05171805-64db9f059a1641e7afaf3dd8223c4fe7.jpg"></p>
 <p>如图所示，假设<code>slow</code>指针运动到$Y$节点时，<code>fast</code>指针位于环中任意位置（图中未标出），其距$Y$点的距离为$m$。首先证明当<code>slow</code>指针与<code>fast</code>指针相遇于环中某一点$Z$时，<code>slow</code>指针移动距离$b$小于环的长度$L$，且<code>fast</code>指针只会比<code>slow</code>指针多移动一圈。</p>
 <p>假设此时<code>slow</code>指针移动距离为$b$($b$ &lt; $L$)，<code>fast</code>指针比<code>slow</code>指针多移动了$N$圈，则：<br>$$b=m+2b-NL$$<br>$$\Rightarrow b=NL-m$$<br>$$\because 0 \leqslant b \leqslant L, 0 \leqslant m \leqslant L$$<br>$$\therefore N = 1$$<br>$$\Rightarrow b=L-m$$<br>对任意$m$及$L$，均可由上式确定唯一的$b$，故原命题成立。</p>
 <p>下面在此基础上推导$a$与$c$之间的关系，应用上面得出的结论，两指针相遇时有：</p>
 <p>$$2(a+b)=a+b+KL$$<br>式中$K$表示相遇时<code>fast</code>指针在环中运行的圈数。<br>$$\Rightarrow a=KL-b$$<br>$$\Rightarrow a=(K-1)L+L-b$$<br>$$\Rightarrow a=(K-1)L+c$$</p>
 <p>上式意味着，若<code>slow</code>与<code>fast</code>指针相遇于$Z$点后，<code>slow</code>指针继续前进，同时增加一个指针<code>p</code>从$X$点出发，则<code>slow</code>与<code>p</code>的相遇点必定是$Y$，这也就是需要返回的节点。根据上述思路即可写出代码。</p>
 <h2 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h2><h3 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">struct ListNode *<span class="title">detectCycle</span><span class="params">(struct ListNode *head)</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> * <span class="title">slow</span>, * <span class="title">fast</span>, * <span class="title">p</span>;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    slow = head;</span><br><span class="line">    fast = head;</span><br><span class="line">    p = head;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (fast-&gt;next != <span class="literal">NULL</span> &amp;&amp; fast-&gt;next-&gt;next != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">            <span class="keyword">while</span> (p != slow) &#123;</span><br><span class="line">                p = p-&gt;next;</span><br><span class="line">                slow = slow-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="相关题目"><a href="#相关题目" class="headerlink" title="相关题目"></a>相关题目</h2><blockquote>
 <p><a href="/2016/10/24/LeetCode_141/">LeetCode 141. Linked List Cycle (Easy)</a><br><a href="/2016/10/25/LeetCode_160/">LeetCode 160. Intersection of Two Linked Lists (Easy)</a></p>
 </blockquote>
@@ -377,12 +380,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-10-24, 23:04:27</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/10/24/LeetCode_142/" title="LeetCode 142. Linked List Cycle II (Medium)">https://gaomf.cn/2016/10/24/LeetCode_142/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/24/LeetCode_142/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/24/LeetCode_142/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -408,6 +411,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -499,8 +503,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -527,6 +531,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

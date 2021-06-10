@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="IQmath库是TI C28x系列DSP中使用的一个高度优化且高精度的数学库，用于使用定点算法实现浮点运算。在DSP编程中，出于性能的考虑，应尽量使用IQmath库代替ANSI C中的math库。IQmath库同时支持C和C++，此处仅讨论使用C语言的情况。 IQmath的官方使用手册为SPRC990 C28x IQmath Library，在ControlSUITE中可以找到这份文档的最新版本。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20160515095003.png">
-<meta property="og:image" content="https://pic.gaomf.store/20160515101508.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160515095003.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160515101508.png">
 <meta property="article:published_time" content="2016-05-15T06:21:27.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:22:13.520Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.393Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="DSP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20160515095003.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20160515095003.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -117,7 +117,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -133,10 +133,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -258,20 +258,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -305,6 +306,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-IQmath库总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -351,7 +353,7 @@
           
         <p>IQmath库是TI C28x系列DSP中使用的一个高度优化且高精度的数学库，用于使用定点算法实现浮点运算。在DSP编程中，出于性能的考虑，应尽量使用IQmath库代替ANSI C中的math库。IQmath库同时支持C和C++，此处仅讨论使用C语言的情况。</p>
 <p>IQmath的官方使用手册为<code>SPRC990 C28x IQmath Library</code>，在ControlSUITE中可以找到这份文档的最新版本。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a><strong>使用方法</strong></h2><ol>
 <li><strong>添加库文件<code>IQmath.lib</code>或<code>IQmath_f32.lib</code>，后者用于带FPU单元的DSP；</strong></li>
@@ -359,13 +361,15 @@
 <li><strong>修改CMD文件，添加其中与IQmath相关的部分。</strong></li>
 </ol>
 <h2 id="Q格式"><a href="#Q格式" class="headerlink" title="Q格式"></a><strong>Q格式</strong></h2><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Q_%28number_format%29">Q格式</a>是一种定点小数表示方法，具体来说，二者的转换关系为：</p>
-<p>*<em>定点数 = 浮点数 * 2^Q *</em></p>
+<p>**定点数 = 浮点数 * 2^Q **</p>
 <p>在C2000中，统一使用32位来表示。Q<em>N</em>格式对应数据类型为_iq<em>N</em>，表示使用<em>N</em>位来表示小数，其余32-<em>N</em>位表示整数，故Q0其实就是一般的32位整数。具体的Q1~Q30的取值范围及精度见下表：</p>
-<p><img src="https://pic.gaomf.store/20160515095003.png"></p>
+<p><img src="https://img.gaomf.cn/20160515095003.png"></p>
 <p><code>_iq</code>类型代表使用<code>GLOBAL_Q</code>定义的精度，<code>GLOBAL_Q</code>在<code>IQmathLib.h</code>文件中定义，默认为：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> GLOBAL_Q</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GLOBAL_Q 24 <span class="comment">/* Q1 to Q29 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
 <p>可直接更改<code>IQmathLib.h</code>文件中的定义，也可使用如下方法覆盖此定义：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GLOBAL_Q 21 <span class="comment">/* Set the Local Q value */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;IQmathLib.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
 <h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a><strong>常用函数</strong></h2><p>函数命名惯例为：<code>_IQNxxx()</code>，其中<code>N</code>代表使用的Q格式，省略的话使用<code>GLOBAL_Q</code>中的定义；<code>xxx</code>为函数名，如<code>sin</code>、<code>exp</code>等。下面列举一些常用函数，其中的<code>N</code>大部分都可以省略使用<code>GLOBAL_Q</code>。</p>
 <h3 id="格式转换"><a href="#格式转换" class="headerlink" title="格式转换"></a>格式转换</h3><table>
 <thead>
@@ -496,7 +500,7 @@
 <td>欧氏距离</td>
 </tr>
 </tbody></table>
-<h3 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h3><p>完整的IQmath函数及性能评估表如下：<br><img src="https://pic.gaomf.store/20160515101508.png"></p>
+<h3 id="Benchmark"><a href="#Benchmark" class="headerlink" title="Benchmark"></a>Benchmark</h3><p>完整的IQmath函数及性能评估表如下：<br><img src="https://img.gaomf.cn/20160515101508.png"></p>
 
       
     </div>
@@ -506,12 +510,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/05/15/C28x%20IQmath%E5%BA%93%E4%BD%BF%E7%94%A8/">C28x IQmath库使用</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-05-15, 14:21:27</p>
-        <p><span>最后更新:</span>2021-05-16, 19:22:13</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/05/15/C28x%20IQmath%E5%BA%93%E4%BD%BF%E7%94%A8/" title="C28x IQmath库使用">https://gaomf.cn/2016/05/15/C28x%20IQmath%E5%BA%93%E4%BD%BF%E7%94%A8/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/05/15/C28x%20IQmath%E5%BA%93%E4%BD%BF%E7%94%A8/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/05/15/C28x%20IQmath%E5%BA%93%E4%BD%BF%E7%94%A8/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -537,6 +541,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -626,8 +631,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -654,6 +659,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

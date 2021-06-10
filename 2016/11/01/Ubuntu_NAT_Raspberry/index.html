@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,15 +22,15 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="树莓派3自带了WiFi，可以将其连接到无线热点上来联网，不过实验室没有无线路由器可用，只能将其用双绞线连接到电脑上，此时要实现树莓派能正常联网就需要在电脑上的Ubuntu虚拟机中设置NAT转发，这里来记录一下设置过程。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20161101160822.png">
+<meta property="og:image" content="https://img.gaomf.cn/20161101160822.png">
 <meta property="article:published_time" content="2016-11-01T13:05:07.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.439Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.011Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Network">
 <meta property="article:tag" content="Raspberry Pi">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20161101160822.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20161101160822.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -39,7 +39,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -118,7 +118,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -134,10 +134,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -259,20 +259,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -306,6 +307,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-Ubuntu虚拟机中设置NAT使树莓派开发板可以联网" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -351,32 +353,40 @@
       
           
         <p>树莓派3自带了WiFi，可以将其连接到无线热点上来联网，不过实验室没有无线路由器可用，只能将其用双绞线连接到电脑上，此时要实现树莓派能正常联网就需要在电脑上的Ubuntu虚拟机中设置NAT转发，这里来记录一下设置过程。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="网络拓扑结构"><a href="#网络拓扑结构" class="headerlink" title="网络拓扑结构"></a>网络拓扑结构</h2><p>基本的网络结构如下所示：</p>
-<p><img src="https://pic.gaomf.store/20161101160822.png"></p>
+<p><img src="https://img.gaomf.cn/20161101160822.png"></p>
 <p>其中蓝色线条表示逻辑上的网络连接关系。树莓派上的LAN接口使用双绞线与电脑连接，在虚拟机中设置桥接模式，即会产生一块虚拟网卡<code>eth1</code>桥接到已有的以太网上构成局域网。虚拟机中还有一块虚拟网卡<code>eth0</code>，这是通过VMware的NAT模式产生的，VMware中运行着一个NAT服务实现了<code>eth0</code>到<code>VMnet8</code>这两块虚拟网卡间的转发，最终实现了虚拟机联网的目的。</p>
 <p>从图中可以看到，目前树莓派只连接到了一个局域网中，并没有和Internet建立连接，要实现联网的目的，最简单的方法就是在Ubuntu虚拟机中建立<code>eth1</code>至<code>eth0</code>的NAT转发。</p>
 <h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><h3 id="开启IPv4转发"><a href="#开启IPv4转发" class="headerlink" title="开启IPv4转发"></a>开启IPv4转发</h3><p>Linux内核本身就是支持IPv4转发的，只需要开启这个功能即可。使用以下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">echo</span> <span class="string">&quot;1&quot;</span> &gt; /proc/sys/net/ipv4/ip_forward</span><br></pre></td></tr></table></figure>
+
 <p>修改<code>ip_forward</code>文件可以实时启用IP转发，不过这是临时的，重启后会失效，要永久启用，需要修改配置文件<code>/etc/sysctl.conf</code>。在Ubuntu 14.04中，默认有下面这两行注释：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Uncomment the next line to enable packet forwarding for IPv4</span></span><br><span class="line"><span class="comment">#net.ipv4.ip_forward=1</span></span><br></pre></td></tr></table></figure>
+
 <p>根据说明去掉下面那行的注释即可：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Uncomment the next line to enable packet forwarding for IPv4</span></span><br><span class="line">net.ipv4.ip_forward=1</span><br></pre></td></tr></table></figure>
+
 <p>也可以在文件末尾直接添加上述语句，效果是一样的。要让修改实时生效，使用以下命令重新加载<code>sysctl.conf</code>文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure>
+
 <h3 id="配置iptables"><a href="#配置iptables" class="headerlink" title="配置iptables"></a>配置iptables</h3><p>首先确定目前防火墙的设置不会拦截来自树莓派开发板的数据包，之后使用以下命令添加NAT转发即可：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -t nat -A POSTROUTING -s 192.168.1.7/32 -o eth0 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+
 <p><code>192.168.1.7/32</code>是树莓派的IP地址；<code>eth0</code>是可以联网的网卡。</p>
 <p>这个配置也是实时临时生效的，要让其永久生效，需要将其写入配置文件中。</p>
 <p>首先，使用<code>iptables-save</code>工具将目前的<code>iptables</code>规则保存为文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables-save &gt; /etc/iptables.rules</span><br></pre></td></tr></table></figure>
+
 <p>之后修改<code>/etc/network/interfaces</code>文件，在文件最后加上：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pre-up iptables-restore &lt; /etc/iptables.rules</span><br></pre></td></tr></table></figure>
+
 <p><code>iptables-restore</code>工具用于载入之前保存的规则文件；<code>pre-up</code>表示建立<code>interface</code>之前执行操作，类似的还有<code>up</code>、<code>post-down</code>等，可用命令<code>man interfaces</code>查询。这里就表示在每次建立接口前加载预设规则。</p>
 <h3 id="配置网关及DNS服务器"><a href="#配置网关及DNS服务器" class="headerlink" title="配置网关及DNS服务器"></a>配置网关及DNS服务器</h3><p>这一步是在树莓派开发板上进行的操作，根据<a href="/2016/10/27/Raspberry_Pi_Static_IP/">之前文章</a>的做法，我们为树莓派配置的是固定IP地址，故同时还要设置网关和DNS服务器，网关需要设置为Ubuntu虚拟机中<code>eth1</code>网卡的IP地址，以便将所有数据包送至Ubuntu虚拟机中。至于DNS服务器，经过测试，最好的选择是将DNS服务器设置为VMware软件生成的那个虚拟NAT网关的地址，这样VMware会自动选用主机使用的DNS服务器。</p>
 <p>如果要临时更改DNS服务器，可修改<code>/etc/resolve.conf</code>文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nameserver 192.168.175.2</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p>通过上述方法进行设置后，树莓派就可以上网啦~此方式的实质是将Ubuntu虚拟机作为一台路由器进行网络地址转换，从而为树莓派开发板提供网络访问。</p>
 
@@ -388,12 +398,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-11-01, 21:05:07</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/01/Ubuntu_NAT_Raspberry/" title="Ubuntu虚拟机中设置NAT使树莓派开发板可以联网">https://gaomf.cn/2016/11/01/Ubuntu_NAT_Raspberry/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/01/Ubuntu_NAT_Raspberry/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/01/Ubuntu_NAT_Raspberry/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -419,6 +429,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -510,8 +521,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -538,6 +549,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

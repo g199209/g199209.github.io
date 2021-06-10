@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="N皇后问题是经典八皇后问题的扩展：在N*N的棋盘上，有N个皇后需要放置，需满足任意两个皇后不能位于同一行、同一列或者是同一对角线上，求一共有几种放置方法。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-11-22T14:39:36.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.440Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.989Z">
+<meta property="article:author" content="高明飞">
 <meta name="twitter:card" content="summary">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
@@ -34,7 +34,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -113,7 +113,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -129,10 +129,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -254,20 +254,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -301,6 +302,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-N皇后问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -342,13 +344,15 @@
       
           
         <p>N皇后问题是经典八皇后问题的扩展：在N*N的棋盘上，有N个皇后需要放置，需满足任意两个皇后不能位于同一行、同一列或者是同一对角线上，求一共有几种放置方法。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>N皇后问题是一个经典的回溯法的例子，核心思想就是逐行（或逐列）放置，若某一行没有可供放置的位置了，说明前面的放置有误，故回溯到上一行寻找下一个可能的位置。N皇后问题是一个NP-Hard问题，其算法复杂度是指数复杂度的。下面给出两种实现方法。</p>
 <h2 id="经典回溯非递归实现"><a href="#经典回溯非递归实现" class="headerlink" title="经典回溯非递归实现"></a>经典回溯非递归实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NQueens</span><span class="params">(<span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> * columns;</span><br><span class="line">    <span class="keyword">int</span> i, j, k, result;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化</span></span><br><span class="line">    columns = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>) * N);</span><br><span class="line">    result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">        columns[i] = <span class="number">-1</span>;  <span class="comment">// -1代表还未放置</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &gt;= <span class="number">0</span>;) &#123;</span><br><span class="line">        <span class="comment">// 寻找第i列下一个可供放置的位置</span></span><br><span class="line">        <span class="keyword">for</span> (j = columns[i] + <span class="number">1</span>; j &lt; N; j++) &#123;</span><br><span class="line">            <span class="comment">// 检查位置是否冲突</span></span><br><span class="line">            <span class="keyword">for</span> (k = <span class="number">1</span>; i - k &gt;= <span class="number">0</span>; k++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (columns[i - k] == j || columns[i - k] == j - k || columns[i - k] == j + k) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 有位置可用</span></span><br><span class="line">            <span class="keyword">if</span> (i - k &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                columns[i] = j;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;        </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 第i列已经没有空位，需要回溯</span></span><br><span class="line">        <span class="keyword">if</span> (j == N) &#123;</span><br><span class="line">            columns[i] = <span class="number">-1</span>;</span><br><span class="line">            i--;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 到达最后一列，找到一个解</span></span><br><span class="line">        <span class="keyword">if</span> (i == N<span class="number">-1</span>)&#123;</span><br><span class="line">            result++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 继续寻找下一列</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">free</span>(columns);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>程序很简单，就不多说明了。</p>
 <h2 id="位运算递归实现"><a href="#位运算递归实现" class="headerlink" title="位运算递归实现"></a>位运算递归实现</h2><p>上面使用数组实现的回溯法其实效率很低，N皇后最高效的解法是位运算算法，下面给出实现代码：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> upperlimit;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> count;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Enter N : &quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;N);</span><br><span class="line">    count = <span class="number">0</span>;</span><br><span class="line">    upperlimit = (<span class="number">1</span> &lt;&lt; N) - <span class="number">1</span>;</span><br><span class="line">    NQueen(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Solution : %d\n&quot;</span>, count);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">NQueen</span><span class="params">(<span class="keyword">int</span> row,<span class="keyword">int</span> ld,<span class="keyword">int</span> rd)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pos, p;</span><br><span class="line">     </span><br><span class="line">    <span class="comment">//row == upperlim,说明皇后全部放进去了 </span></span><br><span class="line">    <span class="keyword">if</span>(row != upperlimit)&#123;</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//row，ld，rd进行“或”运算，如：000101 ，1的列表示已经放置了皇后</span></span><br><span class="line">        <span class="comment">//pos 取反得 111010，1表示可以放皇后的列  </span></span><br><span class="line">        <span class="comment">//upperlimit 是上限值,控制二进制长度:</span></span><br><span class="line">        <span class="comment">//如：(~(row | ld | rd ) = 100001011101时,upperlimit = 111111,pos= 011101 </span></span><br><span class="line">        pos = upperlimit &amp; (~(row | ld | rd ));  </span><br><span class="line">        <span class="keyword">while</span> (pos != <span class="number">0</span>) &#123;</span><br><span class="line">             </span><br><span class="line">            <span class="comment">// 找出可以放皇后的位置（默认从右到左），如：p=000100,表示该行右边第三个位置可以放皇后。</span></span><br><span class="line">            <span class="comment">// p就表示该行的某个可以放皇后的位置，把皇后放在这个位置上后，就把它从pos中移除并递归调用test过程。</span></span><br><span class="line">            p = pos &amp; (~pos + <span class="number">1</span>);  </span><br><span class="line">             </span><br><span class="line">            <span class="comment">// 把皇后放在这个位置上后，就把它从pos中移除并递归调用test过程。</span></span><br><span class="line">            <span class="comment">// 如：pos = 111100时,p = 000100,把皇后放在这个位置上后， pos = pos - p, pos=111000</span></span><br><span class="line">            pos = pos - p;  </span><br><span class="line">            <span class="comment">//(row|p) 是计算已经在对应列上面的皇后</span></span><br><span class="line">            <span class="comment">//(ld | p)&lt;&lt; 1 是因为由ld造成的占位在下一行要右移一下；</span></span><br><span class="line">            <span class="comment">// (rd | p)&gt;&gt; 1 是因为由rd造成的占位在下一行要左移一下</span></span><br><span class="line">            test((row|p),(ld|p)&lt;&lt;<span class="number">1</span>,(rd|p)&gt;&gt;<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>此算法的详细解释见：</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://my.oschina.net/CodingMen/blog/715983">八皇后问题详解及代码实现(位运算算法)</a><br><a target="_blank" rel="noopener" href="http://blog.csdn.net/hackbuteer1/article/details/6657109">N皇后问题的两个最高效的算法</a><br><a target="_blank" rel="noopener" href="http://www.matrix67.com/blog/archives/266">位运算简介及实用技巧（三）：进阶篇(2)</a></p>
@@ -365,12 +369,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/11/22/N_Queen_Problem/">N皇后问题</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-11-22, 22:39:36</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/22/N_Queen_Problem/" title="N皇后问题">https://gaomf.cn/2016/11/22/N_Queen_Problem/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/22/N_Queen_Problem/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/22/N_Queen_Problem/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -396,6 +400,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -464,8 +469,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -492,6 +497,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

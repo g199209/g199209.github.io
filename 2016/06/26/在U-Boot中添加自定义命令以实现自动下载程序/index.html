@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="U-Boot中通过NFS下载程序是一种很普遍的方式，然而下载程序的过程并不能只用一条命令实现。以下载到NOR Flash中为例，一般需要以下几步：  通过NFS将文件下载到内存中； 解除NOR Flash写保护； 擦除NOR Flash； 写入NOR Flash。  每一步都需要手动输入命令，十分麻烦，所以我们可以在U-Boot中添加一个自定义命令download，以实现一键全自动下载的目的。下面">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-06-26T13:06:56.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:25:11.835Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:57.009Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Bootloader">
 <meta name="twitter:card" content="summary">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -114,7 +114,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -130,10 +130,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -255,20 +255,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -302,6 +303,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-在U-Boot中添加自定义命令以实现自动下载程序" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -354,10 +356,11 @@
 <li>写入NOR Flash。</li>
 </ol>
 <p>每一步都需要手动输入命令，十分麻烦，所以我们可以在U-Boot中添加一个自定义命令<code>download</code>，以实现一键全自动下载的目的。下面就来介绍一下实现方法。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="向U-Boot中添加命令"><a href="#向U-Boot中添加命令" class="headerlink" title="向U-Boot中添加命令"></a><strong>向U-Boot中添加命令</strong></h2><p>以U-Boot 2016.05为例，其绝大部分命令都位于<code>cmd/</code>文件夹中，可以选择一个简单点的文件打开看看，就可以看到命令接口的基本结构如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">do_mycmd</span><span class="params">(<span class="keyword">cmd_tbl_t</span> *cmdtp, <span class="keyword">int</span> flag, <span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Do Something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">U_BOOT_CMD(</span><br><span class="line">    mycmd, <span class="number">1</span>, <span class="number">1</span>, do_mycmd,</span><br><span class="line">    <span class="string">&quot;short description&quot;</span>,</span><br><span class="line">    <span class="string">&quot;help&quot;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
 <p>其中<code>do_mycmd()</code>函数就是命令的执行函数，它的名字可以是任意的，只是按照U-Boot惯例一般就叫做这种形式。此函数的<code>cmdfp</code>和<code>flag</code>两个参数是由U-Boot系统传入的和命令相关的一些信息，一般用不到，重点是后两个参数。<code>argc</code>是参数个数，至少为1，表示命令本身；<code>argv</code>就是具体传入的参数字符串数组。</p>
 <p>这个一般的函数是如何和命令关联起来的呢？靠的就是<code>U_BOOT_CMD</code>这个宏。这里不详细分析此宏的实现机理，仅从应用的角度说明一下。<code>U_BOOT_CMD</code>的命令格式为：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">U_BOOT_CMD(name,maxargs,rep,cmd,usage,help)</span><br></pre></td></tr></table></figure>
@@ -397,13 +400,17 @@
 <p>按以上格式新建一个C源文件后，将其加入Makefile中编译即可。这个文件可以放在任何地方，不过<code>cmd/</code>文件夹中存放的是通用的命令，我们自己新加入的命令最好不要放在里面，而是放在<code>board/</code>中板子相关的文件夹里，比如<code>board/samsung/smdk2440/</code>。</p>
 <p>如果需要灵活控制是否添加此命令，可加入条件编译，仿照U-Boot本身的做法定义以下宏：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_CMD_MYCMD</span></span><br></pre></td></tr></table></figure>
+
 <p>这个定义可以放在板子的头文件中，也可加入defconfig文件中。之后在Makefile文件中加入条件编译即可：</p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj-<span class="variable">$(CONFIG_CMD_MYCMD)</span> += mycmd.o</span><br></pre></td></tr></table></figure>
+
 <h2 id="运行特定命令"><a href="#运行特定命令" class="headerlink" title="运行特定命令"></a><strong>运行特定命令</strong></h2><p>要实现自动下载，需要使用一个命令代替一系列命令，这就要求能够在程序中自动运行特定命令。U-Boot提供了一个方便的接口函数来实现这一目的：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Run a command using the selected parser.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param cmd	Command to run</span></span><br><span class="line"><span class="comment"> * @param flag	Execution flags (CMD_FLAG_...)</span></span><br><span class="line"><span class="comment"> * @return 0 on success, or != 0 on error.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">run_command</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *cmd, <span class="keyword">int</span> flag)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>只需调用此函数即可运行特定的命令。</p>
 <h2 id="自动下载程序"><a href="#自动下载程序" class="headerlink" title="自动下载程序"></a><strong>自动下载程序</strong></h2><p>最后给出完整版的自动下载程序的实现代码：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;common.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;command.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">do_download</span><span class="params">(<span class="keyword">cmd_tbl_t</span> *cmdtp, <span class="keyword">int</span> flag, <span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(argc == <span class="number">1</span>)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;param:\nu : U-Boot;\nl : Linux;\nf : File System.\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> * <span class="keyword">const</span> cmd_uboot[<span class="number">5</span>] = &#123;</span><br><span class="line">        <span class="string">&quot;nfs 30000000 /home/gmf/nfs/u-boot.bin&quot;</span>,</span><br><span class="line">        <span class="string">&quot;protect off all&quot;</span>,</span><br><span class="line">        <span class="string">&quot;erase 0 +$filesize&quot;</span>,</span><br><span class="line">        <span class="string">&quot;cp.b 30000000 0 $filesize&quot;</span>,</span><br><span class="line">        <span class="string">&quot;reset&quot;</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> * <span class="keyword">const</span> cmd_linux[<span class="number">4</span>] = &#123;</span><br><span class="line">        <span class="string">&quot;nfs 30008000 /home/gmf/nfs/uImage&quot;</span>,</span><br><span class="line">        <span class="string">&quot;nand erase 60000 300000&quot;</span>,</span><br><span class="line">        <span class="string">&quot;nand write.jffs2 30008000 60000 300000&quot;</span>,</span><br><span class="line">        <span class="string">&quot;bootm 30008000&quot;</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> * <span class="keyword">const</span> cmd_fs[<span class="number">4</span>] = &#123;</span><br><span class="line">        <span class="string">&quot;nfs 32000000 /home/gmf/nfs/ramdisk.gz&quot;</span>,</span><br><span class="line">        <span class="string">&quot;nand erase 560000 $filesize&quot;</span>,</span><br><span class="line">        <span class="string">&quot;nand write.jffs2 32000000 560000 $filesize&quot;</span>,</span><br><span class="line">        <span class="string">&quot;bootd&quot;</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span>(*argv[<span class="number">1</span>]) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;u&#x27;</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;U&#x27;</span>:</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\n##########\n&quot;</span>);</span><br><span class="line">            <span class="built_in">printf</span>(cmd_uboot[i]);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\n##########\n&quot;</span>);</span><br><span class="line">            run_command(cmd_uboot[i], <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;l&#x27;</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;L&#x27;</span>:</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\n##########\n&quot;</span>);</span><br><span class="line">            <span class="built_in">printf</span>(cmd_linux[i]);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\n##########\n&quot;</span>);</span><br><span class="line">            run_command(cmd_linux[i], <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;f&#x27;</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;F&#x27;</span>:</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\n##########\n&quot;</span>);</span><br><span class="line">            <span class="built_in">printf</span>(cmd_fs[i]);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\n##########\n&quot;</span>);</span><br><span class="line">            run_command(cmd_fs[i], <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">U_BOOT_CMD(</span><br><span class="line">    download,   <span class="number">2</span>,  <span class="number">1</span>,  do_download,</span><br><span class="line">    <span class="string">&quot;Download File (Uboot, Linux or FS)&quot;</span>,</span><br><span class="line">    <span class="string">&quot; - Download File:\nu : U-Boot;\nl : Linux;\nf : File System.\n&quot;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
 <p>此处实现了自动下载<code>u-boot.bin</code>文件、<code>uImage</code>文件和<code>ramdisk.gz</code>文件，分别输入<code>download u</code>、<code>download l</code>和<code>download f</code>即可。命令执行序列位于<code>cmd_uboot</code>、<code>cmd_linux</code>及<code>cmd_fs</code>数组中。此代码结构很好进行扩展，如要加入新的选项，仿照目前的结构添加即可。</p>
 
       
@@ -414,12 +421,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/06/26/%E5%9C%A8U-Boot%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">在U-Boot中添加自定义命令以实现自动下载程序</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-06-26, 21:06:56</p>
-        <p><span>最后更新:</span>2021-05-16, 19:25:11</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/06/26/%E5%9C%A8U-Boot%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/" title="在U-Boot中添加自定义命令以实现自动下载程序">https://gaomf.cn/2016/06/26/%E5%9C%A8U-Boot%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/26/%E5%9C%A8U-Boot%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/26/%E5%9C%A8U-Boot%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -445,6 +452,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -534,8 +542,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -562,6 +570,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

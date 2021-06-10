@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="在C语言中，使用rand()函数生成随机数，srand()函数初始化随机数种子。 rand()函数原型为int rand(void)，在头文件stdlib.h中声明。此函数返回一个0~&#96;RAND_MAX&#96; 间的伪随机整数。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2015-11-16T12:22:19.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:31:16.156Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.981Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Number Theory">
 <meta property="article:tag" content="C">
 <meta name="twitter:card" content="summary">
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -115,7 +115,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -131,10 +131,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -256,20 +256,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -303,6 +304,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-C语言生成随机数" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -349,12 +351,13 @@
           
         <p>在C语言中，使用<code>rand()</code>函数生成随机数，<code>srand()</code>函数初始化随机数种子。</p>
 <p><code>rand()</code>函数原型为<code>int rand(void)</code>，在头文件<code>stdlib.h</code>中声明。此函数返回一个0~`RAND_MAX` 间的伪随机整数。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p><code>RAND_MAX</code>是头文件<code>stdlib.h</code>中定义的一个宏，其值在不同平台下有所区别。根据C语言标准，<code>RAND_MAX</code>最小为32767。在Microsoft VS提供的标准库文件中，<code>RAND_MAX</code>被定义为32767。</p>
 <p><code>srand()</code>函数原型为<code>void srand(unsigned int seed)</code>，同样在头文件<code>stdlib.h</code>中声明。此函数将<code>seed</code>设置为伪随机数生成的初始种子。确定了初始种子后，每次调用<code>rand()</code>函数时，就会使用递推公式给出一个伪随机数。所以显而易见，若<code>seed</code>相同，之后得到的伪随机数序列也会完全相同。<br>如果不显式调用<code>srand()</code>函数，在第一次调用<code>rand()</code>函数之前，会自动将<code>seed</code>设置为1。</p>
 <p>通常做法是使用当前时间来作为<code>seed</code>，即：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srand((<span class="keyword">unsigned</span> <span class="keyword">int</span>)time(<span class="literal">NULL</span>));</span><br></pre></td></tr></table></figure>
+
 <p>其中，<code>time()</code>函数的原型为<code>time_t time(time_t *timer)</code>，在头文件<code>time.h</code>中声明。此处给出的函数原型是基于Microsoft VS提供的标准库文件的，在其它平台下可能会有所区别。关于此函数的参数与返回值，可参考MSDN中的说明：</p>
 <blockquote>
 <p>The time function returns the number of seconds elapsed since midnight (00:00:00), January 1, 1970, Coordinated Universal Time (UTC), according to the system clock. The return value is stored in the location given by timer. This parameter may be NULL, in which case the return value is not stored.</p>
@@ -368,6 +371,7 @@
 <p>这段代码是网上广为流传的代码，然而，从理论上仔细进行分析，这个方法并不能严格保证生成的伪随机数符合均匀分布。故此方法仅适合于粗略的生成一些随机数。</p>
 <h3 id="生成0-1区间的小数"><a href="#生成0-1区间的小数" class="headerlink" title="生成0~1区间的小数"></a><strong>生成0~1区间的小数</strong></h3><p>代码如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">random_float</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (<span class="keyword">float</span>)rand()/(RAND_MAX + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h3><p>前面提到，<code>rand()</code>函数是使用某个递推公式来生成一个伪随机数序列的，事实上，这里使用的算法是<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Linear_congruential_generator">线性同余法</a> （LCG，Linear Congruential Generator）。</p>
 <p>LCG的基本公式为：</p>
 <blockquote>
@@ -390,12 +394,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2015/11/16/C%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/">C语言生成随机数</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2015-11-16, 20:22:19</p>
-        <p><span>最后更新:</span>2021-05-16, 19:31:16</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/11/16/C%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/" title="C语言生成随机数">https://gaomf.cn/2015/11/16/C%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/16/C%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/16/C%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -421,6 +425,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -487,8 +492,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -515,6 +520,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

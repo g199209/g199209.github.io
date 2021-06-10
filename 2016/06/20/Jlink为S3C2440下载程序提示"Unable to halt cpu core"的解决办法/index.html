@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="今天使用JLink为S3C2440下载U-Boot程序时发现连不上设备了，选择Connect后提示”Unable to halt cpu core. Failed to connect”，然而之前明明是正常的，于是开始寻找解决方案。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-06-20T09:08:06.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:30:39.090Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.983Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="ARM">
 <meta property="article:tag" content="Bootloader">
 <meta property="article:tag" content="Debug">
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -116,7 +116,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -132,10 +132,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -257,20 +257,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -304,6 +305,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-Jlink为S3C2440下载程序提示Unable to halt cpu core的解决办法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -349,10 +351,11 @@
       
           
         <p>今天使用JLink为S3C2440下载U-Boot程序时发现连不上设备了，选择Connect后提示”Unable to halt cpu core. Failed to connect”，然而之前明明是正常的，于是开始寻找解决方案。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>首先使用J-Link Commander尝试连接，不出意外，打开程序后提示”Unable to halt cpu core”，然而尝试复位后就可以连接了：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">VTarget = 3.300V</span><br><span class="line">Info: TotalIRLen = 4, IRPrint = 0x01</span><br><span class="line">Info: Using DBGRQ to halt CPU</span><br><span class="line">Info: Resetting TRST in order to halt CPU</span><br><span class="line">Info: CP15.0.0: 0x41129200: ARM, Architecure 4T</span><br><span class="line">Info: J-Link: ARM9, 920 core</span><br><span class="line"></span><br><span class="line">****** Error: Unable to halt CPU core</span><br><span class="line">Found 1 JTAG device, Total IRLen = 4:</span><br><span class="line"><span class="meta"> #</span><span class="bash">0 Id: 0x0032409D, IRLen: 04, Unknown device</span></span><br><span class="line">Found 1 JTAG device, Total IRLen = 4:</span><br><span class="line"><span class="meta"> #</span><span class="bash">0 Id: 0x0032409D, IRLen: 04, Unknown device</span></span><br><span class="line">Found ARM with core Id 0x0032409D (ARM9)</span><br><span class="line"><span class="meta">J-Link&gt;</span><span class="bash">Regs</span></span><br><span class="line">CPU is not halted !</span><br><span class="line"><span class="meta">J-Link&gt;</span><span class="bash">r</span></span><br><span class="line">Reset delay: 0 ms</span><br><span class="line">Reset type NORMAL: Using RESET pin, halting CPU after Reset</span><br><span class="line">Info: TotalIRLen = 4, IRPrint = 0x01</span><br><span class="line">Info: CP15.0.0: 0x41129200: ARM, Architecure 4T</span><br><span class="line">Info: CP15.0.1: 0x0D172172: ICache: 16kB (64*8*32), DCache: 16kB (64*8*32)</span><br><span class="line">Info: Cache type: Separate, Write-back, Format A</span><br><span class="line"><span class="meta">J-Link&gt;</span><span class="bash">Regs</span></span><br><span class="line">PC: (R15) = 00000000, CPSR = 600000D3 (SVC mode, ARM FIQ dis. IRQ dis.)</span><br><span class="line">R0 = 33B1C948, R1 = 00000000, R2 = 33B1C058, R3 = 19000300</span><br><span class="line">R4 = 33B1C948, R5 = 33B1C058, R6 = 19000300, R7 = 00000000</span><br><span class="line">USR: R8 =33FEC9A0, R9 =33B1BF08, R10=DEADBEEF, R11 =000185BC, R12 =00000000</span><br><span class="line">     R13=FF7CFAEF, R14=BFBFFD9E</span><br><span class="line">FIQ: R8 =E7EF7AF0, R9 =BEBFBFFB, R10=FDA3FBFD, R11 =FCF82DF3, R12 =9FDFFD30</span><br><span class="line">     R13=FDFFDF79, R14=FFEDE3F9, SPSR=00000010</span><br><span class="line">SVC: R13=33B1BE80, R14=33F59374, SPSR=00000013</span><br><span class="line">ABT: R13=FFDFFEFF, R14=4FFFEF77, SPSR=40000014</span><br><span class="line">IRQ: R13=BF9E36F9, R14=69F7FFFF, SPSR=00000010</span><br><span class="line">UND: R13=FBBAD9FF, R14=00000008, SPSR=700000DB</span><br></pre></td></tr></table></figure>
+
 <p>再回到J-Flash ARM中，设置菜单中有一项”Use following init sequence”，按照<a href="/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">之前的做法</a>是设置成了”Reset &amp; Delay 2ms”。注意上面J-Link Commander的输出信息，输入<code>r</code>进行复位后第一行就是:</p>
 <figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Reset <span class="keyword">delay</span>: <span class="number">0</span> ms</span><br></pre></td></tr></table></figure>
 <p>复位延时是0ms。受此启发，将J-Flash ARM中的复位延时也改为0ms，此时再尝试连接，发现可以建立连接了。不过问题并没有解决，之后下载程序时会提示错误：”PC of target system has unexpected value after programming”，这也就是之前为何要设置成”Reset &amp; Delay 2ms”的原因（详见<a href="/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">使用JLink为2440 NOR Flash下载程序</a>）。</p>
@@ -384,12 +387,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/06/20/Jlink%E4%B8%BAS3C2440%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F%E6%8F%90%E7%A4%BA%22Unable%20to%20halt%20cpu%20core%22%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">Jlink为S3C2440下载程序提示&#34;Unable to halt cpu core&#34;的解决办法</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-06-20, 17:08:06</p>
-        <p><span>最后更新:</span>2021-05-16, 19:30:39</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/06/20/Jlink%E4%B8%BAS3C2440%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F%E6%8F%90%E7%A4%BA%22Unable%20to%20halt%20cpu%20core%22%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" title="Jlink为S3C2440下载程序提示&#34;Unable to halt cpu core&#34;的解决办法">https://gaomf.cn/2016/06/20/Jlink%E4%B8%BAS3C2440%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F%E6%8F%90%E7%A4%BA%22Unable%20to%20halt%20cpu%20core%22%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/20/Jlink%E4%B8%BAS3C2440%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F%E6%8F%90%E7%A4%BA%22Unable%20to%20halt%20cpu%20core%22%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/20/Jlink%E4%B8%BAS3C2440%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F%E6%8F%90%E7%A4%BA%22Unable%20to%20halt%20cpu%20core%22%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -415,6 +418,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -504,8 +508,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -532,6 +536,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

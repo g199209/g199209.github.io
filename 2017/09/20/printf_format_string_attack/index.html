@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,16 +22,16 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="前几天去Intel面试时，遇到了一个问题：printf(&quot;%s&quot;, s)与printf(s)有何区别？面试官还提示我从安全的角度回答这个问题，然而当时并没有想出答案来……:( 回来后仔细研究了下这个问题，才发现pritnf(s)这种写法是存在严重安全漏洞的，这被称为printf格式化字符串漏洞攻击。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/scanf_stack.svg">
-<meta property="og:image" content="https://pic.gaomf.store/20170920214800.png">
+<meta property="og:image" content="https://img.gaomf.cn/scanf_stack.svg">
+<meta property="og:image" content="https://img.gaomf.cn/20170920214800.png">
 <meta property="article:published_time" content="2017-09-20T13:58:00.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.439Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.011Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Top">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="Security">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/scanf_stack.svg">
+<meta name="twitter:image" content="https://img.gaomf.cn/scanf_stack.svg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -40,7 +40,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -119,7 +119,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -135,10 +135,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -260,20 +260,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -307,6 +308,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-printf格式化字符串漏洞攻击" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -352,20 +354,22 @@
       
           
         <p>前几天去Intel面试时，遇到了一个问题：<code>printf(&quot;%s&quot;, s)</code>与<code>printf(s)</code>有何区别？面试官还提示我从安全的角度回答这个问题，然而当时并没有想出答案来……:( 回来后仔细研究了下这个问题，才发现<code>pritnf(s)</code>这种写法是存在严重安全漏洞的，这被称为printf格式化字符串漏洞攻击。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p><code>printf</code>函数支持不定参数的原理在此不多说，可参考<code>stdarg.h</code>头文件的相关介绍。核心就是，函数使用栈传递参数，且根据cdecl函数调用约定，压栈顺序是从最后一个参数开始逆序进行的，而<code>printf</code>函数的第一个参数是确定的字符串，故可以从这个字符串中判断出栈中还有多少个数据，每个数据的类型是什么，进而依次取出各个数据。</p>
 <p>正常情况下，格式化字符串中格式化字符<code>%</code>是和之后的参数一一对应的，然而我们可以考虑一种情况，若格式化字符<code>%</code>比参数多会怎么样呢，答案是，会取到栈中其他的数据。这就是<code>printf(s)</code>这种写法有问题的原因了，这里使用<code>s</code>而不是一个字符串字面常量，而<code>s</code>传入什么内容其实是不可控的，若传入字符中存在<code>%</code>，就会输出栈中其他一些内容。要是<code>s</code>还是可以由外部输入的，那就可以通过巧妙的构造<code>s</code>的形式来实现<strong>访问栈中本来没有权限访问的内容</strong>，这就是所谓的格式化字符串漏洞攻击。</p>
 <p>下面来看一个实际的例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> security;</span><br><span class="line">    <span class="keyword">char</span> str[<span class="number">100</span>];</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;security);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, str);</span><br><span class="line">    <span class="built_in">printf</span>(str);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这段程序中由用户输入一个整数，存放在<code>security</code>这个变量中，之后再输入一个字符串<code>str</code>，并使用<code>printf(str)</code>这样的形式将其打印出来。针对这个例子，我们可以构造一个特定的输入字符串将<code>security</code>的内容给打印出来。</p>
 <p>使用GCC 4.9.3编译以上程序，优化等级<code>-O2</code>，得到的程序用<code>objdump</code>反汇编一下，可以找出对应的汇编代码为：</p>
 <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">00408350</span> &lt;_main&gt;:</span><br><span class="line">  <span class="number">408350</span>:	<span class="number">55</span>                   	<span class="keyword">push</span>   %ebp</span><br><span class="line">  <span class="number">408351</span>:	<span class="number">89</span> e5                	<span class="keyword">mov</span>    %esp,%ebp</span><br><span class="line">  <span class="number">408353</span>:	<span class="number">53</span>                   	<span class="keyword">push</span>   %ebx</span><br><span class="line">  <span class="number">408354</span>:	<span class="number">83</span> e4 f0             	<span class="keyword">and</span>    <span class="number">$0</span>xfffffff0,%esp</span><br><span class="line">  <span class="number">408357</span>:	<span class="number">83</span> c4 <span class="number">80</span>             	<span class="keyword">add</span>    <span class="number">$0</span>xffffff80,%esp</span><br><span class="line">  40835a:	e8 <span class="number">31</span> <span class="number">95</span> ff ff       	<span class="keyword">call</span>   <span class="number">401890</span> &lt;___main&gt;</span><br><span class="line">  40835f:	<span class="number">8d</span> <span class="number">44</span> <span class="number">24</span> <span class="number">18</span>          	<span class="keyword">lea</span>    <span class="number">0x18</span>(%esp),%eax</span><br><span class="line">  <span class="number">408363</span>:	<span class="number">8d</span> 5c <span class="number">24</span> 1c          	<span class="keyword">lea</span>    <span class="number">0x1c</span>(%esp),%ebx</span><br><span class="line">  <span class="number">408367</span>:	c7 <span class="number">04</span> <span class="number">24</span> c0 a0 <span class="number">40</span> <span class="number">00</span> 	movl   <span class="number">$0</span>x40a0c0,(%esp)</span><br><span class="line">  40836e:	<span class="number">89</span> <span class="number">44</span> <span class="number">24</span> <span class="number">04</span>          	<span class="keyword">mov</span>    %eax,<span class="number">0x4</span>(%esp)</span><br><span class="line">  <span class="number">408372</span>:	e8 f1 fb ff ff       	<span class="keyword">call</span>   407f68 &lt;_scanf&gt;</span><br><span class="line">  <span class="number">408377</span>:	<span class="number">89</span> 5c <span class="number">24</span> <span class="number">04</span>          	<span class="keyword">mov</span>    %ebx,<span class="number">0x4</span>(%esp)</span><br><span class="line">  40837b:	c7 <span class="number">04</span> <span class="number">24</span> c3 a0 <span class="number">40</span> <span class="number">00</span> 	movl   <span class="number">$0</span>x40a0c3,(%esp)</span><br><span class="line">  <span class="number">408382</span>:	e8 e1 fb ff ff       	<span class="keyword">call</span>   407f68 &lt;_scanf&gt;</span><br><span class="line">  <span class="number">408387</span>:	<span class="number">89</span> 1c <span class="number">24</span>             	<span class="keyword">mov</span>    %ebx,(%esp)</span><br><span class="line">  40838a:	e8 e9 fb ff ff       	<span class="keyword">call</span>   407f78 &lt;_printf&gt;</span><br><span class="line">  40838f:	<span class="number">31</span> c0                	<span class="keyword">xor</span>    %eax,%eax</span><br><span class="line">  <span class="number">408391</span>:	8b <span class="number">5d</span> fc             	<span class="keyword">mov</span>    -<span class="number">0x4</span>(%ebp),%ebx</span><br><span class="line">  <span class="number">408394</span>:	c9                   	<span class="keyword">leave</span>  </span><br><span class="line">  <span class="number">408395</span>:	c3                   	<span class="keyword">ret</span>    </span><br></pre></td></tr></table></figure>
+
 <p><code>408350</code><del><code>40835a</code>部分为GCC自动生成的<code>main</code>函数入口处代码，此处不用管它；<code>40835f</code></del><code>408372</code>为第一个<code>scanf</code>函数，读入<code>security</code>；<code>408377</code><del><code>408382</code>为第二个<code>scanf</code>函数，读入<code>str</code>；<code>408387</code></del><code>40838a</code>调用<code>printf</code>输出<code>str</code>。根据反汇编结果，我们可以画出<code>408372</code>行时栈的结构：</p>
-<p><img src="https://pic.gaomf.store/scanf_stack.svg"></p>
+<p><img src="https://img.gaomf.cn/scanf_stack.svg"></p>
 <p><code>scanf</code>函数反向压栈，故<code>%esp</code>指针指向的元素<code>$0x40a0c0</code>应该就是字符串字面量<code>&quot;%d&quot;</code>的首地址，而<code>%esp+0x04</code>就是栈中的下一个元素，这就是<code>security</code>变量的地址，从汇编代码中可以看到，这个地址是一个<code>%esp</code>的偏移量，<code>%esp+0x18</code>。由此，我们可以分析出<code>security</code>在栈中的位置，而之后<code>%esp</code>指针没有改变，故我们可以构造以下这个特殊的字符串：<code>%d%d%d%d%d_____security_is:%d</code>，这个字符串会连续取出栈中的前6个<code>int</code>，第6个<code>int</code>的地址就是<code>%esp+0x18</code>，这正是<code>security</code>变量的地址。</p>
 <p>实际运行程序测试一下：</p>
-<p><img src="https://pic.gaomf.store/20170920214800.png"></p>
+<p><img src="https://img.gaomf.cn/20170920214800.png"></p>
 <p>可以看到，我们成功读到了<code>security</code>的内容。</p>
 <p>为了预防这个问题，我们需要确保在使用<code>printf</code>函数时第一个参数必须是一个字符串字面量。其实，以上写法编译器也会产生warning：format string is not a string literal (potentially insecure).</p>
 <p>最后，其实配合一个比较少用的<code>printf</code>参数<code>%n</code>还可以利用此漏洞实现对栈中内容的修改，在此就不展开了，可参考第三篇参考资料。</p>
@@ -382,12 +386,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2017/09/20/printf_format_string_attack/">printf格式化字符串漏洞攻击</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2017-09-20, 21:58:00</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/20/printf_format_string_attack/" title="printf格式化字符串漏洞攻击">https://gaomf.cn/2017/09/20/printf_format_string_attack/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/09/20/printf_format_string_attack/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/09/20/printf_format_string_attack/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -413,6 +417,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -481,8 +486,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -509,6 +514,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

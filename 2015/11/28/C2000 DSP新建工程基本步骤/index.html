@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,20 +22,20 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="本文以TMS320F28031为例，介绍如何新建一个完整的CCS工程文件。其他型号的C2000系列微处理器的操作方法大同小异。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151128135049.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151128135556.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151128143648.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151128143850.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151128144431.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151128145950.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151128152726.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151128190022.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151128135049.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151128135556.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151128143648.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151128143850.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151128144431.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151128145950.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151128152726.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151128190022.png">
 <meta property="article:published_time" content="2015-11-28T04:52:05.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:18:45.079Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.392Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="DSP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/DSP20151128135049.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/DSP20151128135049.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -44,7 +44,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -123,7 +123,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -139,10 +139,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -264,20 +264,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -311,6 +312,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-TMS320 DSP新建工程基本步骤" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -356,12 +358,12 @@
       
           
         <p>本文以TMS320F28031为例，介绍如何新建一个完整的CCS工程文件。其他型号的C2000系列微处理器的操作方法大同小异。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h2><p>需要安装好<a target="_blank" rel="noopener" href="http://www.ti.com.cn/tool/cn/ccstudio">CCS</a>及<a target="_blank" rel="noopener" href="http://www.ti.com.cn/tool/cn/controlsuite">controlSUITE</a>。下文使用的CCS版本为v6.0.0，controlSUITE版本为v3.3.3。</p>
-<h2 id="新建工程"><a href="#新建工程" class="headerlink" title="新建工程"></a><strong>新建工程</strong></h2><p>打开CCS，菜单栏上找到<code>Project</code>-&gt;<code>New CCS Project...</code>。在弹出的对话框中选好DSP的型号及仿真器的型号，填入工程名称及工程位置，其余选项保持默认值即可。<br><img src="https://pic.gaomf.store/DSP20151128135049.png"><br>点击<code>Finish</code>后在Project Explorer中可以看到新建的工程<br><img src="https://pic.gaomf.store/DSP20151128135556.png"></p>
+<h2 id="新建工程"><a href="#新建工程" class="headerlink" title="新建工程"></a><strong>新建工程</strong></h2><p>打开CCS，菜单栏上找到<code>Project</code>-&gt;<code>New CCS Project...</code>。在弹出的对话框中选好DSP的型号及仿真器的型号，填入工程名称及工程位置，其余选项保持默认值即可。<br><img src="https://img.gaomf.cn/DSP20151128135049.png"><br>点击<code>Finish</code>后在Project Explorer中可以看到新建的工程<br><img src="https://img.gaomf.cn/DSP20151128135556.png"></p>
 <h2 id="添加CMD文件"><a href="#添加CMD文件" class="headerlink" title="添加CMD文件"></a><strong>添加CMD文件</strong></h2><p>新建好工程后自动加入了一个CMD文件，<code>28031_RAM_lnk.cmd</code>，此CMD文件用于配置DSP从RAM启动。一般情况下，程序调试过程中在RAM中进行测试，正式发布时肯定要从Flash中启动，故需要为这两种情况分别添加CMD文件。</p>
-<p>首先，<strong>将工程目录中已有的那个CMD文件删掉</strong>；之后在菜单栏上找到<code>Project</code>-&gt;<code>Properties</code>进入工程属性设置界面。默认情况下，CCS已经为我们建立了两个Configuration，分别为Debug和Release，所以可以将Debug用于调试，程序下载至RAM中；Release用于发布，程序下载至Flash中。<br>首先配置Debug，Configuration选择Debug，下方的Linker command file选择<code>****_RAM_lnk.cmd</code>，<code>****</code>是使用的DSP型号，如图所示：<br><img src="https://pic.gaomf.store/DSP20151128143648.png"><br>之后配置Release，Configuration选择Release，下方的Linker command file选择<code>F****.cmd</code>，<code>****</code>是使用的DSP型号，如图所示：<br><img src="https://pic.gaomf.store/DSP20151128143850.png"><br>配置完成后，选择Debug模式进行编译时<code>F****.cmd</code>文件会被排除掉；同理，选择Release模式进行编译时<code>****_RAM_lnk.cmd</code>文件会被排除掉。效果见下图：<br><img src="https://pic.gaomf.store/DSP20151128144431.png"></p>
+<p>首先，<strong>将工程目录中已有的那个CMD文件删掉</strong>；之后在菜单栏上找到<code>Project</code>-&gt;<code>Properties</code>进入工程属性设置界面。默认情况下，CCS已经为我们建立了两个Configuration，分别为Debug和Release，所以可以将Debug用于调试，程序下载至RAM中；Release用于发布，程序下载至Flash中。<br>首先配置Debug，Configuration选择Debug，下方的Linker command file选择<code>****_RAM_lnk.cmd</code>，<code>****</code>是使用的DSP型号，如图所示：<br><img src="https://img.gaomf.cn/DSP20151128143648.png"><br>之后配置Release，Configuration选择Release，下方的Linker command file选择<code>F****.cmd</code>，<code>****</code>是使用的DSP型号，如图所示：<br><img src="https://img.gaomf.cn/DSP20151128143850.png"><br>配置完成后，选择Debug模式进行编译时<code>F****.cmd</code>文件会被排除掉；同理，选择Release模式进行编译时<code>****_RAM_lnk.cmd</code>文件会被排除掉。效果见下图：<br><img src="https://img.gaomf.cn/DSP20151128144431.png"></p>
 <hr>
 <p>上面添加的CMD文件用于分配RAM、Flash等区域的存储空间，除此之外，还需要添加一个CMD文件用于为外设寄存器结构体分配正确的空间。这个CMD文件的名字为<code>****_Headers_nonBIOS.cmd</code>或<code>****_Headers_BIOS.cmd</code>。文件开头的注释对此文件的用途做了简要的说明：</p>
 <blockquote>
@@ -370,11 +372,12 @@
 <p>从中可以看到<code>****_Headers_nonBIOS.cmd</code>与<code>****_Headers_BIOS.cmd</code>的区别在于是否包含PIE中断向量表，一般的，在有RTOS的情况下选用<code>****_Headers_BIOS.cmd</code>，其余情况下均选择<code>****_Headers_nonBIOS.cmd</code>。</p>
 <p>关于此文件的详细说明，可以参考TI的Application Report “<a target="_blank" rel="noopener" href="http://www.ti.com/lit/an/spraa85d/spraa85d.pdf">Programming TMS320x28xx and 28xxx Peripherals in C/C++</a>“。</p>
 <p>此文件可以从controlSUITE中找到，位于<code>\controlSUITE\device_support\f****\v***\DSP****_headers\cmd</code>路径下，其中<code>v***</code>代表固件库的版本，一般选用最新版。以本文使用的28031为例，具体路径就是<code>\controlSUITE\device_support\f2803x\v130\DSP2803x_headers\cmd</code>。</p>
-<p>需要注意的是，在添加文件的时候一般选择<code>Copy files</code>而不是<code>Link to files</code>，如图所示：<br><img src="https://pic.gaomf.store/DSP20151128145950.png"></p>
-<h2 id="添加寄存器头文件"><a href="#添加寄存器头文件" class="headerlink" title="添加寄存器头文件"></a><strong>添加寄存器头文件</strong></h2><p>将<code>\controlSUITE\device_support\f****\v***\DSP****_headers\</code>中的<code>source\</code>与<code>include\</code>文件夹复制到工程目录下，将<code>include\</code>文件夹添加到包含路径中。<strong>注意不要选择绝对路径</strong>，而是使用<code>Workspace...</code>选择相对路径，如下图所示：<br><img src="https://pic.gaomf.store/DSP20151128152726.png"></p>
+<p>需要注意的是，在添加文件的时候一般选择<code>Copy files</code>而不是<code>Link to files</code>，如图所示：<br><img src="https://img.gaomf.cn/DSP20151128145950.png"></p>
+<h2 id="添加寄存器头文件"><a href="#添加寄存器头文件" class="headerlink" title="添加寄存器头文件"></a><strong>添加寄存器头文件</strong></h2><p>将<code>\controlSUITE\device_support\f****\v***\DSP****_headers\</code>中的<code>source\</code>与<code>include\</code>文件夹复制到工程目录下，将<code>include\</code>文件夹添加到包含路径中。<strong>注意不要选择绝对路径</strong>，而是使用<code>Workspace...</code>选择相对路径，如下图所示：<br><img src="https://img.gaomf.cn/DSP20151128152726.png"></p>
 <p>刚刚添加的<code>include\</code>文件夹中包含的内容是对所有外设寄存器的结构体定义，这种方式TI称之为“Bit Field and Register-File Structure Approach”，与传统的“Traditional #define Approach”有所区别，使用起来会更为方便。关于这两种方式的具体说明与比较，TI在其应用报告”<a target="_blank" rel="noopener" href="http://www.ti.com/lit/an/spraa85d/spraa85d.pdf">Programming TMS320x28xx and 28xxx Peripherals in C/C++</a>“中有详细的论述。</p>
 <p><strong>需要修改</strong><code>DSP****_Device.h</code><strong>文件以指定使用的DSP型号</strong>，以下例子中选择了<code>DSP28_28031PN</code>.</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   TARGET   1</span></span><br><span class="line"><span class="comment">//---------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">// User To Select Target Device:</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28030PAG   0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28030PN    0</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28031PAG   0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28031PN    TARGET</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28032PAG   0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28032PN    0</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28033PAG   0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28033PN    0</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28034PAG   0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28034PN    0</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28035PAG   0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>   DSP28_28035PN    0</span></span><br></pre></td></tr></table></figure>
+
 <p><code>source\</code>文件夹下只有一个文件，就是<code>DSP****_GlobalVariableDefs.c</code>，这个文件中实例化了所有的外设结构体，并且通过通过<code>#pragma DATA_SECTION()</code>将其放置在地址映射中的正确位置，以此实现对外设寄存器的正确访问。TI文档中对此文件的说明如下：</p>
 <blockquote>
 <ul>
@@ -384,7 +387,7 @@
 </blockquote>
 <h2 id="添加标准外设库"><a href="#添加标准外设库" class="headerlink" title="添加标准外设库"></a><strong>添加标准外设库</strong></h2><p>使用标准外设库可以更方便的控制外设而不需要具体了解寄存器的配置方法，这在进行初始化的过程中尤为有用，标准外设库的使用及controlSUITE中例程的说明文档位于<code>\controlSUITE\device_support\f****\v***\doc\</code>文件夹中。需要注意的是，并不是所有型号的C2000 DSP均提供了标准外设库，目前仅有2802x，2807x等几个系列提供了标准外设库文件。</p>
 <p>如需使用标准外设库文件，将库文件（即driverlib.lib）添加至工程中，并且包含<code>\controlSUITE\device_support\f****\v***\DSP****_common\include\</code>目录即可。</p>
-<h2 id="添加TI提供的一些例程文件"><a href="#添加TI提供的一些例程文件" class="headerlink" title="添加TI提供的一些例程文件"></a><strong>添加TI提供的一些例程文件</strong></h2><p>将<code>\controlSUITE\device_support\f****\v***\DSP****_common\</code>中的<code>source\</code>、<code>include\</code>与<code>lib\</code>文件夹复制到工程目录下，将<code>include\</code>文件夹添加到包含路径中。<br>这些文件的具体作用参考<code>\controlSUITE\device_support\f****\v***\doc\</code>中的文档，可根据实际去除不需要的文件。在本项目中，最终的目录结构如图所示：<br><img src="https://pic.gaomf.store/DSP20151128190022.png"></p>
+<h2 id="添加TI提供的一些例程文件"><a href="#添加TI提供的一些例程文件" class="headerlink" title="添加TI提供的一些例程文件"></a><strong>添加TI提供的一些例程文件</strong></h2><p>将<code>\controlSUITE\device_support\f****\v***\DSP****_common\</code>中的<code>source\</code>、<code>include\</code>与<code>lib\</code>文件夹复制到工程目录下，将<code>include\</code>文件夹添加到包含路径中。<br>这些文件的具体作用参考<code>\controlSUITE\device_support\f****\v***\doc\</code>中的文档，可根据实际去除不需要的文件。在本项目中，最终的目录结构如图所示：<br><img src="https://img.gaomf.cn/DSP20151128190022.png"></p>
 <h2 id="设置程序入口点"><a href="#设置程序入口点" class="headerlink" title="设置程序入口点"></a><strong>设置程序入口点</strong></h2><p>根据TI文档的说明，依次找到菜单栏的<code>Project</code>-&gt;<code>Properties</code>-&gt;<code>C2000 Linker</code>-&gt;<code>Symbol Management</code>，在<code>Program Entry Point -e</code>中输入程序入口点即可。TI文档中对此设置的说明如下：</p>
 <blockquote>
 <p>Defines a global symbol that specifies the primary entry point for the output module. For the DSP2803x examples, this is the symbol “code_start”. This symbol is defined in the DSP2803x_common\source\DSP2803x_CodeStartBranch.asm file. When you load the code in Code Composer Studio, the debugger will set the PC to the address of this symbol. If you do not define a entry point using the -e option, then the linker will use _c_int00 by default.</p>
@@ -398,12 +401,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2015/11/28/C2000%20DSP%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/">C2000 DSP新建工程基本步骤</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2015-11-28, 12:52:05</p>
-        <p><span>最后更新:</span>2021-05-16, 19:18:45</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/11/28/C2000%20DSP%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/" title="C2000 DSP新建工程基本步骤">https://gaomf.cn/2015/11/28/C2000%20DSP%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/28/C2000%20DSP%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/28/C2000%20DSP%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -429,6 +432,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -518,8 +522,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -546,6 +550,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

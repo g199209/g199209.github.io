@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="给定两个字符串表示的非负整数，求其和，结果也用字符串表示。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-10-24T06:50:19.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.439Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.987Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Online Judge">
 <meta name="twitter:card" content="summary">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -114,7 +114,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -130,10 +130,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -255,20 +255,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -302,6 +303,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-LeetCode415" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -347,7 +349,7 @@
       
           
         <p>给定两个字符串表示的非负整数，求其和，结果也用字符串表示。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="原始问题"><a href="#原始问题" class="headerlink" title="原始问题"></a>原始问题</h2><blockquote>
 <p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/add-strings/">https://leetcode.com/problems/add-strings/</a></p>
@@ -357,10 +359,13 @@
 </blockquote>
 <h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>从最低位开始逐位相加即可，注意处理进位。网上搜索到的AC代码处理进位一般都使用<code>/10</code>及<code>%10</code>的方法：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c = sum / <span class="number">10</span>;</span><br><span class="line">result += sum % <span class="number">10</span> + <span class="string">&#x27;0&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
 <p>此方法代码简洁，不过效率很低，因为除法和取模开销会很大，故此处使用了其他方法进行处理，具体见下面的代码。</p>
 <h2 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h2><h3 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span>* <span class="title">addStrings</span><span class="params">(<span class="keyword">char</span>* num1, <span class="keyword">char</span>* num2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> digits1 = <span class="built_in">strlen</span>(num1);</span><br><span class="line">    <span class="keyword">int</span> digits2 = <span class="built_in">strlen</span>(num2);</span><br><span class="line">    <span class="keyword">int</span> sumDigits = digits1 &gt; digits2 ? digits1 + <span class="number">1</span> : digits2 + <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">char</span> * sumStr = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>((sumDigits + <span class="number">1</span>) * <span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">    sumStr[sumDigits] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">char</span> carryFlag = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> tmpNum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= sumDigits; i++) &#123;</span><br><span class="line">        tmpNum = carryFlag;</span><br><span class="line">        <span class="keyword">if</span> (i &lt;= digits1) &#123;</span><br><span class="line">            tmpNum += (num1[digits1 - i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt;= digits2) &#123;</span><br><span class="line">            tmpNum += (num2[digits2 - i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (tmpNum &gt; <span class="number">9</span>) &#123;</span><br><span class="line">            tmpNum -= <span class="number">10</span>;</span><br><span class="line">            carryFlag = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            carryFlag = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        sumStr[sumDigits - i] = tmpNum + <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (sumStr[<span class="number">0</span>] == <span class="string">&#x27;0&#x27;</span>) &#123;</span><br><span class="line">        sumStr++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> sumStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>sumStr</code>数组是一次性申请分配了全部所需空间，不需要动态扩容，这样做效率很高。不过这段代码有个小瑕疵，最后去除首位不需要的<code>0</code>时直接使用了<code>sumStr++</code>，这会导致一个字节的内存泄漏问题。</p>
 <h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">addStrings</span><span class="params">(<span class="built_in">string</span> num1, <span class="built_in">string</span> num2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> digits1 = num1.length();</span><br><span class="line">        <span class="keyword">int</span> digits2 = num2.length();</span><br><span class="line">        <span class="keyword">int</span> sumDigits = digits1 &gt; digits2 ? digits1: digits2;</span><br><span class="line">    </span><br><span class="line">        <span class="built_in">string</span> sumStr = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">char</span> carryFlag = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> tmpNum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= sumDigits; i++) &#123;</span><br><span class="line">            tmpNum = carryFlag;</span><br><span class="line">            <span class="keyword">if</span> (i &lt;= digits1) &#123;</span><br><span class="line">                tmpNum += (num1[digits1 - i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (i &lt;= digits2) &#123;</span><br><span class="line">                tmpNum += (num2[digits2 - i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (tmpNum &gt; <span class="number">9</span>) &#123;</span><br><span class="line">                tmpNum -= <span class="number">10</span>;</span><br><span class="line">                carryFlag = <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                carryFlag = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            sumStr += (tmpNum + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (carryFlag == <span class="number">1</span>) &#123;</span><br><span class="line">            sumStr += <span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        reverse(sumStr.begin(), sumStr.end());</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> sumStr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 <p>这里使用了C++风格的<code>string</code>操作，用<code>+=</code>连接新加入的字符，最后用<code>reverse()</code>函数翻转字符串。显而易见，这样做的效率没有C语言版本高。</p>
 
       
@@ -371,12 +376,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/10/24/LeetCode_415/">LeetCode 415. Add String (Easy)</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-10-24, 14:50:19</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/10/24/LeetCode_415/" title="LeetCode 415. Add String (Easy)">https://gaomf.cn/2016/10/24/LeetCode_415/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/24/LeetCode_415/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/24/LeetCode_415/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -402,6 +407,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -493,8 +499,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -521,6 +527,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

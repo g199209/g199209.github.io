@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,15 +22,15 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="黑白的世界总没有彩色的世界精彩，最初的Linux或其他系统的Shell终端肯定只有黑白的，之后逐渐出现了支持8色、16色、256色及真彩色的终端。目前主流的终端一般都支持256色，未来的趋势是支持24位真彩色。那如何判断当前使用的是哪种模式，以及如何更改设置呢？本文就以Ubuntu下Gnome-Terminal为例介绍一下设置方法，理论上应该适用于所有Linux终端。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20170116154133.png">
-<meta property="og:image" content="https://pic.gaomf.store/687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f35643464623866396777316638696e746f386776676a3230686630306f3073762e6a7067.jpg">
-<meta property="og:image" content="https://pic.gaomf.store/20170116155023.png">
+<meta property="og:image" content="https://img.gaomf.cn/20170116154133.png">
+<meta property="og:image" content="https://img.gaomf.cn/687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f35643464623866396777316638696e746f386776676a3230686630306f3073762e6a7067.jpg">
+<meta property="og:image" content="https://img.gaomf.cn/20170116155023.png">
 <meta property="article:published_time" content="2017-01-16T08:00:51.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.131Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.016Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20170116154133.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20170116154133.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -39,7 +39,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -118,7 +118,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -134,10 +134,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -259,20 +259,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -306,6 +307,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-判断终端色彩支持情况的方法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -351,28 +353,35 @@
       
           
         <p>黑白的世界总没有彩色的世界精彩，最初的Linux或其他系统的Shell终端肯定只有黑白的，之后逐渐出现了支持8色、16色、256色及真彩色的终端。目前主流的终端一般都支持256色，未来的趋势是支持24位真彩色。那如何判断当前使用的是哪种模式，以及如何更改设置呢？本文就以Ubuntu下Gnome-Terminal为例介绍一下设置方法，理论上应该适用于所有Linux终端。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h3 id="终端类型及颜色支持"><a href="#终端类型及颜色支持" class="headerlink" title="终端类型及颜色支持"></a>终端类型及颜色支持</h3><p>使用<code>tput colors</code>命令即可查看当前终端支持几种颜色；<br>使用以下命令即可列出系统所支持的所有终端类型，以及他们支持的颜色位数：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> T <span class="keyword">in</span> `find /usr/share/terminfo -<span class="built_in">type</span> f -<span class="built_in">printf</span> <span class="string">&#x27;%f &#x27;</span>`;<span class="keyword">do</span> <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$T</span> `tput -T <span class="variable">$T</span> colors`&quot;</span>;<span class="keyword">done</span>|sort -nk2|tail -n20</span><br></pre></td></tr></table></figure>
+
 <p>示例输出如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Eterm-88color 88</span><br><span class="line">rxvt-88color 88</span><br><span class="line">xterm-88color 88</span><br><span class="line">xterm+88color 88</span><br><span class="line">Eterm-256color 256</span><br><span class="line">gnome-256color 256</span><br><span class="line">iTerm.app 256</span><br><span class="line">konsole-256color 256</span><br><span class="line">mlterm-256color 256</span><br><span class="line">mrxvt-256color 256</span><br><span class="line">nsterm 256</span><br><span class="line">nsterm-256color 256</span><br><span class="line">putty-256color 256</span><br><span class="line">rxvt-256color 256</span><br><span class="line">rxvt-unicode-256color 256</span><br><span class="line">screen-256color-bce-s 256</span><br><span class="line">screen-256color-s 256</span><br><span class="line">terminator 256</span><br><span class="line">vte-256color 256</span><br><span class="line">xterm+256color 256</span><br></pre></td></tr></table></figure>
+
 <p><code>$TERM</code>变量代表当前终端类型，可使用<code>echo $TERM</code>命令查看。</p>
 <h3 id="256色支持"><a href="#256色支持" class="headerlink" title="256色支持"></a>256色支持</h3><p>运行以下命令，若输出了完整的256种颜色，就说明当前终端支持256色：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(x=`tput op` y=`<span class="built_in">printf</span> %76s`;<span class="keyword">for</span> i <span class="keyword">in</span> &#123;0..256&#125;;<span class="keyword">do</span> o=00<span class="variable">$i</span>;<span class="built_in">echo</span> -e <span class="variable">$&#123;o:<span class="variable">$&#123;#o&#125;</span>-3:3&#125;</span> `tput setaf <span class="variable">$i</span>;tput setab <span class="variable">$i</span>`<span class="variable">$&#123;y// /=&#125;</span><span class="variable">$x</span>;<span class="keyword">done</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="https://pic.gaomf.store/20170116154133.png"></p>
+
+<p><img src="https://img.gaomf.cn/20170116154133.png"></p>
 <p>若只有前8种颜色，说明当前配置是8色模式，默认情况下，Ubuntu中的Gnome-Terminal就只开启了8色支持。此时可通过修改<code>~/.bashrc</code>文件将其改为256色，在<code>.bashrc</code>文件中加入以下代码即可：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$TERM</span>&quot;</span> <span class="keyword">in</span></span><br><span class="line">    xterm)</span><br><span class="line">        <span class="built_in">export</span> TERM=xterm-256color</span><br><span class="line">        ;;</span><br><span class="line">    screen)</span><br><span class="line">        <span class="built_in">export</span> TERM=screen-256color</span><br><span class="line">        ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="真彩色支持"><a href="#真彩色支持" class="headerlink" title="真彩色支持"></a>真彩色支持</h3><p>很遗憾，Ubuntu下的终端目前尚没有支持真彩色的。可使用以下脚本代码进行检测：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">&#x27;BEGIN&#123;</span></span><br><span class="line"><span class="string">    s=&quot;/\\/\\/\\/\\/\\&quot;; s=s s s s s s s s;</span></span><br><span class="line"><span class="string">    for (colnum = 0; colnum&lt;77; colnum++) &#123;</span></span><br><span class="line"><span class="string">        r = 255-(colnum*255/76);</span></span><br><span class="line"><span class="string">        g = (colnum*510/76);</span></span><br><span class="line"><span class="string">        b = (colnum*255/76);</span></span><br><span class="line"><span class="string">        if (g&gt;255) g = 510-g;</span></span><br><span class="line"><span class="string">        printf &quot;\033[48;2;%d;%d;%dm&quot;, r,g,b;</span></span><br><span class="line"><span class="string">        printf &quot;\033[38;2;%d;%d;%dm&quot;, 255-r,255-g,255-b;</span></span><br><span class="line"><span class="string">        printf &quot;%s\033[0m&quot;, substr(s,colnum+1,1);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    printf &quot;\n&quot;;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>如果支持真彩色的话，输出效果如下：</p>
-<p><img src="https://pic.gaomf.store/687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f35643464623866396777316638696e746f386776676a3230686630306f3073762e6a7067.jpg"></p>
+<p><img src="https://img.gaomf.cn/687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f35643464623866396777316638696e746f386776676a3230686630306f3073762e6a7067.jpg"></p>
 <p>若不支持，是无法显示出连续的色彩的：</p>
-<p><img src="https://pic.gaomf.store/20170116155023.png"></p>
+<p><img src="https://img.gaomf.cn/20170116155023.png"></p>
 <h3 id="Vim中256色设置"><a href="#Vim中256色设置" class="headerlink" title="Vim中256色设置"></a>Vim中256色设置</h3><p>要让Vim很好的支持256色需要在<code>.vimrc</code>文件中进行下设置，添加以下代码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> t_Co=256</span><br></pre></td></tr></table></figure>
+
 <p>如果使用了配色主题插件，也要在插件设置进行类似的设置，以最流行的Solarized主题为例，需要加上以下设置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> g:solarized_termcolors=256</span><br></pre></td></tr></table></figure>
+
 <hr>
 <blockquote>
 <p>参考资料：<br><a target="_blank" rel="noopener" href="http://yysfire.github.io/linux/how-to-check-linux-terminal-whether-support-256-colors.html">如何查看Linux终端是否支持256色</a><br><a target="_blank" rel="noopener" href="https://github.com/icymind/NeoSolarized">icymind/NeoSolarized</a></p>
@@ -386,12 +395,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2017-01-16, 16:00:51</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/01/16/Terminal_Color/" title="判断终端色彩支持情况的方法">https://gaomf.cn/2017/01/16/Terminal_Color/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/01/16/Terminal_Color/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/01/16/Terminal_Color/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -417,6 +426,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -508,8 +518,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -536,6 +546,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

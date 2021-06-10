@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,16 +22,16 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="之前已经为博客的PC端界面添加了搜索功能，用起来效果不错，不过美中不足的是，使用手机访问的时候并不能使用搜索功能。这几天折腾了一下，终于给移动端界面上也加上了搜索功能~这里来记录一下实现方法。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20161125210304.png">
-<meta property="og:image" content="https://pic.gaomf.store/Search_mobile.gif">
+<meta property="og:image" content="https://img.gaomf.cn/20161125210304.png">
+<meta property="og:image" content="https://img.gaomf.cn/Search_mobile.gif">
 <meta property="article:published_time" content="2016-11-25T14:00:59.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.439Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.594Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Top">
 <meta property="article:tag" content="Blog">
 <meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20161125210304.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20161125210304.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -40,7 +40,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -119,7 +119,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -135,10 +135,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -260,20 +260,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -307,6 +308,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-为Hexo博客移动端添加搜索功能" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -352,7 +354,7 @@
       
           
         <p>之前已经为博客的PC端界面添加了搜索功能，用起来效果不错，不过美中不足的是，使用手机访问的时候并不能使用搜索功能。这几天折腾了一下，终于给移动端界面上也加上了搜索功能~这里来记录一下实现方法。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>之前为博客添加搜索功能的方法见：</p>
 <blockquote>
@@ -360,13 +362,15 @@
 </blockquote>
 <p>要为移动端添加搜索功能，主要就是添加搜索框及搜索结果HTML样式及添加相关JS代码。</p>
 <h2 id="添加搜索框及搜索结果区"><a href="#添加搜索框及搜索结果区" class="headerlink" title="添加搜索框及搜索结果区"></a>添加搜索框及搜索结果区</h2><p>当前主题在移动端的布局中，点击左上角的菜单按钮就会弹出一个显示友情链接、标签等信息的叠层，综合看下来将搜索框添加在这个位置较合适，最终的效果如图：</p>
-<p><img src="https://pic.gaomf.store/20161125210304.png"></p>
+<p><img src="https://img.gaomf.cn/20161125210304.png"></p>
 <p>这里的搜索框和PC端基本是一样的，只是样式上做了些变化，使得整体效果更和谐。找到合适的位置添加搜索框及搜索结果区的HTML代码即可：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;search-form_mobile&quot;</span>  <span class="attr">class</span>=<span class="string">&quot;search_mobile&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">id</span>=<span class="string">&quot;st-search-input_mobile&quot;</span> <span class="attr">name</span>=<span class="string">&quot;q&quot;</span> <span class="attr">results</span>=<span class="string">&quot;0&quot;</span> <span class="attr">class</span>=<span class="string">&quot;st-default-search-input_mobile&quot;</span> <span class="attr">maxlength</span>=<span class="string">&quot;50&quot;</span> <span class="attr">placeholder</span>=<span class="string">&quot;Search...&quot;</span> <span class="attr">autocomplete</span>=<span class="string">&quot;off&quot;</span> <span class="attr">autocorrect</span>=<span class="string">&quot;off&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;fa fa-times&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;resetSearch_mobile()&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;search_hint&quot;</span> <span class="attr">class</span>=<span class="string">&quot;search-hint&quot;</span>&gt;</span>向右滑动结果打开链接~<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;local-search-result_mobile&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;no-result&quot;</span>&gt;</span>No results found <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;fa fa-spinner fa-pulse&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;loading-xml&quot;</span>&gt;</span>Loading XML File... <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;fa fa-spinner fa-pulse&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>布局和PC端的稍有差异，搜索结果区和搜索框放在了同一个<code>form</code>里面。CSS样式此处从略，如有兴趣可参考源文件：<a target="_blank" rel="noopener" href="https://github.com/g199209/BlogTheme/blob/master/source/css/_partial/search.styl">search.styl</a></p>
 <h2 id="添加JS代码"><a href="#添加JS代码" class="headerlink" title="添加JS代码"></a>添加JS代码</h2><p>此主题移动端的时候使用的JS文件为<code>mobile.js</code>（PC端是<code>pc.js</code>），按照PC端的做法添加相关代码即可，注意搜索框等的名字要改为对应的移动端名字。这样修改后是可以实现基本功能了，然而用起来会有各种Bug，这两天的时间就主要花在解决这些Bug上了……</p>
 <h3 id="解决触摸无响应问题"><a href="#解决触摸无响应问题" class="headerlink" title="解决触摸无响应问题"></a>解决触摸无响应问题</h3><p>直接把代码移植过来的第一个问题就是，在手机上那个搜索框实际上是没有用的，无法点击进行输入……具体原因并不清楚，只找到了可用的解决方案。在JS文件<code>search</code>函数中添加以下代码：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 处理移动端搜索框无法点击的问题</span></span><br><span class="line">inputArea.addEventListener(<span class="string">&quot;touchstart&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    inputArea.focus();</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">resetButton.addEventListener(<span class="string">&quot;touchstart&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    $resetButton.click();</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
 <p>监听<code>touchstart</code>事件，并通过程序触发<code>focus</code>及<code>click</code>事件。</p>
 <h3 id="解决滚动异常问题"><a href="#解决滚动异常问题" class="headerlink" title="解决滚动异常问题"></a>解决滚动异常问题</h3><p>加上以上代码后可以搜索了，只是搜索结果的滚动有各种奇怪的问题……比如只有输入单个字符的时候可以滚动、会发生点击穿透导致后面的页面滚动、只能按住标题进行滚动等等……各种尝试后决定不去解决这些问题了，直接监听触摸事件，自己重写滚动响应及滑动打开的代码。</p>
 <p>基本思路是这样的：</p>
@@ -377,9 +381,10 @@
 </ul>
 <p>需要注意的是，要调用<code>preventDefault()</code>来阻止触摸事件的传递，以避免各种奇怪的问题。除了基本逻辑外，还做了些处理让视觉效果更好看些，具体见以下的实现代码：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">TouceArea.onscroll = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TouceArea.ontouchstart = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录起始点坐标</span></span><br><span class="line">    MarginOffset = <span class="built_in">parseInt</span>(ScrollArea.style.marginTop.replace(<span class="string">&quot;px&quot;</span>, <span class="string">&quot;&quot;</span>));</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">isNaN</span>(MarginOffset)) &#123;</span><br><span class="line">        MarginOffset =  <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    StartY = e.touches[<span class="number">0</span>].pageY ;</span><br><span class="line">    StartX = e.touches[<span class="number">0</span>].pageX;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Clear Lock</span></span><br><span class="line">    ScrollVerticalLock = <span class="literal">false</span>;</span><br><span class="line">    ScrollHorizontalLock = <span class="literal">false</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 找出点击了哪个选项</span></span><br><span class="line">    <span class="keyword">var</span> i;</span><br><span class="line">    <span class="keyword">if</span> (TouceArea.children.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> liArea;</span><br><span class="line">        <span class="keyword">var</span> i;</span><br><span class="line">        TouchedItem = <span class="literal">null</span>;</span><br><span class="line">        TouchedOpen = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; TouceArea.children[<span class="number">0</span>].childNodes.length; i++) &#123;</span><br><span class="line">            liArea = TouceArea.children[<span class="number">0</span>].childNodes[i];</span><br><span class="line">            <span class="keyword">if</span> (liArea.offsetTop &gt; StartY) &#123;</span><br><span class="line">                TouchedItem = TouceArea.children[<span class="number">0</span>].childNodes[i - <span class="number">1</span>];</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Deal Last One</span></span><br><span class="line">        <span class="keyword">if</span> (!TouchedItem) &#123;</span><br><span class="line">            <span class="keyword">if</span> (liArea.offsetTop + liArea.clientHeight &gt; StartY) &#123;</span><br><span class="line">                TouchedItem = TouceArea.children[<span class="number">0</span>].childNodes[TouceArea.children[<span class="number">0</span>].childNodes.length - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TouceArea.ontouchmove = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 记录当前坐标偏移</span></span><br><span class="line">    <span class="keyword">var</span> OffsetY = e.touches[<span class="number">0</span>].pageY - StartY;</span><br><span class="line">    <span class="keyword">var</span> OffsetX = e.touches[<span class="number">0</span>].pageX - StartX - <span class="number">20</span>;  <span class="comment">// 减去一个值，避免微小移动也触发事件，影响体验</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 实现水平滑动</span></span><br><span class="line">    <span class="keyword">if</span> (ScrollHorizontalLock) &#123;</span><br><span class="line">        <span class="keyword">if</span> (TouchedItem &amp;&amp; OffsetX &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            TouchedItem.style.marginLeft = OffsetX + <span class="string">&quot;px&quot;</span>;</span><br><span class="line">            <span class="keyword">if</span> (OffsetX &gt; TouchedItem.clientWidth / <span class="number">2</span>) &#123;</span><br><span class="line">                TouchedItem.style.backgroundColor = <span class="string">&quot;rgba(13,118,13,0.60)&quot;</span>;</span><br><span class="line">                TouchedOpen = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                TouchedItem.style.backgroundColor = <span class="string">&quot;&quot;</span>;</span><br><span class="line">                TouchedOpen = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 实现垂直滚动</span></span><br><span class="line">    <span class="keyword">var</span> NewMargin = OffsetY + MarginOffset;</span><br><span class="line">    <span class="keyword">if</span> (TouceArea.clientHeight + NewMargin &lt; WholeView.clientHeight * <span class="number">0.7</span>) &#123;</span><br><span class="line">        NewMargin = WholeView.clientHeight * <span class="number">0.7</span> - TouceArea.clientHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (NewMargin &gt; <span class="number">0</span>)</span><br><span class="line">        NewMargin = <span class="number">0</span>;</span><br><span class="line">    ScrollArea.style.marginTop = NewMargin + <span class="string">&quot;px&quot;</span>;</span><br><span class="line">    <span class="comment">//默认情况也会响应垂直滚动，故ScrollVerticalLock的判断放到后面</span></span><br><span class="line">    <span class="keyword">if</span> (ScrollVerticalLock) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断滚动方向</span></span><br><span class="line">    <span class="keyword">if</span> (!TouchedItem) &#123;</span><br><span class="line">        ScrollVerticalLock = <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">Math</span>.abs(OffsetY) &gt; <span class="number">15</span>) &#123;</span><br><span class="line">        ScrollVerticalLock = <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (OffsetX &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        ScrollHorizontalLock = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TouceArea.ontouchend = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 处理拖动打开链接事件</span></span><br><span class="line">    <span class="keyword">if</span> (TouchedItem) &#123;</span><br><span class="line">        TouchedItem.style.marginLeft = <span class="string">&quot;0px&quot;</span>;</span><br><span class="line">        TouchedItem.style.backgroundColor = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span> (TouchedOpen) &#123;</span><br><span class="line">            hide(); <span class="comment">// 隐藏搜索框</span></span><br><span class="line">            <span class="comment">// 待搜索框完全隐藏后再打开新链接，视觉效果更好点</span></span><br><span class="line">            <span class="built_in">window</span>.setTimeout(<span class="string">&#x27;window.location.href=&#x27;</span> + <span class="string">&#x27;&quot;&#x27;</span> + TouchedItem.children[<span class="number">0</span>].href + <span class="string">&#x27;&quot;&#x27;</span>, <span class="number">200</span>);</span><br><span class="line">        &#125;                        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>完整的<code>mobile.js</code>文件在<a target="_blank" rel="noopener" href="https://github.com/g199209/BlogTheme/blob/master/source/js/mobile.js">这里</a>。</p>
 <h2 id="最终成品效果"><a href="#最终成品效果" class="headerlink" title="最终成品效果"></a>最终成品效果</h2><p>实际使用下来还是比较满意的，搜索效果像这样：</p>
-<p><img src="https://pic.gaomf.store/Search_mobile.gif"></p>
+<p><img src="https://img.gaomf.cn/Search_mobile.gif"></p>
 
       
     </div>
@@ -389,12 +394,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-11-25, 22:00:59</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/25/Blog_Search_Mobile/" title="为Hexo博客移动端添加搜索功能">https://gaomf.cn/2016/11/25/Blog_Search_Mobile/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/25/Blog_Search_Mobile/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/25/Blog_Search_Mobile/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -420,6 +425,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -509,8 +515,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -537,6 +543,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

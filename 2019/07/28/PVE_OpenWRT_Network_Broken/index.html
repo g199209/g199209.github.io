@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="在旧笔记本上使用Proxmox搭建了一个OpenWRT软路由，正常使用都很稳定，然而当PC使用百度网盘，迅雷等工具进行全速率下载时偶尔会出现网络中断问题，此时Proxmox宿主机的网络会全部断掉，即PVE自己的Web管理界面也无法登录。查看终端，此时会不断打印Detected Hardware Unit Hang的错误提示。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2019-07-28T03:27:09.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.131Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.992Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Network">
 <meta property="article:tag" content="Virtualization">
 <meta name="twitter:card" content="summary">
@@ -36,7 +36,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -115,7 +115,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -131,10 +131,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -256,20 +256,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -303,6 +304,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-PVE上部署OpenWRT发生网络中断的解决方法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -348,7 +350,7 @@
       
           
         <p>在旧笔记本上使用Proxmox搭建了一个OpenWRT软路由，正常使用都很稳定，然而当PC使用百度网盘，迅雷等工具进行全速率下载时偶尔会出现网络中断问题，此时Proxmox宿主机的网络会全部断掉，即PVE自己的Web管理界面也无法登录。查看终端，此时会不断打印<code>Detected Hardware Unit Hang</code>的错误提示。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>Google一下这个错误提示，还是有不少类似问题的：</p>
 <blockquote>
@@ -360,8 +362,10 @@
 </blockquote>
 <p>基本所有文章都提到此问题与<code>TCP checksum offload</code>特性有关，解决方案就是关掉<code>checksum offload</code>。具体方法是使用<code>ethtool</code>工具：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ethtool -K enp0s25 tx off rx off</span><br></pre></td></tr></table></figure>
+
 <p>如果要重启后永久生效的话将此命令写入<code>/etc/network/if-up.d/ethtool2</code>文件中并为此文件加上<code>x</code>权限即可：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">ethtool -K enp0s25 tx off rx off</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p>除此之外上述第2篇文章的情况和我遇到的很像，里面提到这与<code>Virtio</code>虚拟化有很大关系，而我使用的也正是<code>Vritio</code>，根据作者的说法，更应该在OpenWRT而不是Proxmox中关闭<code>checksum offload</code>。然而实际试了下却发现一个蛋疼的问题，OpenWRT中是无法把<code>tx checksum offload</code>给关掉的……</p>
 <p>此外作者还提到，将网卡的虚拟化方式从<code>Virtio</code>改为<code>E1000</code>也可以解决此问题，不过会有CPU占用率上升的副作用。</p>
@@ -387,12 +391,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2019/07/28/PVE_OpenWRT_Network_Broken/">PVE上部署OpenWRT发生网络中断的解决方法</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2019-07-28, 11:27:09</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/07/28/PVE_OpenWRT_Network_Broken/" title="PVE上部署OpenWRT发生网络中断的解决方法">https://gaomf.cn/2019/07/28/PVE_OpenWRT_Network_Broken/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2019/07/28/PVE_OpenWRT_Network_Broken/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2019/07/28/PVE_OpenWRT_Network_Broken/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -418,6 +422,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -486,8 +491,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -514,6 +519,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

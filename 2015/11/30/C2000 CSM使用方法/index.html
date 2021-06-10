@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,16 +22,16 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="在TI C2000系列DSP中，CSM模块用于对给芯片进行加密，以防止未经授权的代码逆向等行为，TI在其文档中对此模块的说明如下：  The code security module (CSM) is a security feature incorporated in 28x devices. It prevents access&#x2F;visibility to on-chip memory to">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151130163640.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151130165534.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151130170550.png">
-<meta property="og:image" content="https://pic.gaomf.store/DSP20151130171526.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151130163640.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151130165534.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151130170550.png">
+<meta property="og:image" content="https://img.gaomf.cn/DSP20151130171526.png">
 <meta property="article:published_time" content="2015-11-30T09:20:05.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:23:53.522Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.394Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="DSP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/DSP20151130163640.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/DSP20151130163640.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -40,7 +40,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -119,7 +119,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -135,10 +135,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -260,20 +260,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -307,6 +308,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-C2000 CSM使用方法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -356,10 +358,11 @@
 <p>The code security module (CSM) is a security feature incorporated in 28x devices. It prevents access/visibility to on-chip memory to unauthorized persons—that is, it prevents duplication/reverse engineering of proprietary code.<br>The word secure means access to on-chip memory is protected. The word unsecure means access to onchip secure memory is not protected — that is, the contents of the memory could be read by any means (through a debugging tool such as Code Composer Studio™, for example).</p>
 </blockquote>
 <p>关于DSP中具体哪些部分受到CSM模块的保护，以及此模块的详细信息可参阅TI的相关文档，此处仅从使用的角度来讨论下如何对DSP芯片进行加密与解密。<em>本文基于CCS 6.0。</em></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="密码设定"><a href="#密码设定" class="headerlink" title="密码设定"></a><strong>密码设定</strong></h2><p>最简单的方法是直接使用<a target="_blank" rel="noopener" href="http://www.ti.com.cn/tool/cn/controlsuite">controlSUITE</a>中提供的<code>DSP28***_CSMPasswords.asm</code>文件，将此文件加入工程中，修改其中的密码即可。此文件的内容如下：</p>
 <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">.sect</span> <span class="string">&quot;csmpasswds&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">.int</span>	<span class="number">0xFFFF</span>		<span class="comment">;PWL0 (LSW of 128-bit password)</span></span><br><span class="line"><span class="meta">.int</span>	<span class="number">0xFFFF</span>		<span class="comment">;PWL1</span></span><br><span class="line"><span class="meta">.int</span>	<span class="number">0xFFFF</span>		<span class="comment">;PWL2</span></span><br><span class="line"><span class="meta">.int</span>	<span class="number">0xFFFF</span>		<span class="comment">;PWL3</span></span><br><span class="line"><span class="meta">.int</span>	<span class="number">0xFFFF</span>		<span class="comment">;PWL4</span></span><br><span class="line"><span class="meta">.int</span>	<span class="number">0xFFFF</span>		<span class="comment">;PWL5</span></span><br><span class="line"><span class="meta">.int</span>	<span class="number">0xFFFF</span>		<span class="comment">;PWL6</span></span><br><span class="line"><span class="meta">.int</span>	<span class="number">0xFFFF</span>		<span class="comment">;PWL7 (MSW of 128-bit password)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">.sect</span> <span class="string">&quot;csm_rsvd&quot;</span></span><br><span class="line"><span class="meta">.loop</span> (<span class="number">3F7FF5h</span> - <span class="number">3F7F80h</span> + <span class="number">1</span>)</span><br><span class="line"><span class="meta">      .int</span> <span class="number">0x0000</span></span><br><span class="line"><span class="meta">.endloop</span></span><br></pre></td></tr></table></figure>
+
 <p>对应的CMD文件中地址分配情况：</p>
 <figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">PAGE <span class="number">0</span>:    /* Program Memory */</span><br><span class="line">   CSM_RSVD    : <span class="type">origin</span> = <span class="number">0</span>x3F7F80, length = <span class="number">0</span>x000076     /* Part <span class="keyword">of</span> FLASHA.  Program <span class="keyword">with</span> <span class="keyword">all</span> <span class="number">0</span>x0000 <span class="keyword">when</span> CSM <span class="keyword">is</span> <span class="keyword">in</span> <span class="keyword">use</span>. */</span><br><span class="line">   CSM_PWL_P0  : <span class="type">origin</span> = <span class="number">0</span>x3F7FF8, length = <span class="number">0</span>x000008     /* Part <span class="keyword">of</span> FLASHA.  CSM password locations <span class="keyword">in</span> FLASHA */</span><br><span class="line">&#125;</span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">   csmpasswds          : &gt; <span class="type">CSM_PWL_P0</span>  PAGE = <span class="number">0</span></span><br><span class="line">   csm_rsvd            : &gt; <span class="type">CSM_RSVD</span>    PAGE = <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>设置密码时有一些关键点需要注意：</p>
@@ -369,7 +372,7 @@
 <li>如果设置了128-bit中的低64-bit（即不为全<code>1</code>），会触发所谓的ECSL(Emulation Code Security Logic)功能，这时如需使用仿真器下载程序，需要进行些特殊设置，下文会对此进行详细讨论。</li>
 </ol>
 <h2 id="加密后使用仿真器下载程序"><a href="#加密后使用仿真器下载程序" class="headerlink" title="加密后使用仿真器下载程序"></a><strong>加密后使用仿真器下载程序</strong></h2><p>如果芯片没有被加密，自然可以直接使用仿真器通过JATG正常下载程序；但如果芯片设置了密码被加密了，就需要在仿真器设置中正确填入密码才能下载程序和Debug。具体来看，分为两种情况：没有设置低64位密码与设置了低64位密码。</p>
-<h3 id="没有设置低64位密码"><a href="#没有设置低64位密码" class="headerlink" title="没有设置低64位密码"></a><strong>没有设置低64位密码</strong></h3><p>此时ECSL功能没有被触发，只要在仿真器设置中正确填入密码即可正常下载程序。以CCS v6.0及XDS100V3仿真器为例，设置界面如图所示：<br><img src="https://pic.gaomf.store/DSP20151130163640.png"><br>图中设置的CSM密码为<code>0xAAAABBBBCCCCDDDDFFFFFFFFFFFFFFFF</code>。<br>设置好后，就可以正常Debug了。</p>
+<h3 id="没有设置低64位密码"><a href="#没有设置低64位密码" class="headerlink" title="没有设置低64位密码"></a><strong>没有设置低64位密码</strong></h3><p>此时ECSL功能没有被触发，只要在仿真器设置中正确填入密码即可正常下载程序。以CCS v6.0及XDS100V3仿真器为例，设置界面如图所示：<br><img src="https://img.gaomf.cn/DSP20151130163640.png"><br>图中设置的CSM密码为<code>0xAAAABBBBCCCCDDDDFFFFFFFFFFFFFFFF</code>。<br>设置好后，就可以正常Debug了。</p>
 <h3 id="设置了低64位密码"><a href="#设置了低64位密码" class="headerlink" title="设置了低64位密码"></a><strong>设置了低64位密码</strong></h3><p>此时情况要复杂一些，当设置了低64位密码时，DSP中的ECSL功能会被触发，关于此功能，TI文档中的说明如下：</p>
 <blockquote>
 <p>In addition to the CSM, the emulation code security logic (ECSL) has been implemented to prevent unauthorized users from stepping through secure code. Any code or data access to flash, user OTP, L0 memory while the emulator is connected will trip the ECSL and break the emulation connection.</p>
@@ -383,7 +386,7 @@
 <blockquote>
 <p>C28xx: Flash Programmer: Device is locked or not connected. Operation cancelled.<br>C28xx: Error Writing Flash @ Address 0x003F74C6 of Length 0x00000016 (page 0)<br>C28xx: GEL: File: D:\Forklift\MS8000V10\Project\Release\MS8000V10.out: Load failed.</p>
 </blockquote>
-<p><em>同时会有一个对话框提示：</em><br><img src="https://pic.gaomf.store/DSP20151130165534.png"></p>
+<p><em>同时会有一个对话框提示：</em><br><img src="https://img.gaomf.cn/DSP20151130165534.png"></p>
 <p>TI的文档中也给出了此问题的解决办法：</p>
 <blockquote>
 <ol>
@@ -391,7 +394,7 @@
 <li>The second option is to use the “Branch to check boot mode” boot option. This will sit in a loop and continuously poll the boot mode select pins. You can select this boot mode and then exit this mode once the emulator is connected by re-mapping the PC to another address or by changing the boot mode selection pin to the desired boot mode.</li>
 </ol>
 </blockquote>
-<p><strong>简而言之，第一种方法是保持器件处于复位状态直至仿真器接管器件，这需要仿真器与器件的支持；第二种方法是通过BOOT引脚的配置，使得DSP进入一个所谓的”Branch to check boot mode”，然后再连接仿真器。</strong><br>我使用的XDS100v3仿真器并不支持第一种方法，在仿真器设置中”Halt the target on a connect”一项是不可选的，如图所示：<br><img src="https://pic.gaomf.store/DSP20151130170550.png"><br>此时只能采用第二种方法，然而第二种方法中的”Branch to check boot mode”具体指什么文档中并没有很明确的指出来。不过TI的<a target="_blank" rel="noopener" href="http://processors.wiki.ti.com/index.php/Code_Security_Module_FAQ_for_C2000?keyMatch=code#Q:_Is_there_anyway_to_erase_the_password.3F">Wiki Page</a>上给出了正确的操作方法：</p>
+<p><strong>简而言之，第一种方法是保持器件处于复位状态直至仿真器接管器件，这需要仿真器与器件的支持；第二种方法是通过BOOT引脚的配置，使得DSP进入一个所谓的”Branch to check boot mode”，然后再连接仿真器。</strong><br>我使用的XDS100v3仿真器并不支持第一种方法，在仿真器设置中”Halt the target on a connect”一项是不可选的，如图所示：<br><img src="https://img.gaomf.cn/DSP20151130170550.png"><br>此时只能采用第二种方法，然而第二种方法中的”Branch to check boot mode”具体指什么文档中并没有很明确的指出来。不过TI的<a target="_blank" rel="noopener" href="http://processors.wiki.ti.com/index.php/Code_Security_Module_FAQ_for_C2000?keyMatch=code#Q:_Is_there_anyway_to_erase_the_password.3F">Wiki Page</a>上给出了正确的操作方法：</p>
 <blockquote>
 <p>Q: Why does Code Composer Studio give me an emulator error when I try to connect to my locked device?</p>
 </blockquote>
@@ -404,7 +407,7 @@
 </blockquote>
 At this point you should be able to proceed and unlock your device.</li>
 </ol>
-<p>简而言之，对于2803x系列单片机来说，<strong>需要使DSP先复位进入Wait模式后再连接仿真器就可以顺利下载程序了</strong>。至于如何进入Wait模式，在器件参考手册中可以查到，以28031为例，上电时将GPIO34拉低即可（GPIO34默认情况下有内部上拉）：<br><img src="https://pic.gaomf.store/DSP20151130171526.png"></p>
+<p>简而言之，对于2803x系列单片机来说，<strong>需要使DSP先复位进入Wait模式后再连接仿真器就可以顺利下载程序了</strong>。至于如何进入Wait模式，在器件参考手册中可以查到，以28031为例，上电时将GPIO34拉低即可（GPIO34默认情况下有内部上拉）：<br><img src="https://img.gaomf.cn/DSP20151130171526.png"></p>
 <p>实际测试表明，这样设置后就可以通过仿真器正常下载程序并进行Debug了。</p>
 
       
@@ -415,12 +418,12 @@ At this point you should be able to proceed and unlock your device.</li>
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2015/11/30/C2000%20CSM%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">C2000 CSM使用方法</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2015-11-30, 17:20:05</p>
-        <p><span>最后更新:</span>2021-05-16, 19:23:53</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/11/30/C2000%20CSM%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" title="C2000 CSM使用方法">https://gaomf.cn/2015/11/30/C2000%20CSM%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/30/C2000%20CSM%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2015/11/30/C2000%20CSM%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -446,6 +449,7 @@ At this point you should be able to proceed and unlock your device.</li>
             </div>
         
     </nav>
+
 
   
 </article>
@@ -535,8 +539,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -563,6 +567,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="AVL树是一种特殊的二叉查找树，其特征在于：对所有节点来说，其左子树和右子树间的高度差小于等于1。本文简要总结下AVL树的几种基本操作。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/281624280475098.jpg">
-<meta property="og:image" content="https://pic.gaomf.store/281625317193879.jpg">
+<meta property="og:image" content="https://img.gaomf.cn/281624280475098.jpg">
+<meta property="og:image" content="https://img.gaomf.cn/281625317193879.jpg">
 <meta property="article:published_time" content="2017-02-11T09:00:18.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.359Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.392Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Data Struct">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/281624280475098.jpg">
+<meta name="twitter:image" content="https://img.gaomf.cn/281624280475098.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -117,7 +117,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -133,10 +133,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -258,20 +258,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -305,6 +306,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-数据结构——AVL树" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,11 +352,13 @@
       
           
         <p>AVL树是一种特殊的二叉查找树，其特征在于：对所有节点来说，其左子树和右子树间的高度差小于等于1。本文简要总结下AVL树的几种基本操作。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="节点结构体定义"><a href="#节点结构体定义" class="headerlink" title="节点结构体定义"></a>节点结构体定义</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node_s</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> element;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node_s</span> * <span class="title">left</span>, * <span class="title">right</span>;</span></span><br><span class="line">    <span class="keyword">int</span> height;</span><br><span class="line">&#125; Node;</span><br></pre></td></tr></table></figure>
+
 <p>为了突出说明核心问题，节点数据类型使用最简单的<code>int</code>表示；<code>height</code>为树的高度，<strong>叶子节点高度为0，每向上一层加1，即每个节点的深度为其左右子树最大深度加1</strong>。可使用以下几个宏定义来计算及获取深度：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Height(T) (T == NULL ? -1 : T-&gt;height)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX(a, b) (a &gt; b ? a : b)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CalHeight(T) (T-&gt;height = MAX(Height(T-&gt;left), Height(T-&gt;right)) + 1)</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="AVL树的旋转"><a href="#AVL树的旋转" class="headerlink" title="AVL树的旋转"></a>AVL树的旋转</h2><p>旋转操作是AVL树特有的操作，也是学习AVL树的核心,旋转的目的在于解决插入、删除等操作造成的AVL树不平衡问题。AVL树的不平衡一共只有4种情况（以插入为例说明）：</p>
 <ul>
 <li>LL：在左子树左节点进行插入</li>
@@ -363,24 +367,33 @@
 <li>RL：在右子树左节点进行插入</li>
 </ul>
 <p>示意图：</p>
-<p><img src="https://pic.gaomf.store/281624280475098.jpg"><br><img src="https://pic.gaomf.store/281625317193879.jpg"></p>
+<p><img src="https://img.gaomf.cn/281624280475098.jpg"><br><img src="https://img.gaomf.cn/281625317193879.jpg"></p>
 <p>关于旋转的详细分析可参考<a target="_blank" rel="noopener" href="http://www.cnblogs.com/skywang12345/p/3576969.html">第一篇参考资料</a>，此处仅给出实现代码及简要思路。</p>
 <h3 id="LL及RR单旋转"><a href="#LL及RR单旋转" class="headerlink" title="LL及RR单旋转"></a>LL及RR单旋转</h3><p>二者是镜像操作，实现方法比较简单。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">RotateLL</span> <span class="params">(Node * T)</span> </span>&#123;</span><br><span class="line">    Node * t = T-&gt;left;</span><br><span class="line"></span><br><span class="line">    T-&gt;left = t-&gt;right;</span><br><span class="line">    t-&gt;right = T;</span><br><span class="line"></span><br><span class="line">    CalHeight(T);</span><br><span class="line">    CalHeight(t);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">RotateRR</span> <span class="params">(Node * T)</span> </span>&#123;</span><br><span class="line">    Node * t = T-&gt;right;</span><br><span class="line"></span><br><span class="line">    T-&gt;right = t-&gt;left;</span><br><span class="line">    t-&gt;left = T;</span><br><span class="line"></span><br><span class="line">    CalHeight(T);</span><br><span class="line">    CalHeight(t);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>调整完节点关系后，需要重新计算一下节点的高度。</p>
 <h3 id="LR及RL双旋转"><a href="#LR及RL双旋转" class="headerlink" title="LR及RL双旋转"></a>LR及RL双旋转</h3><p>二者也是镜像操作，可以视为两次单旋转的结合。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">RotateLR</span><span class="params">(Node * T)</span> </span>&#123;</span><br><span class="line">    T-&gt;left = RotateRR(T-&gt;left);</span><br><span class="line">    <span class="keyword">return</span> RotateLL(T);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">RotateRL</span><span class="params">(Node * T)</span> </span>&#123;</span><br><span class="line">    T-&gt;right = RotateLL(T-&gt;right);</span><br><span class="line">    <span class="keyword">return</span> RotateRR(T);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>因为单旋转操作已经正确的调整了节点高度，双旋转中无需再调整节点高度。</p>
 <h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><h3 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h3><p>一般使用递归形式，递归函数返回时，检查当前节点是否平衡，不平衡则执行旋转操作。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">Insert</span><span class="params">(Node * T, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 新插入的元素必定为叶子节点 */</span></span><br><span class="line">    <span class="keyword">if</span> (T == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        T = (Node *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</span><br><span class="line">        T-&gt;element = val;</span><br><span class="line">        T-&gt;left = T-&gt;right = <span class="literal">NULL</span>;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">/* 在左子树插入 */</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (val &lt; T-&gt;element) &#123;</span><br><span class="line">        T-&gt;left = Insert(T-&gt;left, val);</span><br><span class="line">        <span class="keyword">if</span> (Height(T-&gt;left) - Height(T-&gt;right) == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (val &lt; T-&gt;left-&gt;element)</span><br><span class="line">                T = RotateLL(T);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                T = RotateLR(T);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">/* 在右子树插入 */</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (val &gt; T-&gt;element) &#123;</span><br><span class="line">        T-&gt;right = Insert(T-&gt;right, val);</span><br><span class="line">        <span class="keyword">if</span> (Height(T-&gt;right) - Height(T-&gt;left) == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (val &gt; T-&gt;right-&gt;element)</span><br><span class="line">                T = RotateRR(T);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                T = RotateRL(T);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* 若元素已存在，不执行任何操作 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 递归函数返回前调整节点高度 */</span></span><br><span class="line">    <span class="comment">/* 这保证了每一层递归函数返回的节点高度都是正确的 */</span></span><br><span class="line">    <span class="comment">/* 进而保证了整棵树的节点高度正确 */</span></span><br><span class="line">    CalHeight(T);</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="查找元素"><a href="#查找元素" class="headerlink" title="查找元素"></a>查找元素</h3><p>根据二叉查找树的基本性质，可以很容易的写出查找最大元素、最小元素、任意元素的代码。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">FindMax</span><span class="params">(Node * T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(T-&gt;right != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        T = T-&gt;right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">FindMin</span><span class="params">(Node * T)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(T-&gt;left != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        T = T-&gt;left;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">Find</span><span class="params">(Node * T, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (T != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (T-&gt;element == val)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (val &lt; T-&gt;element)</span><br><span class="line">            T = T-&gt;left;</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            T = T-&gt;right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>删除是最复杂的操作，如果删除操作不多的话，可以考虑使用懒惰删除的策略，即增加一个标志位，表明当前节点是否被删除了。如果需要真实的删除元素，使用以下方法进行：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node * <span class="title">Delete</span><span class="params">(Node * T, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/* 待删除元素在左子树中 */</span></span><br><span class="line">    <span class="keyword">if</span> (val &lt; T-&gt;element) &#123;</span><br><span class="line">        T-&gt;left = Delete(T-&gt;left, val);</span><br><span class="line">        <span class="keyword">if</span> (Height(T-&gt;right) - Height(T-&gt;left) == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (Height(T-&gt;right-&gt;left) &lt; Height(T-&gt;right-&gt;right))</span><br><span class="line">                T = RotateRR(T);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                T = RotateRL(T);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">/* 待删除元素在右子树中 */</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (val &gt; T-&gt;element) &#123;</span><br><span class="line">        T-&gt;right = Delete(T-&gt;right, val);</span><br><span class="line">        <span class="keyword">if</span> (Height(T-&gt;left) - Height(T-&gt;right) == <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (Height(T-&gt;left-&gt;right) &lt; Height(T-&gt;left-&gt;left))</span><br><span class="line">                T = RotateLL(T);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                T = RotateLR(T);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">/* 删除当前节点 */</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/* 当前节点有两个儿子 */</span></span><br><span class="line">        <span class="comment">/* 选择高度较大那一边进行删除，以此避免AVL树不平衡 */</span></span><br><span class="line">        <span class="keyword">if</span> (T-&gt;left &amp;&amp; T-&gt;right) &#123;</span><br><span class="line">            <span class="comment">/* 选择左树的话，用左树中最大节点代替当前节点，并删除最大节点原位置 */</span></span><br><span class="line">            <span class="keyword">if</span> (Height(T-&gt;left) &gt; Height(T-&gt;right)) &#123;</span><br><span class="line">                Node * tmax = FindMax(T-&gt;left);</span><br><span class="line">                T-&gt;element = tmax-&gt;element;</span><br><span class="line">                T-&gt;left = Delete(T-&gt;left, tmax-&gt;element);</span><br><span class="line">            &#125; </span><br><span class="line">            <span class="comment">/* 选择右树的话，用右树中最小节点代替当前节点，并删除最小节点原位置 */</span></span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                Node * tmin = FindMin(T-&gt;right);</span><br><span class="line">                T-&gt;element = tmin-&gt;element;</span><br><span class="line">                T-&gt;right = Delete(T-&gt;right, tmin-&gt;element);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="comment">/* 当前节点是叶子节点或只有一个儿子，直接删除 */</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            Node * tmp = T;</span><br><span class="line">            T = T-&gt;left ? T-&gt;left : T-&gt;right;</span><br><span class="line">            <span class="built_in">free</span>(tmp);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 递归返回非空节点时，需要重新计算其高度 */</span></span><br><span class="line">    <span class="keyword">if</span> (T) </span><br><span class="line">        CalHeight(T);</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>基本策略和插入一样，依然是递归的进行删除，若待删除节点有两个儿子时，使用树的删除操作中的一般方法，即<strong>选择较高一侧子树中最大或最小元素代替当前元素，之后再删除那个最大或最小元素</strong>。最大或最小元素一定是叶子元素，这样之后的删除操作就会很简单，且这样的替代删除策略不会导致树的不平衡。</p>
 <h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>同样有前序、中序、后序及层序四种遍历策略，就是树的通用遍历策略，可参考<a href="http://gaomf.cn/2017/02/12/BinaryTree_Traversal/">二叉树的遍历算法</a>。</p>
 <hr>
@@ -396,12 +409,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2017-02-11, 17:00:18</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/11/Data_Structure_AVLTree/" title="数据结构——AVL树">https://gaomf.cn/2017/02/11/Data_Structure_AVLTree/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/02/11/Data_Structure_AVLTree/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2017/02/11/Data_Structure_AVLTree/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -427,6 +440,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -518,8 +532,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -546,6 +560,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

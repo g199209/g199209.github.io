@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,15 +22,15 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="OpenCV本身能生成的GUI界面极为简陋，故一般使用MFC或Qt等框架来搭建GUI界面，并将OpenCV嵌入进去。因为我之前也用过Qt，故此处选择了Qt作为GUI框架，二者结合的主要问题在于图片的显示上，本文就以最新的OpenCV3及Qt5为例介绍一下实现方法。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20161209223450.png">
-<meta property="og:image" content="https://pic.gaomf.store/20161209224409.png-width600">
+<meta property="og:image" content="https://img.gaomf.cn/20161209223450.png">
+<meta property="og:image" content="https://img.gaomf.cn/20161209224409.png?x-oss-process=image/resize,w_600">
 <meta property="article:published_time" content="2016-12-10T14:32:18.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.439Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T13:31:42.797Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="OpenCV">
 <meta property="article:tag" content="Qt">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20161209223450.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20161209223450.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -39,7 +39,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -118,7 +118,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -134,10 +134,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -259,20 +259,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -306,6 +307,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-OpenCV与Qt结合使用" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -351,7 +353,7 @@
       
           
         <p>OpenCV本身能生成的GUI界面极为简陋，故一般使用MFC或Qt等框架来搭建GUI界面，并将OpenCV嵌入进去。因为我之前也用过Qt，故此处选择了Qt作为GUI框架，二者结合的主要问题在于图片的显示上，本文就以最新的OpenCV3及Qt5为例介绍一下实现方法。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="基本环境的搭建"><a href="#基本环境的搭建" class="headerlink" title="基本环境的搭建"></a>基本环境的搭建</h2><p>首先保证独立的Qt及OpenCV程序都能在VS上正常的编译运行起来。</p>
 <h3 id="相关版本"><a href="#相关版本" class="headerlink" title="相关版本"></a>相关版本</h3><p>Windows 10 64-bit<br>Visual Studio 2015<br>OpenCV 3.1<br>Qt 5.7</p>
@@ -363,13 +365,14 @@
 <p>参考之前的文章：<a href="/2016/12/06/VS2015_OpenCV31/">VS2015下编译OpenCV 3.1</a></p>
 </blockquote>
 <p>需要注意的是，CMake配置时有一个<code>WITH_QT</code>选项，这个选项是指OpenCV的<code>highgui</code>模块本身是否使用Qt，似乎可以不选这个选项的。如果选择了<code>WITH_QT</code>，点击<code>Configure</code>后会出现新的Qt相关路径的选项，如果Qt安装正常的话，这里的路径是会自动生成的：</p>
-<p><img src="https://pic.gaomf.store/20161209223450.png"></p>
+<p><img src="https://img.gaomf.cn/20161209223450.png"></p>
 <p>点击<code>Generate</code>后会出现很多如下warning：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CMake Warning (dev) in modules&#x2F;highgui&#x2F;CMakeLists.txt:</span><br><span class="line">  Policy CMP0020 is not set: Automatically link Qt executables to qtmain</span><br><span class="line">  target on Windows.  Run &quot;cmake --help-policy CMP0020&quot; for policy details.</span><br><span class="line">  Use the cmake_policy command to set the policy and suppress this warning.</span><br><span class="line">This warning is for project developers.  Use -Wno-dev to suppress it.</span><br></pre></td></tr></table></figure>
+
 <p>相关解释可以参考<a target="_blank" rel="noopener" href="https://cmake.org/cmake/help/v3.0/policy/CMP0020.html">这里</a>，直接忽略这个警告即可。</p>
 <p>另外，在编译OpenCV时也会出现很多和Qt有关的Warning，不过没有Error，可以忽略。</p>
 <p>选择了<code>WITH_QT</code>后，<code>highgui</code>本身的窗口界面会变成基于Qt的，比原来要好看一些，而且自动集成了一些图片缩放、保存等功能：</p>
-<p><img src="https://pic.gaomf.store/20161209224409.png-width600"></p>
+<p><img src="https://img.gaomf.cn/20161209224409.png?x-oss-process=image/resize,w_600"></p>
 <p>不过这还是满足不了我们自由设计GUI界面的需求，接下来就要讨论如何在Qt项目中使用OpenCV。</p>
 <h2 id="数据结构转换算法"><a href="#数据结构转换算法" class="headerlink" title="数据结构转换算法"></a>数据结构转换算法</h2><p>OpenCV中使用<code>Mat</code>保存图片，而Qt中则使用<code>QImage</code>或<code>QPixmap</code>，故二者结合的核心就在于这两个类之间的转换。网上已经有人实现了转换代码：</p>
 <blockquote>
@@ -377,6 +380,7 @@
 </blockquote>
 <p>经实际测试，上述代码基本是可以正常使用的，只是有一些小Bug需要修正下，后文会具体说明。这里将其中<code>Mat</code>-&gt;<code>QImage</code>的核心代码摘录备份如下：</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QImage <span class="title">cvMatToQImage</span><span class="params">( <span class="keyword">const</span> cv::Mat &amp;inMat )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> ( inMat.type() )</span><br><span class="line">  &#123;</span><br><span class="line">     <span class="comment">// 8-bit, 4 channel</span></span><br><span class="line">     <span class="keyword">case</span> CV_8UC4:</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="function">QImage <span class="title">image</span><span class="params">( inMat.data,</span></span></span><br><span class="line"><span class="function"><span class="params">                      inMat.cols, inMat.rows,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(inMat.<span class="built_in">step</span>),</span></span></span><br><span class="line"><span class="function"><span class="params">                      QImage::Format_ARGB32 )</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">image</span>;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// 8-bit, 3 channel</span></span><br><span class="line">     <span class="keyword">case</span> CV_8UC3:</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="function">QImage <span class="title">image</span><span class="params">( inMat.data,</span></span></span><br><span class="line"><span class="function"><span class="params">                      inMat.cols, inMat.rows,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(inMat.<span class="built_in">step</span>),</span></span></span><br><span class="line"><span class="function"><span class="params">                      QImage::Format_RGB888 )</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">image</span>.rgbSwapped();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// 8-bit, 1 channel</span></span><br><span class="line">     <span class="keyword">case</span> CV_8UC1:</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> QVector&lt;QRgb&gt;  <span class="title">sColorTable</span><span class="params">( <span class="number">256</span> )</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// only create our color table the first time</span></span><br><span class="line">        <span class="comment">// 注意：下面这种写法是错的，参考后文的说明</span></span><br><span class="line">        <span class="keyword">if</span> ( sColorTable.isEmpty() )</span><br><span class="line">        &#123;</span><br><span class="line">           <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">256</span>; ++i )</span><br><span class="line">           &#123;</span><br><span class="line">              sColorTable[i] = qRgb( i, i, i );</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function">QImage <span class="title">image</span><span class="params">( inMat.data,</span></span></span><br><span class="line"><span class="function"><span class="params">                      inMat.cols, inMat.rows,</span></span></span><br><span class="line"><span class="function"><span class="params">                      <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(inMat.<span class="built_in">step</span>),</span></span></span><br><span class="line"><span class="function"><span class="params">                      QImage::Format_Indexed8 )</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">image</span>.setColorTable( sColorTable );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">image</span>;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">default</span>:</span><br><span class="line">        <span class="comment">// qWarning() &lt;&lt; &quot;cvMatToQImage() - cv::Mat image type not handled in switch:&quot; &lt;&lt; inMat.type();</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> QImage();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>上述代码在处理<code>CV_8UC1</code>类型时存在Bug</strong>，<code>sColorTable.isEmpty()</code>这个判断永远都是不会为真的，即使是在第一次执行时。解决方法有以下几种：<br>1.直接去掉这个<code>if</code>判断，此做法的缺点是每次都会生成颜色表，效率不高；<br>2.使用<code>sColorTable</code>中元素的值来判断是否初始化过了；<br>3.一般使用时会将这个方法封装在一个类中，此时可以将<code>sColorTable</code>设置为类变量，在构造函数中初始化即可。</p>
 <p>以上这种方法相当于调用构造函数生成了一个新的QImage，然后复制图像数据过去。另一种思路可参考以下链接：</p>
 <blockquote>
@@ -385,6 +389,7 @@
 <h2 id="Qt中图片的显示"><a href="#Qt中图片的显示" class="headerlink" title="Qt中图片的显示"></a>Qt中图片的显示</h2><p>最简单的办法是使用<code>QLabel</code>，更高效一些的方法是使用<code>QWidget</code>。使用<code>QLabel</code>时只需调用<code>setPixmap()</code>方法设置图片即可，<code>QPixmap</code>与<code>QImage</code>间的转换可用<code>QPixmap::fromImage()</code>函数完成。另外，使用<code>QLabel</code>的<code>setScaledContents()</code>方法可以设置图像自动缩放。</p>
 <p>给出一个完整的例子：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Mat inputimg = imread(<span class="string">&quot;pic.jpg&quot;</span>);</span><br><span class="line">QImage img = cvMatToQImage(inputimg);</span><br><span class="line">ui.label-&gt;setScaledContents(<span class="literal">true</span>);</span><br><span class="line">ui.label-&gt;setPixmap(QPixmap::fromImage(img));</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -393,12 +398,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/12/10/OpenCV_and_Qt/">OpenCV与Qt结合使用</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-12-10, 22:32:18</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 21:31:42</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/10/OpenCV_and_Qt/" title="OpenCV与Qt结合使用">https://gaomf.cn/2016/12/10/OpenCV_and_Qt/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/12/10/OpenCV_and_Qt/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/12/10/OpenCV_and_Qt/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -424,6 +429,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -515,8 +521,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -543,6 +549,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

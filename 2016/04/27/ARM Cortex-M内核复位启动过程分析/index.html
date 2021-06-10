@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,18 +22,18 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="ARM Cortex-M内核的复位启动过程也被称为复位序列(Reset sequence)，下面就来简要总结分析下这一过程。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20160427172324.png">
-<meta property="og:image" content="https://pic.gaomf.store/20160427200250.png">
-<meta property="og:image" content="https://pic.gaomf.store/20160427215016.png">
-<meta property="og:image" content="https://pic.gaomf.store/20160427215242.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160427172324.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160427200250.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160427215016.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160427215242.png">
 <meta property="article:published_time" content="2016-04-27T12:14:29.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:24:21.116Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.011Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="ARM">
 <meta property="article:tag" content="Bootrom">
 <meta property="article:tag" content="Top">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20160427172324.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20160427172324.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -42,7 +42,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -121,7 +121,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -137,10 +137,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -262,20 +262,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -309,6 +310,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-ARM Cortex-M内核复位启动过程分析" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -354,16 +356,16 @@
       
           
         <p>ARM Cortex-M内核的复位启动过程也被称为复位序列(Reset sequence)，下面就来简要总结分析下这一过程。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>ARM Cortex-M内核的复位启动过程与其他大部分CPU不同，也与之前的ARM架构（ARM920T、ARM7TDMI等）不相同。大部分CPU复位后都是从<code>0x0000_0000</code>处取得第一条指令开始运行的，然而在ARM Cortex-M内核中并不是这样的。其复位序列为：</p>
 <ol>
 <li><strong>从地址<code>0x0000_0000</code>处取出<code>MSP</code>的初始值；</strong></li>
 <li><strong>从地址<code>0x0000_0004</code>处取出<code>PC</code>的初始值，然后从这个值对应的地址处取指。</strong></li>
 </ol>
-<p>即下图所示过程：<br><img src="https://pic.gaomf.store/20160427172324.png"></p>
+<p>即下图所示过程：<br><img src="https://img.gaomf.cn/20160427172324.png"></p>
 <p>事实上，地址<code>0x0000_0004</code>开始存放的就是默认中断向量表（有些资料中将地址<code>0x0000_0000</code>处的MSP指针初始值也算作中断向量表的一部分，这个说法似乎不太妥当），ARM Cortex-M内核的中断向量表布局情况如下图所示：</p>
-<p><img src="https://pic.gaomf.store/20160427200250.png"></p>
+<p><img src="https://img.gaomf.cn/20160427200250.png"></p>
 <p><em>注意：中断向量表的位置可以改变，此处是默认情况下的设置。</em></p>
 <p><strong>值得注意的是，在ARM Cortex-M内核中，发生异常后，并不是去执行中断向量表中对应位置处的代码，而是将对应位置处的数据存入<code>PC</code>中，然后去此地址处进行取指。简而言之，在ARM Cortex-M的中断向量表中不应该放置跳转指令，而是该放置ISR程序的入口地址。</strong></p>
 <p>有了上面的分析就很好理解复位序列了，复位其实就相当于发生了一次<code>Reset</code>异常，而从图中可以看到，地址<code>0x0000_0004</code>处存放的正是<code>Reset</code>异常对应的中断处理函数入口地址。</p>
@@ -381,11 +383,12 @@
 <hr>
 <p>最后写一段小程序来验证下以上分析。这段程序基于STM32F4系列单片机，作用是让<code>PA0</code>管脚输出高电平。这应该也是实现这一目的最精简的写法了。</p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">rAHB1ENR</span>        <span class="meta">EQU</span>     <span class="number">0x40023830</span></span><br><span class="line"><span class="symbol">AHB1ENRValue</span>    <span class="meta">EQU</span>     <span class="number">0x00000001</span></span><br><span class="line">    </span><br><span class="line"><span class="symbol">rMODER</span>          <span class="meta">EQU</span>     <span class="number">0x40020000</span></span><br><span class="line"><span class="symbol">MODERValue</span>      <span class="meta">EQU</span>     <span class="number">0xA8000001</span></span><br><span class="line">    </span><br><span class="line"><span class="symbol">rODR</span>            <span class="meta">EQU</span>     <span class="number">0x40020014</span></span><br><span class="line"><span class="symbol">ODRVaule</span>        <span class="meta">EQU</span>     <span class="number">0x00000001</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">AREA</span> RESET, <span class="meta">DATA</span>, <span class="meta">READONLY</span></span><br><span class="line">    <span class="meta">DCD</span> <span class="number">0x00000400</span></span><br><span class="line">    <span class="meta">DCD</span> Start</span><br><span class="line"></span><br><span class="line">    <span class="meta">AREA</span> <span class="title">|.text|</span>, <span class="meta">CODE</span>, <span class="meta">READONLY</span></span><br><span class="line">    <span class="meta">ENTRY</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">Start</span></span><br><span class="line">    <span class="keyword">LDR</span> <span class="built_in">R0</span>, <span class="symbol">=rAHB1ENR</span></span><br><span class="line">    <span class="keyword">LDR</span> <span class="built_in">R1</span>, <span class="symbol">=AHB1ENRValue</span></span><br><span class="line">    <span class="keyword">STR</span> <span class="built_in">R1</span>, [<span class="built_in">R0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">LDR</span> <span class="built_in">R0</span>, <span class="symbol">=rMODER</span></span><br><span class="line">    <span class="keyword">LDR</span> <span class="built_in">R1</span>, <span class="symbol">=MODERValue</span></span><br><span class="line">    <span class="keyword">STR</span> <span class="built_in">R1</span>, [<span class="built_in">R0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">LDR</span> <span class="built_in">R0</span>, <span class="symbol">=rODR</span></span><br><span class="line">    <span class="keyword">LDR</span> <span class="built_in">R1</span>, <span class="symbol">=ODRVaule</span></span><br><span class="line">    <span class="keyword">STR</span> <span class="built_in">R1</span>, [<span class="built_in">R0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">B</span> .  </span><br><span class="line">    <span class="meta">END</span></span><br></pre></td></tr></table></figure>
+
 <p>第11行使用<code>DCD</code>伪指令分配了4个字节的存储空间，并将其值设置为<code>0x0000_0400</code>；第12行同理，将<code>Start</code>标号处的地址放置在偏移量为4字节的位置处；第17行<code>Start</code>标号之后的部分就是程序主体，依次完成了GPIOA端口RCC时钟使能、PA0设置为输出模式、PA0置高这三个步骤。</p>
 <p>程序在链接时会将<code>RESET</code>段放置在目标文件开头，故相当于在地址<code>0x0000_0000</code>处的数据为<code>0x0000_0400</code>，在地址<code>0x0000_0004</code>处的数据为<code>Start</code>部分的入口地址。</p>
 <p>不过需要指出的是，实际上在STM32F4芯片中，内部Flash的地址是从<code>0x0800_0000</code>处开始的，在BOOT管脚设置为Flash启动的时候，芯片内部会自动将<code>0x0000_0000</code><del><code>0x000F_FFFF</code>区域映射至<code>0x0800_0000</code></del><code>0x080F_FFFF</code>处，此时可以视为二者是等价的。</p>
-<p>使用Debug模式进行调试，复位后CPU寄存器的值如下所示：<br><img src="https://pic.gaomf.store/20160427215016.png"></p>
-<p>Flash中的数据如图：<br><img src="https://pic.gaomf.store/20160427215242.png"></p>
+<p>使用Debug模式进行调试，复位后CPU寄存器的值如下所示：<br><img src="https://img.gaomf.cn/20160427215016.png"></p>
+<p>Flash中的数据如图：<br><img src="https://img.gaomf.cn/20160427215242.png"></p>
 <p>可以看到，编译器很智能的将<code>0x0800_0004</code>处的数据设置为了<code>0x0800_0009</code>，而不是<code>Start</code>标号真实的地址值，这说明了这是一条<code>Thumb-2</code>指令。复位后<code>PC</code>中的值是<code>0x0800_0008</code>，<code>SP</code>中的值是<code>0x0000_0400</code>，与预期结果完全相同。</p>
 <p><em>最后顺便提一下，上面那段简单的程序有个问题，实际上<code>Start</code>部分的程序是占用了中断向量表的空间，这在没有异常发生的时候是没有问题的，不过一旦有异常发生，显然程序执行是会出错的。</em></p>
 
@@ -397,12 +400,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">ARM Cortex-M内核复位启动过程分析</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-04-27, 20:14:29</p>
-        <p><span>最后更新:</span>2021-05-16, 19:24:21</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" title="ARM Cortex-M内核复位启动过程分析">https://gaomf.cn/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -428,6 +431,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -517,8 +521,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -545,6 +549,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

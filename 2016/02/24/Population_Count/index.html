@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,13 +22,13 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="所谓Population Count算法，即是指计算一个二进制数中1的个数的算法。具体来说，就是任意给定一个无符号整数N，求N的二进制表示中1的个数，比如N &#x3D; 5（0101）时，返回2；N &#x3D; 15（1111）时，返回4。 这个问题是一个经典的面试题目，在实际中也有应用。关于这个问题，以下两篇博客文章中有较详细的论述：  详解二进制数中1的个数算法-求二进制数中1的个数  在此，仅对其中一些较为">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/Software2010060623161414.jpg">
-<meta property="og:image" content="https://pic.gaomf.store/20160224Graph.png-height">
+<meta property="og:image" content="https://img.gaomf.cn/Software2010060623161414.jpg">
+<meta property="og:image" content="https://img.gaomf.cn/20160224Graph.png?x-oss-process=image/resize,h_600">
 <meta property="article:published_time" content="2016-02-24T10:38:19.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:40:22.768Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T13:30:45.011Z">
+<meta property="article:author" content="高明飞">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/Software2010060623161414.jpg">
+<meta name="twitter:image" content="https://img.gaomf.cn/Software2010060623161414.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -116,7 +116,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -132,10 +132,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -257,20 +257,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -304,6 +305,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-Population Count算法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,28 +352,34 @@
 <p><a target="_blank" rel="noopener" href="http://github.tiankonguse.com/blog/2014/11/16/bit-count-more/">详解二进制数中1的个数</a><br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html">算法-求二进制数中1的个数</a></p>
 </blockquote>
 <p>在此，仅对其中一些较为常规和较为巧妙的方法做一总结，并比较一下他们的执行效率。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="直接法1"><a href="#直接法1" class="headerlink" title="直接法1"></a>直接法1</h2><p>直接逐位判断，最直接也是最低效的方法。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">CountOne1</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> num)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> N = <span class="number">8</span> * <span class="keyword">sizeof</span>(num);</span><br><span class="line">  <span class="keyword">char</span> Count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> (N--)</span><br><span class="line">  &#123;</span><br><span class="line">    Count += num &amp; <span class="number">1</span>;</span><br><span class="line">    num &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> Count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <!--more-->
 
 <h2 id="直接法2"><a href="#直接法2" class="headerlink" title="直接法2"></a>直接法2</h2><p>在“直接法1”的基础上进行改进，当移位结果为0后就退出循环，这样循环次数与首位1的位置有关。最优情况下只循环一次，最坏情况下循环N次。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">CountOne2</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> num)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> Count;</span><br><span class="line">  <span class="keyword">for</span> (Count = <span class="number">0</span>; num != <span class="number">0</span>; num &gt;&gt;= <span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    Count += num &amp; <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> Count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="逐次清除最低位1"><a href="#逐次清除最低位1" class="headerlink" title="逐次清除最低位1"></a>逐次清除最低位1</h2><p>此方法利用<code>num &amp;= (num - 1)</code>可清除最低位1的原理进行计数。<br><code>num</code>与<code>num - 1</code>的区别在于，<code>num</code>的最低位1在<code>num - 1</code>中变为了0，故二者取与后即可清除最低位1.</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">CountOne3</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> num)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> Count;</span><br><span class="line">  <span class="keyword">for</span> (Count = <span class="number">0</span>; num != <span class="number">0</span>; Count++)</span><br><span class="line">  &#123;</span><br><span class="line">      num &amp;= (num - <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> Count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="分支法"><a href="#分支法" class="headerlink" title="分支法"></a>分支法</h2><p>思路类似二分法，两两相加后即可得到结果，见下图：<br><img src="https://pic.gaomf.store/Software2010060623161414.jpg"><br>在<a target="_blank" rel="noopener" href="http://github.tiankonguse.com/blog/2014/11/16/bit-count-more/">详解二进制数中1的个数</a>中对此有详细描述。此方法复杂度为Log(N)(之前几种方法复杂度均为N)，对于32位整数只需要计算5次即可。</p>
+
+<h2 id="分支法"><a href="#分支法" class="headerlink" title="分支法"></a>分支法</h2><p>思路类似二分法，两两相加后即可得到结果，见下图：<br><img src="https://img.gaomf.cn/Software2010060623161414.jpg"><br>在<a target="_blank" rel="noopener" href="http://github.tiankonguse.com/blog/2014/11/16/bit-count-more/">详解二进制数中1的个数</a>中对此有详细描述。此方法复杂度为Log(N)(之前几种方法复杂度均为N)，对于32位整数只需要计算5次即可。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">CountOne4</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> num)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">  num = (num &amp; <span class="number">0x55555555</span>) + ((num &gt;&gt; <span class="number">1</span>)  &amp; <span class="number">0x55555555</span>); </span><br><span class="line">  num = (num &amp; <span class="number">0x33333333</span>) + ((num &gt;&gt; <span class="number">2</span>)  &amp; <span class="number">0x33333333</span>); </span><br><span class="line">  num = (num &amp; <span class="number">0x0f0f0f0f</span>) + ((num &gt;&gt; <span class="number">4</span>)  &amp; <span class="number">0x0f0f0f0f</span>); </span><br><span class="line">  num = (num &amp; <span class="number">0x00ff00ff</span>) + ((num &gt;&gt; <span class="number">8</span>)  &amp; <span class="number">0x00ff00ff</span>); </span><br><span class="line">  num = (num &amp; <span class="number">0x0000ffff</span>) + ((num &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0x0000ffff</span>); </span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> num ; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="三分法"><a href="#三分法" class="headerlink" title="三分法"></a>三分法</h2><p>这是一种很巧妙的方法，在此对其原理不多做说明，可参考之前提到的那两篇博客文章。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">CountOne5</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> num)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> tmp = num - ((num &gt;&gt; <span class="number">1</span>) &amp; <span class="number">033333333333</span>) - ((num &gt;&gt; <span class="number">2</span>) &amp; <span class="number">011111111111</span>);</span><br><span class="line">  <span class="keyword">return</span> ( (tmp + (tmp &gt;&gt; <span class="number">3</span>) ) &amp; <span class="number">030707070707</span>) % <span class="number">63</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="CPU指令实现"><a href="#CPU指令实现" class="headerlink" title="CPU指令实现"></a>CPU指令实现</h2><p>部分CPU中直接提供了指令来完成这一操作，这无疑是效率最高且最为简洁的方法。</p>
 <p>在Intel x86中，如果CPU支持<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/SSE4">SSE4</a>指令集，那可以使用POPCNT指令来计算二进制数中1的个数，实验表明，这应该是一个单周期指令，所以这无疑是最优的解决方案。</p>
 <p>在MSVC下，可通过<code>_mm_popcnt_u32()</code>函数来调用POPCNT指令，详细信息可参考<a target="_blank" rel="noopener" href="https://msdn.microsoft.com/en-us/library/bb514083.aspx">MSDN上的帮助</a>。<br>调用示例如下:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;nmmintrin.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">Count = _mm_popcnt_u32(num);</span><br></pre></td></tr></table></figure>
+
 <p>在GCC下，可直接调用<code>__builtin_popcountll()</code>函数，编译时加上编译选项<code>-mpopcnt</code>即可，此时编译器会自动使用POPCNT指令。</p>
 <p>在ARM中，也有类似的指令，比如<a target="_blank" rel="noopener" href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0081b/CHDJJGAJ.html">POPCOUNT宏</a>（需要约10个时钟周期），<a target="_blank" rel="noopener" href="http://www.arm.com/zh/products/processors/technologies/neon.php">NEON</a> SIMD指令集中的<a target="_blank" rel="noopener" href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0489g/CIHCFDBJ.html">VCNT</a>及<a target="_blank" rel="noopener" href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0802a/CNT_advsimd_vector.html">CNT</a>指令。</p>
 <p>POPCNT指令应该是有其实际重要作用的，比如在OpenCV的编译过程中就可以选择是否启用POPCNT指令。</p>
-<h2 id="执行时间对比"><a href="#执行时间对比" class="headerlink" title="执行时间对比"></a>执行时间对比</h2><p>毫无疑问，直接调用CPU指令是最佳的解决方案，将其执行时间规定为1，对其他算法的执行时间进行归一化处理，结果如下：<br><img src="https://pic.gaomf.store/20160224Graph.png-height"></p>
+<h2 id="执行时间对比"><a href="#执行时间对比" class="headerlink" title="执行时间对比"></a>执行时间对比</h2><p>毫无疑问，直接调用CPU指令是最佳的解决方案，将其执行时间规定为1，对其他算法的执行时间进行归一化处理，结果如下：<br><img src="https://img.gaomf.cn/20160224Graph.png?x-oss-process=image/resize,h_600"></p>
 <p>从中可以看到，除了特别简单的情况下（如0x01），分枝法与三分法的执行效率是最好的，且这两种算法是稳定的算法，其执行时间不依赖于输入数据。逐次清除最低位1法在1的个数较少时也不失为一种好方法。</p>
 
       
@@ -382,12 +390,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/02/24/Population_Count/">Population Count算法</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-02-24, 18:38:19</p>
-        <p><span>最后更新:</span>2021-05-16, 19:40:22</p>
+        <p><span>最后更新:</span>2021-06-10, 21:30:45</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/02/24/Population_Count/" title="Population Count算法">https://gaomf.cn/2016/02/24/Population_Count/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/02/24/Population_Count/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/02/24/Population_Count/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -413,6 +421,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -502,8 +511,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -530,6 +539,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="进行文本匹配等操作最合适的工具就是正则表达式了，Python中的正则表达式模块叫做re，在此总结下此模块最基本的用法。关于正则表达式本身的模式字符串的构成，参考我的另一篇文章：正则表达式总结">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-07-20T12:15:09.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:28:11.039Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.993Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Spider">
 <meta property="article:tag" content="Regular Expression">
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -116,7 +116,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -132,10 +132,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -257,20 +257,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -304,6 +305,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-Python爬虫--使用re正则表达式解析文本" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -349,15 +351,18 @@
       
           
         <p>进行文本匹配等操作最合适的工具就是正则表达式了，Python中的正则表达式模块叫做<code>re</code>，在此总结下此模块最基本的用法。关于正则表达式本身的模式字符串的构成，参考我的另一篇文章：<a href="/2016/07/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93/">正则表达式总结</a></p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>使用正则表达式首先要导入<code>re</code>模块：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re </span><br></pre></td></tr></table></figure>
+
 <h2 id="Match对象"><a href="#Match对象" class="headerlink" title="Match对象"></a>Match对象</h2><p>Match对象代表一次匹配的结果，包含了很多关于此次匹配的信息，其中最重要的就是获取匹配到的字符串，一般使用<code>group()</code>方法：</p>
 <p><strong><code>group()</code>等价于<code>group(0)</code>，返回整个匹配的子串；</strong><br><strong><code>group(num)</code>返回第<code>num</code>个组对应的字符串，从1开始。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ss = <span class="string">&#x27;Hello World!&#x27;</span></span><br><span class="line">matchObj = re.search(<span class="string">r&#x27;(\w+) (\w+)(.)&#x27;</span>, ss)</span><br><span class="line"></span><br><span class="line">print(matchObj.group(<span class="number">0</span>))</span><br><span class="line">print(matchObj.group(<span class="number">1</span>))</span><br><span class="line">print(matchObj.group(<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+
 <p>输出结果为：</p>
 <figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hello World!</span><br><span class="line">Hello</span><br><span class="line">!</span><br></pre></td></tr></table></figure>
+
 <h2 id="匹配"><a href="#匹配" class="headerlink" title="匹配"></a>匹配</h2><p><strong>使用<code>re.match()</code>方法</strong>，默认从字符串起始位置开始匹配一个模式，此方法一般用于检查字符串是否符合某一规则，函数基本语法：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">re.match(pattern, string)</span><br></pre></td></tr></table></figure>
 <p>匹配成功返回一个Match对象，否则返回None。</p>
@@ -369,8 +374,10 @@
 <p><code>repl</code>是需要替换的字符串，返回替换后的字符串，如果模式没有发现，字符将被没有改变地返回。</p>
 <p>一个示例：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">OldStr = <span class="string">&#x27;Phone Number :##137-123-4567##&#x27;</span></span><br><span class="line"></span><br><span class="line">NewStr = re.sub(<span class="string">r&#x27;\D&#x27;</span>, <span class="string">&quot;&quot;</span>, OldStr)</span><br><span class="line">print(NewStr)</span><br></pre></td></tr></table></figure>
+
 <p>输出结果：</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1371234567</span></span><br></pre></td></tr></table></figure>
+
 <p>这段程序可以去除原字符串中的所有非数字。</p>
 <hr>
 <p>相关文章：</p>
@@ -387,12 +394,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E6%96%87%E6%9C%AC/">Python爬虫--使用re正则表达式解析文本</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-07-20, 20:15:09</p>
-        <p><span>最后更新:</span>2021-05-16, 19:28:11</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E6%96%87%E6%9C%AC/" title="Python爬虫--使用re正则表达式解析文本">https://gaomf.cn/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E6%96%87%E6%9C%AC/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E6%96%87%E6%9C%AC/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E6%96%87%E6%9C%AC/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -418,6 +425,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -507,8 +515,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -535,6 +543,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

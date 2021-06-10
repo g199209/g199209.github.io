@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,17 +22,17 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="perf 是 Linux 下重要的性能分析工具，perf 可以通过采样获取很多性能指标，其中最常用的是获取 CPU Cycles，即程序各部分代码运行所需的时间，进而确定性能瓶颈在哪。不过在实际使用过程中发现，简单的使用perf record -g 获取到的调用栈是有问题的，存在大量 [Unknown] 函数，从 perf report 的结果来看这些部分对应地址大部分都是非法地址，且生成的火焰图">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/perf_test_fp.svg">
-<meta property="og:image" content="https://pic.gaomf.store/perf_test_lbr.svg">
-<meta property="og:image" content="https://pic.gaomf.store/perf_test_dwarf.svg">
+<meta property="og:image" content="https://img.gaomf.cn/perf_test_fp.svg">
+<meta property="og:image" content="https://img.gaomf.cn/perf_test_lbr.svg">
+<meta property="og:image" content="https://img.gaomf.cn/perf_test_dwarf.svg">
 <meta property="article:published_time" content="2019-10-30T15:09:37.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.359Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.393Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="x86">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Debug">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/perf_test_fp.svg">
+<meta name="twitter:image" content="https://img.gaomf.cn/perf_test_fp.svg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -41,7 +41,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -120,7 +120,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -136,10 +136,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -261,20 +261,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -308,6 +309,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-使用-perf-进行性能分析时如何获取准确的调用栈" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -353,7 +355,7 @@
       
           
         <p><code>perf</code> 是 Linux 下重要的性能分析工具，<code>perf</code> 可以通过采样获取很多性能指标，其中最常用的是获取 CPU Cycles，即程序各部分代码运行所需的时间，进而确定性能瓶颈在哪。不过在实际使用过程中发现，简单的使用<code>perf record -g</code> 获取到的调用栈是有问题的，存在大量 <code>[Unknown]</code> 函数，从 <code>perf report</code> 的结果来看这些部分对应地址大部分都是非法地址，且生成的火焰图中存在很多明显与代码矛盾的调用关系。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>最初怀疑是优化级别的问题，然而尝试使用 <code>Og</code> 或 <code>O0</code> 优化依然存在此问题，仔细阅读 <code>perf record</code> 的手册后发现，<code>perf</code> 同时支持 3 种栈回溯方式：<code>fp</code>, <code>dwarf</code>, <code>lbr</code>，可以通过 <code>--call-graph</code> 参数指定，而 <code>-g</code> 就相当于 <code>--call-graph fp</code>.</p>
 <h3 id="栈回溯方式"><a href="#栈回溯方式" class="headerlink" title="栈回溯方式"></a>栈回溯方式</h3><p> <code>fp</code> 就是 Frame Pointer，即 x86 中的 <code>EBP</code> 寄存器，<code>fp</code> 指向当前栈帧栈底地址，此地址保存着上一栈帧的 <code>EBP</code> 值，具体可参考<a target="_blank" rel="noopener" href="https://www.cs.rutgers.edu/~pxk/419/notes/frames.html">此文章</a>的介绍，根据 <code>fp</code> 就可以逐级回溯调用栈。然而这一特性是会被优化掉的，而且这还是 GCC 的默认行为，在不手动指定 <code> -fno-omit-frame-pointer</code> 时默认都会进行此优化，此时 <code>EBP</code> 被当作一般的通用寄存器使用，以此为依据进行栈回溯显然是错误的。不过尝试指定 <code>-fno-omit-frame-pointer</code> 后依然没法获取到正确的调用栈，根据 GCC 手册的<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">说明</a>，指定了此选项后也并不保证所有函数调用都会使用 <code>fp</code>…… 看来只有放弃使用 <code>fp</code> 进行回溯了。</p>
@@ -361,11 +363,11 @@
 <p>最后 <code>perf</code> 还支持通过 <code>lbr</code> 获取调用栈，<code>lbr</code> 即 Last Branch Records，是较新的 Intel CPU 中提供的一组硬件寄存器，其作用是记录之前若干次分支跳转的地址，主要目的就是用来支持 <code>perf</code> 这类性能分析工具，其详细说明可参考 <a target="_blank" rel="noopener" href="https://lwn.net/Articles/680985/">“An introduction to last branch records”</a> &amp; <a target="_blank" rel="noopener" href="https://lwn.net/Articles/680996/">“Advanced usage of last branch records”</a>。此方法是性能与准确性最高的手段，然而它存在一个很大的局限性，由于硬件 Ring Buffer 寄存器的大小是有限的，<code>lbr</code> 能记录的栈深度也是有限的，具体值取决于特定 CPU 实现，一般就是 32 层，若超过此限制会得到错误的调用栈。</p>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>实际测试下以上 3 种栈回溯方式得到的结果，测试程序是一个调用深度为 50 的简单程序，从 <code>f0()</code> 依次调用至 <code>f50()</code>。</p>
 <p>**<code>--call-graph fp</code>**：</p>
-<p><img src="https://pic.gaomf.store/perf_test_fp.svg"></p>
+<p><img src="https://img.gaomf.cn/perf_test_fp.svg"></p>
 <p>**<code>--call-graph lbr</code>**：</p>
-<p><img src="https://pic.gaomf.store/perf_test_lbr.svg"></p>
+<p><img src="https://img.gaomf.cn/perf_test_lbr.svg"></p>
 <p>**<code>--call-graph dwarf</code>**：</p>
-<p><img src="https://pic.gaomf.store/perf_test_dwarf.svg"></p>
+<p><img src="https://img.gaomf.cn/perf_test_dwarf.svg"></p>
 <p>可以看到，的确只有 <code>dwarf</code> 获取到了正确的调用栈。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><table>
 <thead>
@@ -405,12 +407,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2019/10/30/perf_stack_traceback/">使用 perf 进行性能分析时如何获取准确的调用栈</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2019-10-30, 23:09:37</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/10/30/perf_stack_traceback/" title="使用 perf 进行性能分析时如何获取准确的调用栈">https://gaomf.cn/2019/10/30/perf_stack_traceback/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2019/10/30/perf_stack_traceback/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2019/10/30/perf_stack_traceback/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -436,6 +438,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -504,8 +507,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -532,6 +535,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

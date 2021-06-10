@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="按照crosstool-ng的安装中的做法安装好crosstool-ng后就可以使用crosstool-ng了，基本使用流程在其官网上有说明：Using a released version，这里做下总结。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20160615105843.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160615105843.png">
 <meta property="article:published_time" content="2016-06-15T03:33:58.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:16:44.209Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.017Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Compiler">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20160615105843.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20160615105843.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -117,7 +117,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -133,10 +133,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -258,20 +258,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -305,6 +306,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-crosstool-ng的基本使用流程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,27 +352,33 @@
       
           
         <p>按照<a href="/2016/06/14/crosstool-ng%E7%9A%84%E5%AE%89%E8%A3%85/">crosstool-ng的安装</a>中的做法安装好crosstool-ng后就可以使用crosstool-ng了，基本使用流程在其官网上有说明：<a target="_blank" rel="noopener" href="http://crosstool-ng.org/#using_a_released_version">Using a released version</a>，这里做下总结。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p><strong>需要注意的是，目前新版本的crosstool-ng不能以root身份运行，否则会提示以下错误：</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ERROR]  You must NOT be root to run crosstool-NG</span><br></pre></td></tr></table></figure>
+
 <p>故下面的所有操作都<strong>不要</strong>在root下进行。当然，如果非要用root运行的话也是可以的，见本文最后的附注。</p>
 <h2 id="创建工作目录"><a href="#创建工作目录" class="headerlink" title="创建工作目录"></a>创建工作目录</h2><p>一般专门创建一个工作目录用于之后的编译过程：</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/toolchain</span><br><span class="line">cd ~/toolchain</span><br><span class="line"><span class="built_in">mkdir</span> src</span><br><span class="line"><span class="built_in">mkdir</span> x-tools</span><br><span class="line"><span class="keyword">export</span> build=<span class="string">&quot;$(pwd)&quot;</span></span><br></pre></td></tr></table></figure>
+
 <p>这里创建了工作目录<code>~/toolchain/</code>及两个子文件夹<code>~/toolchain/src</code>、<code>~/toolchain/x-tools</code>，分别用于存放下载到的源码tarball及最终生成的交叉编译链。</p>
 <p>最后新建了一个<code>build</code>变量，代表当前工作目录。</p>
 <h2 id="使用Sample示例配置"><a href="#使用Sample示例配置" class="headerlink" title="使用Sample示例配置"></a>使用Sample示例配置</h2><p>crosstool-ng中自带了很多示例配置，可用以下命令列出所有Samples及查看某个特定的示例的主要配置参数：</p>
 <figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">ct-ng</span> <span class="built_in">list-samples</span></span><br><span class="line"><span class="built_in">ct-ng</span> <span class="string">show</span>-&lt;<span class="string">sample</span>&gt;</span><br></pre></td></tr></table></figure>
+
 <p>如果有合适的示例配置可用的话，可以在其基础上进行修改。<strong>在工作目录中</strong>执行<code>ct-ng &lt;sample&gt;</code>，如：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ct-ng arm-unknown-linux-gnueabi</span><br></pre></td></tr></table></figure>
+
 <p>此命令会自动在当前目录下创建示例的配置文件，shell输出类似这样的：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">  LN    config</span><br><span class="line">  MKDIR config.gen</span><br><span class="line">  IN    config.gen/arch.in</span><br><span class="line">  IN    config.gen/kernel.in</span><br><span class="line">  IN    config.gen/cc.in</span><br><span class="line">  IN    config.gen/binutils.in</span><br><span class="line">  IN    config.gen/libc.in</span><br><span class="line">  IN    config.gen/debug.in</span><br><span class="line">  CONF  config/config.in</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="bash"><span class="comment"># configuration written to .config</span></span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"></span><br><span class="line"><span class="bash">***********************************************************</span></span><br><span class="line"></span><br><span class="line">Initially reported by: Alexander BIGGA</span><br><span class="line">URL: http://sourceware.org/ml/crossgcc/2008-06/msg00031.html</span><br><span class="line"></span><br><span class="line">***********************************************************</span><br><span class="line"></span><br><span class="line">Now configured for &quot;arm-unknown-linux-gnueabi&quot;</span><br></pre></td></tr></table></figure>
+
 <p><strong>网上很多教程中都说要手动复制配置文件，目前新版本的crosstool-ng不需要这样做，而且手动复制还会出错，直接使用上述命令生成示例配置即可。</strong></p>
 <h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>一般来说，示例配置是不能直接使用的，需要对其进行一些修改，<strong>在工作目录中</strong>输入：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ct-ng menuconfig</span><br></pre></td></tr></table></figure>
-<p>会进入下图这样的menuconfig配置界面：<br><img src="https://pic.gaomf.store/20160615105843.png"></p>
+<p>会进入下图这样的menuconfig配置界面：<br><img src="https://img.gaomf.cn/20160615105843.png"></p>
 <p>一般需要更改下路径，进入<code>Paths and misc options</code>，修改<code>Local tarballs directory</code> &amp; <code>Prefix directory</code>。前者是下载的源码包存放的路径，后者是生成的交叉编译链存放的路径，将其改为之前在工作目录下新建的文件夹即可：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">($</span><span class="bash">&#123;build&#125;/src) Local tarballs directory</span></span><br><span class="line"><span class="meta">($</span><span class="bash">&#123;build&#125;/x-tools/<span class="variable">$&#123;CT_TARGET&#125;</span>) Prefix directory</span></span><br></pre></td></tr></table></figure>
+
 <p>具体参数的配置方法见：<a href="/2016/06/16/crosstool-ng%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">crosstool-ng参数配置</a></p>
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>配置完成后使用</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ct-ng build</span><br></pre></td></tr></table></figure>
@@ -378,8 +386,10 @@
 <hr>
 <h2 id="附：以root身份运行crosstool-ng的方法"><a href="#附：以root身份运行crosstool-ng的方法" class="headerlink" title="附：以root身份运行crosstool-ng的方法"></a>附：以root身份运行crosstool-ng的方法</h2><p>出于安全性考虑，crosstool-ng默认不能以root身份运行，如果确定要在root下运行，需要在配置中开启这一选项：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-- Paths and misc options --</span><br><span class="line">[*] Try features marked as EXPERIMENTAL</span><br><span class="line">    [*]   Allow building as root user (READ HELP!) (NEW)</span><br></pre></td></tr></table></figure>
+
 <p>在这一选项的HELP文档中，可以看到crosstool-ng的作者极力反对用root运行：）</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">│ CT_ALLOW_BUILD_AS_ROOT:                                                                                                  │  </span><br><span class="line"> │                                                                                                                          │  </span><br><span class="line"> │ You normally do *not* need to be root to build a toolchain using                                                         │  </span><br><span class="line"> │ crosstool-NG. In fact, it is *VERY* dangerous to run as root, as                                                         │  </span><br><span class="line"> │ crosstool-NG will, as part of the build process, remove a few                                                            │  </span><br><span class="line"> │ directories. If anything goes wrong, running as root can ruin                                                            │  </span><br><span class="line"> │ your host distribution.                                                                                                  │  </span><br><span class="line"> │                                                                                                                          │  </span><br><span class="line"> │ I can&#x27;t stress it enough:  DO  NOT  RUN  AS  ROOT  !!                                                                    │  </span><br><span class="line"> │                                                                                                                          │  </span><br><span class="line"> │ Do not run as root, you&#x27;ve been warned.                                                                                  │  </span><br><span class="line"> │ Do not come whining, if it nukes your host system.                                                                       │  </span><br><span class="line"> │ Do not come whining, if you lose any data.                                                                               │  </span><br><span class="line"> │ Do not run as root.                                                                                                      │  </span><br><span class="line"> │                                                                                                                          │  </span><br><span class="line"> │ Do not run as root, you&#x27;ve been warned.                                                                                  │  </span><br><span class="line"> │ Do not come whining, if the Earth stops rotating.                                                                        │  </span><br><span class="line"> │ Do not come whining, if kittens are smashed.                                                                             │  </span><br><span class="line"> │ Do not run as root.                                                                                                      │  </span><br><span class="line"> │                                                                                                                          │  </span><br><span class="line"> │ Do not run as root, do not run as root!                                                                                  │  </span><br><span class="line"> │ (ad libitum)</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -389,12 +399,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/">crosstool-ng的基本使用流程</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-06-15, 11:33:58</p>
-        <p><span>最后更新:</span>2021-05-16, 19:16:44</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/" title="crosstool-ng的基本使用流程">https://gaomf.cn/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -420,6 +430,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -509,8 +520,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -537,6 +548,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="很多时候我们都有监测某个网站变化的需求，比如是否发布新通知了，是否有新更新了等。之前使用过Chrome的几个插件来实现这个功能，不过用起来都觉得不是很方便，于是就想自己用Python写一个，之后将程序部署在服务器上即可实现24小时自动监测了。 用了几天时间写了个还算可以用的程序出来，可以实现以下功能：  定时去检查网站的某页面（或某几个页面），获取此时发布的信息，并与数据库中的数据对比，如果检测到">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-07-26T13:19:38.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:26:01.737Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:57.007Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Top">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="Spider">
@@ -37,7 +37,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -116,7 +116,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -132,10 +132,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -257,20 +257,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -304,6 +305,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-使用Python实现网站变化监测系统" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -355,29 +357,34 @@
 <li>可以实现关键词过滤功能，检查发布信息标题及内容页是否有指定关键词，如果没有的话忽略此信息；</li>
 <li>实现了一个相对比较通用的程序架构，可以很方便的向其中添加新网站。</li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>项目已上传至GitHub：<a target="_blank" rel="noopener" href="https://github.com/g199209/Spider">https://github.com/g199209/Spider</a></p>
 <p>这个系统其实和爬虫所用的技术基本是一样的，下面来总结下此系统的实现方法。</p>
 <h2 id="主程序"><a href="#主程序" class="headerlink" title="主程序"></a>主程序</h2><p>主程序为<code>Spider.py</code>，使用时运行此程序即可，此脚本执行过程伪代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Initialize(WebList)</span><br><span class="line">Initialize(Log File)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">for</span> web <span class="keyword">in</span> WebList:</span><br><span class="line">        web.GET()</span><br><span class="line">        web.Update()</span><br><span class="line"></span><br><span class="line">        Handle Exception()</span><br><span class="line">    </span><br><span class="line">    Sleep()</span><br></pre></td></tr></table></figure>
+
 <p>首先初始化日志及网站列表，之后进入死循环，依次从网站列表中取出各网站，检查是否有更新及发布新消息，若此过程发生异常需进行处理，最后挂起一段时间进行下一次循环。</p>
 <p>此处的网站列表是各网站实例化对象的一个List，如果要添加新网站在此List中增加新元素即可。</p>
 <h2 id="WebsiteBase类"><a href="#WebsiteBase类" class="headerlink" title="WebsiteBase类"></a>WebsiteBase类</h2><p><code>WebsiteBase</code>类是所有网站类的基类，其中抽象了所有网站的共性行为，此类本身不能实例化，只能用于继承。</p>
 <p><code>WebsiteBase</code>类中的公用接口函数只有3个：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构造函数</span></span><br><span class="line">__init__(self, Name, DBName, AgentID, CheckContent, KeyWords, KeyWordsThreshold, encoding = <span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="comment"># 获取网站新消息</span></span><br><span class="line">GET(self)</span><br><span class="line"><span class="comment"># 发布新消息</span></span><br><span class="line">Update(self)</span><br></pre></td></tr></table></figure>
+
 <p>下面分别说明这3个函数的实现。</p>
 <hr>
 <p>构造函数<code>__init__()</code>的执行流程伪代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span>():</span></span><br><span class="line">    Initialize(Parameters)</span><br><span class="line">    Get(Wchat Password)</span><br><span class="line">    Initialize(Database)</span><br></pre></td></tr></table></figure>
+
 <p>进行微信发布时需要用到的<code>corpid</code>及<code>corpsecret</code>在此处从文件中读取得到。</p>
 <hr>
 <p>用于发布新消息的<code>Update()</code>函数的执行流程伪代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Update</span>():</span></span><br><span class="line">    Initialize(Wchat)</span><br><span class="line">    Open(Database)</span><br><span class="line">    Get(Unpublished message)</span><br><span class="line">    Publish(Unpublished message)</span><br><span class="line">    Close(Database)</span><br></pre></td></tr></table></figure>
+
 <p>实际代码中还增加了很多异常处理相关的代码，此处不多说明了。</p>
 <hr>
 <p>用于获取网站新消息的<code>GET()</code>函数是此类的核心，其执行流程伪代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GET</span>():</span></span><br><span class="line">    Open(Database)</span><br><span class="line">    Get(PageRange)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> PageRange:</span><br><span class="line">        Get(Main Page)</span><br><span class="line">        Get(Enclose)</span><br><span class="line">        Get(Tags)</span><br><span class="line">        <span class="keyword">for</span> tag <span class="keyword">in</span> Tags:</span><br><span class="line">            Get(Title &amp; URL &amp; Brief &amp; Publish Time)</span><br><span class="line">            Check(Database)</span><br><span class="line">            Check(Addition Check)</span><br><span class="line">            <span class="keyword">if</span> Unchecked:</span><br><span class="line">                Check(Keywords <span class="keyword">in</span> Title)</span><br><span class="line">                Check(Keywords <span class="keyword">in</span> URL Content)</span><br><span class="line">                Update(Database)</span><br><span class="line">            Check(Database)</span><br><span class="line">            <span class="keyword">if</span> New Message:</span><br><span class="line">                Update(Database)</span><br><span class="line">    Close(Database)</span><br></pre></td></tr></table></figure>
+
 <p><code>PageRange</code>指页面参数，有时需要访问同一个网站的若干页面，就可以通过此参数来进行循环，以简化程序代码。</p>
 <p><code>Enclose</code>指感兴趣的目标区域，先进行一次筛选，去掉无用的部分以便于后续操作。</p>
 <p><code>Tags</code>指只包含一条消息记录的HTML部分，一般很容易从感兴趣的目标区域中分离出每一条消息记录来，之后就可以循环对每一条消息进行处理了。</p>
@@ -401,12 +408,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/07/26/%E4%BD%BF%E7%94%A8Python%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E5%8F%98%E5%8C%96%E7%9B%91%E6%B5%8B%E7%B3%BB%E7%BB%9F/">使用Python实现网站变化监测系统</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-07-26, 21:19:38</p>
-        <p><span>最后更新:</span>2021-05-16, 19:26:01</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/26/%E4%BD%BF%E7%94%A8Python%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E5%8F%98%E5%8C%96%E7%9B%91%E6%B5%8B%E7%B3%BB%E7%BB%9F/" title="使用Python实现网站变化监测系统">https://gaomf.cn/2016/07/26/%E4%BD%BF%E7%94%A8Python%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E5%8F%98%E5%8C%96%E7%9B%91%E6%B5%8B%E7%B3%BB%E7%BB%9F/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/26/%E4%BD%BF%E7%94%A8Python%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E5%8F%98%E5%8C%96%E7%9B%91%E6%B5%8B%E7%B3%BB%E7%BB%9F/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/07/26/%E4%BD%BF%E7%94%A8Python%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E5%8F%98%E5%8C%96%E7%9B%91%E6%B5%8B%E7%B3%BB%E7%BB%9F/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -432,6 +439,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -521,8 +529,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -549,6 +557,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

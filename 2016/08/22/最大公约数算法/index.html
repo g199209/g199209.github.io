@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="两个（或更多个）整数的最大公约数（Greatest Common Divisor, GCD）是指能同时整除它们的最大正整数，求解最大公约数最常用的算法是辗转相除法（又称欧几里得算法）及Stein算法，至于直接穷举的暴力算法，因为过于低效，实际中是不会使用的。下面来总结下这两种方法。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-08-22T07:29:23.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:24:59.451Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:57.012Z">
+<meta property="article:author" content="高明飞">
 <meta name="twitter:card" content="summary">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
@@ -34,7 +34,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -113,7 +113,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -129,10 +129,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -254,20 +254,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -301,6 +302,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-最大公约数算法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -342,22 +344,26 @@
       
           
         <p>两个（或更多个）整数的最大公约数（Greatest Common Divisor, GCD）是指能同时整除它们的最大正整数，求解最大公约数最常用的算法是辗转相除法（又称欧几里得算法）及Stein算法，至于直接穷举的暴力算法，因为过于低效，实际中是不会使用的。下面来总结下这两种方法。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><strong>问题描述</strong></h2><p>给定两个正整数M和N，求其最大公约数。函数原型：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">GCD</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> M, <span class="keyword">unsigned</span> <span class="keyword">int</span> N)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>调用此函数时保证M≥N&gt;0。</p>
 <h2 id="辗转相除法"><a href="#辗转相除法" class="headerlink" title="辗转相除法"></a><strong>辗转相除法</strong></h2><p>辗转相除法的介绍可见<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%BC%BE%E8%BD%89%E7%9B%B8%E9%99%A4%E6%B3%95">维基百科</a>，其理论基础就是下面这个公式：</p>
 <p><strong><code>GCD(M, N) = GCD(N, M%N)</code></strong></p>
 <p>此公式的证明在此不做介绍，直接给出算法实现：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">GCD</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> M, <span class="keyword">unsigned</span> <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> Rem;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (N &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    Rem = M % N;</span><br><span class="line">    M = N;</span><br><span class="line">    N = Rem;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> M;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p>上述算法可以进一步优化，算法中使用了一个中间变量<code>Rem</code>，它用于交换两数，其实这是没有必要的。注意到：</p>
 <p><code>GCD(M, N) = GCD(N, M % N) = GCD(M % N, N % (M % N))</code></p>
 <p>在第一步计算出<code>M % N</code>后，保留<code>N</code>的值其实是没有必要的，可以直接跳过这一步，使用最后一个式子进行计算即可：</p>
 <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">M = M % <span class="built_in">N</span>;  // 这一步后，新的M的值即为M%<span class="built_in">N</span></span><br><span class="line"><span class="built_in">N</span> = <span class="built_in">N</span> % M;  // 相当于公式中的<span class="built_in">N</span>%(M%<span class="built_in">N</span>)</span><br></pre></td></tr></table></figure>
+
 <p>因为这相当于计算了2次，截止条件变为<code>M</code>和<code>N</code>中的任意一个为0，否则就会出现<code>%0</code>这样的错误。返回结果是<code>M</code>和<code>N</code>中不为0那个，不过由于另一个数为0，可以用<code>M + N</code>替代。这样就可以写出代码：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">GCD</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> M, <span class="keyword">unsigned</span> <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> ((M %= N) &amp;&amp; (N %= M));</span><br><span class="line">  <span class="keyword">return</span> M + N;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如此简单而优雅！</p>
 <h2 id="Stein算法"><a href="#Stein算法" class="headerlink" title="Stein算法"></a><strong>Stein算法</strong></h2><p>此算法又被称为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary_GCD_algorithm">Binary GCD algorithm</a>，它是针对欧几里得算法的一些缺陷提出的。</p>
 <blockquote>
@@ -366,17 +372,21 @@
 <p>算法的理论和实现方法在此从略，此处仅摘录一下实现代码以供参考，引用自<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Binary_GCD_algorithm#Implementation">WiKi</a>。</p>
 <p>递归实现：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> u, <span class="keyword">unsigned</span> <span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// simple cases (termination)</span></span><br><span class="line">    <span class="keyword">if</span> (u == v)</span><br><span class="line">        <span class="keyword">return</span> u;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (u == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (v == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> u;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// look for factors of 2</span></span><br><span class="line">    <span class="keyword">if</span> (~u &amp; <span class="number">1</span>) <span class="comment">// u is even</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (v &amp; <span class="number">1</span>) <span class="comment">// v is odd</span></span><br><span class="line">            <span class="keyword">return</span> gcd(u &gt;&gt; <span class="number">1</span>, v);</span><br><span class="line">        <span class="keyword">else</span> <span class="comment">// both u and v are even</span></span><br><span class="line">            <span class="keyword">return</span> gcd(u &gt;&gt; <span class="number">1</span>, v &gt;&gt; <span class="number">1</span>) &lt;&lt; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (~v &amp; <span class="number">1</span>) <span class="comment">// u is odd, v is even</span></span><br><span class="line">        <span class="keyword">return</span> gcd(u, v &gt;&gt; <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// reduce larger argument</span></span><br><span class="line">    <span class="keyword">if</span> (u &gt; v)</span><br><span class="line">        <span class="keyword">return</span> gcd((u - v) &gt;&gt; <span class="number">1</span>, v);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> gcd((v - u) &gt;&gt; <span class="number">1</span>, u);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>非递归实现：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> u, <span class="keyword">unsigned</span> <span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> shift;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* GCD(0,v) == v; GCD(u,0) == u, GCD(0,0) == 0 */</span></span><br><span class="line">  <span class="keyword">if</span> (u == <span class="number">0</span>) <span class="keyword">return</span> v;</span><br><span class="line">  <span class="keyword">if</span> (v == <span class="number">0</span>) <span class="keyword">return</span> u;</span><br><span class="line"> </span><br><span class="line">  <span class="comment">/* Let shift := lg K, where K is the greatest power of 2</span></span><br><span class="line"><span class="comment">        dividing both u and v. */</span></span><br><span class="line">  <span class="keyword">for</span> (shift = <span class="number">0</span>; ((u | v) &amp; <span class="number">1</span>) == <span class="number">0</span>; ++shift) &#123;</span><br><span class="line">         u &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">         v &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">while</span> ((u &amp; <span class="number">1</span>) == <span class="number">0</span>)</span><br><span class="line">    u &gt;&gt;= <span class="number">1</span>;</span><br><span class="line"> </span><br><span class="line">  <span class="comment">/* From here on, u is always odd. */</span></span><br><span class="line">  <span class="keyword">do</span> &#123;</span><br><span class="line">       <span class="comment">/* remove all factors of 2 in v -- they are not common */</span></span><br><span class="line">       <span class="comment">/*   note: v is not zero, so while will terminate */</span></span><br><span class="line">       <span class="keyword">while</span> ((v &amp; <span class="number">1</span>) == <span class="number">0</span>)  <span class="comment">/* Loop X */</span></span><br><span class="line">           v &gt;&gt;= <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/* Now u and v are both odd. Swap if necessary so u &lt;= v,</span></span><br><span class="line"><span class="comment">          then set v = v - u (which is even). For bignums, the</span></span><br><span class="line"><span class="comment">          swapping is just pointer movement, and the subtraction</span></span><br><span class="line"><span class="comment">          can be done in-place. */</span></span><br><span class="line">       <span class="keyword">if</span> (u &gt; v) &#123;</span><br><span class="line">         <span class="keyword">unsigned</span> <span class="keyword">int</span> t = v; v = u; u = t;&#125;  <span class="comment">// Swap u and v.</span></span><br><span class="line">       v = v - u;                       <span class="comment">// Here v &gt;= u.</span></span><br><span class="line">     &#125; <span class="keyword">while</span> (v != <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* restore common factors of 2 */</span></span><br><span class="line">  <span class="keyword">return</span> u &lt;&lt; shift;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="扩展问题"><a href="#扩展问题" class="headerlink" title="扩展问题"></a><strong>扩展问题</strong></h2><p>如果需要求多个数的最大公约数，可以先求出任意两个数的最大公约数，然后再求此数与其它数间的最大公约数，即有以下等式成立：</p>
 <p><code>GCD(a, b, c) = GCD(a, GCD(b, c)) = GCD(c, GCD(a,b))</code></p>
 <p>由此，易写出求N个数最大公约数的算法：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdarg.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">GCDN</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> parmN, ...)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> M;</span><br><span class="line">  va_list ap;</span><br><span class="line">  va_start(ap, parmN);</span><br><span class="line"></span><br><span class="line">  M = va_arg(ap, <span class="keyword">unsigned</span> <span class="keyword">int</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (--parmN) &#123;</span><br><span class="line">    M = GCD(M, va_arg(ap, <span class="keyword">unsigned</span> <span class="keyword">int</span>));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  va_end(ap);</span><br><span class="line">  <span class="keyword">return</span> M;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p>求出最大公约数的同时也就得到了最小公倍数（Lowest Common Multiple, LCM），二者存在以下关系：</p>
 <p><code>GCD(M, N) * LCM(M, N) = M * N</code></p>
 <p>故易得：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">LCM</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> M, <span class="keyword">unsigned</span> <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> M * N / GCD(M, N);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -386,12 +396,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/08/22/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E7%AE%97%E6%B3%95/">最大公约数算法</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-08-22, 15:29:23</p>
-        <p><span>最后更新:</span>2021-05-16, 19:24:59</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/08/22/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E7%AE%97%E6%B3%95/" title="最大公约数算法">https://gaomf.cn/2016/08/22/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E7%AE%97%E6%B3%95/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/08/22/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E7%AE%97%E6%B3%95/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/08/22/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E7%AE%97%E6%B3%95/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -417,6 +427,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -506,8 +517,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -534,6 +545,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

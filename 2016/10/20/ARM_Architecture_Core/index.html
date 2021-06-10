@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="一般的ARM芯片都会涉及到以下一些概念：芯片型号、ARM内核名称、指令集名称等等，这些概念间既有联系也有区别。本文简要梳理下这些不同的概念，并选择一些我接触过的芯片进行下总结。一个比较完整的ARM产品线列表可参考Wikipedia页面：  List of ARM microarchitectures">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-10-20T07:28:56.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.440Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:56.978Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="ARM">
 <meta name="twitter:card" content="summary">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -114,7 +114,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -130,10 +130,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -255,20 +255,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -302,6 +303,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-ARM架构及内核" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,7 +352,7 @@
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_ARM_microarchitectures">List of ARM microarchitectures</a></p>
 </blockquote>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="ARM产品家族"><a href="#ARM产品家族" class="headerlink" title="ARM产品家族"></a>ARM产品家族</h3><p>即ARM Family，就是ARM公司不同的产品系列，这个分类主要是从市场及销售角度进行的划分。1985年，ARM公司研发出未量产的第一代产品<code>ARM1</code>，之后陆续推出了<code>ARM2</code>、<code>ARM3</code>、<code>ARM6</code>三个系列的产品，不过这些产品基本都是没人知道的。直到1997年，ARM推出<code>ARM7T</code>系列产品，这才标志着ARM大规模商用推广的开始，2000年左右推出的<code>ARM9T</code>及<code>ARM9E</code>系列更成为了ARM公司里程碑式的经典产品。之后的ARM还推出了<code>ARM10E</code>及<code>ARM11</code>这两个系列。</p>
 <p>不过估计是觉得这样的命名太混乱了，不利于市场推广，在2005年左右，ARM将其新推出的所有CPU分为3大家族，这就是现在广为人知的<code>Cortex-A</code>、<code>Cortex-M</code>及<code>Cortex-R</code>系列，到目前为止10多年来都沿用了这一名字没有变过。其中<code>Cortex-A</code>定位于对计算性能要求较高的<code>Application</code>领域；<code>Cortex-M</code>定位于低功耗、低成本的微控制器<code>Microcontroller</code>领域；<code>Cortex-R</code>定位于对安全、实时性要求较高的<code>Realtime</code>领域。</p>
@@ -485,12 +487,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/10/20/ARM_Architecture_Core/">ARM架构及内核</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-10-20, 15:28:56</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/10/20/ARM_Architecture_Core/" title="ARM架构及内核">https://gaomf.cn/2016/10/20/ARM_Architecture_Core/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/20/ARM_Architecture_Core/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/20/ARM_Architecture_Core/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -516,6 +518,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -607,8 +610,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -635,6 +638,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,12 +22,12 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="Chia（起亚） 是最近极为火热的数字货币项目，对应的货币叫做 Chia Coin，简称 XCH。其核心算法为 PoST（Proof of Space and Time），以替代比特币中的 PoW（Proof of Work）。 使用 PoSpace 空间证明而非 PoW 工作量证明是 Chia 项目宣称的最大优点。据他们的开发者宣称，PoW 耗费太多能源了，不环保，我们来搞点更环保的东西吧，不用">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/chia-network-architecture.png-height">
-<meta property="og:image" content="https://pic.gaomf.store/20210510-170238%402x.png-height">
-<meta property="og:image" content="https://pic.gaomf.store/chia_plots_file_table.png">
+<meta property="og:image" content="https://img.gaomf.cn/chia-network-architecture.png?x-oss-process=image/resize,h_600">
+<meta property="og:image" content="https://img.gaomf.cn/20210510-170238%402x.png?x-oss-process=image/resize,h_600">
+<meta property="og:image" content="https://img.gaomf.cn/chia_plots_file_table.png">
 <meta property="article:published_time" content="2021-05-16T09:33:00.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:55:17.996Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T13:30:45.010Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Top">
 <meta property="article:tag" content="Blockchain">
 <meta property="article:tag" content="P2P">
@@ -35,7 +35,7 @@
 <meta property="article:tag" content="Consensus">
 <meta property="article:tag" content="Storage">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/chia-network-architecture.png-height">
+<meta name="twitter:image" content="https://img.gaomf.cn/chia-network-architecture.png?x-oss-process=image/resize,h_600">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -44,7 +44,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -123,7 +123,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -139,10 +139,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -264,20 +264,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -311,6 +312,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-Chia-技术架构简述" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -359,10 +361,10 @@
 <p>使用 PoSpace 空间证明而非 PoW 工作量证明是 Chia 项目宣称的最大优点。据他们的开发者宣称，PoW 耗费太多能源了，不环保，我们来搞点更环保的东西吧，不用 PoW 了，改用 PoSpace，即谁有的硬盘空间多谁的投票权就更大。因此他们还把通常称为白皮书（White Paper）的文档改名叫做绿皮书（Green Paper）。</p>
 <p>然而仔细想想这哪里环保了，把一堆硬盘搞来塞满毫无意义的数据比比特币矿机还要更邪恶吧……Chia 的官网上还可笑的宣称硬盘更不容易被垄断，因此个人还有小玩家可以更好的入场，简直是更荒谬的说法，哪个个人会去囤积一堆存不了有用数据的硬盘？</p>
 <p>IPFS 好歹还可以存一些实际有用的数据，看起来还真能促进下社会发展，至于 Chia 简直是除了圈钱和泡沫看不到任何其他意义。不过抛开实际意义，由于最近也研究了下 Chia 的文档和代码，就单纯的来和大家分享下 Chia 的技术实现吧。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h2><p>Chia 的整体架构图如下：</p>
-<p><img src="https://pic.gaomf.store/chia-network-architecture.png-height"></p>
+<p><img src="https://img.gaomf.cn/chia-network-architecture.png?x-oss-process=image/resize,h_600"></p>
 <p>整个系统中主要有 3 种类型的参与者：</p>
 <ul>
 <li>Farmer，农民</li>
@@ -390,7 +392,7 @@
 <p>Plotting 的逻辑是由 <code>DiskPlotter</code> 这个类来实现的。</p>
 <h4 id="Farming"><a href="#Farming" class="headerlink" title="Farming"></a>Farming</h4><p>Farming 的过程就是对一系列 Challenges 的证明响应，每一轮证明过程都是以一个 256 bit 的 Challenge 为输入，输出是一个 PoSpace 结构，其中包括 Plots file 的公钥，Pool 的公钥， Proof 结果等。其中最重要的就是 Proof 结果。</p>
 <p>生成一个区块的过程中会产生 64 次 Challenges，这一过程在客户端 Farming 的界面中可以看到：</p>
-<p><img src="https://pic.gaomf.store/20210510-170238%402x.png-height"></p>
+<p><img src="https://img.gaomf.cn/20210510-170238%402x.png?x-oss-process=image/resize,h_600"></p>
 <p>每一个这样的点被称为一个 Signage Point。</p>
 <p>为减少 IO 次数及所需网络带宽，目前的实现中采用了一种类似于预筛选的方法，先用较少次数的读计算出一个 Quality 值，并根据特定算法评估此 Quality 对于当前 Signage Point 来说够不够好，如果够好的话再去获取完整 Proof 结果。获取 Proof &amp; Quality 的过程是由 Harvester 完成的，评估 Quality 质量则是 Farmer 的工作。</p>
 <h4 id="Harvester"><a href="#Harvester" class="headerlink" title="Harvester"></a>Harvester</h4><p>Harvester 负责管理某台机器上的所有 Plots file，并接收来自 Farmer 的 Challenge，返回每个 Plots file 的 PoSpace 及 PoSpace Quality。</p>
@@ -398,10 +400,10 @@
 <p>Challenge 的高 $k$ bit 表示 f7 要满足的一些性质，通过对 C1, C2, C3 表的一通查询最终可以确定 Table 7 中有几项满足要求，可能有若干项满足要求，也可能一项都没有，平均期望是存在 1 项满足要求。</p>
 <p>这里有几项满足要求就意味着这个 Plots file 中存在多少个最终的 Proof 证明结果。</p>
 <p>之后的查找过程示意如下：</p>
-<p><img src="https://pic.gaomf.store/chia_plots_file_table.png"></p>
+<p><img src="https://img.gaomf.cn/chia_plots_file_table.png"></p>
 <p>不过要注意的是，从 Table 7 中的一项表项只能找到 Table 6 中对应的<strong>一项</strong>，这样依次找下去就可以得到 Table 1 中的 32 项，每项是由 2 个 $k$ bit 的整数构成的，因此最终结果就有 $k*64$ bit。对这 64 个数进行重新排序（排序规则是由 PoST 算法决定的），最终就可以生成一个长长的字符串，这就是 PoSpace 的证明结果。</p>
 <p>至于 Quality 是怎么来的呢？Challenge 最低 5 bit 的含义是 Table 6 ～ Table 2 在生成 Quality 时应该选择左边的值还是右边的值，按此规则进行选取后 Table 7 中的一项就会对应得到 Table 1 中的一项，即 2 个整数。将 Challenge 与这两个整数简单的二进制连起来，并计算 SHA-256，得到的结果就是 Quality 值。</p>
-<h3 id="Timelord"><a href="#Timelord" class="headerlink" title="Timelord"></a>Timelord</h3><p>Timelord 一般被翻译为时间领主，它负责向 Farmer 发起质询（Challenge）并计算 VDF，计算完成后打包成新的区块，实际上整个 Chia 链中的区块都是由 TimeLord 计算生成的。TimeLord 最终决定了哪个 Farmer 的某个 [[Plots file]] 赢得了当前区块，即摸中奖了可以获得 XCH 奖励。</p>
+<h3 id="Timelord"><a href="#Timelord" class="headerlink" title="Timelord"></a>Timelord</h3><p>Timelord 一般被翻译为时间领主，它负责向 Farmer 发起质询（Challenge）并计算 VDF，计算完成后打包成新的区块，实际上整个 Chia 链中的区块都是由 TimeLord 计算生成的。TimeLord 最终决定了哪个 Farmer 的某个 Plots file 赢得了当前区块，即摸中奖了可以获得 XCH 奖励。</p>
 <p>那如何保证 TimeLord 是公平的而不是邪恶的始终选取自己的 plots file 呢？这就是由 Chia 的 PoST 算法决定的了。离 Challenge 越近（越优）的 PoSpace 会使得 TimeLord 计算 VDF 的速度越快。系统中不止有一个 TimeLord，而是有很多 TimeLord 在互相竞争，哪个 TimeLoad 先计算完成 VDF 成功打包区块，那整个链就会沿此区块继续延伸，其他在计算同一高度区块的 TimeLord 就会失败。</p>
 <p>此过程与传统 Bitcoin 的运行模式基本一模一样，可以猜想，对于分支情况的处理也应该和比特币基本相同。然而一个显著区别是，Bitcoin 奖励的是矿工，即最终成功生成新区块的参与者，而在 Chia 中，TimeLord 是没有任何奖励的，完全是自愿劳动:) 被奖励的是 Farmer。</p>
 <p>那无偿劳动为啥有人来干呢？根据某个 Chia 核心开发人员的说法是，当 TimeLord 好处多多，大家都会争着来干的，最显著的好处是，自己部署一个 TimeLord 与自己的 Harvester 离得近网络延迟小，避免自己由于网络延迟太大而成为炮灰。即由于网络延迟导致自己的 PoSpace 很久之后才被送到某个遥远的 TimeLord 上，导致根本没有机会被打包到区块中，即使自己的 PoSpace 比其他人更优。</p>
@@ -453,12 +455,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2021/05/16/Chia_Architecture_Brief/">Chia 技术架构简述</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2021-05-16, 17:33:00</p>
-        <p><span>最后更新:</span>2021-05-16, 19:55:17</p>
+        <p><span>最后更新:</span>2021-06-10, 21:30:45</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2021/05/16/Chia_Architecture_Brief/" title="Chia 技术架构简述">https://gaomf.cn/2021/05/16/Chia_Architecture_Brief/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2021/05/16/Chia_Architecture_Brief/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2021/05/16/Chia_Architecture_Brief/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -478,6 +480,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -567,8 +570,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -595,6 +598,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

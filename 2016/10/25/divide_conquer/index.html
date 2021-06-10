@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -23,8 +23,8 @@
 <meta property="og:description" content="分治法是一种常用的算法设计技巧，二分法就是其最常见的特例。所谓分治，分而治之也：  分（divide）：递归解决较小的问题 治（conquer）：从子问题的解构建原问题的解  一般来说，至少含有两个递归的程序才叫做分治法，只有一个递归的程序是不算的。下面来总结下分治法的算法复杂度问题，摘自《数据结构与算法分析——C语言描述》一书。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-10-25T14:43:18.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.359Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:53:57.007Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Data Struct">
 <meta name="twitter:card" content="summary">
 
@@ -35,7 +35,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -114,7 +114,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -130,10 +130,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -255,20 +255,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -302,6 +303,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-分治法算法复杂度" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -352,14 +354,14 @@
 <li><strong>治（conquer）：从子问题的解构建原问题的解</strong></li>
 </ul>
 <p>一般来说，至少含有两个递归的程序才叫做分治法，只有一个递归的程序是不算的。下面来总结下分治法的算法复杂度问题，摘自<a target="_blank" rel="noopener" href="https://book.douban.com/subject/1139426/">《数据结构与算法分析——C语言描述》</a>一书。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>假设每次递归均可把原问题分解为$b$个规模一样的子问题，并需要求解其中的$a$个问题，将这$b$个子问题的解合并起来所需的算法复杂度为$O(N^k)$，即：</p>
 <p>$$T(N)=aT(N/b)+\Theta (N^k)$$</p>
 <p>此方程的解为：<br>$$T(N)=<br>\begin{cases}<br>O(N^{\log_b a}) &amp; a&gt;b^k\\<br>O(N^k \log N) &amp; a=b^k\\<br>O(N^k) &amp; a&lt;b^k<br>\end{cases}$$</p>
 <p>其中$a \geqslant 1, b &gt; 1$</p>
 <p>这个公式的实质是分和治的过程在争夺主导地位。大部分情况下$a=b$，此时上式可以进一步简化：<br>$$T(N)=<br>\begin{cases}<br>O(N^k) &amp; k&gt;1\\<br>O(N \log N) &amp; k=1\\<br>O(N) &amp; k&lt;1<br>\end{cases}$$</p>
-<p>一般也不存在 $k &lt; 1$ 的情况，故我们可以得到一个最常用的结论：<br>**若合并复杂度为 $O(N)$, 则整个分治法的复杂度为 $O(N \log N)$ ; 若合并复杂度为 $O(N^k), k&gt;1$ , 则整个分治法的复杂度就是合并复杂度。且无论将问题分为几个子问题求解，其算法复杂度相同。**</p>
+<p>一般也不存在 $k &lt; 1$ 的情况，故我们可以得到一个最常用的结论：<br><strong>若合并复杂度为 $O(N)$, 则整个分治法的复杂度为 $O(N \log N)$ ; 若合并复杂度为 $O(N^k), k&gt;1$ , 则整个分治法的复杂度就是合并复杂度。且无论将问题分为几个子问题求解，其算法复杂度相同。</strong></p>
 
       
     </div>
@@ -369,12 +371,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/10/25/divide_conquer/">分治法算法复杂度</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-10-25, 22:43:18</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:53:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/10/25/divide_conquer/" title="分治法算法复杂度">https://gaomf.cn/2016/10/25/divide_conquer/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/25/divide_conquer/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/10/25/divide_conquer/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -400,6 +402,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -468,8 +471,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -496,6 +499,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

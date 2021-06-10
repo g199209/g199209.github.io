@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,18 +22,18 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="矢量控制又称磁场导向控制（Field Oriented Control, FOC），这是永磁同步电机（PMSM）的主要控制方法，与BLDC的简单控制策略相比，矢量控制要更为复杂，故需要一套系统的调试方法。TI提供了一个用于支持各种电机控制算法的DMC库，其中包含很多矢量控制中用得到的功能模块，与之配套的还有一份调试指南：  Sensored Field Oriented Control of 3-">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20161114000147.png">
-<meta property="og:image" content="https://pic.gaomf.store/20161114002838.png">
-<meta property="og:image" content="https://pic.gaomf.store/20161114130432.png">
-<meta property="og:image" content="https://pic.gaomf.store/FOC.png">
+<meta property="og:image" content="https://img.gaomf.cn/20161114000147.png">
+<meta property="og:image" content="https://img.gaomf.cn/20161114002838.png">
+<meta property="og:image" content="https://img.gaomf.cn/20161114130432.png">
+<meta property="og:image" content="https://img.gaomf.cn/FOC.png">
 <meta property="article:published_time" content="2016-11-14T06:47:04.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:07:41.440Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.614Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Top">
 <meta property="article:tag" content="Motor">
 <meta property="article:tag" content="DSP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20161114000147.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20161114000147.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -42,7 +42,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -121,7 +121,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -137,10 +137,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -262,20 +262,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -309,6 +310,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-PMSM矢量控制算法调试流程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -358,7 +360,7 @@
 <p><a target="_blank" rel="noopener" href="http://www.ti.com/lit/an/sprabq2/sprabq2.pdf">Sensored Field Oriented Control of 3-Phase Permanent Magnet Synchronous Motors</a></p>
 </blockquote>
 <p>本文就以此为基础，结合实际调试经验，介绍一下矢量控制的基本调试流程。硬件平台基于TI C2000系列DSP，使用DMC库，不过基本方法也适用于其他各种平台。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 
 <h2 id="调试基本功能模块"><a href="#调试基本功能模块" class="headerlink" title="调试基本功能模块"></a>调试基本功能模块</h2><p>矢量控制中，需要获取转子位置、相电流及转速，输出是三相逆变器的占空比信号，故首先要配置好所需的硬件功能模块，并进行测试验证，这是之后所有工作的基础。</p>
@@ -380,16 +382,16 @@
 <p>这里配置好后只需要初步验证一下：用手旋转电机，角度采样值会发生变化即可，详细的验证放到后面步骤中进行。</p>
 <h2 id="编写变换程序"><a href="#编写变换程序" class="headerlink" title="编写变换程序"></a>编写变换程序</h2><p>矢量控制的核心其实就在Clark与Park变换上，通过这两个变换实现了直轴与交轴的解耦。TI DMC库提供了现成的变换模块，即<code>CLARKE</code>、<code>PARK</code>及<code>IPARK</code>，可直接使用。如果是自行编写的程序，需要预先通过仿真等方法确定程序的正确性。</p>
 <h2 id="调试SVPWM模块"><a href="#调试SVPWM模块" class="headerlink" title="调试SVPWM模块"></a>调试SVPWM模块</h2><p>其实矢量控制也并不一定要使用SVPWM（空间矢量调制）方法，也可使用其他方法（如滞环控制等）进行电流控制，不过SVPWM是最优策略，也是主流做法。TI DMC库中使用<code>SVGEN</code>模块支持SVPWM算法，也可自行编写相关程序。SVPWM的输入是<code>U_alpha</code>及<code>U_beta</code>，输出是PWM占空比，上述步骤中已经确定了PWM输出的正确性，现在再加上SVPWM算法进行验证。系统框图如下：</p>
-<p><img src="https://pic.gaomf.store/20161114000147.png"></p>
+<p><img src="https://img.gaomf.cn/20161114000147.png"></p>
 <p>其中<code>Ds</code>、<code>Qs</code>、<code>Angle</code>均是调试变量，使用仿真器进行Debug时可以实时更改变量值。将<code>Qs</code>固定为0，<code>Ds</code>设置为一个较小的电压值，保证输出电流在安全范围内。之后将<code>Angle</code>由0开始，每次增加30°左右，此时电机应该是会旋转的，且每次旋转的角度应该是相同的，<strong>记录下这个旋转方向，这就是此系统固有的正方向。</strong>此时还可以验证电机的极对数，若<code>Angle</code>重复增加<code>N</code>个周期后电机回到起始点（可用记号笔进行标注），电机的极对数即为<code>N</code>。</p>
 <p>最后还需要验证角度采样的正确性。这里设置的<code>Angle</code>即是这个电机真实的电角度，对比<code>Angle</code>的设定值与角度的采样值，二者的绝对值一般是不一样的，这是正常的，不过每次的变化量应该是相同的，包括大小与方向，也就是说，<strong>两个变量间应该存在一个固定的相位差。若二者的变化趋势相反，说明编码器A、B相接反了</strong>，可以在硬件上交换接线来解决，C2000系列中也可以通过配置<code>eQEP</code>模块来交换<code>A</code>、<code>B</code>两相。<strong>若二者每次的变化量不一样，说明电机的极对数搞错了</strong>，需要仔细检查程序。</p>
 <h2 id="调试电流PI控制器"><a href="#调试电流PI控制器" class="headerlink" title="调试电流PI控制器"></a>调试电流PI控制器</h2><p>SVPWM模块调试正常后就可以加上电流PI控制器了，系统框图如下：</p>
-<p><img src="https://pic.gaomf.store/20161114002838.png"></p>
+<p><img src="https://img.gaomf.cn/20161114002838.png"></p>
 <p>其中<code>IqRef</code>、<code>IdRef</code>及<code>Angle</code>是调试变量。从图中可以看到，这里使用了两个PI控制器，需要对其参数进行粗略的整定。</p>
 <p>首先将<code>Angle</code>及<code>IqRef</code>设置为0，<code>IdRef</code>设置为一个安全的电流值，PI控制器参数均设置为0，此时应该是没有电流的。之后将<code>Id</code>PI控制器的<code>Kp</code>值设置为一个合适的值，具体值根据输入输出的数量级来确定，不要设置得太大，若都使用标幺值的话，可以设置为1。此时重新运行程序，观察<code>Id</code>的实际值，<code>Id</code>的值应该不等于0，不过与<code>IdRef</code>之间存在一个静差，逐步增加<code>Ki</code>，直到静差满足要求为止。将<code>Iq</code>PI控制器参数值设置为相同的即可。</p>
 <p>之后与调试SVPWM模块时相同，逐步改变<code>Angle</code>的值，此时电机应该也是会动的。可以在程序中让<code>Angle</code>自动增加，不过增加的速度不要太快，此时电机应该会正向旋转起来。若让<code>Angle</code>自动减小，则电机会反向旋转。<strong>正转与反转应该是对称且相同的。注意，此时设置的是<code>IdRef</code>，<code>IqRef</code>需要始终保持为0。</strong></p>
 <p>记录下旋转时角度采样值与<code>Angle</code>值，并绘制曲线进行观察，<strong>二者应该是频率相同的三角波，且有一个固定相位差</strong>。与此同时，相电流的采样值应该是比较接近正弦的波形。如下图所示：</p>
-<p><img src="https://pic.gaomf.store/20161114130432.png"></p>
+<p><img src="https://img.gaomf.cn/20161114130432.png"></p>
 <p>调试PI控制器参数时也可参考相电流曲线，若曲线发生畸变，不是图中那样的正弦波形，需要降低比例及积分作用。</p>
 <p>最后，检查采样计算出的转速值，<strong>正转时转速应该是正的，反转时是负的</strong>。根据<code>Angle</code>的变化周期可以计算出此时的实际转速，将实际转速与转速采样值进行对比，二者应该基本相同。如果有条件的话，可以进一步使用转速计进行验证。如果此处的转速符号或大小有误，需要检查程序进行修改。</p>
 <h2 id="调试电流闭环"><a href="#调试电流闭环" class="headerlink" title="调试电流闭环"></a>调试电流闭环</h2><p>上面几步调试过程中使用的<code>Angle</code>值均是由程序计算生成的，现在需要加入实际角度采样值，完成完整的电流闭环部分。</p>
@@ -398,7 +400,7 @@
 <p>最后验证电流闭环的正确性，在完成预定位后，依次验证<code>Id</code>与<code>Iq</code>。验证<code>Id</code>时将<code>IqRef</code>设置为0，<code>IdRef</code>设置为一个合适的正值，此时电机是不会旋转的，用手转动电机也是可以转动的，只是不同于自由转动状态，此时旋转电机时会感到阻力较大，有一个力始终在维持电机处于当前位置。验证<code>Iq</code>时同理将<code>IdRef</code>设置为0，<code>IqRef</code>设置为一个合适的值即可。<strong>需要注意的是，因为启动电流明显大于稳态电流，如果<code>IqRef</code>的值设置得过小，电机无法旋转起来，而增大<code>IqRef</code>，使电机可以旋转起来后，电机会一直加速到最高转速。</strong>为保证安全，需要对输出电压占空比进行限幅。</p>
 <p><strong>将<code>IqRef</code>设置为正值时电机应该正转，设置为负值时电机应该反转，且正反转速应该是相同的。</strong>此时还可以进一步观察转速采样结果，如果和实际情况符合的话就可以进行下一步了。</p>
 <h2 id="调试速度闭环"><a href="#调试速度闭环" class="headerlink" title="调试速度闭环"></a>调试速度闭环</h2><p>最后一步是加上速度闭环，此时的系统结构框图如下：</p>
-<p><img src="https://pic.gaomf.store/FOC.png"></p>
+<p><img src="https://img.gaomf.cn/FOC.png"></p>
 <p>这就是矢量控制算法完整的控制系统结构框图。对于PMSM而言，除了在弱磁控制等情况下，<code>IdRef</code>一般是固定为0的。不过对于异步电机而言，因为要产生绕组电流，<code>IdRef</code>并不是零。<code>IqRef</code>连接至速度环PI控制器的输出上，一般会对<code>IqRef</code>的范围进行限幅，以保证电流在安全范围内。</p>
 <p>之前已经验证了速度采样的正确性，故这里只需要整定PI控制器参数即可。方法按照通用步骤，先设置一个<code>Kp</code>，再慢慢增大<code>Ki</code>，根据设定值与实际值的曲线进一步调节参数即可。整定完成后，系统应该是完全可控的，电机会按照给定速度旋转，且正转反转应该都是没有问题的。</p>
 <hr>
@@ -412,12 +414,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/11/14/PMSM_Vector_Control/">PMSM矢量控制算法调试流程</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-11-14, 14:47:04</p>
-        <p><span>最后更新:</span>2021-05-16, 19:07:41</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/14/PMSM_Vector_Control/" title="PMSM矢量控制算法调试流程">https://gaomf.cn/2016/11/14/PMSM_Vector_Control/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/14/PMSM_Vector_Control/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/11/14/PMSM_Vector_Control/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -443,6 +445,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -532,8 +535,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -560,6 +563,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

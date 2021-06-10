@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="移植完NOR Flash后需要移植NAND Flash，下面介绍一下移植过程。开发板上使用的NAND Flash型号为Samsung K9F2G08U0B，256M x 8 Bit NAND Flash芯片。">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/20160624155451.png">
-<meta property="og:image" content="https://pic.gaomf.store/20160624193738.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160624155451.png">
+<meta property="og:image" content="https://img.gaomf.cn/20160624193738.png">
 <meta property="article:published_time" content="2016-06-25T04:52:48.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:17:27.251Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.016Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Bootloader">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/20160624155451.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/20160624155451.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -117,7 +117,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -133,10 +133,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -258,20 +258,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -305,6 +306,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-U-Boot 2016.05 在S3C2440上的移植（3）——Nand Flash" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,45 +352,56 @@
       
           
         <p>移植完NOR Flash后需要移植NAND Flash，下面介绍一下移植过程。开发板上使用的NAND Flash型号为Samsung K9F2G08U0B，256M x 8 Bit NAND Flash芯片。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a><strong>修改配置文件</strong></h2><p>打开<code>include/configs/smdk2440.h</code>文件，在其中找到NAND Flash配置部分，将其由2410的定义修改为2440的：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">--- a/include/configs/smdk2440.h</span><br><span class="line">+++ b/include/configs/smdk2440.h</span><br><span class="line">@@ <span class="number">-160</span>,<span class="number">8</span> +<span class="number">160</span>,<span class="number">8</span> @@</span><br><span class="line">  * NAND configuration</span><br><span class="line">  */</span><br><span class="line"> <span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_CMD_NAND</span></span><br><span class="line">-<span class="meta">#<span class="meta-keyword">define</span> CONFIG_NAND_S3C2410</span></span><br><span class="line">-<span class="meta">#<span class="meta-keyword">define</span> CONFIG_SYS_S3C2410_NAND_HWECC</span></span><br><span class="line">+<span class="meta">#<span class="meta-keyword">define</span> CONFIG_NAND_S3C2440</span></span><br><span class="line">+<span class="meta">#<span class="meta-keyword">define</span> CONFIG_SYS_S3C2440_NAND_HWECC</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">define</span> CONFIG_SYS_MAX_NAND_DEVICE     1</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">define</span> CONFIG_SYS_NAND_BASE           0x4E000000</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
 <p>NAND Flash的相关驱动代码位于<code>dirvers/mtd/nand/</code>下，打开其中的<code>Makefile</code>文件，仿照2410的写法添加2440的支持：</p>
 <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--- a/drivers/mtd/nand/Makefile</span></span><br><span class="line"><span class="comment">+++ b/drivers/mtd/nand/Makefile</span></span><br><span class="line"><span class="meta">@@ -63,6 +63,7 @@</span> obj-$(CONFIG_NAND_MXS) += mxs_nand.o</span><br><span class="line"> obj-$(CONFIG_NAND_NDFC) += ndfc.o</span><br><span class="line"> obj-$(CONFIG_NAND_PXA3XX) += pxa3xx_nand.o</span><br><span class="line"> obj-$(CONFIG_NAND_S3C2410) += s3c2410_nand.o</span><br><span class="line"><span class="addition">+obj-$(CONFIG_NAND_S3C2440) += s3c2440_nand.o</span></span><br><span class="line"> obj-$(CONFIG_NAND_SPEAR) += spr_nand.o</span><br><span class="line"> obj-$(CONFIG_TEGRA_NAND) += tegra_nand.o</span><br><span class="line"> obj-$(CONFIG_NAND_OMAP_GPMC) += omap_gpmc.o</span><br></pre></td></tr></table></figure>
+
 <p>以2410的配置为基础复制一份过来：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">cp</span> s<span class="number">3</span>c<span class="number">2410</span>_nand.c s<span class="number">3</span>c<span class="number">2440</span>_nand.c</span><br></pre></td></tr></table></figure>
+
 <p>将其中的<code>S3C2410</code>全部替换为<code>S3C2440</code>，这样，针对S3C2440的配置文件就建立好了，下面就要针对2440来修改其中的内容。</p>
 <h2 id="修改寄存器及时序定义"><a href="#修改寄存器及时序定义" class="headerlink" title="修改寄存器及时序定义"></a><strong>修改寄存器及时序定义</strong></h2><p>2440的NAND Flash控制器寄存器定义和2410的不一样，所以要先修改<code>s3c2440_nand.c</code>中的寄存器定义。关于2410与2440的详细区别及这些寄存器的具体用处，可参考<a target="_blank" rel="noopener" href="http://blog.csdn.net/sui_yirufeng/article/details/9026261">这篇文章</a>。</p>
 <p>将原来寄存器定义全部删掉，改成下面这样：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* NFCONT Register */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_NFCONT_SECCL        (1&lt;&lt;6)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_NFCONT_MECCL        (1&lt;&lt;5)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_NFCONT_INITECC      (1&lt;&lt;4)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_NFCONT_nFCE         (1&lt;&lt;1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_NFCONT_MODE         (1&lt;&lt;0)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* NFCONF Register */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_NFCONF_TACLS(x)     ((x)&lt;&lt;12)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_NFCONF_TWRPH0(x)    ((x)&lt;&lt;8)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_NFCONF_TWRPH1(x)    ((x)&lt;&lt;4)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* ADDR */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_ADDR_NALE           0x08</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> S3C2440_ADDR_NCLE           0x0C</span></span><br></pre></td></tr></table></figure>
-<p>以上宏定义的值是根据2440的数据手册确定的，比如NFCONT寄存器的定义如下：<br><img src="https://pic.gaomf.store/20160624155451.png"></p>
+
+<p>以上宏定义的值是根据2440的数据手册确定的，比如NFCONT寄存器的定义如下：<br><img src="https://img.gaomf.cn/20160624155451.png"></p>
 <p>再来看时序设置，程序中有这么一段：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(CONFIG_S3C24XX_CUSTOM_NAND_TIMING)</span></span><br><span class="line">    tacls  = CONFIG_S3C24XX_TACLS;</span><br><span class="line">    twrph0 = CONFIG_S3C24XX_TWRPH0;</span><br><span class="line">    twrph1 =  CONFIG_S3C24XX_TWRPH1;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    tacls = <span class="number">4</span>;</span><br><span class="line">    twrph0 = <span class="number">8</span>;</span><br><span class="line">    twrph1 = <span class="number">8</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>故我们需要定义相关的一些宏：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Timing */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_S3C24XX_CUSTOM_NAND_TIMING</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_S3C24XX_TACLS        2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_S3C24XX_TWRPH0       1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_S3C24XX_TWRPH1       0</span></span><br></pre></td></tr></table></figure>
-<p>宏定义值根据Flash芯片数据手册确定，以开发板上使用的K9F2G08U0B为例，从它的数据手册中可以查到：<br><img src="https://pic.gaomf.store/20160624193738.png"></p>
+<p>宏定义值根据Flash芯片数据手册确定，以开发板上使用的K9F2G08U0B为例，从它的数据手册中可以查到：<br><img src="https://img.gaomf.cn/20160624193738.png"></p>
 <p>具体变量间的对应关系可对比其时序图得到，这里就不展开了。这几个量的值会影响读写速度，需要仔细对照数据手册才能确定最优值，以取得最佳的读写性能，充分发挥出硬件的潜力。</p>
 <h2 id="修改初始化代码"><a href="#修改初始化代码" class="headerlink" title="修改初始化代码"></a><strong>修改初始化代码</strong></h2><p>根据终端输出信息<code>NAND:  0 MiB</code>，以<code>NAND: </code>为关键词搜索，之后跟踪代码执行流程即可找到NAND Flash初始化的入口为<code>nand_init_chip()</code>函数，这个函数的主要结构如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">nand_init_chip</span><span class="params">(<span class="keyword">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 省略部分代码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (board_nand_init(nand))</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (nand_scan(mtd, maxchips))</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    nand_register(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>board_nand_init()</code>函数用于对NAND Flash进行底层初始化；<code>nand_scan()</code>函数用于识别NAND Flash的型号及大小。仅有<code>board_nand_init()</code>函数是和底层硬件相关的，故移植时只需关注此函数即可，此函数也位于<code>s3c2440_nand.c</code>文件中。</p>
 <p>只需修改NFCONF及NFCONT寄存器配置，将原有代码替换为：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* NFCONF */</span></span><br><span class="line">cfg = S3C2440_NFCONF_TACLS(tacls);</span><br><span class="line">cfg |= S3C2440_NFCONF_TWRPH0(twrph0 - <span class="number">1</span>);</span><br><span class="line">cfg |= S3C2440_NFCONF_TWRPH1(twrph1 - <span class="number">1</span>);</span><br><span class="line">writel(cfg, &amp;nand_reg-&gt;nfconf);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* NFCONT */</span></span><br><span class="line">cfg = S3C2440_NFCONT_SECCL;</span><br><span class="line">cfg |= S3C2440_NFCONT_MECCL;</span><br><span class="line">cfg |= S3C2440_NFCONT_MODE;</span><br><span class="line">cfg |= S3C2440_NFCONT_INITECC;</span><br><span class="line">writel(cfg,&amp;nand_reg-&gt;nfcont);</span><br></pre></td></tr></table></figure>
+
 <h2 id="修改写入函数"><a href="#修改写入函数" class="headerlink" title="修改写入函数"></a><strong>修改写入函数</strong></h2><p>对于S3C24x0系列CPU，是通过<code>s3c24x0_hwcontrol()</code>函数实现命令和地址的写入的。然而2410的<code>s3c24x0_hwcontrol()</code>函数不直接适用于2440，需要稍微修改一下。主要就是将NFCONF寄存器替换为NFCONT寄存器。最后修改后的代码如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">s3c24x0_hwcontrol</span><span class="params">(struct mtd_info *mtd, <span class="keyword">int</span> cmd, <span class="keyword">unsigned</span> <span class="keyword">int</span> ctrl)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">nand_chip</span> *<span class="title">chip</span> =</span> mtd-&gt;priv;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">s3c24x0_nand</span> *<span class="title">nand</span> =</span> s3c24x0_get_base_nand();</span><br><span class="line"></span><br><span class="line">    debug(<span class="string">&quot;hwcontrol(): 0x%02x 0x%02x\n&quot;</span>, cmd, ctrl);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (ctrl &amp; NAND_CTRL_CHANGE) &#123;</span><br><span class="line">        ulong IO_ADDR_W = (ulong)nand;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!(ctrl &amp; NAND_CLE))</span><br><span class="line">            IO_ADDR_W |= S3C2440_ADDR_NCLE;</span><br><span class="line">        <span class="keyword">if</span> (!(ctrl &amp; NAND_ALE))</span><br><span class="line">            IO_ADDR_W |= S3C2440_ADDR_NALE;</span><br><span class="line">        <span class="keyword">if</span> (cmd == NAND_CMD_NONE)</span><br><span class="line">            IO_ADDR_W = (ulong)&amp;nand-&gt;nfdata;</span><br><span class="line"></span><br><span class="line">        chip-&gt;IO_ADDR_W = (<span class="keyword">void</span> *)IO_ADDR_W;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ctrl &amp; NAND_NCE)</span><br><span class="line">            writel(readl(&amp;nand-&gt;nfcont) &amp; ~S3C2440_NFCONT_nFCE, &amp;nand-&gt;nfcont);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            writel(readl(&amp;nand-&gt;nfcont) | S3C2440_NFCONT_nFCE, &amp;nand-&gt;nfcont);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cmd != NAND_CMD_NONE)</span><br><span class="line">        writeb(cmd, chip-&gt;IO_ADDR_W);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>特别需要注意的是第15~16行，很多移植资料上都没有这两行，然而实际测试表明，不加这个判断会写入失败，因此一定要加上这条语句，这是因为在写完命令和地址后，一定还要把IO端口的地址重新设置为寄存器NFDATA。</p>
 <h2 id="修改硬件ECC函数"><a href="#修改硬件ECC函数" class="headerlink" title="修改硬件ECC函数"></a><strong>修改硬件ECC函数</strong></h2><p>在<code>include/configs/smdk2440.h</code>文件中我们定义了宏<code>CONFIG_SYS_S3C2440_NAND_HWECC</code>，此时会启用硬件ECC功能。相关函数有三个：<code>s3c24x0_nand_enable_hwecc()</code>、<code>s3c24x0_nand_calculate_ecc()</code>、<code>s3c24x0_nand_correct_data()</code>，其中需要修改的函数只有<code>s3c24x0_nand_enable_hwecc()</code>，主要还是将NFCONF寄存器改为NFCONT寄存器。修改后的代码如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">s3c24x0_nand_enable_hwecc</span><span class="params">(struct mtd_info *mtd, <span class="keyword">int</span> mode)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">s3c24x0_nand</span> *<span class="title">nand</span> =</span> s3c24x0_get_base_nand();</span><br><span class="line">    debug(<span class="string">&quot;s3c24x0_nand_enable_hwecc(%p, %d)\n&quot;</span>, mtd, mode);</span><br><span class="line">    writel(readl(&amp;nand-&gt;nfcont) | S3C2440_NFCONT_INITECC, &amp;nand-&gt;nfcont);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a><strong>测试</strong></h2><p>修改完成后编译运行，从终端输出中可以看到已经正确识别出了NAND Flash容量：<code>NAND:  256 MiB</code>。要进一步测试NAND Flash是否可以正常使用可使用以下方法：</p>
 <p>使用<code>nand info</code>命令可输出NAND Flash的基本信息，若正确识别出NAND Flash的话，就会显示类似下面这样的信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GMF@2440 # nand info</span><br><span class="line"></span><br><span class="line">Device 0: nand0, sector size 128 KiB</span><br><span class="line">  Page size       2048 b</span><br><span class="line">  OOB size          64 b</span><br><span class="line">  Erase size    131072 b</span><br><span class="line">  subpagesize      512 b</span><br><span class="line">  options     0x40001008</span><br><span class="line">  bbt options 0x    8000</span><br></pre></td></tr></table></figure>
+
 <p>之后测试Flash的读写是否正常，可将内存中的一段数据写入Flash中再读取回来，比较二者是否相同即可。</p>
 <p>先擦除一段空间：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GMF@2440 # nand erase 0 0x80</span><br><span class="line"></span><br><span class="line">NAND erase: device 0 offset 0x0, size 0x80</span><br><span class="line">Erasing at 0x0 -- 100% complete.</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
 <p>读取内存开始部分的数据：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GMF@2440 # md.l 30000000 20         </span><br><span class="line">30000000: ea0000be e59ff014 e59ff014 e59ff014    ................</span><br><span class="line">30000010: e59ff014 e59ff014 e59ff014 e59ff014    ................</span><br><span class="line">30000020: 00000060 000000c0 00000120 00000180    &#96;....... .......</span><br><span class="line">30000030: 000001e0 00000240 000002a0 deadbeef    ....@...........</span><br><span class="line">30000040: 0badc0de e1a00000 e1a00000 e1a00000    ................</span><br><span class="line">30000050: e1a00000 e1a00000 e1a00000 e1a00000    ................</span><br><span class="line">30000060: e51fd028 e58de000 e14fe000 e58de004    (.........O.....</span><br><span class="line">30000070: e3a0d013 e169f00d e1a0e00f e1b0f00e    ......i.........</span><br></pre></td></tr></table></figure>
+
 <p>将这些数据写入NAND Flash中，并回读写入的数据：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">GMF@2440 # nand write 30000000 0 80</span><br><span class="line"></span><br><span class="line">NAND write: device 0 offset 0x0, size 0x80</span><br><span class="line"> 128 bytes written: OK</span><br><span class="line">GMF@2440 # nand read 30000100 0 80</span><br><span class="line"></span><br><span class="line">NAND read: device 0 offset 0x0, size 0x80</span><br><span class="line"> 128 bytes read: OK</span><br><span class="line">GMF@2440 # md.l 30000100 20</span><br><span class="line">30000100: ea0000be e59ff014 e59ff014 e59ff014    ................</span><br><span class="line">30000110: e59ff014 e59ff014 e59ff014 e59ff014    ................</span><br><span class="line">30000120: 00000060 000000c0 00000120 00000180    &#96;....... .......</span><br><span class="line">30000130: 000001e0 00000240 000002a0 deadbeef    ....@...........</span><br><span class="line">30000140: 0badc0de e1a00000 e1a00000 e1a00000    ................</span><br><span class="line">30000150: e1a00000 e1a00000 e1a00000 e1a00000    ................</span><br><span class="line">30000160: e51fd028 e58de000 e14fe000 e58de004    (.........O.....</span><br><span class="line">30000170: e3a0d013 e169f00d e1a0e00f e1b0f00e    ......i.........</span><br><span class="line">GMF@2440 # cmp.l 30000000 30000100 20</span><br><span class="line">Total of 32 word(s) were the same</span><br></pre></td></tr></table></figure>
+
 <p>可以看到，二者完全相同，这说明U-Boot已完全支持了目标板上的NAND Flash。</p>
 <blockquote>
 <p>移植好的U-Boot见<a target="_blank" rel="noopener" href="https://github.com/g199209/U-Boot_201605_S3C2440">我的Github项目</a>。</p>
@@ -402,12 +415,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94NAND%20Flash/">U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-06-25, 12:52:48</p>
-        <p><span>最后更新:</span>2021-05-16, 19:17:27</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94NAND%20Flash/" title="U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash">https://gaomf.cn/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94NAND%20Flash/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94NAND%20Flash/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94NAND%20Flash/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -433,6 +446,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -522,8 +536,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -550,6 +564,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>

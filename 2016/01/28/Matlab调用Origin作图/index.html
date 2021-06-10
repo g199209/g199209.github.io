@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="format-detection" content="telephone=no" />
-<meta name="author" content="码农半亩地" />
+<meta name="author" content="高明飞" />
 
 
 
@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="高明飞的博客">
 <meta property="og:description" content="Matlab作出的图普遍没有Origin作出的美观好看，而且导出为eps或emf格式后会有各种奇怪的Bug。目前普遍采用的一种方法是，将Matlab数据导出为mat文件后再导入Origin中手工作图，这种方式需要不少重复性劳动，并不是一种很完美的解决方案。前几天偶然看到Origin提供了COM接口可供Matlab调用，于是就研究了下可否用Matlab调用Origin来生成所需的emf格式图片，最终">
 <meta property="og:locale">
-<meta property="og:image" content="https://pic.gaomf.store/Matlab20160128204513.png">
-<meta property="og:image" content="https://pic.gaomf.store/Matlab20160128205045.png">
+<meta property="og:image" content="https://img.gaomf.cn/Matlab20160128204513.png">
+<meta property="og:image" content="https://img.gaomf.cn/Matlab20160128205045.png">
 <meta property="article:published_time" content="2016-01-28T13:23:24.000Z">
-<meta property="article:modified_time" content="2021-05-16T11:21:25.511Z">
-<meta property="article:author" content="码农半亩地">
+<meta property="article:modified_time" content="2021-06-10T12:55:57.635Z">
+<meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Matlab">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic.gaomf.store/Matlab20160128204513.png">
+<meta name="twitter:image" content="https://img.gaomf.cn/Matlab20160128204513.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -38,7 +38,7 @@
 
 
 
-    <link rel="shortcut icon" href="https://pic.gaomf.store/global头像2.jpg">
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
 
 
 
@@ -117,7 +117,7 @@
   
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -133,10 +133,10 @@
 
     <header id="header" class="inner">
         <a href="/" class="profilepic">
-            <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
         </hgroup>
 
         
@@ -258,20 +258,21 @@
         </div>
     </header>                
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
             <a href="/" class="profilepic">
-                <img src="https://pic.gaomf.store/global头像2.jpg" class="animated zoomIn">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
             </hgroup>
             
             <nav class="header-menu">
@@ -305,6 +306,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
+
       <div class="body-wrap"><article id="post-Matlab调用Origin作图" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -350,15 +352,15 @@
       
           
         <p>Matlab作出的图普遍没有Origin作出的美观好看，而且导出为eps或emf格式后会有各种奇怪的Bug。目前普遍采用的一种方法是，将Matlab数据导出为mat文件后再导入Origin中手工作图，这种方式需要不少重复性劳动，并不是一种很完美的解决方案。<br>前几天偶然看到Origin提供了COM接口可供Matlab调用，于是就研究了下可否用Matlab调用Origin来生成所需的emf格式图片，最终经过一番折腾，基本完成了这个目标。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <p>之所以能用Matlab来调用Origin，这要依赖于Origin中提供的<a target="_blank" rel="noopener" href="http://www.originlab.com/index.aspx?go=Products/Origin/Programming/AutomationServer">Automation Server</a>服务。这个服务提供了一个COM接口来供其他程序调用，官方提供了Matlab、VB、Excel、C#、LabVIEW等诸多程序调用Origin的例子。Automation Server的详细使用方法可参考其<a target="_blank" rel="noopener" href="http://www.originlab.com/doc/COM">官方帮助文档</a>。</p>
 <p>Matlab调用Origin的示例程序位于<code>&lt;Install Path&gt;\Samples\COM Server and Client\MATLAB</code>路径下（以Origin 2015为例，其他版本的位置可能有所不同）。一共有两个m文件，<code>CreatePlotInOrigin.m</code>及<code>MATLABCallOrigin.m</code>，前者用于实现调用Origin绘图，并将结果保存到剪贴板中，后者演示了如何创建工作表(Worksheet)，如何插入新列等操作。另外一个<code>CreatePlotInOrigin.opj</code>文件是供<code>CreatePlotInOrigin.m</code>调用的一个Origin模板文件。</p>
 <p>根据这两个示例程序基本就可以依葫芦画瓢写出一个符合自己要求的程序了，然而这其中并没有导出emf格式图片的示例，于是开始研究其官方帮助文档……官方帮助文档很多地方都语焉不详，而且其间还经历了种种坑，比如<a href="http://gaomf.cn/2016/01/27/Origin%20Script%20Window%20%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95/">上篇文章</a>这个。不过最终还是找到了正确的解决办法，就是使用Origin <a target="_blank" rel="noopener" href="http://www.originlab.com/doc/X-Function">X-Function</a>中的<a target="_blank" rel="noopener" href="http://www.originlab.com/doc/X-Function/ref/expGraph">expGraph</a>命令。</p>
 <hr>
 <p>最终找到的较好的解决方案是这样的：</p>
-<p>首先，用Origin生成一个空白模板工程，其中包含了基本的Worksheet结构及Graph样式，比如示例文件中提供的这个：<br><img src="https://pic.gaomf.store/Matlab20160128204513.png"></p>
-<p>这个模板工程需要保证只要向Worksheet中填入数据，Graph中就能生成所需的图，就像这样：<br><img src="https://pic.gaomf.store/Matlab20160128205045.png"></p>
+<p>首先，用Origin生成一个空白模板工程，其中包含了基本的Worksheet结构及Graph样式，比如示例文件中提供的这个：<br><img src="https://img.gaomf.cn/Matlab20160128204513.png"></p>
+<p>这个模板工程需要保证只要向Worksheet中填入数据，Graph中就能生成所需的图，就像这样：<br><img src="https://img.gaomf.cn/Matlab20160128205045.png"></p>
 <p>这里的Worksheet和Graph可以不止有一个，不过一般情况下一个就足够了。</p>
 <p>制作好了模板文件后，在Matlab程序中只需要通过COM接口调用Origin，打开这个模板文件，然后向其中的Worksheet填入正确的数据，最后导出图片文件即可。<br>Matlab程序如下：</p>
 <figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 调用Origin作图并保存为emf格式的图片</span></span><br><span class="line"><span class="comment">% 作者 : 高明飞</span></span><br><span class="line"><span class="comment">% 日期 : 2016-01-27</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% mdata : 需要填充到Origin Worksheet中的数据</span></span><br><span class="line"><span class="comment">% template : Origin模板函数名，不含后缀，需要保存在当前工作目录下，如&#x27;CreatePlotInOrigin&#x27;</span></span><br><span class="line"><span class="comment">% fdir : 输出图片目标文件夹，如&#x27;D:\image&#x27;</span></span><br><span class="line"><span class="comment">% fname : 输出图片文件名，不含后缀，如&#x27;abc&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">OriginPlot</span><span class="params">(mdata, template, fdir, fname)</span></span></span><br><span class="line"><span class="comment">% Obtain Origin COM Server object</span></span><br><span class="line"><span class="comment">% This will connect to an existing instance of Origin, or create a new one if none exist</span></span><br><span class="line">originObj=actxserver(<span class="string">&#x27;Origin.ApplicationSI&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Clear &quot;dirty&quot; flag in Origin to suppress prompt for saving current project</span></span><br><span class="line">invoke(originObj, <span class="string">&#x27;IsModified&#x27;</span>, <span class="string">&#x27;false&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Load the custom template project</span></span><br><span class="line">dir = pwd;</span><br><span class="line">dir = strcat(dir, <span class="string">&#x27;\&#x27;, template, &#x27;</span>.opj&#x27;);</span><br><span class="line">invoke(originObj, <span class="string">&#x27;Load&#x27;</span>, dir);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Send this data over to the Data1 worksheet</span></span><br><span class="line">invoke(originObj, <span class="string">&#x27;PutWorksheet&#x27;</span>, <span class="string">&#x27;Data1&#x27;</span>, mdata);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Save graph</span></span><br><span class="line">cmd = <span class="string">&#x27;expGraph type:=emf overwrite := rename tr1.unit := 2 tr1.width := 10000 path:= &quot;&#x27;</span>;</span><br><span class="line">cmd = strcat(cmd, fdir, <span class="string">&#x27;&quot; filename:= &quot;&#x27;</span>, fname, <span class="string">&#x27;.emf&quot;;&#x27;</span>);</span><br><span class="line">invoke(originObj, <span class="string">&#x27;Execute&#x27;</span>, cmd);</span><br><span class="line"></span><br><span class="line"><span class="comment">% Release</span></span><br><span class="line">release(originObj);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
@@ -373,12 +375,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/">Matlab调用Origin作图</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2016-01-28, 21:23:24</p>
-        <p><span>最后更新:</span>2021-05-16, 19:21:25</p>
+        <p><span>最后更新:</span>2021-06-10, 20:55:57</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/" title="Matlab调用Origin作图">https://gaomf.cn/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -404,6 +406,7 @@
             </div>
         
     </nav>
+
 
   
 </article>
@@ -493,8 +496,8 @@ gitment.render('gitment-ctn')
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2015-2021 码农半亩地
-				Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号</a>
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
@@ -521,6 +524,7 @@ gitment.render('gitment-ctn')
         
     </div>
 </footer>
+
     </div>
     
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
