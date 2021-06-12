@@ -6,7 +6,7 @@
   <link href="https://gaomf.cn/atom.xml" rel="self"/>
   
   <link href="https://gaomf.cn/"/>
-  <updated>2021-06-11T13:45:29.550Z</updated>
+  <updated>2021-06-12T03:16:52.312Z</updated>
   <id>https://gaomf.cn/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何学习一个新东西</title>
+    <link href="https://gaomf.cn/2021/06/12/How_to_Learn_a_New_Thing/"/>
+    <id>https://gaomf.cn/2021/06/12/How_to_Learn_a_New_Thing/</id>
+    <published>2021-06-12T03:07:03.000Z</published>
+    <updated>2021-06-12T03:16:52.312Z</updated>
+    
+    <content type="html"><![CDATA[<p>我们从小到大都在学习各种新东西，学的东西多了自然会对“如何学新东西”这一问题本身有一些方法论层面的思考，本文就来分享总结下自己的一些经验。</p><p>对于学习各种<strong>人为创造</strong>的东西基本都可以按相同的方法进行，不过对于学习自然科学的概念方法会有所不同，本文就不去讨论了。</p><p>学习一个新东西基本可以分为三个阶段：初步理解，即会用；深入理解，即懂原理；融会贯通。</p><span id="more"></span><h2 id="初步理解"><a href="#初步理解" class="headerlink" title="初步理解"></a>初步理解</h2><p>这一阶段的目的是学会如何使用这个新东西，即学习如何用轮子的阶段，对于只需要应用的情况来说达到这一阶段就够了。此阶段的核心就是搞清楚三个问题：是什么（What），为什么（Why），怎么用（How），这十分类似于 3W 法则，因为这本来就是人类自然思维过程的抽象总结。</p><h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><p>最基本的第一步，搞清楚这是一个什么东西。这一步说简单也简单，说复杂也复杂。简单在于只要随便看看介绍就会对这是什么有个初步感觉了；复杂在于要想给一个东西下一个精确的定义来描述它是什么会是极为复杂的。</p><p>要理解一个东西是什么往往伴随着理解它不是什么同步进行。</p><p>在学习新东西时一开始只需要对它是什么有个基本认识就好了，后续随着学习过程的深入自然会对此问题有越来越深入精确的认识。</p><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>搞清楚为什么要创造出这么一个东西？这个东西的作用是什么？它可以用来解决什么问题？</p><p>对于某些东西来说要搞清楚此问题并不简单，特别是一些源于数学的抽象概念和方法。</p><h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>学会如何用这个东西。一些基础小东西会相对较为单纯，其使用方法也自然很简单。然而很多时候一个东西会提供若干不同功能来满足不同需求与解决不同问题，各功能都会有自己不同的使用方法。且达到同样目的也可以选择不同优劣有异的功能组合。</p><p>一般而言一个东西的复杂度很大程度上取决于其提供功能的多样性。相对比较简单纯粹的东西就只有会用和不会用两种状态，而更多复杂的东西则存在连续的中间状态。</p><p>这一步通常会是一个逐步深化、逐步探索的过程，开始只会用其最基本的功能，随着使用的深入会发掘出越来越多的使用方法及功能来。</p><h2 id="深入理解"><a href="#深入理解" class="headerlink" title="深入理解"></a>深入理解</h2><p>即学习其内部实现原理，这一阶段也就是学习如何造轮子的阶段，由浅到深可以继续分为三步：</p><ol><li>理解这个东西是如何设计及实现出来的，它是如何工作的？</li><li>理解为什么这样做是正确及可行的？</li><li>理解为什么要这样设计，不这样做还可以怎么做？</li></ol><p>一般而言，一个相对较复杂的技术及概念都是基于一系列更基础的技术及概念组合而成的，要充分理解其实现原理就要先理解其用到的各种底层技术或概念。</p><p>实现原理与此东西的功能及使用方法是密切相关的，内部实现是为了支撑其外部功能，在不知道其功能与使用方法时是很难理解其实现原理的。</p><p>在这一点上是很容易走弯路的，就像大学的很多课程为什么会感觉无用和难学就是因为这些课程的设计不是从应用出发自顶向下而是从原理出发自底向上的。根据我个人的经验，自底向上的学习方式并不是完全不可行，然而学习过程会很痛苦和迷茫，往往也会事倍功半。从应用出发自顶向下的学习路线相对会自然很多，先会用，再去研究它是怎么工作的，这更加的符合人类认识事物的规律。</p><p>当然也不是说非要精通其使用方法后再去研究其实现原理，二者其实是一个相辅相成相互促进的关系，会用了再去研究其内部实现会自然很多；理解了其内部实现后会有助于更好的去应用。</p><h2 id="融会贯通"><a href="#融会贯通" class="headerlink" title="融会贯通"></a>融会贯通</h2><p>这一阶段主要是在一个更大的框架下来思考理解这个东西，以达到通汇贯通的目的。可以从两个维度来入手。</p><h3 id="同类比较"><a href="#同类比较" class="headerlink" title="同类比较"></a>同类比较</h3><p>一般来说解决一个问题的方法都不止一个，因此可以进一步深入思考下这些问题：</p><ul><li>为了实现同样的目的及作用，还有什么其他方法？</li><li>这些方法间有什么优劣？什么时候改选择什么方法？</li><li>造成它们各自优劣的原因是什么？实现原理又有何共同点及区别？</li></ul><h3 id="发展脉络"><a href="#发展脉络" class="headerlink" title="发展脉络"></a>发展脉络</h3><p>人类发展至今基本所有东西都是渐进式发展的，基本太多东西是全新发展出来的，因此可以从时间的维度上来进行下思考：</p><ul><li>为了达到同样的目的，历史上有过什么其他的方法？</li><li>它们是如何一步步演化到当前这个样子的？</li><li>未来又会向什么方向演化？</li></ul>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;我们从小到大都在学习各种新东西，学的东西多了自然会对“如何学新东西”这一问题本身有一些方法论层面的思考，本文就来分享总结下自己的一些经验。&lt;/p&gt;
+&lt;p&gt;对于学习各种&lt;strong&gt;人为创造&lt;/strong&gt;的东西基本都可以按相同的方法进行，不过对于学习自然科学的概念方法会有所不同，本文就不去讨论了。&lt;/p&gt;
+&lt;p&gt;学习一个新东西基本可以分为三个阶段：初步理解，即会用；深入理解，即懂原理；融会贯通。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="人生之思" scheme="https://gaomf.cn/categories/%E4%BA%BA%E7%94%9F%E4%B9%8B%E6%80%9D/"/>
+    
+    
+    <category term="Methodology" scheme="https://gaomf.cn/tags/Methodology/"/>
+    
+  </entry>
   
   <entry>
     <title>Chia 技术架构简述</title>
@@ -474,31 +497,6 @@
     <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
     
     <category term="C" scheme="https://gaomf.cn/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>printf格式化字符串漏洞攻击</title>
-    <link href="https://gaomf.cn/2017/09/20/printf_format_string_attack/"/>
-    <id>https://gaomf.cn/2017/09/20/printf_format_string_attack/</id>
-    <published>2017-09-20T13:58:00.000Z</published>
-    <updated>2021-06-11T13:45:29.573Z</updated>
-    
-    <content type="html"><![CDATA[<p>前几天去Intel面试时，遇到了一个问题：<code>printf(&quot;%s&quot;, s)</code>与<code>printf(s)</code>有何区别？面试官还提示我从安全的角度回答这个问题，然而当时并没有想出答案来……:( 回来后仔细研究了下这个问题，才发现<code>pritnf(s)</code>这种写法是存在严重安全漏洞的，这被称为printf格式化字符串漏洞攻击。</p><span id="more"></span><p><code>printf</code>函数支持不定参数的原理在此不多说，可参考<code>stdarg.h</code>头文件的相关介绍。核心就是，函数使用栈传递参数，且根据cdecl函数调用约定，压栈顺序是从最后一个参数开始逆序进行的，而<code>printf</code>函数的第一个参数是确定的字符串，故可以从这个字符串中判断出栈中还有多少个数据，每个数据的类型是什么，进而依次取出各个数据。</p><p>正常情况下，格式化字符串中格式化字符<code>%</code>是和之后的参数一一对应的，然而我们可以考虑一种情况，若格式化字符<code>%</code>比参数多会怎么样呢，答案是，会取到栈中其他的数据。这就是<code>printf(s)</code>这种写法有问题的原因了，这里使用<code>s</code>而不是一个字符串字面常量，而<code>s</code>传入什么内容其实是不可控的，若传入字符中存在<code>%</code>，就会输出栈中其他一些内容。要是<code>s</code>还是可以由外部输入的，那就可以通过巧妙的构造<code>s</code>的形式来实现<strong>访问栈中本来没有权限访问的内容</strong>，这就是所谓的格式化字符串漏洞攻击。</p><p>下面来看一个实际的例子：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> security;</span><br><span class="line">    <span class="keyword">char</span> str[<span class="number">100</span>];</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;security);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, str);</span><br><span class="line">    <span class="built_in">printf</span>(str);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这段程序中由用户输入一个整数，存放在<code>security</code>这个变量中，之后再输入一个字符串<code>str</code>，并使用<code>printf(str)</code>这样的形式将其打印出来。针对这个例子，我们可以构造一个特定的输入字符串将<code>security</code>的内容给打印出来。</p><p>使用GCC 4.9.3编译以上程序，优化等级<code>-O2</code>，得到的程序用<code>objdump</code>反汇编一下，可以找出对应的汇编代码为：</p><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">00408350</span> &lt;_main&gt;:</span><br><span class="line">  <span class="number">408350</span>:<span class="number">55</span>                   <span class="keyword">push</span>   %ebp</span><br><span class="line">  <span class="number">408351</span>:<span class="number">89</span> e5                <span class="keyword">mov</span>    %esp,%ebp</span><br><span class="line">  <span class="number">408353</span>:<span class="number">53</span>                   <span class="keyword">push</span>   %ebx</span><br><span class="line">  <span class="number">408354</span>:<span class="number">83</span> e4 f0             <span class="keyword">and</span>    <span class="number">$0</span>xfffffff0,%esp</span><br><span class="line">  <span class="number">408357</span>:<span class="number">83</span> c4 <span class="number">80</span>             <span class="keyword">add</span>    <span class="number">$0</span>xffffff80,%esp</span><br><span class="line">  40835a:e8 <span class="number">31</span> <span class="number">95</span> ff ff       <span class="keyword">call</span>   <span class="number">401890</span> &lt;___main&gt;</span><br><span class="line">  40835f:<span class="number">8d</span> <span class="number">44</span> <span class="number">24</span> <span class="number">18</span>          <span class="keyword">lea</span>    <span class="number">0x18</span>(%esp),%eax</span><br><span class="line">  <span class="number">408363</span>:<span class="number">8d</span> 5c <span class="number">24</span> 1c          <span class="keyword">lea</span>    <span class="number">0x1c</span>(%esp),%ebx</span><br><span class="line">  <span class="number">408367</span>:c7 <span class="number">04</span> <span class="number">24</span> c0 a0 <span class="number">40</span> <span class="number">00</span> movl   <span class="number">$0</span>x40a0c0,(%esp)</span><br><span class="line">  40836e:<span class="number">89</span> <span class="number">44</span> <span class="number">24</span> <span class="number">04</span>          <span class="keyword">mov</span>    %eax,<span class="number">0x4</span>(%esp)</span><br><span class="line">  <span class="number">408372</span>:e8 f1 fb ff ff       <span class="keyword">call</span>   407f68 &lt;_scanf&gt;</span><br><span class="line">  <span class="number">408377</span>:<span class="number">89</span> 5c <span class="number">24</span> <span class="number">04</span>          <span class="keyword">mov</span>    %ebx,<span class="number">0x4</span>(%esp)</span><br><span class="line">  40837b:c7 <span class="number">04</span> <span class="number">24</span> c3 a0 <span class="number">40</span> <span class="number">00</span> movl   <span class="number">$0</span>x40a0c3,(%esp)</span><br><span class="line">  <span class="number">408382</span>:e8 e1 fb ff ff       <span class="keyword">call</span>   407f68 &lt;_scanf&gt;</span><br><span class="line">  <span class="number">408387</span>:<span class="number">89</span> 1c <span class="number">24</span>             <span class="keyword">mov</span>    %ebx,(%esp)</span><br><span class="line">  40838a:e8 e9 fb ff ff       <span class="keyword">call</span>   407f78 &lt;_printf&gt;</span><br><span class="line">  40838f:<span class="number">31</span> c0                <span class="keyword">xor</span>    %eax,%eax</span><br><span class="line">  <span class="number">408391</span>:8b <span class="number">5d</span> fc             <span class="keyword">mov</span>    -<span class="number">0x4</span>(%ebp),%ebx</span><br><span class="line">  <span class="number">408394</span>:c9                   <span class="keyword">leave</span>  </span><br><span class="line">  <span class="number">408395</span>:c3                   <span class="keyword">ret</span>    </span><br></pre></td></tr></table></figure><p><code>408350</code><del><code>40835a</code>部分为GCC自动生成的<code>main</code>函数入口处代码，此处不用管它；<code>40835f</code></del><code>408372</code>为第一个<code>scanf</code>函数，读入<code>security</code>；<code>408377</code><del><code>408382</code>为第二个<code>scanf</code>函数，读入<code>str</code>；<code>408387</code></del><code>40838a</code>调用<code>printf</code>输出<code>str</code>。根据反汇编结果，我们可以画出<code>408372</code>行时栈的结构：</p><p><img src="https://img.gaomf.cn/scanf_stack.svg"></p><p><code>scanf</code>函数反向压栈，故<code>%esp</code>指针指向的元素<code>$0x40a0c0</code>应该就是字符串字面量<code>&quot;%d&quot;</code>的首地址，而<code>%esp+0x04</code>就是栈中的下一个元素，这就是<code>security</code>变量的地址，从汇编代码中可以看到，这个地址是一个<code>%esp</code>的偏移量，<code>%esp+0x18</code>。由此，我们可以分析出<code>security</code>在栈中的位置，而之后<code>%esp</code>指针没有改变，故我们可以构造以下这个特殊的字符串：<code>%d%d%d%d%d_____security_is:%d</code>，这个字符串会连续取出栈中的前6个<code>int</code>，第6个<code>int</code>的地址就是<code>%esp+0x18</code>，这正是<code>security</code>变量的地址。</p><p>实际运行程序测试一下：</p><p><img src="https://img.gaomf.cn/20170920214800.png"></p><p>可以看到，我们成功读到了<code>security</code>的内容。</p><p>为了预防这个问题，我们需要确保在使用<code>printf</code>函数时第一个参数必须是一个字符串字面量。其实，以上写法编译器也会产生warning：format string is not a string literal (potentially insecure).</p><p>最后，其实配合一个比较少用的<code>printf</code>参数<code>%n</code>还可以利用此漏洞实现对栈中内容的修改，在此就不展开了，可参考第三篇参考资料。</p><hr><blockquote><p>参考资料：<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13692044/printfstring-vs-printfs-string">printf(string) vs. printf(“%s”, string)</a><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/39415536/what-is-the-underlying-difference-between-printfs-and-printfs-s">What is the underlying difference between printf(s) and printf(“%s”, s)?</a><br><a target="_blank" rel="noopener" href="https://paper.seebug.org/papers/Archive/drops2/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E4%BB%8B.html">格式化字符串漏洞简介</a></p></blockquote>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;前几天去Intel面试时，遇到了一个问题：&lt;code&gt;printf(&amp;quot;%s&amp;quot;, s)&lt;/code&gt;与&lt;code&gt;printf(s)&lt;/code&gt;有何区别？面试官还提示我从安全的角度回答这个问题，然而当时并没有想出答案来……:( 回来后仔细研究了下这个问题，才发现&lt;code&gt;pritnf(s)&lt;/code&gt;这种写法是存在严重安全漏洞的，这被称为printf格式化字符串漏洞攻击。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="软件之道" scheme="https://gaomf.cn/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/"/>
-    
-    
-    <category term="Top" scheme="https://gaomf.cn/tags/Top/"/>
-    
-    <category term="C" scheme="https://gaomf.cn/tags/C/"/>
-    
-    <category term="Security" scheme="https://gaomf.cn/tags/Security/"/>
     
   </entry>
   
