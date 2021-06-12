@@ -1262,7 +1262,7 @@ body .ui-tooltip {
   background: transparent;
 }
 .body-wrap {
-  margin-bottom: 126px;
+  margin-bottom: 30px;
   overflow: hidden;
 }
 .article {
@@ -1682,8 +1682,8 @@ li:hover {
 }
 #tocButton {
   position: fixed;
-  left: 130px;
-  top: 317px;
+  left: 170px;
+  top: 287px;
   font-size: 0.9em;
   font-weight: bold;
   font-family: inherit;
@@ -1699,12 +1699,12 @@ li:hover {
 }
 .toc-article {
   position: fixed;
-  width: 180px;
-  top: 310px;
+  width: 210px;
+  top: 280px;
   bottom: 1em;
   left: 0;
   margin-left: 0;
-  padding: 6px 10px 10px 20px;
+  padding: 6px 10px 10px 30px;
   border-radius: 2.8%;
   overflow: auto;
 }
