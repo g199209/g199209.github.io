@@ -6,7 +6,7 @@
   <link href="https://gaomf.cn/atom.xml" rel="self"/>
   
   <link href="https://gaomf.cn/"/>
-  <updated>2021-06-12T03:46:44.311Z</updated>
+  <updated>2021-08-01T04:04:33.580Z</updated>
   <id>https://gaomf.cn/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>TLA+ 形式化验证入门指南</title>
+    <link href="https://gaomf.cn/2021/08/01/TLA_Tutorial/"/>
+    <id>https://gaomf.cn/2021/08/01/TLA_Tutorial/</id>
+    <published>2021-08-01T03:54:03.000Z</published>
+    <updated>2021-08-01T04:04:33.580Z</updated>
+    
+    <content type="html"><![CDATA[<p>形式化验证（Formal Verification）指一类使用数理逻辑方法来证明软件设计是正确的技术，据称是由 Edsger Dijkstra 于 1972 年最早提出，此方法一直是一种比较小众冷门的技术。形式化验证技术想要解决的核心问题是：软件总是可能存在 Bug 的，而测试始终无法涵盖所有可能性，特别是对于并发系统及分布式系统来说，就算单元测试达到了 100% 分支覆盖率，也不能肯定的说这个系统在线程安全，一致性等方面不会出问题。那如何更好的来验证我们的程序是否符合预期呢？形式化验证就旨在使用严谨的数学证明方法来证明某一算法是正确的。这样我们就可以拍着胸脯说，我的算法肯定是正确的，都证明过了:)</p><span id="more"></span><p>听上去是不是很牛逼啊，感觉我们马上就要能写出 bug free 的程序来了呢～然而理想很丰满，现实很骨感，实际问题远远不会是这么简单的，要是形式化验证真这么好用那它就不至于至今还这么小众了，事实上形式化验证存在着很多局限性与不 work 的时候的，这个后面再来细说。</p><p>关于形式化方法的实际应用及其强大之处可以进一步读读下面这篇布道文：</p><p><a target="_blank" rel="noopener" href="https://secbit.io/blog/2018/10/24/formal-verification-background/">Don’t Test, Verify —— 哪个故事真正符合你对形式化验证的想象？</a></p><p>当初也是因为偶然看了此文章知道了形式化验证这个东西，后面也陆续去深入了解学习了下，最近也用它解决了一些实际工作中的问题。本文就打算分享下入门学习的一些心得体会。</p><h2 id="TLA-amp-PlusCal-简介及一些基本概念"><a href="#TLA-amp-PlusCal-简介及一些基本概念" class="headerlink" title="TLA+ &amp; PlusCal 简介及一些基本概念"></a>TLA+ &amp; PlusCal 简介及一些基本概念</h2><p>进行形式化验证的具体工具有很多，目前实际软件开发中最为常用的是由 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Leslie_Lamport" title="Leslie Lamport">Leslie Lamport</a> 开发的 TLA+，这是一种用于形式化验证的语言，主要用于验证并行及分布式系统的正确性。</p><p>由于 TLA+ 写的代码并不是用来实际运行的，故一般将其代码称为模型（Model）而非程序（Program）。</p><p>TLA+ 是基于数理逻辑而非经典的软件开发思想设计出来的，故其代码与其他编程语言有着显著区别，其中的基本元素是集合，逻辑运算，映射等东西，来个例子感受下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Next &#x3D;&#x3D; \&#x2F; \E b \in Ballots : Phase1a(b) \&#x2F; Phase2a(b)</span><br><span class="line">        \&#x2F; \E a \in Acceptors : Phase1b(a) \&#x2F; Phase2b(a) </span><br></pre></td></tr></table></figure><p>这段代码看上去完全不像在编程，实际上写 TLA+ 代码的确也不是在编程而是在用数理逻辑定义一些东西。</p><p>这学习曲线对于大部分码农来说实在是太过于陡峭了，Programer 并不是数学家，Lamport 大神也知道这一点，于是他又搞了个叫 PlusCal 的东西出来。PlusCal 是一种类似 C/Pascal 的高级语言，其目的同样不是为了生成机器代码来运行，而是依靠 TLA+ 解释器来生成对应的 TLA+ 模型代码。</p><p>来一段实际的 PlusCal 代码感受下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(* --algorithm EuclidAlg &#123;</span><br><span class="line">variables alice_account &#x3D; 10, bob_account &#x3D; 10, money &#x3D; 5;</span><br><span class="line"></span><br><span class="line">A: alice_account :&#x3D; alice_account - money;</span><br><span class="line">B: bob_account :&#x3D; bob_account + money;</span><br><span class="line"></span><br><span class="line">&#125; *)</span><br></pre></td></tr></table></figure><p>这看上去就很像经典编程语言了，因此对于程序员来说，可以使用 PlusCal 来快速进行形式化验证。不过 PlusCal 毕竟是 TLA+ 的上层高级语言，其能实现的功能只是 TLA+ 的一个子集，不过一般来说此问题不大，这个子集对于简单应用来说足够用了。</p><p>有了代码后如何运行 TLA+ 或 PlusCal 模型呢，Lamport 为此开发了一个 IDE，即 <a target="_blank" rel="noopener" href="https://lamport.azurewebsites.net/tla/toolbox.html">TLA Toolbox</a>. 然而此 IDE UI 界面并不是很好用，更建议使用 VSCode 中的 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=alygin.vscode-tlaplus">TLA 插件</a> 来进行开发。</p><h2 id="入门学习路径及资料"><a href="#入门学习路径及资料" class="headerlink" title="入门学习路径及资料"></a>入门学习路径及资料</h2><p>入门学习建议从下面这个教程开始：</p><blockquote><p><a target="_blank" rel="noopener" href="https://learntla.com/">Learn TLA+</a></p></blockquote><p>此教程完全从实用角度出发，立足点是如何用 PlusCal 来解决日常编程中需要关注的并发，一致性等问题，因此十分简单易学，也比较短，看完后基本就能实际上手做些事情了。</p><p>在实际写 PlusCal 代码的时候需要参考下其语法手册，PlusCal 有两种语法风格，类似 Pascal 的 P-Syntax 及类似 C 语言的 C-Syntax，语法手册分别如下：</p><blockquote><p><a target="_blank" rel="noopener" href="https://lamport.azurewebsites.net/tla/c-manual.pdf">A PlusCal User’s Manual C-Syntax Version 1.8</a><br><a target="_blank" rel="noopener" href="https://lamport.azurewebsites.net/tla/p-manual.pdf">A PlusCal User’s Manual P-Syntax Version 1.8</a></p></blockquote><p>网上的例子中使用 P-Syntax 的居多，不过我个人更喜欢 C-Syntax 一些。</p><p>如果看完上述简单教程后还想进一步系统的学习一下，那建议从 Lamport 的 TLA+ 项目主页开始：</p><blockquote><p><a target="_blank" rel="noopener" href="https://lamport.azurewebsites.net/tla/tla.html">The TLA+ Home Page</a></p></blockquote><p>此外 Lamport 还有一本系统的讲形式化验证的书：</p><blockquote><p><a target="_blank" rel="noopener" href="http://lamport.azurewebsites.net/tla/book.html">Specifying Systems</a></p></blockquote><p>观千剑而后识器，看看其他人是如何写代码的对于入门来说也是很有用的，下面这两个 Github 项目中收集整理了很多 TLA+ 模型，如果想要提高水平可以仔细学习揣摩下：</p><blockquote><p><a target="_blank" rel="noopener" href="https://github.com/tlaplus/Examples">TLA+ Examples</a><br><a target="_blank" rel="noopener" href="https://github.com/tlaplus/DrTLAPlus">Dr. TLA+ Series</a></p></blockquote><h2 id="一些关键点及-TLA-的局限性"><a href="#一些关键点及-TLA-的局限性" class="headerlink" title="一些关键点及 TLA+ 的局限性"></a>一些关键点及 TLA+ 的局限性</h2><h3 id="定义什么是正确"><a href="#定义什么是正确" class="headerlink" title="定义什么是正确"></a>定义什么是正确</h3><p>形式化验证是用来验证算法是正确的，那什么叫“正确”呢？<strong>如何定义“正确”是形式化验证中最重要的问题之一</strong>。比较符合程序员习惯的方法是在 PlusCal 中加入 <code>assert</code> 来检查是否满足某些条件。不过更好的方法是使用不变量（Invariants）检查，如何正确的定义算法中需要检查的 Invariant 是十分重要的，如果检查条件的定义本身就是不完备的，那形式化验证的结果自然也是不完备的。</p><h3 id="合理定义原子操作"><a href="#合理定义原子操作" class="headerlink" title="合理定义原子操作"></a>合理定义原子操作</h3><p>PlusCal 中使用 Label 来定义原子操作，一个 Label 下若干条语句会被视为是一个原子操作，如果把本来不是原子操作的行为错误的定义为了原子操作，那最终得到的结果显然就会是不完备的。</p><p>如果把本来可以视为一个原子操作的行为定义为若干条原子操作，则会让验证的计算量大幅增加，导致验证所需时间变长。PlusCal 翻译成 TLA+ 后验证原理是穷举不同进程间执行时序的所有可能性，若原子操作或分支过多，会造成解空间的急剧膨胀。</p><h3 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h3><ol><li>TLA+ 并不是直接去验证算法的实现，而是验证算法实现抽象出来的 PlusCal 或 TLA+ 模型，这一步抽象的正确性只能由人工自行保证，没有任何方法可以证明二者是等价的。事实上二者绝大多数时候也是不等价的，比如程序中的数字都是会溢出的，而数学模型中的数字则不会。妄图对程序所有实现细节都去建模验证的尝试也是不可行的，因为这会导致验证的解空间变得极为巨大，基本上都是没有实际意义的。估计这也就是 Lamport 为什么不设计一个 C / Java 等语言直接翻译为 PlusCal 模型解释器的原因。</li><li>如前文所述，算法正确性的定义也是需要人工完成的，这一步某些时候也是比较困难的，精确的定义什么是正确的本身就很有挑战性。</li><li>需要人工建模也带来了软件开发过程中成倍的工作量增加，特别是在软件需要快速迭代开发时形式化验证方法基本是不可用的，因此实际上形式化验证手段一般也只用于一些变化很小，且开发周期很长的项目中。</li></ol>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;形式化验证（Formal Verification）指一类使用数理逻辑方法来证明软件设计是正确的技术，据称是由 Edsger Dijkstra 于 1972 年最早提出，此方法一直是一种比较小众冷门的技术。形式化验证技术想要解决的核心问题是：软件总是可能存在 Bug 的，而测试始终无法涵盖所有可能性，特别是对于并发系统及分布式系统来说，就算单元测试达到了 100% 分支覆盖率，也不能肯定的说这个系统在线程安全，一致性等方面不会出问题。那如何更好的来验证我们的程序是否符合预期呢？形式化验证就旨在使用严谨的数学证明方法来证明某一算法是正确的。这样我们就可以拍着胸脯说，我的算法肯定是正确的，都证明过了:)&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="软件之道" scheme="https://gaomf.cn/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/"/>
+    
+    
+    <category term="Concurrent" scheme="https://gaomf.cn/tags/Concurrent/"/>
+    
+    <category term="TLA+" scheme="https://gaomf.cn/tags/TLA/"/>
+    
+  </entry>
   
   <entry>
     <title>如何学习一个新东西</title>
@@ -472,29 +495,6 @@
     
     <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
     
-    
-    <category term="C" scheme="https://gaomf.cn/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>用代码判断栈的增长方向</title>
-    <link href="https://gaomf.cn/2017/09/28/Detect_Stack_Direction/"/>
-    <id>https://gaomf.cn/2017/09/28/Detect_Stack_Direction/</id>
-    <published>2017-09-28T12:23:00.000Z</published>
-    <updated>2021-06-11T13:45:29.584Z</updated>
-    
-    <content type="html"><![CDATA[<p>对于大部分CPU架构和编译器来说，程序的栈空间增长方向都是向下递减的，然而这也不是一定的。我们可以用一小段简单的C语言代码来判断下栈的增长方向。</p><span id="more"></span><p>栈基本都是用于保存局部变量和传递参数，故要判断栈的增长方向就要从这两个方面入手。<a target="_blank" rel="noopener" href="http://www.cnblogs.com/youxin/p/3313288.html">第一篇参考资料</a>中给出了各种思路及其可行性分析，很值得看看，此处直接给出结论：</p><ul><li>一个函数中的局部变量在栈中的顺序是不定的，或者说是由编译器决定的，故不能通过直接比较两个局部变量的地址来判断栈的增长方向；</li><li>函数参数压栈的顺序也是不确定的，虽然一般编译器都是从后向前压栈，然而从前向后也不是绝对不可能；</li><li>连续嵌套调用两个函数时，第一个函数的相关数据会先入栈，之后才是它调用的第二个函数，这一点应该是一个通用成立的结论。</li></ul><p>综上，要判断栈的增长方向，可以通过函数的嵌套调用来进行判断，更优雅一点的方案是使用递归，得到的代码如下：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span> &#123;</span>Upward, Downward&#125; Stack_Dir_t;</span><br><span class="line"></span><br><span class="line"><span class="function">Stack_Dir_t <span class="title">detect_stack_dir</span><span class="params">(<span class="keyword">char</span> * p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> local = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (p) &#123;</span><br><span class="line">        <span class="keyword">return</span> &amp;local &gt; p ? Upward : Downward;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> detect_stack_dir(&amp;local);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (detect_stack_dir(<span class="literal">NULL</span>) == Upward)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Stack Growth Upward!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Stack Growth Downward!\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>在绝大多数平台上，我们得到的结果应该都是<code>Stack Growth Downward!</code>。</p><hr><blockquote><p>参考资料：<br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/youxin/p/3313288.html">判断栈和堆的生长方向</a><br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/xkfz007/archive/2012/06/22/2558935.html">栈增长方向与大端/小端问题</a></p></blockquote>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;对于大部分CPU架构和编译器来说，程序的栈空间增长方向都是向下递减的，然而这也不是一定的。我们可以用一小段简单的C语言代码来判断下栈的增长方向。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="编程之法" scheme="https://gaomf.cn/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B3%95/"/>
-    
-    
-    <category term="Compiler" scheme="https://gaomf.cn/tags/Compiler/"/>
     
     <category term="C" scheme="https://gaomf.cn/tags/C/"/>
     

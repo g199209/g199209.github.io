@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="高明飞" />
+
+
+
+<meta name="description" content="形式化验证（Formal Verification）指一类使用数理逻辑方法来证明软件设计是正确的技术，据称是由 Edsger Dijkstra 于 1972 年最早提出，此方法一直是一种比较小众冷门的技术。形式化验证技术想要解决的核心问题是：软件总是可能存在 Bug 的，而测试始终无法涵盖所有可能性，特别是对于并发系统及分布式系统来说，就算单元测试达到了 100% 分支覆盖率，也不能肯定的说这个系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TLA+ 形式化验证入门指南">
+<meta property="og:url" content="https://gaomf.cn/2021/08/01/TLA_Tutorial/">
+<meta property="og:site_name" content="高明飞的博客">
+<meta property="og:description" content="形式化验证（Formal Verification）指一类使用数理逻辑方法来证明软件设计是正确的技术，据称是由 Edsger Dijkstra 于 1972 年最早提出，此方法一直是一种比较小众冷门的技术。形式化验证技术想要解决的核心问题是：软件总是可能存在 Bug 的，而测试始终无法涵盖所有可能性，特别是对于并发系统及分布式系统来说，就算单元测试达到了 100% 分支覆盖率，也不能肯定的说这个系">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-08-01T03:54:03.000Z">
+<meta property="article:modified_time" content="2021-08-01T04:04:33.580Z">
+<meta property="article:author" content="高明飞">
+<meta property="article:tag" content="Concurrent">
+<meta property="article:tag" content="TLA+">
+<meta name="twitter:card" content="summary">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="高明飞的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
+
+
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="/css/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="/js/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//gaomf.cn/Font-Awesome-4.7.0/css/font-awesome.css" rel="stylesheet">
+
+
+<title>TLA+ 形式化验证入门指南 | 高明飞的博客</title>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "/js/jquery.fancybox.min.js",
+        scrollreveal: "/js/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "/js/jquery-ui.min.js", "/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9ce9df8dac438eebabf3d102e69135f5";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+	
+	<script>
+	(function(){
+		var bp = document.createElement('script');
+		bp.src = '//push.zhanzhang.baidu.com/push.js';
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+  
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+
+	
+		<form id="search-form"  class="search">
+			<input type="text" id="st-search-input" name="q" results="0" class="st-default-search-input" maxlength="50" placeholder="Search..." autocomplete="off" autocorrect="off">
+			<i class="fa fa-times" onclick="resetSearch()"></i>
+		</form>
+	
+
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
+        </hgroup>
+
+        
+
+        
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+			<p class='loading-xml'>Loading XML File... <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/Top">精华文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/atom.xml">RSS</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:gaomf163@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARM/" rel="tag">ARM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blockchain/" rel="tag">Blockchain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootloader/" rel="tag">Bootloader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootrom/" rel="tag">Bootrom</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Compiler/" rel="tag">Compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrent/" rel="tag">Concurrent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Consensus/" rel="tag">Consensus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cryptography/" rel="tag">Cryptography</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DDR/" rel="tag">DDR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSP/" rel="tag">DSP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Struct/" rel="tag">Data Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doxygen/" rel="tag">Doxygen</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EDA/" rel="tag">EDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Editor/" rel="tag">Editor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/" rel="tag">FPGA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File-System/" rel="tag">File System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flash/" rel="tag">Flash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HW-Component/" rel="tag">HW Component</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JTAG/" rel="tag">JTAG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kernel/" rel="tag">Kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MCS-51/" rel="tag">MCS-51</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Matlab/" rel="tag">Matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Methodology/" rel="tag">Methodology</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Motor/" rel="tag">Motor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Number-Theory/" rel="tag">Number Theory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Online-Judge/" rel="tag">Online Judge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMP/" rel="tag">OpenMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/P2P/" rel="tag">P2P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PSpice/" rel="tag">PSpice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt/" rel="tag">Qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Raspberry-Pi/" rel="tag">Raspberry Pi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Regular-Expression/" rel="tag">Regular Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Runtime/" rel="tag">Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM8/" rel="tag">STM8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVN/" rel="tag">SVN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Small-Protocol/" rel="tag">Small Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Socket/" rel="tag">Socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spider/" rel="tag">Spider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storage/" rel="tag">Storage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TLA/" rel="tag">TLA+</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Top/" rel="tag">Top</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Virtualization/" rel="tag">Virtualization</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/x86/" rel="tag">x86</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://caoyudong.com/">BAZINGA</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://lidewen.com/">李德文</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://jiaodi.tech/">焦迪</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.netcan666.com/">Netcan</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">三尺微命，一介书生。曾辗转求学于思源湖畔，老和山下，现栖身于魔都一隅。所学颇杂，对诸多方面均有涉猎，对各种技术充满热情~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/Top">精华文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/atom.xml">RSS</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:gaomf163@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+
+      <div class="body-wrap"><article id="post-TLA+ 形式化验证入门指南" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2021/08/01/TLA_Tutorial/" class="article-date">
+      <time datetime="2021-08-01T03:54:03.000Z" itemprop="datePublished">2021-08-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TLA+ 形式化验证入门指南
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E8%BD%AF%E4%BB%B6%E4%B9%8B%E9%81%93/">软件之道</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Concurrent/" rel="tag">Concurrent</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TLA/" rel="tag">TLA+</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>形式化验证（Formal Verification）指一类使用数理逻辑方法来证明软件设计是正确的技术，据称是由 Edsger Dijkstra 于 1972 年最早提出，此方法一直是一种比较小众冷门的技术。形式化验证技术想要解决的核心问题是：软件总是可能存在 Bug 的，而测试始终无法涵盖所有可能性，特别是对于并发系统及分布式系统来说，就算单元测试达到了 100% 分支覆盖率，也不能肯定的说这个系统在线程安全，一致性等方面不会出问题。那如何更好的来验证我们的程序是否符合预期呢？形式化验证就旨在使用严谨的数学证明方法来证明某一算法是正确的。这样我们就可以拍着胸脯说，我的算法肯定是正确的，都证明过了:)</p>
+<span id="more"></span>
+
+<p>听上去是不是很牛逼啊，感觉我们马上就要能写出 bug free 的程序来了呢～然而理想很丰满，现实很骨感，实际问题远远不会是这么简单的，要是形式化验证真这么好用那它就不至于至今还这么小众了，事实上形式化验证存在着很多局限性与不 work 的时候的，这个后面再来细说。</p>
+<p>关于形式化方法的实际应用及其强大之处可以进一步读读下面这篇布道文：</p>
+<p><a target="_blank" rel="noopener" href="https://secbit.io/blog/2018/10/24/formal-verification-background/">Don’t Test, Verify —— 哪个故事真正符合你对形式化验证的想象？</a></p>
+<p>当初也是因为偶然看了此文章知道了形式化验证这个东西，后面也陆续去深入了解学习了下，最近也用它解决了一些实际工作中的问题。本文就打算分享下入门学习的一些心得体会。</p>
+<h2 id="TLA-amp-PlusCal-简介及一些基本概念"><a href="#TLA-amp-PlusCal-简介及一些基本概念" class="headerlink" title="TLA+ &amp; PlusCal 简介及一些基本概念"></a>TLA+ &amp; PlusCal 简介及一些基本概念</h2><p>进行形式化验证的具体工具有很多，目前实际软件开发中最为常用的是由 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Leslie_Lamport" title="Leslie Lamport">Leslie Lamport</a> 开发的 TLA+，这是一种用于形式化验证的语言，主要用于验证并行及分布式系统的正确性。</p>
+<p>由于 TLA+ 写的代码并不是用来实际运行的，故一般将其代码称为模型（Model）而非程序（Program）。</p>
+<p>TLA+ 是基于数理逻辑而非经典的软件开发思想设计出来的，故其代码与其他编程语言有着显著区别，其中的基本元素是集合，逻辑运算，映射等东西，来个例子感受下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Next &#x3D;&#x3D; \&#x2F; \E b \in Ballots : Phase1a(b) \&#x2F; Phase2a(b)</span><br><span class="line">        \&#x2F; \E a \in Acceptors : Phase1b(a) \&#x2F; Phase2b(a) </span><br></pre></td></tr></table></figure>
+
+<p>这段代码看上去完全不像在编程，实际上写 TLA+ 代码的确也不是在编程而是在用数理逻辑定义一些东西。</p>
+<p>这学习曲线对于大部分码农来说实在是太过于陡峭了，Programer 并不是数学家，Lamport 大神也知道这一点，于是他又搞了个叫 PlusCal 的东西出来。PlusCal 是一种类似 C/Pascal 的高级语言，其目的同样不是为了生成机器代码来运行，而是依靠 TLA+ 解释器来生成对应的 TLA+ 模型代码。</p>
+<p>来一段实际的 PlusCal 代码感受下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(* --algorithm EuclidAlg &#123;</span><br><span class="line">variables alice_account &#x3D; 10, bob_account &#x3D; 10, money &#x3D; 5;</span><br><span class="line"></span><br><span class="line">A: alice_account :&#x3D; alice_account - money;</span><br><span class="line">B: bob_account :&#x3D; bob_account + money;</span><br><span class="line"></span><br><span class="line">&#125; *)</span><br></pre></td></tr></table></figure>
+
+<p>这看上去就很像经典编程语言了，因此对于程序员来说，可以使用 PlusCal 来快速进行形式化验证。不过 PlusCal 毕竟是 TLA+ 的上层高级语言，其能实现的功能只是 TLA+ 的一个子集，不过一般来说此问题不大，这个子集对于简单应用来说足够用了。</p>
+<p>有了代码后如何运行 TLA+ 或 PlusCal 模型呢，Lamport 为此开发了一个 IDE，即 <a target="_blank" rel="noopener" href="https://lamport.azurewebsites.net/tla/toolbox.html">TLA Toolbox</a>. 然而此 IDE UI 界面并不是很好用，更建议使用 VSCode 中的 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=alygin.vscode-tlaplus">TLA 插件</a> 来进行开发。</p>
+<h2 id="入门学习路径及资料"><a href="#入门学习路径及资料" class="headerlink" title="入门学习路径及资料"></a>入门学习路径及资料</h2><p>入门学习建议从下面这个教程开始：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://learntla.com/">Learn TLA+</a></p>
+</blockquote>
+<p>此教程完全从实用角度出发，立足点是如何用 PlusCal 来解决日常编程中需要关注的并发，一致性等问题，因此十分简单易学，也比较短，看完后基本就能实际上手做些事情了。</p>
+<p>在实际写 PlusCal 代码的时候需要参考下其语法手册，PlusCal 有两种语法风格，类似 Pascal 的 P-Syntax 及类似 C 语言的 C-Syntax，语法手册分别如下：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://lamport.azurewebsites.net/tla/c-manual.pdf">A PlusCal User’s Manual C-Syntax Version 1.8</a><br><a target="_blank" rel="noopener" href="https://lamport.azurewebsites.net/tla/p-manual.pdf">A PlusCal User’s Manual P-Syntax Version 1.8</a></p>
+</blockquote>
+<p>网上的例子中使用 P-Syntax 的居多，不过我个人更喜欢 C-Syntax 一些。</p>
+<p>如果看完上述简单教程后还想进一步系统的学习一下，那建议从 Lamport 的 TLA+ 项目主页开始：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://lamport.azurewebsites.net/tla/tla.html">The TLA+ Home Page</a></p>
+</blockquote>
+<p>此外 Lamport 还有一本系统的讲形式化验证的书：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://lamport.azurewebsites.net/tla/book.html">Specifying Systems</a></p>
+</blockquote>
+<p>观千剑而后识器，看看其他人是如何写代码的对于入门来说也是很有用的，下面这两个 Github 项目中收集整理了很多 TLA+ 模型，如果想要提高水平可以仔细学习揣摩下：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/tlaplus/Examples">TLA+ Examples</a><br><a target="_blank" rel="noopener" href="https://github.com/tlaplus/DrTLAPlus">Dr. TLA+ Series</a></p>
+</blockquote>
+<h2 id="一些关键点及-TLA-的局限性"><a href="#一些关键点及-TLA-的局限性" class="headerlink" title="一些关键点及 TLA+ 的局限性"></a>一些关键点及 TLA+ 的局限性</h2><h3 id="定义什么是正确"><a href="#定义什么是正确" class="headerlink" title="定义什么是正确"></a>定义什么是正确</h3><p>形式化验证是用来验证算法是正确的，那什么叫“正确”呢？<strong>如何定义“正确”是形式化验证中最重要的问题之一</strong>。比较符合程序员习惯的方法是在 PlusCal 中加入 <code>assert</code> 来检查是否满足某些条件。不过更好的方法是使用不变量（Invariants）检查，如何正确的定义算法中需要检查的 Invariant 是十分重要的，如果检查条件的定义本身就是不完备的，那形式化验证的结果自然也是不完备的。</p>
+<h3 id="合理定义原子操作"><a href="#合理定义原子操作" class="headerlink" title="合理定义原子操作"></a>合理定义原子操作</h3><p>PlusCal 中使用 Label 来定义原子操作，一个 Label 下若干条语句会被视为是一个原子操作，如果把本来不是原子操作的行为错误的定义为了原子操作，那最终得到的结果显然就会是不完备的。</p>
+<p>如果把本来可以视为一个原子操作的行为定义为若干条原子操作，则会让验证的计算量大幅增加，导致验证所需时间变长。PlusCal 翻译成 TLA+ 后验证原理是穷举不同进程间执行时序的所有可能性，若原子操作或分支过多，会造成解空间的急剧膨胀。</p>
+<h3 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h3><ol>
+<li>TLA+ 并不是直接去验证算法的实现，而是验证算法实现抽象出来的 PlusCal 或 TLA+ 模型，这一步抽象的正确性只能由人工自行保证，没有任何方法可以证明二者是等价的。事实上二者绝大多数时候也是不等价的，比如程序中的数字都是会溢出的，而数学模型中的数字则不会。妄图对程序所有实现细节都去建模验证的尝试也是不可行的，因为这会导致验证的解空间变得极为巨大，基本上都是没有实际意义的。估计这也就是 Lamport 为什么不设计一个 C / Java 等语言直接翻译为 PlusCal 模型解释器的原因。</li>
+<li>如前文所述，算法正确性的定义也是需要人工完成的，这一步某些时候也是比较困难的，精确的定义什么是正确的本身就很有挑战性。</li>
+<li>需要人工建模也带来了软件开发过程中成倍的工作量增加，特别是在软件需要快速迭代开发时形式化验证方法基本是不可用的，因此实际上形式化验证手段一般也只用于一些变化很小，且开发周期很长的项目中。</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2021/08/01/TLA_Tutorial/">TLA+ 形式化验证入门指南</a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
+        <p><span>发布时间:</span>2021-08-01, 11:54:03</p>
+        <p><span>最后更新:</span>2021-08-01, 12:04:33</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2021/08/01/TLA_Tutorial/" title="TLA+ 形式化验证入门指南">https://gaomf.cn/2021/08/01/TLA_Tutorial/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2021/08/01/TLA_Tutorial/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2021/06/12/How_to_Learn_a_New_Thing/">
+                    如何学习一个新东西
+                </a>
+            </div>
+        
+    </nav>
+
+
+  
+</article>
+
+
+
+
+
+    
+	
+	<!-- Gitment评论插件通用代码 -->
+<!-- from: https://billts.site/extra_css/gitment.css -->
+<!-- from: https://billts.site/js/gitment.js -->
+
+<div id="gitment-ctn" style="margin: 50px"></div>
+<link rel="stylesheet" href="/css/extra_css/gitment.css">
+<script src="/js/gitment.js"></script>
+
+<script>
+var gitment = new Gitment({
+  id: "TLA+ 形式化验证入门指南",
+  owner: 'g199209',
+  repo: 'g199209.github.io',
+  oauth: {
+    client_id: '813326c14fac583d3c91',
+    client_secret: '42d7c1ea9724bba02704bc1a499e41bfb18a9e7d',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+<!-- Gitment代码结束 -->
+	
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2021/06/12/How_to_Learn_a_New_Thing/" title="下一篇: 如何学习一个新东西">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/08/01/TLA_Tutorial/">TLA+ 形式化验证入门指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/06/12/How_to_Learn_a_New_Thing/">如何学习一个新东西</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/16/Chia_Architecture_Brief/">Chia 技术架构简述</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/11/Cpp_Volatile_Atomic_Memory_barrier/">C++ 中的 volatile，atomic 及 memory barrier</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/03/shared_library_global_symbol_override/">动态库全局符号覆盖的大坑</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/12/24/coredump_optimized_value/">如何从 coredump 文件中获取被优化掉的局部变量真实值</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/30/perf_stack_traceback/">使用 perf 进行性能分析时如何获取准确的调用栈</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/28/PVE_OpenWRT_Network_Broken/">PVE上部署OpenWRT发生网络中断的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/24/Thesis_of_Master/">用于嵌入式车载安全预警的交通标志检测若干关键技术研究与验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Deep_Into_Dokcer_Helloworld/">深入分析Docker hello-world镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/17/Sudo_No_Passwd/">sudo不需要输入密码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Hexo_Yelee_Gitment/">为Hexo博客Yelee主题添加Gitment评论系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/sizeof_extern_array/">sizeof 获取 extern 数组长度</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/The_Road/">多歧路，今安在？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/04/SSH_Forwarding/">SSH反向穿透访问内网主机</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/25/C_restrict/">C语言关键词restrict的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/Kernel_min_max_macro/">Linux kernel中的min和max宏</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/C_typeof/">C语言中typeof的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/05/string_literal_concatenate/">C语言中的字符串字面量连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/Detect_Stack_Direction/">用代码判断栈的增长方向</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/20/printf_format_string_attack/">printf格式化字符串漏洞攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/16/Atom_Configure/">Atom编辑器配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/Win10_Software_Font_Blur/">Win10下软件界面显示模糊问题解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/15/Memcpy_Optimization/">memcpy中的内存读写优化问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/31/Array_Find_Half/">寻找数组中出现次数超过一半的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/Cpp_string_COW_SSO/">C++中std::string的COW及SSO实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/12/LDO/">LDO应用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/TL431_Self_OScillation/">TL431自激振荡消除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/Sudoku/">数独求解程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/OpenCV_and_GTK/">OpenCV与GTK+结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/Allegro_Font/">Cadence Allegro 调整界面字体字号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/Discrete_Load_Switch/">带软启动的分立负载开关电路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Tutorial_Help/">PSpice教程及帮助文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Swt/">PSpice中的延时开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/Linux_SoftRouter_Basic/">Linux软路由——基础配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Relaxation_Oscillator/">松弛振荡器原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Capacity_Charge/">对电容充放电过程的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Button_Cell/">纽扣电池型号总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/SVN/">SVN常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/C++_Random/">C++生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/SSH_Authentication/">SSH证书登录总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/Ubuntu_Reduce_Swap/">Ubuntu减小swap分区大小的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/Future_Hesitate/">对于未来的迷茫</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/Minimum_Spanning_Tree/">最小生成树算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/Maximum_Flow_Algorithm/">最大流算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/12/BinaryTree_Traversal/">二叉树的遍历算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/03/Shortest_Path/">最短路径算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/02/Vim_Plugin/">Vim配置及插件总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Linux_Vim_Compile/">Linux下Vim的编译安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Hexo_Git_CRLF/">Hexo Git部署警告"warning： LF will be replaced by CRLF"的去除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Linux_Colourful_Man/">Linux彩色man page设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/Linux_Background_Run/">Linux下让进程在后台可靠运行的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/SSH_Broken_Pipe/">SSH连接自动断开的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/03/VMware_Shrink_Linux/">VMware中收缩Linux虚拟机体积</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/VMware_Internal_SD/">VMware虚拟机中使用电脑内置SD读卡器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/VMWare_Ubuntu_Terminal_Shadowsocks/">VMware Ubuntu虚拟机中为终端配置Shadowsocks代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/VS2015_Qt_UTF8/">VS2015 & Qt中文编码方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/10/OpenCV_and_Qt/">OpenCV与Qt结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/09/VS2015_Qt5_7/">VS2015搭建Qt 5.7开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/VS2015_OpenCV31/">VS2015下编译OpenCV 3.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Array_Shift/">数组循环移位算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/N_Queen_Problem/">N皇后问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/PMSM_Vector_Control/">PMSM矢量控制算法调试流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_014/">LeetCode 014. Longest Common Prefix (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_019/">LeetCode 019. Remove Nth Node From End of List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_083/">LeetCode 083. Remove Duplicates from Sorted List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Raspberry_Pi_Static_IP/">为树莓派设置静态IP地址的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/IP_Mask/">IP地址中子网掩码的表示方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Windows_Ping/">Windows防火墙允许ping请求设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/String_Fill/">一道字符串填充算法题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_319/">LeetCode 319. Bulb Switcher (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_292/">LeetCode 292. Nim Game (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/divide_conquer/">分治法算法复杂度</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_345/">LeetCode 345. Reverse Vowels of a String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_344/">LeetCode 344. Reverse String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_167/">LeetCode 167. Two Sum II - Input array is sorted (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_001/">LeetCode 001. Two Sum (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/apt_apt-get/">apt与apt-get命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_160/">LeetCode 160. Intersection of Two Linked Lists (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_141/">LeetCode 141. Linked List Cycle (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_415/">LeetCode 415. Add String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/20/ARM_Architecture_Core/">ARM架构及内核</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Diff_Patch/">diff及patch的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Blog_New_Theme_2016/">更换博客主题啦~</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Encoder_Velocity_Measure/">旋转编码器速度测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2Yilia%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%9C%AC%E5%9C%B0%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">为Hexo博客Yilia主题添加本地站内搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/%E5%85%B3%E4%BA%8E%E7%A7%91%E5%AD%A6%E4%B8%8E%E5%B7%A5%E7%A8%8B/">关于科学与工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/26/%E5%9C%A8Android%20Studio%E4%B8%AD%E4%BD%BF%E7%94%A8Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">在Android Studio中使用Lambda表达式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/16/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java集合框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E7%AE%97%E6%B3%95/">最大公约数算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C%E9%97%AE%E9%A2%98/">最大连续子序列和问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/C%E6%A0%87%E5%87%86%E5%BA%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(1)%E2%80%94%E2%80%94time%E3%80%81ctype%E3%80%81stdarg%E3%80%81assert/">C标准库学习笔记(1)——time、ctype、stdarg、assert</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/%E4%BD%BF%E7%94%A8Python%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E5%8F%98%E5%8C%96%E7%9B%91%E6%B5%8B%E7%B3%BB%E7%BB%9F/">使用Python实现网站变化监测系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93/">正则表达式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E6%96%87%E6%9C%AC/">Python爬虫--使用re正则表达式解析文本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8BeautifulSoup%E8%A7%A3%E6%9E%90HTML/">Python爬虫--使用BeautifulSoup解析HTML</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">U-Boot 2016.05 Stage1代码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/12/UART%E5%8D%8F%E8%AE%AE%E6%97%B6%E5%BA%8F%E6%80%BB%E7%BB%93/">UART协议时序总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/%E6%B1%87%E7%BC%96%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80.s%E4%B8%8E.S%E7%9A%84%E5%8C%BA%E5%88%AB/">汇编文件后缀.s与.S的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%BE%91%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/">Linux下查看编辑二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot%20DM9000%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%8F%90%E7%A4%BA%22could%20not%20establish%20link%22%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">U-Boot DM9000网卡驱动提示"could not establish link"的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%E2%80%94%E2%80%94%E6%9D%82%E9%A1%B9/">U-Boot 2016.05 在S3C2440上的移植——杂项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/%E5%9C%A8U-Boot%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">在U-Boot中添加自定义命令以实现自动下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">VMware虚拟机中嵌入式Linux开发环境网络配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94DM9000%E7%BD%91%E5%8D%A1/">U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94NAND%20Flash/">U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/24/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94NOR%20Flash/">U-Boot 2016.05 在S3C2440上的移植（2）——NOR Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/23/Nor%20Flash%E4%B8%AD%E7%9A%84%E5%90%AF%E5%8A%A8%E6%89%87%E5%8C%BA%EF%BC%88Boot%20Sector,%20Boot%20Block%EF%BC%89/">Nor Flash中的启动扇区（Boot Sector, Boot Block）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/22/%E4%B8%B2%E5%8F%A3%E7%BB%88%E7%AB%AFpicocom%E7%9A%84%E4%BD%BF%E7%94%A8/">串口终端picocom的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/20/Jlink%E4%B8%BAS3C2440%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F%E6%8F%90%E7%A4%BA%22Unable%20to%20halt%20cpu%20core%22%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">Jlink为S3C2440下载程序提示"Unable to halt cpu core"的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%BF%90%E8%A1%8C/">U-Boot 2016.05 在S3C2440上的移植（1）——基本运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/17/OpenSSH%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%A7%81%E9%92%A5%EF%BC%88SSH%20Key%EF%BC%89%E9%85%8D%E7%BD%AE/">OpenSSH使用多个私钥（SSH Key）配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/16/crosstool-ng%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">crosstool-ng参数配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/GCC%E4%B8%AD-march%E3%80%81-mtune%E3%80%81-mcpu%E4%B8%89%E4%B8%AA%E5%8F%82%E6%95%B0%E7%9A%84%E8%AE%BE%E7%BD%AE/">GCC中-march、-mtune、-mcpu三个参数的设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/">crosstool-ng的基本使用流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/14/crosstool-ng%E7%9A%84%E5%AE%89%E8%A3%85/">crosstool-ng的安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/06/%E6%97%8B%E8%BD%AC%E7%BC%96%E7%A0%81%E5%99%A8%E7%BB%9D%E5%AF%B9%E4%BD%8D%E7%BD%AE%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95/">旋转编码器绝对位置测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5/">Python爬虫--使用requests获取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/%E4%BD%BF%E7%94%A8Python%E7%88%AC%E8%99%AB%E6%8A%93%E5%8F%96%E7%BD%91%E9%A1%B5/">使用Python爬虫抓取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/NFS%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%90%AD%E5%BB%BA/">NFS服务器的搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/U-Boot%E4%B8%ADIP%E5%9C%B0%E5%9D%80%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/">U-Boot中IP地址设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/27/U-Boot%E7%89%88%E6%9C%AC%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%E5%8F%8A%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD%E9%80%94%E5%BE%84/">U-Boot版本命名规则及源码下载途径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/Android%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95/">Android中实现多线程的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/C28x%20IQmath%E5%BA%93%E4%BD%BF%E7%94%A8/">C28x IQmath库使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/28/%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%E8%BE%B9%E7%95%8C%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/">结构体内存边界对齐问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">ARM Cortex-M内核复位启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/Python%20Socket%20Error%EF%BC%9A%20Address%20already%20in%20use%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">Python Socket Error： Address already in use的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/C2000%20DSP%E4%B8%AD%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E6%B8%85%E9%9B%B6%E9%97%AE%E9%A2%98/">C2000 DSP中全局变量清零问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/21/C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E7%9A%84%E5%A3%B0%E6%98%8E%E5%8F%8A%E4%BD%BF%E7%94%A8/">C语言中函数指针的声明及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/18/C%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93%E6%80%BB%E7%BB%93/">C语言标准库总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/HTTP%E4%B8%AD%E7%A1%AE%E5%AE%9A%E6%8A%A5%E6%96%87%E7%BB%93%E6%9D%9F%E7%9A%84%E6%96%B9%E6%B3%95/">HTTP中确定报文结束的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/C%E8%AF%AD%E8%A8%80%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7%E4%B8%8E%E7%BB%93%E5%90%88%E6%80%A7/">C语言运算符优先级与结合性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/MCS-51%20%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">MCS-51 基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/22/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%BB%E7%BB%93/">半导体存储器总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/04/Altium%20Designer%E5%AF%BC%E5%87%BAGerber%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/">Altium Designer导出Gerber文件方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/Hexo%E5%8D%9A%E5%AE%A2%E4%BF%AE%E6%94%B9Archive%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E6%96%87%E7%AB%A0%E6%95%B0%E9%87%8F/">Hexo博客修改Archive页面显示文章数量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/24/Population_Count/">Population Count算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/">Matlab调用Origin作图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/Origin%20Script%20Window%20%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95/">Origin Script Window 执行脚本代码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/%E9%9B%86%E6%88%90%E5%BC%8F%E8%B4%9F%E8%BD%BD%E5%BC%80%E5%85%B3/">集成式负载开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/12/Quartus%E4%B8%AD%E9%85%8D%E7%BD%AEFPGA%E6%9C%AA%E4%BD%BF%E7%94%A8%E5%BC%95%E8%84%9A%E7%8A%B6%E6%80%81%E6%96%B9%E6%B3%95/">Quartus中配置FPGA未使用引脚状态方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/11/IGBT%E4%B8%8EMOSFET%E6%AF%94%E8%BE%83/">IGBT与MOSFET比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/01/%E4%B8%89%E7%9B%B8%E9%80%86%E5%8F%98%E5%99%A8%E7%94%B5%E6%B5%81%E9%87%87%E6%A0%B7%E6%96%B9%E6%A1%88%E6%80%BB%E7%BB%93/">三相逆变器电流采样方案总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/27/C2000%20DSP%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">C2000 DSP基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/C2000%20ePWM%E6%A8%A1%E5%9D%97/">C2000 ePWM模块</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Simulink%E4%BB%BF%E7%9C%9F%E6%A8%A1%E5%BC%8F/">Simulink仿真模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8%E5%A4%96%E8%AE%BE%E5%BC%95%E8%84%9A%E9%87%8D%E6%98%A0%E5%B0%84/">STM8外设引脚重映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8%E7%B3%BB%E5%88%97%E5%8D%95%E7%89%87%E6%9C%BA/">STM8系列单片机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/19/%E9%98%BB%E6%8A%97%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95/">阻抗测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/11/%E4%BD%BF%E7%94%A8OpenMP%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%A1%E7%AE%97/">使用OpenMP进行多线程计算</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/10/STC%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%8D%E6%96%AD%E7%94%B5%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">STC单片机不断电下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/08/OpenCV%203.0%E5%AE%89%E8%A3%85/">OpenCV 3.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/06/STM8%20SWIM%E6%8E%A5%E5%8F%A3/">STM8 SWIM接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/BLDC%E5%85%AD%E6%AD%A5%E6%8D%A2%E7%9B%B8%E6%B3%95%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%8F%8A%E9%A9%B1%E5%8A%A8%E6%B3%A2%E5%BD%A2/">BLDC六步换相法基本原理及驱动波形</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/30/C2000%20CSM%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">C2000 CSM使用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/28/C2000%20DSP%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/">C2000 DSP新建工程基本步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/">数据结构——循环队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/OSI_Model/">OSI模型总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/%E5%AE%89%E8%A7%84%E7%94%B5%E5%AE%B9%E6%80%BB%E7%BB%93/">安规电容总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/C%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/">C语言生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Doxygen%E5%A4%84%E7%90%86%E6%9D%A1%E4%BB%B6%E7%BC%96%E8%AF%91/">Doxygen处理条件编译</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/12/%E4%BD%BF%E7%94%A8Doxygen%E7%94%9F%E6%88%90%E9%AB%98%E8%B4%A8%E9%87%8F%E4%BB%A3%E7%A0%81%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3/">使用Doxygen生成高质量代码参考文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/Hexo%E5%8D%9A%E5%AE%A2%E4%BC%98%E5%8C%96%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/">Hexo博客优化加载速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">使用JLink为2440 NOR Flash下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/30/Markdown%E5%B8%B8%E7%94%A8%E6%A0%BC%E5%BC%8F/">Markdown常用格式</a></li></ul>
+
+
+
+
+    <script>
+        
+            yiliaConfig.fancybox = false;
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2021 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号-2</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="/js/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 8;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  </div>
+</body>
+</html>
