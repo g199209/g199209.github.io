@@ -727,14 +727,12 @@ a {
 #header .switch-part2 {
   left: 100%;
   font-size: 0.75rem;
-  height: 280px;
   margin-left: 5px;
 }
 #header .switch-part3 {
   left: 200%;
   line-height: 1.6;
   overflow-y: auto;
-  height: 120px;
 }
 #header .switch-part3 .switch-friends-link {
   display: inline-block;
@@ -750,7 +748,6 @@ a {
   left: 300%;
   text-align: left;
   line-height: 30px;
-  height: 170px;
 }
 #header .header-nav .social {
   margin-top: 10px;
