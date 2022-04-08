@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="高明飞" />
+
+
+
+<meta name="description" content="Operational Characteristics of SSDs in Enterprise Storage Systems: A Large-Scale Field Study 此论文为多伦多大学与 NetApp 合作发表在 FAST’22 上的论文，统计分析了 NetApp 线上两百多万块 SSD 在过去 4 年内的运行数据，以此总结了 SSD 寿命，写放大这两个核心运维特性在大规模线上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【读读论文】大规模真实线上环境下 SSD 寿命，写放大等特性研究">
+<meta property="og:url" content="https://gaomf.cn/2022/04/07/Paper_NetApp_SSD_WAF/">
+<meta property="og:site_name" content="高明飞的博客">
+<meta property="og:description" content="Operational Characteristics of SSDs in Enterprise Storage Systems: A Large-Scale Field Study 此论文为多伦多大学与 NetApp 合作发表在 FAST’22 上的论文，统计分析了 NetApp 线上两百多万块 SSD 在过去 4 年内的运行数据，以此总结了 SSD 寿命，写放大这两个核心运维特性在大规模线上">
+<meta property="og:locale">
+<meta property="og:image" content="https://img.gaomf.cn/202204072036558.png?600x">
+<meta property="og:image" content="https://img.gaomf.cn/202204072123744.png?500x">
+<meta property="og:image" content="https://img.gaomf.cn/202204072132446.png?500x">
+<meta property="og:image" content="https://img.gaomf.cn/202204072141261.png?1200x">
+<meta property="og:image" content="https://img.gaomf.cn/202204072200661.png?500x">
+<meta property="og:image" content="https://img.gaomf.cn/202204072207243.png?700x">
+<meta property="og:image" content="https://img.gaomf.cn/202204072221591.png?500x">
+<meta property="og:image" content="https://img.gaomf.cn/202204081102721.png?1200x">
+<meta property="og:image" content="https://img.gaomf.cn/202204081437256.png?500x">
+<meta property="og:image" content="https://img.gaomf.cn/202204081441488.png?800x">
+<meta property="og:image" content="https://img.gaomf.cn/202204081452546.png?800x">
+<meta property="og:image" content="https://img.gaomf.cn/202204081457878.png?800x">
+<meta property="og:image" content="https://img.gaomf.cn/202204081510216.png?500x">
+<meta property="article:published_time" content="2022-04-07T11:47:00.000Z">
+<meta property="article:modified_time" content="2022-04-08T13:46:22.582Z">
+<meta property="article:author" content="高明飞">
+<meta property="article:tag" content="Top">
+<meta property="article:tag" content="Storage">
+<meta property="article:tag" content="Flash">
+<meta property="article:tag" content="Paper">
+<meta property="article:tag" content="SSD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.gaomf.cn/202204072036558.png?600x">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="高明飞的博客" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="https://img.gaomf.cn/avatar.jpeg">
+
+
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="/css/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="/js/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+
+<link href="//gaomf.cn/Font-Awesome-4.7.0/css/font-awesome.css" rel="stylesheet">
+
+
+<title>【读读论文】大规模真实线上环境下 SSD 寿命，写放大等特性研究 | 高明飞的博客</title>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "/js/jquery.fancybox.min.js",
+        scrollreveal: "/js/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "/js/jquery-ui.min.js", "/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9ce9df8dac438eebabf3d102e69135f5";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+	
+	<script>
+	(function(){
+		var bp = document.createElement('script');
+		bp.src = '//push.zhanzhang.baidu.com/push.js';
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+  
+
+
+<script src="/js/hexo_resize_image.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+
+	
+		<form id="search-form"  class="search">
+			<input type="text" id="st-search-input" name="q" results="0" class="st-default-search-input" maxlength="50" placeholder="Search..." autocomplete="off" autocorrect="off">
+			<i class="fa fa-times" onclick="resetSearch()"></i>
+		</form>
+	
+
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">码农半亩地</a></h1>
+        </hgroup>
+
+        
+
+        
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+			<p class='loading-xml'>Loading XML File... <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/Top">精华文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/atom.xml">RSS</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:gaomf163@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARM/" rel="tag">ARM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blockchain/" rel="tag">Blockchain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootloader/" rel="tag">Bootloader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bootrom/" rel="tag">Bootrom</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Compiler/" rel="tag">Compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrent/" rel="tag">Concurrent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Consensus/" rel="tag">Consensus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cryptography/" rel="tag">Cryptography</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DDR/" rel="tag">DDR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DSP/" rel="tag">DSP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Struct/" rel="tag">Data Struct</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Distributed-System/" rel="tag">Distributed System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Doxygen/" rel="tag">Doxygen</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EDA/" rel="tag">EDA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Editor/" rel="tag">Editor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FPGA/" rel="tag">FPGA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/File-System/" rel="tag">File System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flash/" rel="tag">Flash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GDB/" rel="tag">GDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HW-Component/" rel="tag">HW Component</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JTAG/" rel="tag">JTAG</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/KV/" rel="tag">KV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kernel/" rel="tag">Kernel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MCS-51/" rel="tag">MCS-51</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Matlab/" rel="tag">Matlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Methodology/" rel="tag">Methodology</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Motor/" rel="tag">Motor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Number-Theory/" rel="tag">Number Theory</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Online-Judge/" rel="tag">Online Judge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMP/" rel="tag">OpenMP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/P2P/" rel="tag">P2P</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PSpice/" rel="tag">PSpice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Paper/" rel="tag">Paper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Qt/" rel="tag">Qt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Raspberry-Pi/" rel="tag">Raspberry Pi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Regular-Expression/" rel="tag">Regular Expression</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RocksDB/" rel="tag">RocksDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Runtime/" rel="tag">Runtime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSD/" rel="tag">SSD</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM8/" rel="tag">STM8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SVN/" rel="tag">SVN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Security/" rel="tag">Security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Small-Protocol/" rel="tag">Small Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Socket/" rel="tag">Socket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spider/" rel="tag">Spider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storage/" rel="tag">Storage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/System-Design/" rel="tag">System Design</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TLA/" rel="tag">TLA+</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Top/" rel="tag">Top</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vim/" rel="tag">Vim</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Virtualization/" rel="tag">Virtualization</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/x86/" rel="tag">x86</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://caoyudong.com/">BAZINGA</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://lidewen.com/">李德文</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://jiaodi.tech/">焦迪</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.netcan666.com/">Netcan</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">三尺微命，一介书生。曾辗转求学于思源湖畔，老和山下，现栖身于魔都一隅。所学颇杂，对诸多方面均有涉猎，对各种技术充满热情~</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">码农半亩地</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="https://img.gaomf.cn/avatar.jpeg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">码农半亩地</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/Top">精华文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/atom.xml">RSS</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:gaomf163@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/g199209" title="GitHub"></a>
+                            
+                                <a class="fa 微信" target="_blank" href="/wechat.html" title="微信"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+
+      <div class="body-wrap"><article id="post-【读读论文】大规模真实线上环境下 SSD 寿命，写放大等特性研究" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2022/04/07/Paper_NetApp_SSD_WAF/" class="article-date">
+      <time datetime="2022-04-07T11:47:00.000Z" itemprop="datePublished">2022-04-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【读读论文】大规模真实线上环境下 SSD 寿命，写放大等特性研究
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/%E7%A7%91%E7%A0%94%E4%B9%8B%E8%B7%AF/">科研之路</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flash/" rel="tag">Flash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Paper/" rel="tag">Paper</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSD/" rel="tag">SSD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Storage/" rel="tag">Storage</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Top/" rel="tag">Top</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Operational Characteristics of SSDs in Enterprise Storage Systems: A Large-Scale Field Study</p>
+<p>此论文为多伦多大学与 NetApp 合作发表在 FAST’22 上的论文，统计分析了 NetApp 线上两百多万块 SSD 在过去 4 年内的运行数据，以此总结了 SSD 寿命，写放大这两个核心运维特性在大规模线上环境下的真实情况及其影响因素。</p>
+<p>看完最大的感想是，SSD 间差异是巨大的，垃圾厂家的 SSD 真是不能用……</p>
+<span id="more"></span>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>这篇论文作为一篇统计分析类文章之所以能发表在 FAST 上的重要原因在于其统计规模巨大且广泛，而且是真实线上环境，比之前同类研究中选取某个小范围特定场景来说有价值得多。NetApp 是一家美国的云存储公司，由于其客户的多样性，其底层存储系统同时提供了 NFS，iSCSI，NVMe_oF，S3 等多种接口，因此整体的应用负载特性相对较能反应各种不同应用的平均水平，而非某种特定场景。NetApp 使用的 SSD 规模也很大，总量约 200 万块，包括 3 个厂家，20 余个系列，同时存在 SAS &amp; NVME 接口的（以 SAS 居多），具体情况见下表：</p>
+<p><img src="https://img.gaomf.cn/202204072036558.png?600x" alt="Table 1"></p>
+<p>I,II,III 代表三家生产商，论文里面并没有披露具体是哪三家，然而根据某些型号不太常见的容量，如 I-D 的 3.8T，II-H 的 30T，可以推测出 I 是 Sandisk，II 是 Samsung，至于 III 由于只有一个 III-A 数量太少，就不知道是哪家了。上表除最后 II-X, II-Y, II-Z 为 NVME 接口外其余 SSD 均为 SAS 接口的，可以推测从数量上看 SAS SSD 也占了绝大部分。不过 SSD 的接口类型对其寿命，写放大应该是没有什么影响的，故尽管未来 NVME SSD 会越来越多，这篇论文依然会有参考价值。</p>
+<p>上层应用从使用场景上来看可以分为两大类：</p>
+<ul>
+<li>作为 HDD 盘的高速缓存层使用，简称为 <strong>WBC</strong> 应用（Write-Back Cache）</li>
+<li>直接构成全 SSD 阵列，简称为 <strong>AFF</strong> 应用（All Flash Fabric-attached-storage）</li>
+</ul>
+<p>这两类系统的读写特性差异较大，因此论文中基本都是将其分开进行讨论。</p>
+<p>论文想要回答的核心问题包括：</p>
+<ul>
+<li>实际生产环境中的读写比例是怎样的？</li>
+<li>实际生产环境中真实的写入速率到底有多快？SSD 的寿命能有多长？未来 QLC 寿命会更短，它能满足数据中心及企业级应用的需求么？</li>
+<li>实际生产环境中的 SSD 写放大会有多严重？之前学术界的研究分析是否符合实际情况？</li>
+<li>实际生产环境中 SSD 的损耗平均做得好不好？</li>
+<li>SSD 的写放大从理论上分析会和很多因素有关，那在实际生产环境中，这些因素的影响到底有多大呢？哪些因素才是主要的呢？</li>
+</ul>
+<p>下面我们就跟随着作者的脚步来回答下这些问题吧。</p>
+<h2 id="统计数据分析结果"><a href="#统计数据分析结果" class="headerlink" title="统计数据分析结果"></a>统计数据分析结果</h2><h3 id="读写比例分析"><a href="#读写比例分析" class="headerlink" title="读写比例分析"></a>读写比例分析</h3><p><img src="https://img.gaomf.cn/202204072123744.png?500x" alt="Figure 9"></p>
+<ul>
+<li>大部分盘读都比写多</li>
+<li>AFF 应用中读写比中位数约为 3.6:1，95 分位值为 61:1</li>
+<li>WBC 应用中读写比中位数约为 4.1:1，95 分位值为 150:1</li>
+<li>可以看到 WBC 应用的读写比例比 AFF 应用更高，且 95 分位值差距很大；对于 WBC 应用来说，更高的读写比是期望中的，这也就意味着更高的 Cache 使用率</li>
+</ul>
+<p>Facebook，Microsoft，Alibaba 的统计数据中也是读比写多，不过 NetApp 这次公开的统计数据读写量远高于其余几家公开的统计数据：</p>
+<p><img src="https://img.gaomf.cn/202204072132446.png?500x" alt="Figure 11"></p>
+<h3 id="应用写入速度分析"><a href="#应用写入速度分析" class="headerlink" title="应用写入速度分析"></a>应用写入速度分析</h3><p>SSD 的寿命和写入量有密切关系，DWPD 这一指标就是厂家给出的推荐写入速度上限，其含义为每天可以写入 SSD 容量几倍的数据（Drive Writes Per Day），大部分企业级 SSD 的 DWPD 值为 1 或 3，部分使用 MLC 颗粒的 SSD 会更高，可达到 10 以上。未来使用 QLC 颗粒的 SSD DWPD 大概率会下降到 1 以下。那实际生产环境中 DWPD 会到多少呢？来看看数据吧。</p>
+<p><img src="https://img.gaomf.cn/202204072141261.png?1200x" alt="Figure 1"></p>
+<ul>
+<li>不同盘的 DWPD 值分布很广，且长尾比较明显。整体来看中位数只有 0.36 左右，小于目前大部分 SSD 的 DWPD 值上限；然而也有 7% 左右的 SSD DWPD 超过了 3；2% 左右的超过了 10</li>
+<li>WBC 应用比 AFF 应用写入量更高，中位数 WBC 是 AFF 的 3.4 倍，99 分位值更是达到了 10.6 倍</li>
+<li>WBC 应用中 DWPD 值的分布也更宽广，这也就意味着其运维会更有挑战性</li>
+<li>再来看下容量和产品型号的问题，这里其实评估的并不是容量和产品型号本身，而是负载类型的影响。由于 NetApp 会使用不同容量的和型号的 SSD 去搭建不同的产品，为不同的客户提供服务，因此型号的差异就可以视为不同应用负载的差异。可以看到不同应用负载下 DWPD 值差异也很大</li>
+</ul>
+<blockquote>
+<p>以上两部分内容其实并没有太多干货。读多写少是大部分互联网业务的典型场景；不同负载的写入量差异很大也是很正常的。</p>
+</blockquote>
+<h3 id="NAND-使用损耗分析"><a href="#NAND-使用损耗分析" class="headerlink" title="NAND 使用损耗分析"></a>NAND 使用损耗分析</h3><p>SSD 除了 DWPD 外还有个重要指标是 PE Cycle Limit，即最大擦写循环次数（Program-Erase Cycle），这是决定 SSD 寿命的根本性因素，SSD 寿命预测基本就是根据当前 PE Cycle 与最大 PE Cycle Limit 的比值得出的。因此作者引入了一个年损耗率的概念：</p>
+<p><img src="https://img.gaomf.cn/202204072200661.png?500x" alt="NAND Usage Rate per Year"></p>
+<p>显而易见，此值的含义就是每年会用去 SSD 总寿命的百分比。实际统计结果如下：</p>
+<p><img src="https://img.gaomf.cn/202204072207243.png?700x" alt="Figure 2"></p>
+<ul>
+<li>绝大部分 SSD 年损耗率其实是非常低的，<strong>AFF 应用中 60% 的 SSD 年损耗率小于 1%，也就是这部分 SSD 用 100 年才会报废</strong></li>
+<li>尽管 WBC 应用的写入量比 AFF 应用要高不少，然而二者的年损耗率其实是差不多的，原因是 WBC 应用的写放大系数要低于 AFF 应用，这抵消了其写入量更高的影响</li>
+<li><strong>上图中可以很明显的看到几条极为不和谐的曲线，即 I-C，I-D，I-E，I-B 这几个型号的 SSD 有着远超其他 SSD 的年损耗率，然而其写入特性并没有和其他 SSD 有明显区别。这 4 个极为垃圾的 SSD 型号都是来自 Sandisk 的，而且 Sandisk 一共也就 5 个型号……</strong>😂 造成这一现象的原因是 Sandisk 的 SSD 有着远超其他厂商 SSD 的写放大系数，这一点下面再来具体分析</li>
+</ul>
+<p>根据以上数据我们可以来评估下未来 QLC 的寿命是否能满足数据中心及企业级应用的需求了，这在论文作者的 PPT 里面有计算结果：</p>
+<p><img src="https://img.gaomf.cn/202204072221591.png?500x" alt="QLC Projection"></p>
+<ul>
+<li>未来 QLC SSD 的 PE Cycle Limit 预计在 1k ~ 3k 之间</li>
+<li>如果按 5 年寿命计算，约有 86% ~ 95% 的盘可以用 QLC 替代</li>
+<li>如果按 7 年寿命计算，约有 82% ~ 92% 的盘可以用 QLC 替代</li>
+<li>最终结论：<strong>系统可以整体迁移至 QLC 上</strong></li>
+</ul>
+<h3 id="写放大系数分析"><a href="#写放大系数分析" class="headerlink" title="写放大系数分析"></a>写放大系数分析</h3><p>写放大系数（Write Amplification Factor, <strong>WAF</strong>）是影响 SSD 寿命及性能的关键指标，SSD 存在写放大的原因是其内部存在诸多背景任务（housekeeping tasks），如垃圾回收（GC），损耗平均（Wear Leveling）等。学术界和产业界对于如何控制写放大这一问题都做了很多工作，然而实际 SSD 产品这一点做得究竟如何呢？已有的统计研究都不够广泛，规模也相对较小，因此这篇论文的研究就显得比较有价值了。下面就来看下作者的统计结果吧：</p>
+<p><img src="https://img.gaomf.cn/202204081102721.png?1200x" alt="Figure 3"></p>
+<ul>
+<li>此研究中实际观察到的 WAF 比之前已有研究中观察到的（1.x 左右）要高得多，<strong>96% 的 SSD WAF 都超过了 1.5，中位数达到了 6 左右</strong></li>
+<li>WAF 的分布范围很广，10% 分位值仅为 2，中位数 6，然而 99% 分位值达到了 480。这说明不同应用和设备的 WAF 差异性很大。WAF 的影响因素将在下文详细分析</li>
+<li>这里又要把 Sandisk 几个型号的 SSD 拿出来重点讨论下了，可以看到它们的 WAF 远高于其他厂商的 SSD，中位数竟然就达到了 100 左右（已经超出上图的范围了，论文中直接给出了具体值）。从上文的应用写入速度分析中可以看到，Sandisk 的 SSD 写入量并没有更高，实际使用上也没有任何特殊的地方，所以不能用应用负载差异性来解释此问题，这是 Sandisk SSD 自己的锅跑不掉了</li>
+<li><strong>作者对这一明显异常的问题进行深入研究后发现，Sandisk 的 SSD 之所以有这么高 WAF 的原因在于其背景任务执行得极为频繁，可以说是一有空就开始做背景任务了。然后，最搞笑的来了，这些背景任务是在干嘛呢？既不是在做 GC 也不是在进行损耗平均（绝大部分情况下这两部分是 WAF 的主要来源），而是在极为激进的重写 Block。那为什么要重写呢？因为频繁的检测到 Block ECC 错误了！此时不得不重写整个 Block 来避免数据丢失……</strong>🤣 </li>
+</ul>
+<blockquote>
+<p>这感觉是全文最大的亮点啊，看到这简直是惊呆了，消费级不知名小厂做的 SSD 很垃圾不能用也就罢了，Sandisk 好歹也是个国际大厂了，做的企业级 SSD 也能这么垃圾简直是万万没想到啊……这些 SSD 还都是 MLC 颗粒的，这么糟糕的表现是 Flash 颗粒用得太差还是 FTL 固件写得水平太差就不得而知了……</p>
+</blockquote>
+<hr>
+<p>最后来看下应用负载特性与 WAF 的关系：</p>
+<ul>
+<li>同一个型号的 SSD 也表现出了很大的 WAF 差异，其 95% 分位值是中位数的 9 倍以上。同一型号的盘会被用在不同应用上，因此合理的解释就是不同应用负载情况下 WAF 会表现出很大的差异性</li>
+<li> WBC 应用的 WAF 比 AFF 应用要小 ，这也就是前文观察到的，尽管 WBC 写入量要高更多，然而二者实际 SSD 损耗速度差不多的原因了。因此可以说 WBC 应用在某种程度上对 SSD 更为友好</li>
+</ul>
+<hr>
+<p>学术界由于没有那么多真实 SSD 可以用，因此在研究 SSD WAF 时往往使用仿真的方法，然而根据本文的结论，这些仿真得到的 WAF 都太小了，绝大部分已有理论研究论文中 WAF 最高也就 10 左右，这仅仅只是 NetApp 真实环境中的 60% 分位值。作者认为造成这一差异的主要原因有：</p>
+<ul>
+<li>理论研究所使用的 IO Trace 数据太古老了，已经没法反应当今实际运行在 SSD 上的应用负载。此外古老的 IO Trace 数据很多是基于 HDD 盘抓取的，不会存在 TRIM 等 SSD 特有命令</li>
+<li>SSD 仿真软件（如 FEMU）对 FTL 固件的行为仿真存在很大困难，很有可能使用的只是理想模型，这与实际行为差异会很大，且 FTL 固件每家厂商，甚至是不同型号都是有区别的，这让仿真的准确度变得更低了</li>
+</ul>
+<h3 id="损耗平均效果分析"><a href="#损耗平均效果分析" class="headerlink" title="损耗平均效果分析"></a>损耗平均效果分析</h3><p>损耗平均（Wear Leveling）就是把写入尽量平均的打散到所有 Block 上，以此避免某些 Block 被频繁的擦写，造成其寿命下降及性能降低。损耗平均技术是以整体的 PE Cycle 增加来换取长尾减少的，因此实际实现上需要做一个平衡——太过激进的损耗平均会导致 SSD 整体寿命衰减得太快。为了衡量损耗平均的效果，作者引入了擦除率（Erase Ratio）及擦除均匀度（Erase Difference）这两个指标：</p>
+<p><img src="https://img.gaomf.cn/202204081437256.png?500x" alt="Erase Ratio &amp; Erase Difference"></p>
+<p>Erase Ratio 的理想值是 1，对应的 Erase Difference 的理想值是 0。实际当然不会这么理想：</p>
+<p><img src="https://img.gaomf.cn/202204081441488.png?800x" alt="Figure 4"></p>
+<ul>
+<li><strong>Erase Ratio 的中位数是 1.55，意味着写入量最多的 Block 比平均值多写入了 55% 的数据</strong></li>
+<li>5% 的设备 Erase Ratio 大于 6 了，这意味着部分 Block 可能会在全盘只用了 16% PE Cycle 的时候就报废了，这会对 SSD 的整体性能，特别是长尾表现造成明显影响</li>
+<li>部分型号的 SSD 损耗平均做得很好，十分接近理论值，说明这个要做好是可以做好的</li>
+<li>然而，<strong>这时候又要把 Sandisk 的 SSD 拿出来批判一番了，从图中可以很明显的看到 Sandisk 那几款 SSD 损耗平均做得相当之差，尽管这几款 SSD 有着异常高的 WAF，这么高的 WAF 还做出了这么糟糕的损耗平均效果，实在是让人震惊啊……</strong></li>
+</ul>
+<h3 id="空间使用率分析"><a href="#空间使用率分析" class="headerlink" title="空间使用率分析"></a>空间使用率分析</h3><p>这一部分没太大意思，作者分析了一下不同使用年限，不同大小的 SSD 在 AFF 应用场景下空间使用率有啥区别（WBC 应用空间使用率无意义，基本都是 100%）：</p>
+<p><img src="https://img.gaomf.cn/202204081452546.png?800x" alt="Figure 5"></p>
+<ul>
+<li>大部分 SSD 处于半满状态</li>
+<li>空间使用率在用了 1～2 年后就基本稳定了</li>
+<li>越大空间的 SSD 空间使用率越高，原因是购买大空间需要更多的钱，因此用户会对自己需要多少空间做出更细致准确的评估</li>
+</ul>
+<h2 id="写放大系数的影响因素"><a href="#写放大系数的影响因素" class="headerlink" title="写放大系数的影响因素"></a>写放大系数的影响因素</h2><p>直接给出作者在 PPT 中的总结表格吧：</p>
+<p><img src="https://img.gaomf.cn/202204081457878.png?800x" alt="Which factors impact WAF?"></p>
+<p>结论很简单，<strong>FTL 固件算法做得如何是决定性因素；写入负载也有明显影响；其余因素基本没影响。</strong></p>
+<h3 id="FTL-固件实现"><a href="#FTL-固件实现" class="headerlink" title="FTL 固件实现"></a>FTL 固件实现</h3><p>作者此处选用了 III-A 这款 SSD 为例进行分析，这款 SSD 最初的固件版本是 FV2，后面升级到了 FV3：</p>
+<p><img src="https://img.gaomf.cn/202204081510216.png?500x" alt="Figure 6"></p>
+<p>可以看到这次纯软件固件升级有显著优化作用，明显改善了其 WAF；更不要说前面分析过的 Sandisk 产品和 Samsung 产品的差距了。由此可见，SSD 远远不只是搞一些 Flash 颗粒芯片来组装下就好了的，主控软件算法的水平同样是决定性的；甚至可以说，主控的影响有时候比颗粒类型更重要——Samsung 用消费级 TLC 颗粒做出来的 SSD 整体寿命比 Sandisk 用企业级 MLC 颗粒做出来的 SSD 还要好。</p>
+<h3 id="负载特性"><a href="#负载特性" class="headerlink" title="负载特性"></a>负载特性</h3><p>直接进行 IO Trace 是记录负载特性最有效的方法，然而对于大规模系统来说这是基本不可行的。因此作者用 DWPD，SSD 容量，SSD 接口类型这几个指标来对负载类型进行了一个简单分类。SSD 容量和接口类型能用于区分负载类型同样是由于不同容量和接口类型的 SSD 被用于了不同产品和客户上。</p>
+<p>这部分的图不是那么直观就不放了，直接给结论吧：</p>
+<ul>
+<li><strong>越高的 DWPD 会对应越低的 WAF。</strong>这个结论前文也提到了，可能的原因是，很多 FTL 固件实现上是以固定的频率在进行背景任务的，没有与当前的写入量耦合起来，因此较高的 DWPD 减少了背景任务的占比，进而提高了 WAF</li>
+<li>较大容量的 SSD WAF 相对也较小一些，不过这个影响不大</li>
+<li>NVME 接口的 WAF 要小于 SAS，这个更有可能的原因是，NVME 接口更新，使用 NVME 的业务也会更新一些，也就会更多的考虑 SSD 的特性进行优化</li>
+</ul>
+<h3 id="空间使用率"><a href="#空间使用率" class="headerlink" title="空间使用率"></a>空间使用率</h3><p>作者的结论是没有明显影响</p>
+<h3 id="预留空间大小"><a href="#预留空间大小" class="headerlink" title="预留空间大小"></a>预留空间大小</h3><p>这是指 SSD 厂商在内部预留的空间（Over-Provisioning，OP），通常认为这会对 WAF 有明显影响。然而实际看下来影响不大，甚至是有轻微的负相关关系，即预留空间越大的 SSD 反而 WAF 也越大。比如 Sandisk 的那几款 SSD，预留空间的达到了惊人的 44%，然而还是被 Samsung 预留空间只有 7% 的 SSD 吊打。</p>
+<blockquote>
+<p>这仔细一想其实也很好理解，预留多少空间当然是根据 FTL 固件的需求决定的，写得越差的 FTL 固件很有可能就需要越多的预留空间……</p>
+</blockquote>
+<h3 id="多流写技术"><a href="#多流写技术" class="headerlink" title="多流写技术"></a>多流写技术</h3><p>多流写（Multi-stream Writes, MSW）技术需要主机端在写入的时候指定一个 Stream ID，支持此特性的 SSD 会根据此 Stream ID 将具有相同或相似生命周期的数据写入到相同的 Block 中去，以此实现冷热数据分离，预期可以大幅提高 GC 时的效率，减少 WAF。此技术的详细介绍可参考文末参考资料中的几篇文章。</p>
+<p>论文中对于多流写技术的影响结论是不确定，原因是缺乏足够的数据进行判断。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>看完全文主要收获有：</p>
+<ul>
+<li>SSD 容量真是越来越大了，30T 的都有了</li>
+<li>大部分 SSD 没想象的那么脆弱的，好点的 SSD 一天好几 T 的写入量也可以用 10 多年，将来用上 QLC 也没有什么问题</li>
+<li>SSD WAF 是很大的，在真实场景下可能会到 10 以上，然而不用太过于担心这个问题，厂商是考虑过这个问题的，给出的寿命及性能指标是考虑了这些的</li>
+<li>多流写听起来很厉害的样子</li>
+<li>SSD 固件差异那是真的大啊</li>
+<li>Sandisk 就是垃圾…… Samsung 还真不错</li>
+</ul>
+<blockquote>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://www.usenix.org/conference/fast22/presentation/maneas">论文原文及 Presentation</a></p>
+<p><a target="_blank" rel="noopener" href="https://its401.com/article/zhuzongpeng/77571537">浅析企业级SSD Multi-Stream Write技术</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.flashmemorysummit.com/English/Collaterals/Proceedings/2016/20160809_FC12_Choi.pdf">Increasing SSD Performance and Lifetime with Multi-Stream Write Technology</a></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2022/04/07/Paper_NetApp_SSD_WAF/">【读读论文】大规模真实线上环境下 SSD 寿命，写放大等特性研究</a></p>
+        <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
+        <p><span>发布时间:</span>2022-04-07, 19:47:00</p>
+        <p><span>最后更新:</span>2022-04-08, 21:46:22</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2022/04/07/Paper_NetApp_SSD_WAF/" title="【读读论文】大规模真实线上环境下 SSD 寿命，写放大等特性研究">https://gaomf.cn/2022/04/07/Paper_NetApp_SSD_WAF/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2022/04/07/Paper_NetApp_SSD_WAF/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2021/11/28/Paper_RocksDB_Developemnt/">
+                    【读读论文】RocksDB 发展回顾及展望
+                </a>
+            </div>
+        
+    </nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%9F%E8%AE%A1%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E7%BB%93%E6%9E%9C"><span class="toc-number">2.</span> <span class="toc-text">统计数据分析结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%AF%94%E4%BE%8B%E5%88%86%E6%9E%90"><span class="toc-number">2.1.</span> <span class="toc-text">读写比例分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%86%99%E5%85%A5%E9%80%9F%E5%BA%A6%E5%88%86%E6%9E%90"><span class="toc-number">2.2.</span> <span class="toc-text">应用写入速度分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NAND-%E4%BD%BF%E7%94%A8%E6%8D%9F%E8%80%97%E5%88%86%E6%9E%90"><span class="toc-number">2.3.</span> <span class="toc-text">NAND 使用损耗分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E6%94%BE%E5%A4%A7%E7%B3%BB%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">2.4.</span> <span class="toc-text">写放大系数分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8D%9F%E8%80%97%E5%B9%B3%E5%9D%87%E6%95%88%E6%9E%9C%E5%88%86%E6%9E%90"><span class="toc-number">2.5.</span> <span class="toc-text">损耗平均效果分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E4%BD%BF%E7%94%A8%E7%8E%87%E5%88%86%E6%9E%90"><span class="toc-number">2.6.</span> <span class="toc-text">空间使用率分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E6%94%BE%E5%A4%A7%E7%B3%BB%E6%95%B0%E7%9A%84%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0"><span class="toc-number">3.</span> <span class="toc-text">写放大系数的影响因素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FTL-%E5%9B%BA%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.1.</span> <span class="toc-text">FTL 固件实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E7%89%B9%E6%80%A7"><span class="toc-number">3.2.</span> <span class="toc-text">负载特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E4%BD%BF%E7%94%A8%E7%8E%87"><span class="toc-number">3.3.</span> <span class="toc-text">空间使用率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E7%95%99%E7%A9%BA%E9%97%B4%E5%A4%A7%E5%B0%8F"><span class="toc-number">3.4.</span> <span class="toc-text">预留空间大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%B5%81%E5%86%99%E6%8A%80%E6%9C%AF"><span class="toc-number">3.5.</span> <span class="toc-text">多流写技术</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">4.</span> <span class="toc-text">结论</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-4 i,
+        .toc-level-4 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"true"];
+    </script>
+
+
+
+
+
+    
+	
+	<!-- Gitment评论插件通用代码 -->
+<!-- from: https://billts.site/extra_css/gitment.css -->
+<!-- from: https://billts.site/js/gitment.js -->
+
+<div id="gitment-ctn" style="margin: 50px"></div>
+<link rel="stylesheet" href="/css/extra_css/gitment.css">
+<script src="/js/gitment.js"></script>
+
+<script>
+var gitment = new Gitment({
+  id: "【读读论文】大规模真实线上环境下 SSD 寿命，写放大等特性研究",
+  owner: 'g199209',
+  repo: 'g199209.github.io',
+  oauth: {
+    client_id: '813326c14fac583d3c91',
+    client_secret: '42d7c1ea9724bba02704bc1a499e41bfb18a9e7d',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+<!-- Gitment代码结束 -->
+	
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2021/11/28/Paper_RocksDB_Developemnt/" title="下一篇: 【读读论文】RocksDB 发展回顾及展望">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2022/04/07/Paper_NetApp_SSD_WAF/">【读读论文】大规模真实线上环境下 SSD 寿命，写放大等特性研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/11/28/Paper_RocksDB_Developemnt/">【读读论文】RocksDB 发展回顾及展望</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/01/TLA_Tutorial/">TLA+ 形式化验证入门指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/06/12/How_to_Learn_a_New_Thing/">如何学习一个新东西</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/16/Chia_Architecture_Brief/">Chia 技术架构简述</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/11/Cpp_Volatile_Atomic_Memory_barrier/">C++ 中的 volatile，atomic 及 memory barrier</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/03/shared_library_global_symbol_override/">动态库全局符号覆盖的大坑</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/12/24/coredump_optimized_value/">如何从 coredump 文件中获取被优化掉的局部变量真实值</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/30/perf_stack_traceback/">使用 perf 进行性能分析时如何获取准确的调用栈</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/28/PVE_OpenWRT_Network_Broken/">PVE上部署OpenWRT发生网络中断的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/24/Thesis_of_Master/">用于嵌入式车载安全预警的交通标志检测若干关键技术研究与验证</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/Deep_Into_Dokcer_Helloworld/">深入分析Docker hello-world镜像</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/17/Sudo_No_Passwd/">sudo不需要输入密码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Hexo_Yelee_Gitment/">为Hexo博客Yelee主题添加Gitment评论系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/30/sizeof_extern_array/">sizeof 获取 extern 数组长度</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/The_Road/">多歧路，今安在？</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/04/SSH_Forwarding/">SSH反向穿透访问内网主机</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/25/C_restrict/">C语言关键词restrict的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/08/Kernel_min_max_macro/">Linux kernel中的min和max宏</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/07/C_typeof/">C语言中typeof的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/06/C_Macro/">深入理解C语言中宏定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/05/string_literal_concatenate/">C语言中的字符串字面量连接</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/Detect_Stack_Direction/">用代码判断栈的增长方向</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/20/printf_format_string_attack/">printf格式化字符串漏洞攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/16/Atom_Configure/">Atom编辑器配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/06/Atom_Disable_GPU/">Atom禁用GPU启动的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/30/Win10_Software_Font_Blur/">Win10下软件界面显示模糊问题解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/15/Memcpy_Optimization/">memcpy中的内存读写优化问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/31/Array_Find_Half/">寻找数组中出现次数超过一半的元素</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/26/Cpp_string_COW_SSO/">C++中std::string的COW及SSO实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/12/LDO/">LDO应用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/09/TL431_Self_OScillation/">TL431自激振荡消除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/07/Sudoku/">数独求解程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/01/OpenCV_and_GTK/">OpenCV与GTK+结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/Allegro_Font/">Cadence Allegro 调整界面字体字号</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/Discrete_Load_Switch/">带软启动的分立负载开关电路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Tutorial_Help/">PSpice教程及帮助文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/PSpice_Swt/">PSpice中的延时开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/Linux_SoftRouter_Basic/">Linux软路由——基础配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Relaxation_Oscillator/">松弛振荡器原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/04/Capacity_Charge/">对电容充放电过程的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/03/Button_Cell/">纽扣电池型号总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/SVN/">SVN常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/22/Cpp_Random/">C++生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/SSH_Authentication/">SSH证书登录总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/Ubuntu_Reduce_Swap/">Ubuntu减小swap分区大小的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/Future_Hesitate/">对于未来的迷茫</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/Minimum_Spanning_Tree/">最小生成树算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/Maximum_Flow_Algorithm/">最大流算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/12/BinaryTree_Traversal/">二叉树的遍历算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/11/Data_Structure_AVLTree/">数据结构——AVL树</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/03/Shortest_Path/">最短路径算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/02/Vim_Plugin/">Vim配置及插件总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/17/Linux_Vim_Compile/">Linux下Vim的编译安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/Terminal_Color/">判断终端色彩支持情况的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Hexo_Git_CRLF/">Hexo Git部署警告"warning： LF will be replaced by CRLF"的去除方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/13/Linux_Colourful_Man/">Linux彩色man page设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/Linux_Background_Run/">Linux下让进程在后台可靠运行的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/SSH_Broken_Pipe/">SSH连接自动断开的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/03/VMware_Shrink_Linux/">VMware中收缩Linux虚拟机体积</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/VMware_Internal_SD/">VMware虚拟机中使用电脑内置SD读卡器</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/27/VMWare_Ubuntu_Terminal_Shadowsocks/">VMware Ubuntu虚拟机中为终端配置Shadowsocks代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/VS2015_Qt_UTF8/">VS2015 & Qt中文编码方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/10/OpenCV_and_Qt/">OpenCV与Qt结合使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/09/VS2015_Qt5_7/">VS2015搭建Qt 5.7开发环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/VS2015_OpenCV31/">VS2015下编译OpenCV 3.1</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/28/Array_Shift/">数组循环移位算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/25/Blog_Search_Mobile/">为Hexo博客移动端添加搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/N_Queen_Problem/">N皇后问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/14/PMSM_Vector_Control/">PMSM矢量控制算法调试流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_014/">LeetCode 014. Longest Common Prefix (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_019/">LeetCode 019. Remove Nth Node From End of List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/LeetCode_083/">LeetCode 083. Remove Duplicates from Sorted List (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/01/Ubuntu_NAT_Raspberry/">Ubuntu虚拟机中设置NAT使树莓派开发板可以联网</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Raspberry_Pi_Static_IP/">为树莓派设置静态IP地址的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/IP_Mask/">IP地址中子网掩码的表示方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Windows_Ping/">Windows防火墙允许ping请求设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/String_Fill/">一道字符串填充算法题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_319/">LeetCode 319. Bulb Switcher (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/26/LeetCode_292/">LeetCode 292. Nim Game (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/divide_conquer/">分治法算法复杂度</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_345/">LeetCode 345. Reverse Vowels of a String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_344/">LeetCode 344. Reverse String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_167/">LeetCode 167. Two Sum II - Input array is sorted (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_001/">LeetCode 001. Two Sum (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/apt_apt-get/">apt与apt-get命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/LeetCode_160/">LeetCode 160. Intersection of Two Linked Lists (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_142/">LeetCode 142. Linked List Cycle II (Medium)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_141/">LeetCode 141. Linked List Cycle (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/24/LeetCode_415/">LeetCode 415. Add String (Easy)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/20/ARM_Architecture_Core/">ARM架构及内核</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Diff_Patch/">diff及patch的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Blog_New_Theme_2016/">更换博客主题啦~</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/13/Encoder_Velocity_Measure/">旋转编码器速度测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/%E4%B8%BAHexo%E5%8D%9A%E5%AE%A2Yilia%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E6%9C%AC%E5%9C%B0%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">为Hexo博客Yilia主题添加本地站内搜索功能</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/30/%E5%85%B3%E4%BA%8E%E7%A7%91%E5%AD%A6%E4%B8%8E%E5%B7%A5%E7%A8%8B/">关于科学与工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/26/%E5%9C%A8Android%20Studio%E4%B8%AD%E4%BD%BF%E7%94%A8Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">在Android Studio中使用Lambda表达式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/16/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">Java集合框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/22/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E7%AE%97%E6%B3%95/">最大公约数算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/20/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C%E9%97%AE%E9%A2%98/">最大连续子序列和问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/02/C%E6%A0%87%E5%87%86%E5%BA%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(1)%E2%80%94%E2%80%94time%E3%80%81ctype%E3%80%81stdarg%E3%80%81assert/">C标准库学习笔记(1)——time、ctype、stdarg、assert</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/%E4%BD%BF%E7%94%A8Python%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E5%8F%98%E5%8C%96%E7%9B%91%E6%B5%8B%E7%B3%BB%E7%BB%9F/">使用Python实现网站变化监测系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93/">正则表达式总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E6%9E%90%E6%96%87%E6%9C%AC/">Python爬虫--使用re正则表达式解析文本</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/20/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8BeautifulSoup%E8%A7%A3%E6%9E%90HTML/">Python爬虫--使用BeautifulSoup解析HTML</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/15/U-Boot%202016.05%20Stage1%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">U-Boot 2016.05 Stage1代码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/12/UART%E5%8D%8F%E8%AE%AE%E6%97%B6%E5%BA%8F%E6%80%BB%E7%BB%93/">UART协议时序总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/%E6%B1%87%E7%BC%96%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80.s%E4%B8%8E.S%E7%9A%84%E5%8C%BA%E5%88%AB/">汇编文件后缀.s与.S的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/06/Linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%BE%91%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/">Linux下查看编辑二进制文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot%20DM9000%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%8F%90%E7%A4%BA%22could%20not%20establish%20link%22%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">U-Boot DM9000网卡驱动提示"could not establish link"的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%E2%80%94%E2%80%94%E6%9D%82%E9%A1%B9/">U-Boot 2016.05 在S3C2440上的移植——杂项</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/26/%E5%9C%A8U-Boot%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">在U-Boot中添加自定义命令以实现自动下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%AD%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/">VMware虚拟机中嵌入式Linux开发环境网络配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94DM9000%E7%BD%91%E5%8D%A1/">U-Boot 2016.05 在S3C2440上的移植（4）——DM9000网卡</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/25/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94NAND%20Flash/">U-Boot 2016.05 在S3C2440上的移植（3）——NAND Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/24/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94NOR%20Flash/">U-Boot 2016.05 在S3C2440上的移植（2）——NOR Flash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/23/Nor%20Flash%E4%B8%AD%E7%9A%84%E5%90%AF%E5%8A%A8%E6%89%87%E5%8C%BA%EF%BC%88Boot%20Sector,%20Boot%20Block%EF%BC%89/">Nor Flash中的启动扇区（Boot Sector, Boot Block）</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/22/%E4%B8%B2%E5%8F%A3%E7%BB%88%E7%AB%AFpicocom%E7%9A%84%E4%BD%BF%E7%94%A8/">串口终端picocom的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/20/Jlink%E4%B8%BAS3C2440%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F%E6%8F%90%E7%A4%BA%22Unable%20to%20halt%20cpu%20core%22%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">Jlink为S3C2440下载程序提示"Unable to halt cpu core"的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/U-Boot%202016.05%20%E5%9C%A8S3C2440%E4%B8%8A%E7%9A%84%E7%A7%BB%E6%A4%8D%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E5%9F%BA%E6%9C%AC%E8%BF%90%E8%A1%8C/">U-Boot 2016.05 在S3C2440上的移植（1）——基本运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/17/OpenSSH%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E7%A7%81%E9%92%A5%EF%BC%88SSH%20Key%EF%BC%89%E9%85%8D%E7%BD%AE/">OpenSSH使用多个私钥（SSH Key）配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/16/crosstool-ng%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/">crosstool-ng参数配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/GCC%E4%B8%AD-march%E3%80%81-mtune%E3%80%81-mcpu%E4%B8%89%E4%B8%AA%E5%8F%82%E6%95%B0%E7%9A%84%E8%AE%BE%E7%BD%AE/">GCC中-march、-mtune、-mcpu三个参数的设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/15/crosstool-ng%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B/">crosstool-ng的基本使用流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/14/crosstool-ng%E7%9A%84%E5%AE%89%E8%A3%85/">crosstool-ng的安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/06/%E6%97%8B%E8%BD%AC%E7%BC%96%E7%A0%81%E5%99%A8%E7%BB%9D%E5%AF%B9%E4%BD%8D%E7%BD%AE%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95/">旋转编码器绝对位置测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/Python%E7%88%AC%E8%99%AB--%E4%BD%BF%E7%94%A8requests%E8%8E%B7%E5%8F%96%E7%BD%91%E9%A1%B5/">Python爬虫--使用requests获取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/03/%E4%BD%BF%E7%94%A8Python%E7%88%AC%E8%99%AB%E6%8A%93%E5%8F%96%E7%BD%91%E9%A1%B5/">使用Python爬虫抓取网页</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/NFS%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%90%AD%E5%BB%BA/">NFS服务器的搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/30/U-Boot%E4%B8%ADIP%E5%9C%B0%E5%9D%80%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95/">U-Boot中IP地址设置方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/27/U-Boot%E7%89%88%E6%9C%AC%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%E5%8F%8A%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD%E9%80%94%E5%BE%84/">U-Boot版本命名规则及源码下载途径</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/24/Android%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E6%B3%95/">Android中实现多线程的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/C28x%20IQmath%E5%BA%93%E4%BD%BF%E7%94%A8/">C28x IQmath库使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/28/%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%E8%BE%B9%E7%95%8C%E5%AF%B9%E9%BD%90%E9%97%AE%E9%A2%98/">结构体内存边界对齐问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/ARM%20Cortex-M%E5%86%85%E6%A0%B8%E5%A4%8D%E4%BD%8D%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">ARM Cortex-M内核复位启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/27/Python%20Socket%20Error%EF%BC%9A%20Address%20already%20in%20use%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">Python Socket Error： Address already in use的解决办法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/C2000%20DSP%E4%B8%AD%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E6%B8%85%E9%9B%B6%E9%97%AE%E9%A2%98/">C2000 DSP中全局变量清零问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/21/C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E7%9A%84%E5%A3%B0%E6%98%8E%E5%8F%8A%E4%BD%BF%E7%94%A8/">C语言中函数指针的声明及使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/18/C%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93%E6%80%BB%E7%BB%93/">C语言标准库总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/14/HTTP%E4%B8%AD%E7%A1%AE%E5%AE%9A%E6%8A%A5%E6%96%87%E7%BB%93%E6%9D%9F%E7%9A%84%E6%96%B9%E6%B3%95/">HTTP中确定报文结束的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/C%E8%AF%AD%E8%A8%80%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7%E4%B8%8E%E7%BB%93%E5%90%88%E6%80%A7/">C语言运算符优先级与结合性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/25/MCS-51%20%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">MCS-51 基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/22/%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%AD%98%E5%82%A8%E5%99%A8%E6%80%BB%E7%BB%93/">半导体存储器总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/04/Altium%20Designer%E5%AF%BC%E5%87%BAGerber%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/">Altium Designer导出Gerber文件方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/Hexo%E5%8D%9A%E5%AE%A2%E4%BF%AE%E6%94%B9Archive%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E6%96%87%E7%AB%A0%E6%95%B0%E9%87%8F/">Hexo博客修改Archive页面显示文章数量</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/24/Population_Count/">Population Count算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/28/Matlab%E8%B0%83%E7%94%A8Origin%E4%BD%9C%E5%9B%BE/">Matlab调用Origin作图</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/27/Origin%20Script%20Window%20%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95/">Origin Script Window 执行脚本代码的方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/24/%E9%9B%86%E6%88%90%E5%BC%8F%E8%B4%9F%E8%BD%BD%E5%BC%80%E5%85%B3/">集成式负载开关</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/12/Quartus%E4%B8%AD%E9%85%8D%E7%BD%AEFPGA%E6%9C%AA%E4%BD%BF%E7%94%A8%E5%BC%95%E8%84%9A%E7%8A%B6%E6%80%81%E6%96%B9%E6%B3%95/">Quartus中配置FPGA未使用引脚状态方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/11/IGBT%E4%B8%8EMOSFET%E6%AF%94%E8%BE%83/">IGBT与MOSFET比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/01/%E4%B8%89%E7%9B%B8%E9%80%86%E5%8F%98%E5%99%A8%E7%94%B5%E6%B5%81%E9%87%87%E6%A0%B7%E6%96%B9%E6%A1%88%E6%80%BB%E7%BB%93/">三相逆变器电流采样方案总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/27/C2000%20DSP%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">C2000 DSP基本数据类型</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/C2000%20ePWM%E6%A8%A1%E5%9D%97/">C2000 ePWM模块</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Simulink%E4%BB%BF%E7%9C%9F%E6%A8%A1%E5%BC%8F/">Simulink仿真模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8%E5%A4%96%E8%AE%BE%E5%BC%95%E8%84%9A%E9%87%8D%E6%98%A0%E5%B0%84/">STM8外设引脚重映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/21/STM8%E7%B3%BB%E5%88%97%E5%8D%95%E7%89%87%E6%9C%BA/">STM8系列单片机</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/19/%E9%98%BB%E6%8A%97%E6%B5%8B%E9%87%8F%E6%96%B9%E6%B3%95/">阻抗测量方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/11/%E4%BD%BF%E7%94%A8OpenMP%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%A1%E7%AE%97/">使用OpenMP进行多线程计算</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/10/STC%E5%8D%95%E7%89%87%E6%9C%BA%E4%B8%8D%E6%96%AD%E7%94%B5%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">STC单片机不断电下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/08/OpenCV%203.0%E5%AE%89%E8%A3%85/">OpenCV 3.0安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/06/STM8%20SWIM%E6%8E%A5%E5%8F%A3/">STM8 SWIM接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/03/BLDC%E5%85%AD%E6%AD%A5%E6%8D%A2%E7%9B%B8%E6%B3%95%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%8F%8A%E9%A9%B1%E5%8A%A8%E6%B3%A2%E5%BD%A2/">BLDC六步换相法基本原理及驱动波形</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/30/C2000%20CSM%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">C2000 CSM使用方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/28/C2000%20DSP%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/">C2000 DSP新建工程基本步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/26/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E2%80%94%E2%80%94%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97/">数据结构——循环队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/OSI_Model/">OSI模型总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/%E5%AE%89%E8%A7%84%E7%94%B5%E5%AE%B9%E6%80%BB%E7%BB%93/">安规电容总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/C%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/">C语言生成随机数</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Doxygen%E5%A4%84%E7%90%86%E6%9D%A1%E4%BB%B6%E7%BC%96%E8%AF%91/">Doxygen处理条件编译</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/12/%E4%BD%BF%E7%94%A8Doxygen%E7%94%9F%E6%88%90%E9%AB%98%E8%B4%A8%E9%87%8F%E4%BB%A3%E7%A0%81%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3/">使用Doxygen生成高质量代码参考文档</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/01/Hexo%E5%8D%9A%E5%AE%A2%E4%BC%98%E5%8C%96%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/">Hexo博客优化加载速度</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/31/%E4%BD%BF%E7%94%A8JLink%E4%B8%BA2440%20NOR%20Flash%E4%B8%8B%E8%BD%BD%E7%A8%8B%E5%BA%8F/">使用JLink为2440 NOR Flash下载程序</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/30/Markdown%E5%B8%B8%E7%94%A8%E6%A0%BC%E5%BC%8F/">Markdown常用格式</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2022 高明飞
+                <a href="http://beian.miit.gov.cn/" target="_blank">沪ICP备20007830号-2</a>
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE & <a href="https://github.com/g199209/BlogTheme" target="_blank">Modified By Mingfei Gao</a></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script data-main="/js/main.js" src="/js/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 8;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  </div>
+</body>
+</html>
