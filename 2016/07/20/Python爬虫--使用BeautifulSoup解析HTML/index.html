@@ -363,7 +363,7 @@
 <p>上述代码使用Python内置的解析器进行解析，也可指定使用其它解析器，如：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">soup = BeautifulSoup(html, <span class="string">&quot;html5lib&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<h2 id="输出文档"><a href="#输出文档" class="headerlink" title="输出文档"></a>输出文档</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(soup.prettify)</span><br></pre></td></tr></table></figure>
+<h2 id="输出文档"><a href="#输出文档" class="headerlink" title="输出文档"></a>输出文档</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(soup.prettify)</span><br></pre></td></tr></table></figure>
 <p>输出排版好HTML文档。</p>
 <h2 id="获取标签"><a href="#获取标签" class="headerlink" title="获取标签"></a>获取标签</h2><p>直接使用标签对应的属性即可，如：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">soup.title</span><br><span class="line">soup.head</span><br><span class="line">soup.a</span><br><span class="line">soup.p</span><br></pre></td></tr></table></figure>

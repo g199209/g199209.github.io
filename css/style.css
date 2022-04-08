@@ -1284,6 +1284,7 @@ body .ui-tooltip {
 .article img {
   max-width: 100%;
   margin: 0.5em auto;
+  display: block;
 }
 @-webkit-keyframes cd-bounce-1 {
   0% {

@@ -384,7 +384,7 @@
 <p><code>oldfile</code>及<code>newfile</code>可以是一个目录，配合<code>-r</code>参数使用就会递归比较这两个目录。</p>
 <h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>下面用一个例子来说明。</p>
 <p>有以下文件目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── new</span><br><span class="line">│   ├── 1.txt</span><br><span class="line">│   └── 2.txt</span><br><span class="line">└── old</span><br><span class="line">    ├── 1.txt</span><br><span class="line">    └── 2.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── new</span><br><span class="line">│   ├── 1.txt</span><br><span class="line">│   └── 2.txt</span><br><span class="line">└── old</span><br><span class="line">    ├── 1.txt</span><br><span class="line">    └── 2.txt</span><br></pre></td></tr></table></figure>
 
 <p><code>old</code>文件夹中存放的是老版本，<code>new</code>中是新版本。使用以下命令生成补丁文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff -ruaN old new &gt; update.patch</span><br></pre></td></tr></table></figure>
