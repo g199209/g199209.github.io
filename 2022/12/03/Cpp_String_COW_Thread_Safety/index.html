@@ -24,7 +24,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://img.gaomf.cn/202211272232515.svg">
 <meta property="article:published_time" content="2022-12-03T07:53:00.000Z">
-<meta property="article:modified_time" content="2022-12-03T08:54:07.951Z">
+<meta property="article:modified_time" content="2022-12-03T09:25:47.037Z">
 <meta property="article:author" content="高明飞">
 <meta property="article:tag" content="Top">
 <meta property="article:tag" content="Concurrent">
@@ -389,7 +389,7 @@
 <li>本文所述的 <code>string</code> 实现由 COW 改为 SSO；</li>
 <li><code>std::list::size()</code> 的实现由 <code>O(N)</code> 复杂度改为 <code>O(1)</code> 复杂度，本质就是在 <code>list</code> 结构中增加了一个表示链表长度的字段。</li>
 </ul>
-<p>默认情况下 5.x 之后的 GCC 版本都会预定义此宏，即 <code>-D_GLIBCXX_USE_CXX11_ABI=1</code>，可以手动的加上 <code>-D_GLIBCXX_USE_CXX11_ABI=0</code> 来禁用此行为使用原来老的实现，这主要是在处理 ABI 兼容问题是会使用。</p>
+<p>默认情况下 5.x 之后的 GCC 版本都会预定义此宏，即 <code>-D_GLIBCXX_USE_CXX11_ABI=1</code>，可以手动的加上 <code>-D_GLIBCXX_USE_CXX11_ABI=0</code> 来禁用此行为使用原来老的实现，这主要是在处理 ABI 兼容问题时会使用。</p>
 <hr>
 <blockquote>
 <p>参考资料：</p>
@@ -406,7 +406,7 @@
         <p><span>本文标题:</span><a href="/2022/12/03/Cpp_String_COW_Thread_Safety/">std::string COW 机制下的线程安全问题</a></p>
         <p><span>文章作者:</span><a href="/wechat.html" title="关注我">高明飞</a></p>
         <p><span>发布时间:</span>2022-12-03, 15:53:00</p>
-        <p><span>最后更新:</span>2022-12-03, 16:54:07</p>
+        <p><span>最后更新:</span>2022-12-03, 17:25:47</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2022/12/03/Cpp_String_COW_Thread_Safety/" title="std::string COW 机制下的线程安全问题">https://gaomf.cn/2022/12/03/Cpp_String_COW_Thread_Safety/</a>
             <span class="copy-path" data-clipboard-text="原文: https://gaomf.cn/2022/12/03/Cpp_String_COW_Thread_Safety/　　作者: 高明飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
